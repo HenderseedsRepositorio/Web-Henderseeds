@@ -1,0 +1,209 @@
+══════════════════════════════════════════════════════════════
+DATOS TÉCNICOS — HÍBRIDOS NIDERA CAMPAÑA 26/27
+══════════════════════════════════════════════════════════════
+Fuente: catálogo Nidera + datos del cotizador Henderseeds
+IMPORTANTE: No inventar datos. Si falta info, indicar "a confirmar".
+
+════════════════════════════════════════
+🌽 MAÍZ
+════════════════════════════════════════
+
+NS7765 Viptera3
+  Tecnología: VT3P (Viptera3 Power)
+  Madurez Relativa: 117
+  GDU (grados día): 830
+  Peso de mil granos: 320g
+  Tipo de grano: Colorado Duro
+  Altura de planta: Media-Alta
+  Stay Green: Alto
+  Tolerancia a vuelco: Excelente
+  Potencial de rinde: ★★★★★ (top)
+  Aptitud riego: Sí
+  Aptitud secano: Sí
+  Precio B1: USD 250 | B2: USD 240 | B3: USD 230.40
+  Posicionamiento: El buque insignia. Rinde top en todas las condiciones.
+
+NS7621 Viptera3
+  Tecnología: VT3P
+  Madurez Relativa: 116
+  GDU: 820
+  Peso de mil granos: 310g
+  Tipo de grano: Colorado Duro
+  Altura: Media
+  Stay Green: Alto
+  Tolerancia a vuelco: Excelente
+  Potencial de rinde: ★★★★★
+  Aptitud riego: Sí
+  Aptitud secano: Sí (destaca)
+  Precio B1: USD 245 | B2: USD 235.20 | B3: USD 225.79
+  Posicionamiento: El versátil. Muy bueno en secano, ciclo un toque más corto.
+
+NS7624 Viptera3CL
+  Tecnología: VT3P + Clearfield
+  Madurez Relativa: 116
+  GDU: 815
+  Peso de mil granos: 305g
+  Tipo de grano: Colorado Duro
+  Altura: Media
+  Stay Green: Muy Bueno
+  Tolerancia a vuelco: Muy Bueno
+  Potencial de rinde: ★★★★☆
+  Aptitud riego: Sí
+  Aptitud secano: Sí
+  Precio B1: USD 235 | B2: USD 225.60 | B3: USD 216.58
+  Posicionamiento: Para lotes con problema de malezas. Clearfield suma flexibilidad herbicida.
+
+NS7921 Viptera3CL
+  Tecnología: VT3P + Clearfield
+  Madurez Relativa: 119 (ciclo largo)
+  GDU: 850
+  Peso de mil granos: 330g
+  Tipo de grano: Colorado Semidentado
+  Altura: Alta
+  Stay Green: Alto
+  Tolerancia a vuelco: Bueno
+  Potencial de rinde: ★★★★★
+  Aptitud riego: Sí (destaca)
+  Aptitud secano: Sí
+  Precio B1: USD 240 | B2: USD 230.40 | B3: USD 221.18
+  Posicionamiento: Ciclo largo + Clearfield. Ideal para siembra temprana bajo riego.
+
+AX7761VT3P
+  Tecnología: VT3P
+  Madurez Relativa: 117
+  GDU: 825
+  Peso de mil granos: 315g
+  Tipo de grano: Colorado Duro
+  Altura: Media-Alta
+  Stay Green: Muy Bueno
+  Tolerancia a vuelco: Muy Bueno
+  Potencial de rinde: ★★★★☆
+  Aptitud riego: Sí
+  Aptitud secano: Sí
+  Precio B1: USD 240 | B2: USD 230.40 | B3: USD 221.18
+  Posicionamiento: Alternativa sólida al NS7765, muy buen paquete sanitario.
+
+NS7818VIP3
+  Tecnología: VIP3 (Viptera3)
+  Madurez Relativa: 118
+  GDU: 835
+  Peso de mil granos: 290g
+  Tipo de grano: Colorado Duro
+  Altura: Media
+  Stay Green: Bueno
+  Tolerancia a vuelco: Excelente
+  Potencial de rinde: ★★★☆☆
+  Aptitud riego: Sí
+  Aptitud secano: Sí
+  Precio B1: USD 200 | B2: USD 192 | B3: USD 184.32
+  Posicionamiento: La opción económica. Buena sanidad de planta, precio accesible.
+
+NS7852 Viptera3
+  Tecnología: VT3P
+  Madurez Relativa: 118
+  GDU: 840
+  Peso de mil granos: 335g
+  Tipo de grano: Colorado Semidentado
+  Altura: Alta
+  Stay Green: Alto
+  Tolerancia a vuelco: Bueno
+  Potencial de rinde: ★★★★★ (premium)
+  Aptitud riego: Sí (destaca)
+  Aptitud secano: Sí
+  Precio B1: USD 260 | B2: USD 247 | B3: USD 197.60
+  Posicionamiento: El premium. Techo de rinde altísimo, ideal ambientes de alto potencial.
+
+NS7925 Viptera3
+  Tecnología: VT3P
+  Madurez Relativa: 119 (ciclo largo)
+  GDU: 855
+  Peso de mil granos: 340g
+  Tipo de grano: Colorado Duro
+  Altura: Alta
+  Stay Green: Alto
+  Tolerancia a vuelco: Bueno
+  Potencial de rinde: ★★★★★
+  Aptitud riego: Sí (destaca)
+  Aptitud secano: Sí
+  Precio B1: USD 245 | B2: USD 232.75 | B3: USD 186.20
+  Posicionamiento: Ciclo largo, estabilidad de rinde. Para siembras tempranas.
+
+
+════════════════════════════════════════
+🌻 GIRASOL
+════════════════════════════════════════
+
+NS1113CL
+  Tecnología: Clearfield (CL)
+  Madurez Relativa: 110
+  GDU: 1450
+  Peso de mil granos: 65g
+  Tipo: Alto Oleico
+  Contenido de aceite: 47%
+  Altura: Media
+  Resistencia a Bremia: Resistente
+  Resistencia a Jassid: Resistente
+  Potencial de rinde: ★★★★★
+  Estabilidad: Alta
+  Precio B1: USD 375 | B2: USD 356.25 | B3: —
+  Posicionamiento: El líder en alto oleico. Rinde + aceite + sanidad, todo junto.
+
+NS1227CLHO
+  Tecnología: Clearfield + Alto Oleico (CL·HO)
+  Madurez Relativa: 112
+  GDU: 1480
+  Peso de mil granos: 70g
+  Tipo: Alto Oleico
+  Contenido de aceite: 49% (el más alto)
+  Altura: Media-Alta
+  Resistencia a Bremia: Resistente
+  Resistencia a Jassid: Resistente
+  Potencial de rinde: ★★★★★
+  Estabilidad: Alta
+  Precio B1: USD 385 | B2: USD 365.75 | B3: —
+  Posicionamiento: Premium alto oleico. Máximo % de aceite, valor industrial superior.
+
+NS1115CL
+  Tecnología: Clearfield (CL)
+  Madurez Relativa: 111
+  GDU: 1460
+  Peso de mil granos: 62g
+  Tipo: Linoleico
+  Contenido de aceite: 44%
+  Altura: Baja-Media
+  Resistencia a Bremia: Resistente
+  Resistencia a Jassid: Moderadamente Resistente
+  Potencial de rinde: ★★★★☆
+  Estabilidad: Muy Alta
+  Precio B1: USD 315 | B2: USD 299.25 | B3: —
+  Posicionamiento: La opción económica en girasol. Muy estable, bajo riesgo.
+
+NS1117CL
+  Tecnología: Clearfield (CL)
+  Madurez Relativa: 111
+  GDU: 1470
+  Peso de mil granos: 68g
+  Tipo: Linoleico
+  Contenido de aceite: 44%
+  Altura: Media
+  Resistencia a Bremia: Resistente
+  Resistencia a Jassid: Resistente
+  Potencial de rinde: ★★★★★
+  Estabilidad: Alta
+  Precio B1: USD 345 | B2: USD 327.75 | B3: USD 262.20
+  Posicionamiento: El linoleico completo. Rinde + sanidad, para quien no necesita oleico.
+
+
+════════════════════════════════════════
+NOTAS PARA CONTENIDO
+════════════════════════════════════════
+
+- "Potencial de rinde" es orientativo, NO es una promesa. Siempre decir 
+  "potencial" o "en ensayos" o "campaña anterior en la zona"
+- Los precios son de LISTA (B1). Con descuentos pre-campaña + contado + volumen
+  pueden bajar 25-35%. Eso es el argumento comercial fuerte.
+- Ejemplo de precio final con todos los descuentos:
+  NS7765 lista USD 250 → con pre-campaña (10%) + contado (8%) + volumen 6% 
+  + zonal 7% + Henderseeds 7% ≈ USD 162 aprox. (¡35% menos!)
+- Las bandas (B1/B2/B3) son niveles de precio por volumen/timing de compra
+- B3 no siempre está disponible en girasol
