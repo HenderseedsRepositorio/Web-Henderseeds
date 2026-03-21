@@ -275,7 +275,7 @@ section{padding:5rem 0}
 
 /* ═══ SERVICIOS ═══ */
 .servicios{background:var(--navy-dark);position:relative}
-.servicios-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.servicios-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;row-gap:1.8rem}
 .servicio{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:var(--radius-lg);padding:2rem;transition:all .35s var(--ease);position:relative;overflow:hidden}
 .servicio::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--yellow));transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
 .servicio:hover::before{transform:scaleX(1)}
@@ -850,6 +850,30 @@ section{padding:5rem 0}
         </div>
         <h3>Seguimiento de Cultivo</h3>
         <p>Acompañamos al productor en todo el ciclo. Desde la elección del híbrido hasta la cosecha, con visitas a lote y datos.</p>
+      </div>
+      <div class="servicio reveal d1">
+        <div class="servicio-icon">
+          <!-- Clipboard + checkmark = asesoramiento técnico -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 1h6v3a1 1 0 01-1 1h-4a1 1 0 01-1-1V1z"/><path d="M9 12l2 2 4-4" stroke-width="1.8"/><line x1="9" y1="17" x2="15" y2="17" opacity=".4"/></svg>
+        </div>
+        <h3>Asesoramiento Técnico</h3>
+        <p>Recomendación de híbridos, densidad y fecha de siembra según tu zona, lote y objetivo de rinde.</p>
+      </div>
+      <div class="servicio reveal d2">
+        <div class="servicio-icon">
+          <!-- Trending up + dollar = asesoramiento comercial -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17" stroke-width="1.8"/><polyline points="16,7 22,7 22,13"/><line x1="2" y1="21" x2="22" y2="21" opacity=".3"/><circle cx="8.5" cy="10.5" r="1.5" opacity=".3" fill="currentColor" stroke="none"/></svg>
+        </div>
+        <h3>Asesoramiento Comercial</h3>
+        <p>Timing de compra, descuentos por volumen, combinaciones de pago y estrategia para optimizar tu inversión en insumos.</p>
+      </div>
+      <div class="servicio reveal d3">
+        <div class="servicio-icon">
+          <!-- Shield + coin = asesoramiento financiero -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2l7 4v5c0 5.25-3.5 9.74-7 11-3.5-1.26-7-5.75-7-11V6l7-4z"/><circle cx="12" cy="12" r="3" stroke-width="1.6"/><path d="M12 10.5v3M11 12.5h2" stroke-width="1.4"/></svg>
+        </div>
+        <h3>Asesoramiento Financiero</h3>
+        <p>Acceso a SGR, financiación de campaña, estrategias con dólar futuro y herramientas para cuidar tu capital de trabajo.</p>
       </div>
     </div>
   </div>
