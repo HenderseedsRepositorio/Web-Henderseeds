@@ -10,6 +10,9 @@
 <meta property="og:description" content="Distribuidor exclusivo RED.IN de Nidera Semillas. Maíz Viptera3 y Girasol CL en Henderson, Bolívar y Daireaux.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://henderseeds.com">
+<meta property="og:image" content="https://henderseeds.com/assets/logos/henderseeds.png">
+<link rel="icon" type="image/png" href="assets/logos/henderseeds.png">
+<link rel="apple-touch-icon" href="assets/logos/henderseeds.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -78,8 +81,8 @@ button{font-family:inherit;cursor:pointer}
 .nav-cta::after{display:none!important}
 .hamburger{display:none;background:none;border:none;padding:6px;flex-direction:column;gap:5px}
 .hamburger span{display:block;width:26px;height:2px;background:var(--white);border-radius:2px;transition:transform .3s,opacity .3s}
-.mobile-menu{display:none;position:fixed;inset:0;background:rgba(9,30,62,.98);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;backdrop-filter:blur(20px)}
-.mobile-menu.open{display:flex}
+.mobile-menu{position:fixed;inset:0;background:rgba(9,30,62,.98);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;backdrop-filter:blur(20px);opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s}
+.mobile-menu.open{opacity:1;visibility:visible}
 .mobile-menu a{color:var(--white);font-family:var(--arch);font-size:1.5rem;letter-spacing:.02em;transition:color .2s}
 .mobile-menu a:hover{color:var(--orange)}
 .mobile-close{position:absolute;top:1.2rem;right:1.5rem;background:none;border:none;color:var(--white);font-size:2.5rem;cursor:pointer;line-height:1}
@@ -92,8 +95,7 @@ button{font-family:inherit;cursor:pointer}
 .hero-bg-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s var(--ease);background-size:cover;background-position:center}
 .hero-bg-slide.active{opacity:1}
 .hero-bg-slide:nth-child(1){background-image:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=80')}
-.hero-bg-slide:nth-child(2){background-image:url('https://images.unsplash.com/photo-1597848212624-a19eb35e2651?w=1920&q=80')}
-.hero-bg-slide:nth-child(3){background-image:url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1920&q=80')}
+.hero-bg-slide:nth-child(2){background-image:url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1920&q=80')}
 .hero-bg-slide::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(9,30,62,.88) 0%,rgba(13,45,94,.75) 40%,rgba(26,74,138,.7) 100%)}
 
 .hero-canvas{position:absolute;inset:0;z-index:1;mix-blend-mode:screen;opacity:.4}
@@ -250,8 +252,8 @@ section{padding:5rem 0}
 .maiz-grid .hybrid-highlight{color:var(--orange)}
 .girasol-grid .hybrid-highlight{color:var(--yellow)}
 .hybrid-front .hybrid-highlight-label{font-size:.78rem;color:rgba(255,255,255,.4);margin-bottom:1.5rem}
-.hybrid-flip-hint{font-family:var(--mono);font-size:.65rem;color:rgba(255,255,255,.25);letter-spacing:.06em;display:flex;align-items:center;gap:.4rem;margin-top:auto}
-.hybrid-flip-hint svg{width:14px;height:14px;stroke:rgba(255,255,255,.25);fill:none;stroke-width:2;animation:flipHint 2s ease-in-out infinite}
+.hybrid-flip-hint{font-family:var(--mono);font-size:.72rem;color:rgba(255,255,255,.35);letter-spacing:.06em;display:flex;align-items:center;gap:.5rem;margin-top:auto;padding:.5rem .8rem;background:rgba(255,255,255,.04);border-radius:var(--radius-sm);border:1px solid rgba(255,255,255,.08)}
+.hybrid-flip-hint svg{width:14px;height:14px;stroke:rgba(255,255,255,.35);fill:none;stroke-width:2;animation:flipHint 2s ease-in-out infinite}
 @keyframes flipHint{0%,100%{transform:rotateY(0)}50%{transform:rotateY(20deg)}}
 
 /* Back side */
@@ -270,13 +272,6 @@ section{padding:5rem 0}
 .hybrid-desc{font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.55;margin-top:.8rem;font-style:italic}
 .hybrid-back .hybrid-flip-hint{margin-top:auto;padding-top:.8rem}
 .portfolio-note{text-align:center;margin-top:2rem;font-family:var(--mono);font-size:.72rem;color:rgba(255,255,255,.25);letter-spacing:.04em;position:relative;z-index:1}
-
-/* ═══ NUMBERS BAND ═══ */
-.numbers{background:var(--navy);border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05);padding:3rem 0}
-.numbers-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
-.number-card{text-align:center}
-.number-card .nc-value{font-family:var(--arch);font-size:clamp(2rem,3.5vw,2.8rem);color:var(--orange);line-height:1;margin-bottom:.4rem;text-shadow:0 0 30px rgba(245,166,35,.2)}
-.number-card .nc-label{font-size:.85rem;color:rgba(255,255,255,.45);font-weight:500}
 
 /* ═══ SERVICIOS ═══ */
 .servicios{background:var(--navy-dark);position:relative}
@@ -340,16 +335,6 @@ section{padding:5rem 0}
 .btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(245,166,35,.3)}
 .btn-submit svg{width:20px;height:20px}
 
-/* ═══ CTA BAND ═══ */
-.cta-band{background:linear-gradient(135deg,var(--orange),#E8941A,var(--yellow));background-size:200% 200%;animation:ctaGradient 6s ease infinite;padding:4rem 0;text-align:center;position:relative;overflow:hidden}
-.cta-band::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(255,255,255,.15) 0%,transparent 50%);pointer-events:none}
-@keyframes ctaGradient{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-.cta-band h2{font-family:var(--arch);font-size:clamp(1.6rem,3vw,2.4rem);color:var(--navy-dark);margin-bottom:.8rem}
-.cta-band p{color:rgba(9,30,62,.6);font-size:1.05rem;margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto}
-.btn-wa{display:inline-flex;align-items:center;gap:.7rem;background:var(--navy-dark);color:var(--white);padding:1rem 2.5rem;border-radius:99px;font-weight:700;font-size:1.05rem;transition:all .25s var(--ease)}
-.btn-wa:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.3)}
-.btn-wa svg{width:24px;height:24px;fill:var(--green)}
-
 /* ═══ FOOTER ═══ */
 .footer{background:linear-gradient(180deg,var(--navy) 0%,var(--navy-dark) 30%);border-top:1px solid rgba(255,255,255,.06);padding:4rem 0 1.5rem}
 .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:3rem}
@@ -373,19 +358,11 @@ section{padding:5rem 0}
 .wa-float::after{content:'';position:absolute;inset:-10px;border-radius:50%;border:1px solid rgba(37,211,102,.2);animation:waRing 2.5s .5s ease-out infinite}
 @keyframes waRing{0%{transform:scale(.9);opacity:1}100%{transform:scale(1.5);opacity:0}}
 
-/* ═══ PARALLAX ═══ */
-.parallax-layer{transition:transform .1s linear;will-change:transform}
-
 /* ═══ LOADER ═══ */
-.loader{position:fixed;inset:0;z-index:9999;background:var(--navy-dark);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem;transition:opacity .6s var(--ease),visibility .6s}
-.loader.hide{opacity:0;visibility:hidden}
-.loader-logo{font-family:var(--arch);font-size:clamp(2rem,5vw,2.8rem);opacity:0;animation:loaderFadeIn .8s var(--ease) forwards}
-.loader-logo span:first-child{color:var(--orange)}
-.loader-logo span:last-child{color:var(--white)}
-.loader-bar{width:120px;height:3px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;opacity:0;animation:loaderFadeIn .5s .3s var(--ease) forwards}
-.loader-bar::after{content:'';display:block;width:100%;height:100%;background:var(--orange);border-radius:3px;transform-origin:left;animation:loaderProgress 1.2s .4s var(--ease) forwards}
-@keyframes loaderFadeIn{to{opacity:1}}
-@keyframes loaderProgress{0%{transform:scaleX(0)}100%{transform:scaleX(1)}}
+.loader{position:fixed;inset:0;z-index:9999;background:var(--navy-dark);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem;transition:opacity .35s var(--ease),visibility .35s}
+.loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+.loader-logo{height:60px;animation:loaderPulse .4s var(--ease)}
+@keyframes loaderPulse{0%{opacity:0;transform:scale(.9)}100%{opacity:1;transform:scale(1)}}
 
 /* ═══ SCROLL ANIMATIONS ═══ */
 .reveal{opacity:0;transform:translateY(40px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
@@ -402,7 +379,6 @@ section{padding:5rem 0}
   .hero-arrows{bottom:1.5rem;right:1rem}
   .nosotros-grid{grid-template-columns:1fr;gap:3rem}
   .servicios-grid{grid-template-columns:1fr 1fr 1fr}
-  .numbers-grid{grid-template-columns:repeat(2,1fr)}
   .blog-grid{grid-template-columns:1fr 1fr}
   .contacto-grid{grid-template-columns:1fr;gap:3rem}
   .footer-grid{grid-template-columns:1fr 1fr}
@@ -417,10 +393,9 @@ section{padding:5rem 0}
   .nosotros-features{grid-template-columns:1fr}
   .tech-row{grid-template-columns:1fr 1fr 1fr}
   .servicios-grid{grid-template-columns:1fr}
-  .numbers-grid{grid-template-columns:1fr 1fr}
+
   .blog-grid{grid-template-columns:1fr}
   .portfolio-grid{grid-template-columns:1fr}
-  .numbers-grid{grid-template-columns:repeat(2,1fr)}
   .footer-grid{grid-template-columns:1fr}
   .form-row{grid-template-columns:1fr}
 }
@@ -430,8 +405,6 @@ section{padding:5rem 0}
   .hero-buttons .btn{justify-content:center}
   .hero-arrows{display:none}
   .hero-data-card .hdc-value{font-size:1.3rem}
-  .numbers-grid{grid-template-columns:1fr 1fr}
-  .number-card .nc-value{font-size:2.2rem}
   .hybrid{min-height:260px}
   .hybrid-front .hybrid-highlight{font-size:1.6rem}
 }
@@ -441,17 +414,13 @@ section{padding:5rem 0}
 
 <!-- ═══════════ LOADER ═══════════ -->
 <div class="loader" id="loader">
-  <div class="loader-logo"><span>Hender</span><span>Seeds</span></div>
-  <div class="loader-bar"></div>
+  <img src="assets/logos/henderseeds.png" alt="HenderSeeds" class="loader-logo">
 </div>
 
 <!-- ═══════════ NAVBAR ═══════════ -->
 <nav class="nav" id="nav">
   <div class="container nav-inner">
-    <svg class="nav-logo" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <text x="0" y="38" font-family="Archivo Black" font-size="32" fill="#F5A623">Hender</text>
-      <text x="118" y="38" font-family="Archivo Black" font-size="32" fill="white">Seeds</text>
-    </svg>
+    <img class="nav-logo" src="assets/logos/henderseeds.png" alt="HenderSeeds — Distribuidor RED.IN Nidera Semillas">
     <ul class="nav-links">
       <li><a href="#inicio">Inicio</a></li>
       <li><a href="#nosotros">Nosotros</a></li>
@@ -482,12 +451,11 @@ section{padding:5rem 0}
   <div class="hero-bg-slides">
     <div class="hero-bg-slide active"></div>
     <div class="hero-bg-slide"></div>
-    <div class="hero-bg-slide"></div>
   </div>
   <!-- Animated particle canvas background -->
   <div class="hero-canvas"><canvas id="heroCanvas"></canvas></div>
   <div class="hero-glow"></div>
-  <div class="hero-grid-bg parallax-layer" data-parallax-speed="0.06"></div>
+  <div class="hero-grid-bg"></div>
 
   <div class="hero-content container">
     <!-- Rotating text slides -->
@@ -515,31 +483,8 @@ section{padding:5rem 0}
         </div>
       </div>
 
-      <!-- Slide 2: Acompañamiento a lote -->
+      <!-- Slide 2: Lanzamiento híbridos + datos -->
       <div class="hero-text-slide" data-slide="1">
-        <div class="hero-eyebrow">
-          <!-- Seedling growing with arrow up -->
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22V12"/><path d="M12 12c-2-4-6-4-8-2"/><path d="M12 12c2-4 6-4 8-2"/><path d="M12 8V2M9 5l3-3 3 3"/></svg>
-          Seguimiento integral
-        </div>
-        <h1>
-          <span class="text-white">Apoyado en la</span><br>
-          <span class="text-orange">mejor genética del mercado</span>
-        </h1>
-        <p class="hero-sub">Híbridos Nidera de maíz y girasol con la tecnología más avanzada. Genética probada en la zona, con resultados que respaldan cada bolsa.</p>
-        <div class="hero-buttons">
-          <a href="#servicios" class="btn btn-primary">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-            Ver servicios
-          </a>
-          <a href="https://wa.me/5492314530691?text=Hola%2C%20quiero%20info%20sobre%20servicios" class="btn btn-outline" target="_blank" rel="noopener">Escribinos
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- Slide 3: Lanzamiento híbridos + datos -->
-      <div class="hero-text-slide" data-slide="2">
         <div class="hero-eyebrow">
           <!-- Rocket launch -->
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2c0 0-4 4-4 10s4 10 4 10c0 0 4-4 4-10s-4-10-4-10z"/><circle cx="12" cy="12" r="2"/><path d="M8 22l-2-4 2-2M16 22l2-4-2-2"/></svg>
@@ -577,7 +522,6 @@ section{padding:5rem 0}
     <div class="hero-indicators">
       <button class="hero-ind active" onclick="goToSlide(0)" aria-label="Slide 1"></button>
       <button class="hero-ind" onclick="goToSlide(1)" aria-label="Slide 2"></button>
-      <button class="hero-ind" onclick="goToSlide(2)" aria-label="Slide 3"></button>
     </div>
   </div>
 
@@ -665,8 +609,8 @@ section{padding:5rem 0}
         </div>
       </div>
       <div>
-        <div class="nidera-card reveal d1 parallax-layer" data-parallax-speed="0.04">
-          <svg width="140" height="40" viewBox="0 0 140 40" style="margin:0 auto 1rem"><text x="0" y="30" font-family="Archivo Black" font-size="22" fill="#F5A623">NIDERA</text><text x="95" y="30" font-family="DM Mono" font-size="12" fill="rgba(255,255,255,.5)">RED.IN</text></svg>
+        <div class="nidera-card reveal d1">
+          <img src="assets/logos/nidera.png" alt="Nidera Semillas" style="height:40px;margin:0 auto 1rem;display:block">
           <h3>Distribuidor Exclusivo RED.IN</h3>
           <p>Nidera Semillas confía en nosotros para llevar su genética a los productores de la zona.</p>
           <div class="zone-pills">
@@ -689,30 +633,11 @@ section{padding:5rem 0}
               <span class="hr-detail">Alto Oleico + Linoleico · Hasta 49% aceite</span>
             </div>
           </div>
-          <div class="hr-tags">
-            <span>Viptera3</span>
-            <span>Clearfield</span>
-            <span>Alto Oleico</span>
-            <span>Stay Green Alto</span>
-            <span>Bremia R</span>
-          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-
-<!-- ═══════════ NUMBERS BAND ═══════════ -->
-<div class="numbers">
-  <div class="container">
-    <div class="numbers-grid">
-      <div class="number-card reveal"><div class="nc-value" data-target="6">0</div><div class="nc-label">Híbridos destacados</div></div>
-      <div class="number-card reveal d1"><div class="nc-value" data-target="3">0</div><div class="nc-label">Partidos cubiertos</div></div>
-      <div class="number-card reveal d2"><div class="nc-value" data-target="225" data-suffix="+">0</div><div class="nc-label">Comparaciones de ensayo</div></div>
-      <div class="number-card reveal d3"><div class="nc-value" data-target="74" data-suffix="%">0</div><div class="nc-label">Éxito en rinde</div></div>
-    </div>
-  </div>
-</div>
 
 <!-- ═══════════ PORTFOLIO HÍBRIDOS ═══════════ -->
 <section class="portfolio" id="portfolio">
@@ -1079,27 +1004,12 @@ section{padding:5rem 0}
   </div>
 </section>
 
-<!-- ═══════════ CTA BAND ═══════════ -->
-<div class="cta-band">
-  <div class="container">
-    <h2 class="reveal">¿Arrancamos tu campaña 26/27?</h2>
-    <p class="reveal d1">Cotización en el día, sin compromiso.</p>
-    <a href="https://wa.me/5492314530691?text=Hola%2C%20quiero%20info%20de%20pre-campa%C3%B1a%2026%2F27" class="btn-wa reveal d2" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Escribinos por WhatsApp
-    </a>
-  </div>
-</div>
-
 <!-- ═══════════ FOOTER ═══════════ -->
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <svg width="160" height="40" viewBox="0 0 200 50">
-          <text x="0" y="35" font-family="Archivo Black" font-size="28" fill="#F5A623">Hender</text>
-          <text x="110" y="35" font-family="Archivo Black" font-size="28" fill="white">Seeds</text>
-        </svg>
+        <img src="assets/logos/henderseeds.png" alt="HenderSeeds" style="height:40px">
         <p>Distribuidor exclusivo RED.IN de Nidera Semillas. Henderson, Bolívar y Daireaux, Buenos Aires, Argentina.</p>
       </div>
       <div class="footer-col">
@@ -1145,11 +1055,12 @@ section{padding:5rem 0}
 <script>
 // ═══ Loader ═══
 window.addEventListener('load', () => {
-  setTimeout(() => document.getElementById('loader').classList.add('hide'), 1600);
+  setTimeout(() => document.getElementById('loader').classList.add('hide'), 400);
 });
 
-// ═══ Hero Particle Canvas ═══
+// ═══ Hero Particle Canvas (disabled on mobile) ═══
 (function() {
+  if (window.matchMedia('(max-width: 768px)').matches) return;
   const canvas = document.getElementById('heroCanvas');
   const ctx = canvas.getContext('2d');
   let w, h, particles = [], mouse = { x: -1000, y: -1000 };
@@ -1255,7 +1166,7 @@ window.addEventListener('scroll', () => {
 
 // ═══ Hero Slider ═══
 let currentSlide = 0;
-const totalSlides = 3;
+const totalSlides = 2;
 let slideInterval;
 
 function goToSlide(n) {
@@ -1344,49 +1255,6 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Counter animation
-const counterObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      const el = e.target;
-      const target = parseInt(el.dataset.target);
-      const suffix = el.dataset.suffix || '';
-      const duration = 2000;
-      const start = performance.now();
-
-      function update(now) {
-        const progress = Math.min((now - start) / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const current = Math.round(eased * target);
-        el.textContent = current + suffix;
-        if (progress < 1) requestAnimationFrame(update);
-      }
-      requestAnimationFrame(update);
-      counterObserver.unobserve(el);
-    }
-  });
-}, { threshold: 0.5 });
-
-document.querySelectorAll('.nc-value[data-target]').forEach(el => counterObserver.observe(el));
-
-// ═══ Parallax on scroll ═══
-const parallaxEls = document.querySelectorAll('.parallax-layer');
-let ticking = false;
-window.addEventListener('scroll', () => {
-  if (!ticking) {
-    requestAnimationFrame(() => {
-      const scrollY = window.scrollY;
-      parallaxEls.forEach(el => {
-        const speed = parseFloat(el.dataset.parallaxSpeed) || 0.03;
-        const rect = el.getBoundingClientRect();
-        const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * speed;
-        el.style.transform = `translateY(${offset}px)`;
-      });
-      ticking = false;
-    });
-    ticking = true;
-  }
-});
 
 // Contact form handler
 function handleSubmit(e) {
