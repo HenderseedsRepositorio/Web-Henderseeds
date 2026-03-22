@@ -94,8 +94,8 @@ button{font-family:inherit;cursor:pointer}
 .hero-bg-slides{position:absolute;inset:0;z-index:0}
 .hero-bg-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s var(--ease);background-size:cover;background-position:center}
 .hero-bg-slide.active{opacity:1}
-.hero-bg-slide:nth-child(1){background-image:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=80')}
-.hero-bg-slide:nth-child(2){background-image:url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1920&q=80')}
+.hero-bg-slide:nth-child(1){background-image:url('assets/ensayo-campo.jpeg')}
+.hero-bg-slide:nth-child(2){background-image:url('assets/equipo-ensayo.jpeg')}
 .hero-bg-slide::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(9,30,62,.88) 0%,rgba(13,45,94,.75) 40%,rgba(26,74,138,.7) 100%)}
 
 .hero-canvas{position:absolute;inset:0;z-index:1;mix-blend-mode:screen;opacity:.4}
@@ -185,6 +185,11 @@ section{padding:5rem 0}
 .nosotros-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:stretch}
 .nosotros-grid > div{display:flex;flex-direction:column}
 .nosotros-grid > div:last-child{justify-content:center}
+
+/* Team photo */
+.team-photo{border-radius:var(--radius-lg);overflow:hidden;margin-bottom:1.2rem;position:relative}
+.team-photo img{width:100%;height:auto;display:block;border-radius:var(--radius-lg)}
+.team-photo-caption{position:absolute;bottom:0;left:0;right:0;padding:.8rem 1.2rem;background:linear-gradient(transparent,rgba(9,30,62,.85));font-size:.82rem;color:rgba(255,255,255,.8);font-family:var(--mono);letter-spacing:.03em}
 
 /* Nidera card */
 .nidera-card{background:linear-gradient(135deg,rgba(245,166,35,.08),rgba(245,158,11,.02));border:1px solid rgba(245,166,35,.2);border-radius:var(--radius-lg);padding:2.2rem;text-align:center;margin-bottom:1.2rem;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(245,166,35,.06)}
@@ -618,6 +623,10 @@ section{padding:5rem 0}
         </div>
       </div>
       <div>
+        <div class="team-photo reveal">
+          <img src="assets/equipo-ensayo.jpeg" alt="Los tres socios de HenderSeeds recorriendo un ensayo de maíz Nidera" loading="lazy">
+          <div class="team-photo-caption">Recorrida de ensayos · Henderson, Buenos Aires</div>
+        </div>
         <div class="nidera-card reveal d1">
           <img src="assets/logos/nidera.png" alt="Nidera Semillas" style="height:40px;margin:0 auto 1rem;display:block">
           <h3>Distribuidor Exclusivo RED.IN</h3>
@@ -917,7 +926,7 @@ section{padding:5rem 0}
       <div class="blog-card reveal d1">
         <div class="blog-thumb">
           <span class="blog-tag">Ensayos</span>
-          <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600&q=80" alt="Plantas de maíz en campo" loading="lazy">
+          <img src="assets/ensayo-campo.jpeg" alt="Recorrida de ensayo de maíz Nidera" loading="lazy">
         </div>
         <div class="blog-body">
           <div class="blog-date">03 · NOV · 2025</div>
@@ -929,7 +938,7 @@ section{padding:5rem 0}
       <div class="blog-card reveal d2">
         <div class="blog-thumb">
           <span class="blog-tag">Expoagro 2026</span>
-          <img src="https://images.unsplash.com/photo-1597848212624-a19eb35e2651?w=600&q=80" alt="Campo de girasoles" loading="lazy">
+          <img src="assets/equipo-ensayo.jpeg" alt="Equipo HenderSeeds en Expoagro" loading="lazy">
         </div>
         <div class="blog-body">
           <div class="blog-date">18 · MAR · 2026</div>
