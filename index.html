@@ -1529,6 +1529,8 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 function handleSubmit(e) {
   e.preventDefault();
   const form = e.target;
+  const btn = form.querySelector('.btn-submit');
+  const originalText = btn.innerHTML;
   const data = new FormData(form);
   const nombre = data.get('nombre');
   const telefono = data.get('telefono');
@@ -1536,19 +1538,25 @@ function handleSubmit(e) {
   const interes = data.get('interes');
   const mensaje = data.get('mensaje');
 
+  // 1. Enviar a Formspree (llega al mail)
+  fetch('https://formspree.io/f/mwvwldog', {
+    method: 'POST',
+    body: data,
+    headers: { 'Accept': 'application/json' }
+  }).then(r => {
+    if (!r.ok) console.error('Formspree error:', r.status);
+  }).catch(err => console.error('Formspree error:', err));
+
+  // 2. Abrir WhatsApp en paralelo
   let text = `Hola, soy ${nombre}.`;
   if (interes) text += `\nMe interesa: ${interes}`;
   if (mensaje) text += `\n${mensaje}`;
   if (telefono) text += `\nTel: ${telefono}`;
   if (email) text += `\nEmail: ${email}`;
-
-  const waUrl = `https://wa.me/5492314530691?text=${encodeURIComponent(text)}`;
-  window.open(waUrl, '_blank');
+  window.open(`https://wa.me/5492314530691?text=${encodeURIComponent(text)}`, '_blank');
 
   // Show success
-  const btn = form.querySelector('.btn-submit');
-  const originalText = btn.innerHTML;
-  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="20,6 9,17 4,12"/></svg> Enviado a WhatsApp';
+  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="20,6 9,17 4,12"/></svg> Consulta enviada';
   btn.style.background = 'var(--green)';
   setTimeout(() => {
     btn.innerHTML = originalText;
