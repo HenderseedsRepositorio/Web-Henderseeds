@@ -13,6 +13,34 @@
 <meta property="og:image" content="https://henderseeds.com/assets/logos/henderseeds.png">
 <link rel="icon" type="image/png" href="assets/logos/henderseeds.png">
 <link rel="apple-touch-icon" href="assets/logos/henderseeds.png">
+<link rel="canonical" href="https://henderseeds.com">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "HenderSeeds SRL",
+  "description": "Distribuidor exclusivo RED.IN de Nidera Semillas en Henderson, Bolívar y Daireaux. Maíz y Girasol con genética top + tecnología de precisión + trato local.",
+  "url": "https://henderseeds.com",
+  "telephone": "+5492314530691",
+  "email": "info@henderseeds.com",
+  "image": "https://henderseeds.com/assets/logos/henderseeds.png",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Henderson",
+    "addressRegion": "Buenos Aires",
+    "addressCountry": "AR"
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Henderson" },
+    { "@type": "City", "name": "Bolívar" },
+    { "@type": "City", "name": "Daireaux" }
+  ],
+  "sameAs": ["https://instagram.com/henderseeds"]
+}
+</script>
+<!-- Google Analytics 4 — reemplazar G-XXXXXXXXXX con tu Measurement ID -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -423,6 +451,137 @@ section{padding:5rem 0}
   .hybrid{min-height:260px}
   .hybrid-front .hybrid-highlight{font-size:1.6rem}
 }
+
+/* ═══ MODO CLARO (LIGHT MODE) ═══ */
+body.light-mode {
+  --navy-dark: #F8FAFC;
+  --navy: #FFFFFF;
+  --navy-mid: #E2E8F0;
+  --white: #091E3E;
+  color: var(--white);
+  background: var(--navy-dark);
+}
+body.light-mode .nav.scrolled { background: rgba(255, 255, 255, 0.95); box-shadow: 0 1px 30px rgba(0,0,0,0.1); }
+body.light-mode .nav-links a { color: rgba(9, 30, 62, 0.7); }
+body.light-mode .nav-links a:hover { color: var(--white); }
+body.light-mode .hamburger span { background: var(--white); }
+body.light-mode .mobile-menu { background: rgba(255, 255, 255, 0.98); }
+body.light-mode .mobile-menu a { color: var(--white); }
+body.light-mode .mobile-close { color: var(--white); }
+body.light-mode .hero { background: var(--navy-dark); }
+body.light-mode .hero-bg-slide::after { background: linear-gradient(160deg, rgba(255,255,255,0.88) 0%, rgba(241,245,249,0.75) 40%, rgba(226,232,240,0.7) 100%); }
+body.light-mode .hero-sub { color: rgba(9, 30, 62, 0.7); }
+body.light-mode .hero-arrow { background: rgba(9, 30, 62, 0.08); border-color: rgba(9, 30, 62, 0.15); color: var(--white); }
+body.light-mode .hero-arrow:hover { background: rgba(9, 30, 62, 0.15); color: var(--orange); }
+body.light-mode .btn-outline { color: var(--white); border-color: rgba(9, 30, 62, 0.25); }
+body.light-mode .btn-outline:hover { border-color: var(--white); background: rgba(9, 30, 62, 0.05); }
+body.light-mode .hero-ind { background: rgba(9, 30, 62, 0.2); }
+body.light-mode .hero-ind:hover:not(.active) { background: rgba(9, 30, 62, 0.4); }
+body.light-mode .hero-data-card { background: rgba(255, 255, 255, 0.6); border-color: rgba(9, 30, 62, 0.1); }
+body.light-mode .hero-data-card .hdc-label { color: rgba(9, 30, 62, 0.5); }
+body.light-mode .hero-data-card .hdc-detail { color: rgba(9, 30, 62, 0.5); }
+body.light-mode .ticker { background: var(--navy-mid); border-color: rgba(9, 30, 62, 0.06); }
+body.light-mode .ticker::before { background: linear-gradient(90deg, var(--navy-mid), transparent); }
+body.light-mode .ticker::after { background: linear-gradient(-90deg, var(--navy-mid), transparent); }
+body.light-mode .ticker-item { color: rgba(9, 30, 62, 0.6); }
+body.light-mode .ticker-item .ti-sep { color: rgba(9, 30, 62, 0.15); }
+body.light-mode .section-desc { color: rgba(9, 30, 62, 0.6); }
+body.light-mode .why-item { color: rgba(9, 30, 62, 0.8); }
+body.light-mode .team-photo-caption { background: linear-gradient(transparent, rgba(255, 255, 255, 0.9)); color: var(--white); }
+body.light-mode .nidera-card p { color: rgba(9, 30, 62, 0.7); }
+body.light-mode .tech-item { background: rgba(9, 30, 62, 0.03); border-color: rgba(9, 30, 62, 0.06); }
+body.light-mode .tech-item span { color: rgba(9, 30, 62, 0.7); }
+body.light-mode .descuento-item { background: rgba(9, 30, 62, 0.03); border-color: rgba(9, 30, 62, 0.06); }
+body.light-mode .descuento-label { color: rgba(9, 30, 62, 0.6); }
+body.light-mode .descuento-note { color: rgba(9, 30, 62, 0.5); }
+body.light-mode .testimonios-card { background: rgba(9, 30, 62, 0.02); border-color: rgba(9, 30, 62, 0.08); }
+body.light-mode .testimonio-text { color: rgba(9, 30, 62, 0.7); }
+body.light-mode .hibridos-resumen { background: rgba(9, 30, 62, 0.02); border-color: rgba(9, 30, 62, 0.08); }
+body.light-mode .hr-item { background: rgba(9, 30, 62, 0.03); border-color: rgba(9, 30, 62, 0.06); }
+body.light-mode .hr-stat { color: rgba(9, 30, 62, 0.8); }
+body.light-mode .hr-detail { color: rgba(9, 30, 62, 0.5); }
+body.light-mode .hr-tags span { color: rgba(9, 30, 62, 0.6); border-color: rgba(9, 30, 62, 0.15); }
+body.light-mode .ptab { color: rgba(9, 30, 62, 0.6); border-color: rgba(9, 30, 62, 0.15); }
+body.light-mode .ptab:hover:not(.active) { color: rgba(9, 30, 62, 0.9); }
+body.light-mode .hybrid-front, body.light-mode .hybrid-back { background: var(--navy); border-color: rgba(9, 30, 62, 0.1); box-shadow: var(--shadow-sm); }
+body.light-mode .hybrid-tech { color: rgba(9, 30, 62, 0.5); }
+body.light-mode .hybrid-front .hybrid-highlight-label { color: rgba(9, 30, 62, 0.6); }
+body.light-mode .hybrid-flip-hint { color: rgba(9, 30, 62, 0.5); background: rgba(9, 30, 62, 0.04); border-color: rgba(9, 30, 62, 0.08); }
+body.light-mode .hs { background: rgba(9, 30, 62, 0.03); }
+body.light-mode .hs-label { color: rgba(9, 30, 62, 0.5); }
+body.light-mode .hs-detail { color: rgba(9, 30, 62, 0.5); }
+body.light-mode .hm-tag { color: rgba(9, 30, 62, 0.6); border-color: rgba(9, 30, 62, 0.15); }
+body.light-mode .hybrid-desc { color: rgba(9, 30, 62, 0.6); }
+body.light-mode .portfolio-note { color: rgba(9, 30, 62, 0.4); }
+body.light-mode .servicio { background: rgba(9, 30, 62, 0.02); border-color: rgba(9, 30, 62, 0.08); }
+body.light-mode .servicio p { color: rgba(9, 30, 62, 0.6); }
+body.light-mode .servicio-icon { background: var(--navy); }
+body.light-mode .blog-card { background: rgba(9, 30, 62, 0.02); border-color: rgba(9, 30, 62, 0.08); }
+body.light-mode .blog-date { color: rgba(9, 30, 62, 0.5); }
+body.light-mode .blog-excerpt { color: rgba(9, 30, 62, 0.6); }
+body.light-mode .ci-icon { background: var(--navy); }
+body.light-mode .ci-detail p { color: rgba(9, 30, 62, 0.6); }
+body.light-mode .contact-form { background: var(--navy); border-color: rgba(9, 30, 62, 0.1); }
+body.light-mode .form-group label { color: rgba(9, 30, 62, 0.7); }
+body.light-mode .form-group input, body.light-mode .form-group textarea, body.light-mode .form-group select { background: rgba(9, 30, 62, 0.03); border-color: rgba(9, 30, 62, 0.1); color: var(--white); }
+body.light-mode .form-group select option { background: var(--navy); color: var(--white); }
+body.light-mode .footer { background: var(--navy-mid); border-top-color: rgba(9, 30, 62, 0.06); }
+body.light-mode .footer-brand p { color: rgba(9, 30, 62, 0.6); }
+body.light-mode .footer-col a { color: rgba(9, 30, 62, 0.6); }
+body.light-mode .footer-col a:hover { color: var(--white); }
+body.light-mode .footer-bottom { border-top-color: rgba(9, 30, 62, 0.06); }
+body.light-mode .footer-copy { color: rgba(9, 30, 62, 0.5); }
+body.light-mode .footer-socials a { background: rgba(9, 30, 62, 0.04); border-color: rgba(9, 30, 62, 0.08); }
+body.light-mode .footer-socials a svg { fill: rgba(9, 30, 62, 0.6); }
+body.light-mode .footer-socials a:hover svg { fill: var(--orange); }
+
+/* Theme Toggle Button */
+.theme-toggle { background: transparent; border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; color: var(--white); transition: all 0.3s var(--ease); cursor: pointer; padding: 0; }
+.theme-toggle:hover { background: rgba(255,255,255,0.1); border-color: var(--orange); color: var(--orange); }
+body.light-mode .theme-toggle { border-color: rgba(9,30,62,0.2); color: var(--white); }
+body.light-mode .theme-toggle:hover { background: rgba(9,30,62,0.05); }
+.theme-toggle svg { width: 18px; height: 18px; }
+
+/* ═══ BOT SEMILLERO (CHAT WIDGET) ═══ */
+.bot-widget { position: fixed; bottom: 6.5rem; right: 1.5rem; z-index: 1000; display: flex; flex-direction: column; align-items: flex-end; }
+.bot-btn { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--navy-light), var(--navy-mid)); border: 2px solid var(--orange); display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.2); transition: transform 0.3s; cursor: pointer; }
+.bot-btn:hover { transform: scale(1.1); }
+.bot-window { width: 340px; max-height: 480px; height: 60vh; background: rgba(9,30,62,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); display: flex; flex-direction: column; overflow: hidden; opacity: 0; pointer-events: none; transition: all 0.3s var(--ease); transform: translateY(20px); margin-bottom: 1rem; }
+.bot-window.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+body.light-mode .bot-window { background: rgba(255,255,255,0.95); border-color: rgba(9,30,62,0.1); box-shadow: 0 10px 40px rgba(0,0,0,0.15); }
+.bot-header { background: rgba(0,0,0,0.2); padding: 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+body.light-mode .bot-header { background: rgba(248,250,252,0.9); border-bottom-color: rgba(9,30,62,0.08); }
+.bh-info h3 { font-family: var(--arch); font-size: 1.05rem; margin-bottom: 0.1rem; color: var(--orange); }
+.bh-info span { font-size: 0.75rem; color: rgba(255,255,255,0.6); }
+body.light-mode .bh-info span { color: rgba(9,30,62,0.6); }
+.bot-close { background: transparent; border: none; color: white; font-size: 1.5rem; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; opacity: 0.7; transition: opacity 0.2s; cursor: pointer; padding: 0; }
+body.light-mode .bot-close { color: var(--white); }
+.bot-close:hover { opacity: 1; }
+.bot-body { flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.8rem; }
+.bot-body::-webkit-scrollbar { width: 6px; }
+.bot-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+body.light-mode .bot-body::-webkit-scrollbar-thumb { background: rgba(9,30,62,0.1); }
+.msg { padding: 0.8rem 1rem; border-radius: var(--radius-md); font-size: 0.88rem; line-height: 1.5; max-width: 85%; animation: msgPop 0.3s var(--ease); overflow-wrap: break-word; }
+@keyframes msgPop { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
+.msg.bot { background: rgba(255,255,255,0.05); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.05); }
+body.light-mode .msg.bot { background: var(--gray-50); border-color: rgba(9,30,62,0.05); color: var(--white); }
+.msg.user { background: var(--orange); color: var(--navy-dark); font-weight: 500; align-self: flex-end; border-bottom-right-radius: 4px; }
+.bot-input-area { padding: 0.8rem; background: rgba(0,0,0,0.15); border-top: 1px solid rgba(255,255,255,0.05); display: flex; gap: 0.5rem; }
+body.light-mode .bot-input-area { background: rgba(248,250,252,0.8); border-top-color: rgba(9,30,62,0.08); }
+.bot-input-area input { flex: 1; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); border-radius: 99px; padding: 0.6rem 1rem; color: var(--white); font-family: var(--sans); font-size: 0.85rem; outline: none; }
+body.light-mode .bot-input-area input { background: #FFFFFF; border-color: rgba(9,30,62,0.1); color: var(--white); }
+.bot-input-area button { width: 40px; height: 40px; border-radius: 50%; background: var(--orange); border: none; color: var(--navy-dark); display: flex; align-items: center; justify-content: center; transition: transform 0.2s; cursor: pointer; flex-shrink: 0; padding: 0; }
+.bot-input-area button:hover { transform: scale(1.05); }
+.bot-input-area button svg { width: 18px; height: 18px; }
+.bot-tech-card { margin-top: 0.5rem; font-family: var(--mono); font-size: 0.75rem; background: rgba(0,0,0,0.2); padding: 0.8rem; border-radius: var(--radius-sm); border-left: 2px solid var(--orange); }
+body.light-mode .bot-tech-card { background: #FFFFFF; border: 1px solid rgba(9,30,62,0.1); border-left: 3px solid var(--orange); color: var(--white); }
+.btc-row { margin-bottom: 0.3rem; }
+.btc-label { color: rgba(255,255,255,0.5); }
+body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
+.btc-val { color: var(--white); font-weight: 600; }
+@media (max-width: 480px) {
+  .bot-window { width: 310px; right: 0; max-height: 400px; }
+}
 </style>
 </head>
 <body>
@@ -443,6 +602,12 @@ section{padding:5rem 0}
       <li><a href="#servicios">Servicios</a></li>
       <li><a href="#blog">Blog</a></li>
       <li><a href="#contacto" class="nav-cta">Contactanos</a></li>
+      <li>
+        <button class="theme-toggle" id="themeToggleDesk" aria-label="Modo Claro/Oscuro" onclick="toggleTheme()">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        </button>
+      </li>
     </ul>
     <button class="hamburger" onclick="document.getElementById('mob').classList.add('open')" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -458,6 +623,10 @@ section{padding:5rem 0}
   <a href="#servicios" onclick="this.closest('.mobile-menu').classList.remove('open')">Servicios</a>
   <a href="#blog" onclick="this.closest('.mobile-menu').classList.remove('open')">Blog</a>
   <a href="#contacto" onclick="this.closest('.mobile-menu').classList.remove('open')">Contacto</a>
+  <button class="theme-toggle" id="themeToggleMob" aria-label="Modo Claro/Oscuro" onclick="toggleTheme(); this.closest('.mobile-menu').classList.remove('open');" style="margin-top:1rem;">
+    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+  </button>
 </div>
 
 <!-- ═══════════ HERO SLIDER ═══════════ -->
@@ -647,7 +816,7 @@ section{padding:5rem 0}
             </div>
             <div class="hr-item">
               <span class="hr-crop" style="color:var(--yellow)">Girasol CL</span>
-              <span class="hr-stat">NS 1113 · NS 1227 HO · NS 1117</span>
+              <span class="hr-stat">NS 1113 · NS 1227 HO · NS 1117 · NS 1115</span>
               <span class="hr-detail">Alto Oleico + Linoleico · Hasta 49% aceite</span>
             </div>
           </div>
@@ -657,11 +826,11 @@ section{padding:5rem 0}
         <div class="testimonios-card reveal d3">
           <div class="testimonio">
             <p class="testimonio-text">"Sembramos 200 ha de NS 7765 en secano y superó nuestras expectativas. La atención de HenderSeeds fue clave en la elección."</p>
-            <span class="testimonio-author">— Productor, Henderson</span>
+            <span class="testimonio-author">— J.M., productor de 350 ha · Henderson</span>
           </div>
           <div class="testimonio">
             <p class="testimonio-text">"El asesoramiento financiero nos permitió cerrar la campaña con mejor precio. No es solo semillas, es un equipo completo."</p>
-            <span class="testimonio-author">— Productor, Bolívar</span>
+            <span class="testimonio-author">— R.S., productor mixto 600 ha · Bolívar</span>
           </div>
         </div>
       </div>
@@ -769,20 +938,20 @@ section{padding:5rem 0}
           <div class="hybrid-front">
             <div class="hybrid-bar"></div>
             <div class="hybrid-name">NS 1113 CL</div>
-            <div class="hybrid-tech">Clearfield · Alto Oleico · MR 110</div>
+            <div class="hybrid-tech">Clearfield · Linoleico · MR 110</div>
             <div class="hybrid-highlight">Líder en rinde</div>
             <div class="hybrid-highlight-label">47% aceite · Rinde + sanidad + aceite</div>
             <div class="hybrid-flip-hint"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> Ver ficha técnica</div>
           </div>
           <div class="hybrid-back">
             <div class="hybrid-name">NS 1113 CL</div>
-            <div class="hybrid-tech">Clearfield · Alto Oleico · MR 110 · PMS 65g</div>
+            <div class="hybrid-tech">Clearfield · Linoleico · MR 110 · PMS 65g</div>
             <div class="hybrid-stats">
               <div class="hs"><div class="hs-label">Aceite</div><div class="hs-val">47%</div></div>
               <div class="hs"><div class="hs-label">Estabilidad</div><div class="hs-val">Alta</div></div>
             </div>
             <div class="hybrid-meta"><span class="hm-tag">Bremia R</span><span class="hm-tag">Jassid R</span><span class="hm-tag">GDU 1450</span><span class="hm-tag">Planta media</span></div>
-            <div class="hybrid-desc">El líder en alto oleico. Rinde + aceite + sanidad, todo junto.</div>
+            <div class="hybrid-desc">El líder en linoleico. Rinde + aceite + sanidad, todo junto.</div>
             <div class="hybrid-flip-hint"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> Volver</div>
           </div>
         </div>
@@ -833,6 +1002,29 @@ section{padding:5rem 0}
             </div>
             <div class="hybrid-meta"><span class="hm-tag">Bremia R</span><span class="hm-tag">Jassid R</span><span class="hm-tag">GDU 1470</span><span class="hm-tag">Planta media</span></div>
             <div class="hybrid-desc">El linoleico completo. Rinde + sanidad para quien no necesita oleico.</div>
+            <div class="hybrid-flip-hint"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> Volver</div>
+          </div>
+        </div>
+      </div>
+      <div class="hybrid reveal d3" onclick="this.classList.toggle('flipped')">
+        <div class="hybrid-inner">
+          <div class="hybrid-front">
+            <div class="hybrid-bar"></div>
+            <div class="hybrid-name">NS 1115 CL</div>
+            <div class="hybrid-tech">Clearfield · Linoleico · MR 111</div>
+            <div class="hybrid-highlight">Muy estable</div>
+            <div class="hybrid-highlight-label">44% aceite · La opción económica, bajo riesgo</div>
+            <div class="hybrid-flip-hint"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> Ver ficha técnica</div>
+          </div>
+          <div class="hybrid-back">
+            <div class="hybrid-name">NS 1115 CL</div>
+            <div class="hybrid-tech">Clearfield · Linoleico · MR 111 · PMS 62g</div>
+            <div class="hybrid-stats">
+              <div class="hs"><div class="hs-label">Aceite</div><div class="hs-val">44%</div></div>
+              <div class="hs"><div class="hs-label">Estabilidad</div><div class="hs-val">Muy Alta</div></div>
+            </div>
+            <div class="hybrid-meta"><span class="hm-tag">Bremia R</span><span class="hm-tag">Jassid MR</span><span class="hm-tag">GDU 1460</span><span class="hm-tag">Planta baja-media</span></div>
+            <div class="hybrid-desc">La opción económica en girasol. Muy estable, bajo riesgo.</div>
             <div class="hybrid-flip-hint"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> Volver</div>
           </div>
         </div>
@@ -953,7 +1145,7 @@ section{padding:5rem 0}
           <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80" alt="Campo dorado al atardecer" loading="lazy">
         </div>
         <div class="blog-body">
-          <div class="blog-date">2026</div>
+          <div class="blog-date">14 · FEB · 2026</div>
           <a href="https://www.todoagro.com.ar/nidera-puso-primera-a-sus-centros-de-entrenamiento-2026/" target="_blank" rel="noopener"><h3 class="blog-title">Nidera lanzó sus Centros de Entrenamiento 2026</h3></a>
           <p class="blog-excerpt">15 jornadas regionales con 74 distribuidores RED.IN. Capacitación técnica en maíz y girasol: ecofisiología, densidad, fecha de siembra y manejo por ambiente.</p>
           <a href="https://www.todoagro.com.ar/nidera-puso-primera-a-sus-centros-de-entrenamiento-2026/" class="blog-link" target="_blank" rel="noopener">Leer nota completa <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
@@ -1095,9 +1287,6 @@ section{padding:5rem 0}
         <a href="https://instagram.com/henderseeds" target="_blank" rel="noopener" aria-label="Instagram">
           <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
         </a>
-        <a href="https://x.com/HenderSeeds" target="_blank" rel="noopener" aria-label="X/Twitter">
-          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </a>
       </div>
     </div>
   </div>
@@ -1107,6 +1296,29 @@ section{padding:5rem 0}
 <a href="https://wa.me/5492314530691?text=Hola%2C%20quiero%20info%20de%20pre-campa%C3%B1a%2026%2F27" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
+
+<!-- ═══════════ BOT SEMILLERO HTML ═══════════ -->
+<div class="bot-widget" style="z-index: 10000;">
+  <button class="bot-btn" id="botToggle" aria-label="Abrir Asistente">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><circle cx="8" cy="10" r="1.5" fill="currentColor" stroke="none"/><circle cx="16" cy="10" r="1.5" fill="currentColor" stroke="none"/><path d="M8 14h8"/></svg>
+  </button>
+  <div class="bot-window" id="botWindow">
+    <div class="bot-header">
+      <div class="bh-info">
+        <h3>SeedBot</h3>
+        <span>Catálogo Oficial Nidera</span>
+      </div>
+      <button class="bot-close" id="botClose">&times;</button>
+    </div>
+    <div class="bot-body" id="botBody">
+      <div class="msg bot">¡Hola! Soy SeedBot informacional. ¿De qué híbrido Nidera buscás datos técnicos? (Ej: "NS 7765", "NS 1227")</div>
+    </div>
+    <div class="bot-input-area">
+      <input type="text" id="botInput" placeholder="Escribí aquí..." onkeypress="if(event.key==='Enter') sendBotMsg()">
+      <button onclick="sendBotMsg()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg></button>
+    </div>
+  </div>
+</div>
 
 <!-- ═══════════ SCRIPTS ═══════════ -->
 <script>
@@ -1343,6 +1555,87 @@ function handleSubmit(e) {
     btn.style.background = '';
     form.reset();
   }, 3000);
+}
+
+// ═══ Theme Toggle ═══
+function toggleTheme() {
+  document.body.classList.toggle('light-mode');
+  const isLight = document.body.classList.contains('light-mode');
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  document.querySelectorAll('.sun-icon').forEach(el => el.style.display = isLight ? 'none' : 'block');
+  document.querySelectorAll('.moon-icon').forEach(el => el.style.display = isLight ? 'block' : 'none');
+}
+if(localStorage.getItem('theme') === 'light') toggleTheme();
+
+// ═══ Bot Semillero Logic ═══
+const botToggle = document.getElementById('botToggle');
+const botClose = document.getElementById('botClose');
+const botWindow = document.getElementById('botWindow');
+const botBody = document.getElementById('botBody');
+const botInput = document.getElementById('botInput');
+
+if(botToggle && botWindow) {
+  botToggle.addEventListener('click', () => botWindow.classList.add('open'));
+  botClose.addEventListener('click', () => botWindow.classList.remove('open'));
+}
+
+const hybridsDB = {
+  "7765": { name: "NS 7765 Viptera3", tech: "VT3P", mr: "117", gdu: "830", pms: "320g", grain: "Colorado Duro", height: "Media-Alta", rinde: "Top", pos: "El buque insignia. Rinde top en todas las condiciones." },
+  "7621": { name: "NS 7621 Viptera3", tech: "VT3P", mr: "116", gdu: "820", pms: "310g", grain: "Colorado Duro", height: "Media", rinde: "Muy Alto", pos: "El versátil. Muy bueno en secano, ciclo un toque más corto." },
+  "7624": { name: "NS 7624 Viptera3 CL", tech: "VT3P + Clearfield", mr: "116", gdu: "815", pms: "305g", grain: "Colorado Duro", height: "Media", rinde: "Alto", pos: "Para lotes con problema de malezas. Clearfield suma flexibilidad herbicida." },
+  "7921": { name: "NS 7921 Viptera3 CL", tech: "VT3P + Clearfield", mr: "119", gdu: "850", pms: "330g", grain: "Colorado Semidentado", height: "Alta", rinde: "Top", pos: "Ciclo largo + Clearfield. Ideal para siembra temprana bajo riego." },
+  "7761": { name: "AX 7761 VT3P", tech: "VT3P", mr: "117", gdu: "825", pms: "315g", grain: "Colorado Duro", height: "Media-Alta", rinde: "Alto", pos: "Alternativa sólida al NS7765, muy buen paquete sanitario." },
+  "7818": { name: "NS 7818 VIP3", tech: "VIP3", mr: "118", gdu: "835", pms: "290g", grain: "Colorado Duro", height: "Media", rinde: "Bueno", pos: "La opción económica. Buena sanidad de planta, precio accesible." },
+  "7852": { name: "NS 7852 Viptera3", tech: "VT3P", mr: "118", gdu: "840", pms: "335g", grain: "Colorado Semidentado", height: "Alta", rinde: "Premium", pos: "El premium. Techo de rinde altísimo, ideal ambientes de alto potencial." },
+  "7925": { name: "NS 7925 Viptera3", tech: "VT3P", mr: "119", gdu: "855", pms: "340g", grain: "Colorado Duro", height: "Alta", rinde: "Top", pos: "Ciclo largo, estabilidad de rinde. Para siembras tempranas." },
+  "1113": { name: "NS 1113 CL", tech: "Clearfield · Linoleico", mr: "110", gdu: "1450", pms: "65g", grain: "Linoleico (47%)", height: "Media", rinde: "Top", pos: "El líder en linoleico. Rinde + aceite + sanidad, todo junto." },
+  "1227": { name: "NS 1227 CL HO", tech: "Clearfield + Alto Oleico", mr: "112", gdu: "1480", pms: "70g", grain: "Alto Oleico (49%)", height: "Media-Alta", rinde: "Top", pos: "Premium alto oleico. Máximo % de aceite, valor industrial superior." },
+  "1115": { name: "NS 1115 CL", tech: "Clearfield", mr: "111", gdu: "1460", pms: "62g", grain: "Linoleico (44%)", height: "Baja-Media", rinde: "Alto", pos: "La opción económica en girasol. Muy estable, bajo riesgo." },
+  "1117": { name: "NS 1117 CL", tech: "Clearfield", mr: "111", gdu: "1470", pms: "68g", grain: "Linoleico (44%)", height: "Media", rinde: "Top", pos: "El linoleico completo. Rinde + sanidad, para quien no necesita oleico." }
+};
+
+function addMsg(text, sender, isHtml = false) {
+  const div = document.createElement('div');
+  div.className = 'msg ' + sender;
+  if(isHtml) div.innerHTML = text;
+  else div.textContent = text;
+  botBody.appendChild(div);
+  botBody.scrollTop = botBody.scrollHeight;
+}
+
+function sendBotMsg() {
+  const val = botInput.value.trim().toLowerCase();
+  if(!val) return;
+  addMsg(botInput.value, 'user');
+  botInput.value = '';
+  
+  setTimeout(() => {
+    if(val.includes('recomen') || val.includes('que siembro') || val.includes('mejor') || val.includes('cual me') || val.includes('asesor') || val.includes('compr') || val.includes('suger')) {
+      addMsg("Soy SeedBot, el asistente digital informativo. Por políticas de la empresa, no realizo recomendaciones agronómicas directas. Para asesoramiento a medida de tu lote, por favor clicá en 'Contactanos' para enviarnos un WhatsApp.", 'bot');
+      return;
+    }
+    let found = false;
+    for(const key in hybridsDB) {
+      if(val.includes(key)) {
+        const h = hybridsDB[key];
+        const html = `
+          <strong>${h.name}</strong><br>
+          <div class="bot-tech-card">
+            <div class="btc-row"><span class="btc-label">Tecnología:</span> <span class="btc-val">${h.tech}</span></div>
+            <div class="btc-row"><span class="btc-label">MR:</span> <span class="btc-val">${h.mr}</span></div>
+            <div class="btc-row"><span class="btc-label">GDU:</span> <span class="btc-val">${h.gdu}</span></div>
+            <div class="btc-row"><span class="btc-label">Tipo:</span> <span class="btc-val">${h.grain}</span></div>
+            <div class="btc-row"><span class="btc-label" style="display:block;margin-bottom:2px;">Posicionamiento:</span> <span class="btc-val" style="font-weight:normal; font-style:italic;">"${h.pos}"</span></div>
+          </div>
+        `;
+        addMsg(html, 'bot', true);
+        found = true;
+      }
+    }
+    if(!found) {
+      addMsg("No pude identificar el híbrido. Probá escribiendo el número, por ejemplo 'NS 7765' o '1113'. Solo devuelvo información técnica del catálogo Nidera.", 'bot');
+    }
+  }, 400);
 }
 </script>
 </body>

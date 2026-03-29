@@ -138,7 +138,7 @@ NS1113CL
   Madurez Relativa: 110
   GDU: 1450
   Peso de mil granos: 65g
-  Tipo: Alto Oleico
+  Tipo: Linoleico
   Contenido de aceite: 47%
   Altura: Media
   Resistencia a Bremia: Resistente
