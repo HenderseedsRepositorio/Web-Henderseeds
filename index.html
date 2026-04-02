@@ -38,9 +38,11 @@
   "sameAs": ["https://instagram.com/henderseeds"]
 }
 </script>
-<!-- Google Analytics 4 — reemplazar G-XXXXXXXXXX con tu Measurement ID -->
+<!-- TODO: Google Analytics 4 — DESACTIVADO hasta tener Measurement ID real.
+     Reemplazar G-XXXXXXXXXX y descomentar las dos líneas de script.
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
+-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -929,6 +931,58 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
           </div>
         </div>
       </div>
+
+      <div class="hybrid reveal d3" onclick="this.classList.toggle('flipped')">
+        <div class="hybrid-inner">
+          <div class="hybrid-front">
+            <div class="hybrid-badge">NUEVO</div>
+            <div class="hybrid-bar"></div>
+            <div class="hybrid-name">NS 7852 Viptera3</div>
+            <div class="hybrid-tech">VT3P · MR 118 · Colorado Semidentado</div>
+            <div class="hybrid-highlight">Rinde Premium</div>
+            <div class="hybrid-highlight-label">Techo altísimo · Ambientes de alto potencial</div>
+            <div class="hybrid-flip-hint"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> Ver ficha técnica</div>
+          </div>
+          <div class="hybrid-back">
+            <div class="hybrid-badge">NUEVO</div>
+            <div class="hybrid-name">NS 7852 Viptera3</div>
+            <div class="hybrid-tech">VT3P · MR 118 · Colorado Semidentado · PMS 335g</div>
+            <div class="hybrid-stats">
+              <div class="hs"><div class="hs-label">Stay Green</div><div class="hs-val">Alto</div></div>
+              <div class="hs"><div class="hs-label">Vuelco</div><div class="hs-val">Bueno</div></div>
+            </div>
+            <div class="hybrid-meta"><span class="hm-tag">Riego (destaca)</span><span class="hm-tag">Secano</span><span class="hm-tag">GDU 840</span><span class="hm-tag">Planta alta</span></div>
+            <div class="hybrid-desc">El premium. Techo de rinde altísimo, ideal ambientes de alto potencial.</div>
+            <div class="hybrid-flip-hint"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> Volver</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hybrid reveal d4" onclick="this.classList.toggle('flipped')">
+        <div class="hybrid-inner">
+          <div class="hybrid-front">
+            <div class="hybrid-badge">NUEVO</div>
+            <div class="hybrid-bar"></div>
+            <div class="hybrid-name">NS 7925 Viptera3</div>
+            <div class="hybrid-tech">VT3P · MR 119 · Colorado Duro</div>
+            <div class="hybrid-highlight">Estabilidad + Ciclo Largo</div>
+            <div class="hybrid-highlight-label">Para siembras tempranas bajo riego</div>
+            <div class="hybrid-flip-hint"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> Ver ficha técnica</div>
+          </div>
+          <div class="hybrid-back">
+            <div class="hybrid-badge">NUEVO</div>
+            <div class="hybrid-name">NS 7925 Viptera3</div>
+            <div class="hybrid-tech">VT3P · MR 119 · Colorado Duro · PMS 340g</div>
+            <div class="hybrid-stats">
+              <div class="hs"><div class="hs-label">Stay Green</div><div class="hs-val">Alto</div></div>
+              <div class="hs"><div class="hs-label">Vuelco</div><div class="hs-val">Bueno</div></div>
+            </div>
+            <div class="hybrid-meta"><span class="hm-tag">Riego (destaca)</span><span class="hm-tag">Secano</span><span class="hm-tag">GDU 855</span><span class="hm-tag">Planta alta</span></div>
+            <div class="hybrid-desc">Ciclo largo, estabilidad de rinde. Para siembras tempranas.</div>
+            <div class="hybrid-flip-hint"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> Volver</div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- GIRASOL -->
@@ -1602,11 +1656,55 @@ const hybridsDB = {
   "1117": { name: "NS 1117 CL", tech: "Clearfield", mr: "111", gdu: "1470", pms: "68g", grain: "Linoleico (44%)", height: "Media", rinde: "Top", pos: "El linoleico completo. Rinde + sanidad, para quien no necesita oleico." }
 };
 
-function addMsg(text, sender, isHtml = false) {
+function addMsg(text, sender) {
   const div = document.createElement('div');
   div.className = 'msg ' + sender;
-  if(isHtml) div.innerHTML = text;
-  else div.textContent = text;
+  div.textContent = text;
+  botBody.appendChild(div);
+  botBody.scrollTop = botBody.scrollHeight;
+}
+
+function addHybridCard(h) {
+  const div = document.createElement('div');
+  div.className = 'msg bot';
+  const name = document.createElement('strong');
+  name.textContent = h.name;
+  div.appendChild(name);
+  div.appendChild(document.createElement('br'));
+  const card = document.createElement('div');
+  card.className = 'bot-tech-card';
+  const fields = [
+    ['Tecnología', h.tech], ['MR', h.mr], ['GDU', h.gdu], ['Tipo', h.grain]
+  ];
+  fields.forEach(([label, val]) => {
+    const row = document.createElement('div');
+    row.className = 'btc-row';
+    const lbl = document.createElement('span');
+    lbl.className = 'btc-label';
+    lbl.textContent = label + ':';
+    const v = document.createElement('span');
+    v.className = 'btc-val';
+    v.textContent = ' ' + val;
+    row.appendChild(lbl);
+    row.appendChild(v);
+    card.appendChild(row);
+  });
+  const posRow = document.createElement('div');
+  posRow.className = 'btc-row';
+  const posLabel = document.createElement('span');
+  posLabel.className = 'btc-label';
+  posLabel.style.display = 'block';
+  posLabel.style.marginBottom = '2px';
+  posLabel.textContent = 'Posicionamiento:';
+  const posVal = document.createElement('span');
+  posVal.className = 'btc-val';
+  posVal.style.fontWeight = 'normal';
+  posVal.style.fontStyle = 'italic';
+  posVal.textContent = '"' + h.pos + '"';
+  posRow.appendChild(posLabel);
+  posRow.appendChild(posVal);
+  card.appendChild(posRow);
+  div.appendChild(card);
   botBody.appendChild(div);
   botBody.scrollTop = botBody.scrollHeight;
 }
@@ -1625,18 +1723,7 @@ function sendBotMsg() {
     let found = false;
     for(const key in hybridsDB) {
       if(val.includes(key)) {
-        const h = hybridsDB[key];
-        const html = `
-          <strong>${h.name}</strong><br>
-          <div class="bot-tech-card">
-            <div class="btc-row"><span class="btc-label">Tecnología:</span> <span class="btc-val">${h.tech}</span></div>
-            <div class="btc-row"><span class="btc-label">MR:</span> <span class="btc-val">${h.mr}</span></div>
-            <div class="btc-row"><span class="btc-label">GDU:</span> <span class="btc-val">${h.gdu}</span></div>
-            <div class="btc-row"><span class="btc-label">Tipo:</span> <span class="btc-val">${h.grain}</span></div>
-            <div class="btc-row"><span class="btc-label" style="display:block;margin-bottom:2px;">Posicionamiento:</span> <span class="btc-val" style="font-weight:normal; font-style:italic;">"${h.pos}"</span></div>
-          </div>
-        `;
-        addMsg(html, 'bot', true);
+        addHybridCard(hybridsDB[key]);
         found = true;
       }
     }
