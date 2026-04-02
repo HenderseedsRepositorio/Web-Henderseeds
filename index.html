@@ -437,27 +437,57 @@ section{padding:5rem 0}
 @media(max-width:768px){
   .nav-links{display:none}
   .hamburger{display:flex}
-  section{padding:4rem 0}
+  section{padding:3.5rem 0}
   .container{padding:0 1.2rem}
   .hero-content{padding:7rem 0 3rem}
   .hero-data-row{grid-template-columns:1fr}
+  .hero-data-card{padding:1rem 1.2rem}
   .descuento-grid{grid-template-columns:repeat(2,1fr)}
   .tech-row{grid-template-columns:1fr 1fr 1fr}
-  .servicios-grid{grid-template-columns:1fr}
+  .servicios-grid{grid-template-columns:1fr 1fr}
   .why-us{grid-template-columns:1fr}
   .blog-grid{grid-template-columns:1fr}
   .portfolio-grid{grid-template-columns:1fr}
   .footer-grid{grid-template-columns:1fr}
   .form-row{grid-template-columns:1fr}
+  .hero-sub{font-size:.95rem}
+  .section-title{font-size:1.8rem}
+  .section-desc{font-size:.9rem}
+  .hybrid{min-height:280px}
+  .hybrid-front .hybrid-name{font-size:1.2rem}
+  .hybrid-back .hybrid-name{font-size:1.1rem}
+  .hybrid-back .hybrid-tech{font-size:.72rem}
+  .hybrid-meta{gap:.3rem}
+  .hybrid-meta .hm-tag{font-size:.62rem;padding:.2rem .5rem}
+  .nidera-card{padding:1.5rem}
+  .nidera-card h3{font-size:1.2rem}
+  .wa-float{width:52px;height:52px;bottom:1rem;right:1rem}
+  .wa-float svg{width:26px;height:26px}
+  .bot-container{bottom:4.5rem;right:1rem}
+  .bot-btn{width:48px;height:48px}
 }
 @media(max-width:480px){
-  .hero h1,.hero .hero-h2{font-size:2.2rem}
-  .hero-buttons{flex-direction:column}
-  .hero-buttons .btn{justify-content:center}
+  .hero h1,.hero .hero-h2{font-size:1.8rem}
+  .hero-eyebrow{font-size:.7rem}
+  .hero-sub{font-size:.85rem}
+  .hero-buttons{flex-direction:column;gap:.6rem}
+  .hero-buttons .btn{justify-content:center;font-size:.85rem;padding:.7rem 1.5rem}
   .hero-arrows{display:none}
-  .hero-data-card .hdc-value{font-size:1.3rem}
-  .hybrid{min-height:260px}
-  .hybrid-front .hybrid-highlight{font-size:1.6rem}
+  .hero-data-card .hdc-value{font-size:1.2rem}
+  .hero-data-card .hdc-label{font-size:.75rem}
+  .hero-data-card .hdc-detail{font-size:.65rem}
+  .section-title{font-size:1.5rem}
+  .servicios-grid{grid-template-columns:1fr}
+  .hybrid{min-height:240px}
+  .hybrid-front .hybrid-highlight{font-size:1.4rem}
+  .hybrid-front .hybrid-highlight-label{font-size:.72rem}
+  .hybrid-flip-hint{font-size:.65rem}
+  .blog-card .blog-title{font-size:1rem}
+  .blog-card .blog-excerpt{font-size:.82rem}
+  .contacto-grid .section-title{font-size:1.4rem}
+  .ticker-item{font-size:.7rem;gap:.5rem}
+  .ticker-track{gap:1.5rem}
+  .bot-window{width:calc(100vw - 2rem);right:0;max-height:70vh}
 }
 
 /* ═══ MODO CLARO (LIGHT MODE) ═══ */
@@ -588,7 +618,7 @@ body.light-mode .bot-tech-card { background: #FFFFFF; border: 1px solid rgba(9,3
 body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
 .btc-val { color: var(--white); font-weight: 600; }
 @media (max-width: 480px) {
-  .bot-window { width: 310px; right: 0; max-height: 400px; }
+  .bot-window { width: calc(100vw - 2rem); right: 0; max-height: 70vh; }
 }
 </style>
 </head>
