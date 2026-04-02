@@ -954,6 +954,56 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
           </div>
         </div>
       </div>
+
+      <div class="hybrid reveal d5" onclick="this.classList.toggle('flipped')">
+        <div class="hybrid-inner">
+          <div class="hybrid-front">
+            <div class="hybrid-bar"></div>
+            <div class="hybrid-name">AX 7761 VT3P</div>
+            <div class="hybrid-tech">VT3P · MR 117 · Semi-dentado</div>
+            <div class="hybrid-highlight">Sanidad + Estabilidad</div>
+            <div class="hybrid-highlight-label">Máxima estabilidad en ambientes bajos</div>
+            <div class="hybrid-flip-hint"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> Ver ficha técnica</div>
+          </div>
+          <div class="hybrid-back">
+            <div class="hybrid-name">AX 7761 VT3P</div>
+            <div class="hybrid-tech">VT3P · MR 117 · Semi-dentado · PMS 300g</div>
+            <div class="hybrid-stats">
+              <div class="hs"><div class="hs-label">Sanidad</div><div class="hs-val">Excelente</div></div>
+              <div class="hs"><div class="hs-label">Vuelco</div><div class="hs-val">Muy Bueno</div></div>
+            </div>
+            <div class="hybrid-meta"><span class="hm-tag">Temprana (+283 kg/ha)</span><span class="hm-tag">GDU 762</span><span class="hm-tag">Roya 1</span><span class="hm-tag">Tizón 2</span></div>
+            <div class="hybrid-desc">Muy buena performance en temprana. Alto potencial en ambientes buenos, máxima estabilidad en bajos. Excelente sanidad.</div>
+            <div class="hybrid-flip-hint"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> Volver</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hybrid reveal d6" onclick="this.classList.toggle('flipped')">
+        <div class="hybrid-inner">
+          <div class="hybrid-front">
+            <div class="hybrid-badge">SILAJE</div>
+            <div class="hybrid-bar"></div>
+            <div class="hybrid-name">AX 7784 VT3P</div>
+            <div class="hybrid-tech">VT3P · MR 117 · Semi-dentado</div>
+            <div class="hybrid-highlight">Silaje / Silo de planta</div>
+            <div class="hybrid-highlight-label">Equilibrio volumen y calidad de materia seca</div>
+            <div class="hybrid-flip-hint"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> Ver ficha técnica</div>
+          </div>
+          <div class="hybrid-back">
+            <div class="hybrid-badge">SILAJE</div>
+            <div class="hybrid-name">AX 7784 VT3P</div>
+            <div class="hybrid-tech">VT3P · MR 117 · Semi-dentado · PMS 347g</div>
+            <div class="hybrid-stats">
+              <div class="hs"><div class="hs-label">Uso</div><div class="hs-val">Silaje</div></div>
+              <div class="hs"><div class="hs-label">Planta</div><div class="hs-val">Alta (240cm)</div></div>
+            </div>
+            <div class="hybrid-meta"><span class="hm-tag">GDU 792</span><span class="hm-tag">Amb. B·MB·MA</span><span class="hm-tag">Excelente relación precio</span></div>
+            <div class="hybrid-desc">Uso específico silaje/silo de planta. Equilibrio volumen y calidad de materia seca. Excelente relación precio-producto.</div>
+            <div class="hybrid-flip-hint"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> Volver</div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- GIRASOL -->
@@ -1621,7 +1671,8 @@ const hybridsDB = {
   "7621": { name: "NS 7621 Viptera3", tech: "VT3P", mr: "116", gdu: "820", pms: "310g", grain: "Colorado Duro", height: "Media", rinde: "Muy Alto", pos: "El versátil. Muy bueno en secano, ciclo un toque más corto." },
   "7624": { name: "NS 7624 Viptera3 CL", tech: "VT3P + Clearfield", mr: "116", gdu: "815", pms: "305g", grain: "Colorado Duro", height: "Media", rinde: "Alto", pos: "Para lotes con problema de malezas. Clearfield suma flexibilidad herbicida." },
   "7921": { name: "NS 7921 Viptera3 CL", tech: "VT3P + Clearfield", mr: "119", gdu: "850", pms: "330g", grain: "Colorado Semidentado", height: "Alta", rinde: "Top", pos: "Ciclo largo + Clearfield. Ideal para siembra temprana bajo riego." },
-  "7761": { name: "AX 7761 VT3P", tech: "VT3P", mr: "117", gdu: "825", pms: "315g", grain: "Colorado Duro", height: "Media-Alta", rinde: "Alto", pos: "Alternativa sólida al NS7765, muy buen paquete sanitario." },
+  "7761": { name: "AX 7761 VT3P", tech: "VT3P", mr: "117", gdu: "762", pms: "300g", grain: "Semi-dentado", height: "215cm", rinde: "Alto en temprana", pos: "Muy buena performance en temprana. Máxima estabilidad en bajos. Excelente sanidad." },
+  "7784": { name: "AX 7784 VT3P", tech: "VT3P", mr: "117", gdu: "792", pms: "347g", grain: "Semi-dentado", height: "240cm", rinde: "Silaje", pos: "Uso específico silaje/silo de planta. Equilibrio volumen y calidad de materia seca." },
   "7818": { name: "NS 7818 VIP3", tech: "VIP3", mr: "118", gdu: "835", pms: "290g", grain: "Colorado Duro", height: "Media", rinde: "Bueno", pos: "La opción económica. Buena sanidad de planta, precio accesible." },
   "7852": { name: "NS 7852 Viptera3", tech: "VT3P", mr: "118", gdu: "840", pms: "335g", grain: "Colorado Semidentado", height: "Alta", rinde: "Premium", pos: "El premium. Techo de rinde altísimo, ideal ambientes de alto potencial." },
   "7925": { name: "NS 7925 Viptera3", tech: "VT3P", mr: "119", gdu: "855", pms: "340g", grain: "Colorado Duro", height: "Alta", rinde: "Top", pos: "Ciclo largo, estabilidad de rinde. Para siembras tempranas." },
