@@ -20,7 +20,7 @@ npx serve .          # Dev server local (puerto 3000)
 
 - **Repo:** github.com/HenderseedsRepositorio/Web-Henderseeds
 - **Hosting:** Vercel — auto-deploy on push to `main`
-- **URL:** https://webhendeseeds.vercel.app/
+- **URL:** https://henderseeds.com (Vercel, dominio custom via GoDaddy DNS)
 
 ## Architecture (index.html layout)
 
