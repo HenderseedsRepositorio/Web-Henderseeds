@@ -227,6 +227,8 @@ section{padding:5rem 0}
 .nidera-card{background:linear-gradient(135deg,rgba(245,166,35,.08),rgba(245,158,11,.02));border:1px solid rgba(245,166,35,.2);border-radius:var(--radius-lg);padding:2.2rem;text-align:center;margin-bottom:1.2rem;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(245,166,35,.06)}
 .nidera-card::before{content:'';position:absolute;top:-50%;right:-50%;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(245,166,35,.08) 0%,transparent 70%);pointer-events:none}
 .nidera-card::after{content:'';position:absolute;bottom:-30%;left:-30%;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(245,158,11,.06) 0%,transparent 70%);pointer-events:none}
+.nidera-card-header{display:flex;align-items:center;justify-content:center;gap:.8rem;margin-bottom:1rem}
+.nidera-badge{font-family:var(--mono);font-size:.7rem;padding:.3rem .7rem;border:1px solid var(--orange);border-radius:4px;color:var(--orange);letter-spacing:.08em;font-weight:500}
 .nidera-card h3{font-family:var(--arch);font-size:1.4rem;margin-bottom:.6rem}
 .nidera-card p{color:rgba(255,255,255,.5);font-size:.9rem;line-height:1.65}
 .zone-pills{display:flex;gap:.5rem;justify-content:center;margin-top:1.2rem;flex-wrap:wrap}
@@ -239,9 +241,10 @@ section{padding:5rem 0}
 .tech-item span{font-size:.78rem;font-weight:600;color:rgba(255,255,255,.6)}
 
 /* Why us checklist */
-.why-us{display:flex;flex-direction:column;gap:.8rem;margin-top:2rem}
-.why-item{display:flex;align-items:center;gap:.8rem;font-size:.95rem;color:rgba(255,255,255,.7)}
-.why-item svg{flex-shrink:0}
+.why-us{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:2rem}
+.why-item{display:flex;align-items:flex-start;gap:.7rem;font-size:.88rem;color:rgba(255,255,255,.7);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius-sm);padding:.8rem 1rem;transition:border-color .25s var(--ease)}
+.why-item:hover{border-color:rgba(245,166,35,.2)}
+.why-item svg{flex-shrink:0;margin-top:2px}
 
 /* Descuentos card */
 .descuentos-card{background:linear-gradient(135deg,rgba(245,166,35,.06),rgba(245,158,11,.02));border:1px solid rgba(245,166,35,.15);border-radius:var(--radius-md);padding:1.5rem;margin-top:1.5rem}
@@ -425,6 +428,7 @@ section{padding:5rem 0}
   .hero-text-slides{min-height:auto}
   .hero-arrows{bottom:1.5rem;right:1rem}
   .nosotros-grid{grid-template-columns:1fr;gap:3rem}
+  .why-us{grid-template-columns:1fr 1fr}
   .servicios-grid{grid-template-columns:1fr 1fr 1fr}
   .blog-grid{grid-template-columns:1fr 1fr}
   .contacto-grid{grid-template-columns:1fr;gap:3rem}
@@ -440,7 +444,7 @@ section{padding:5rem 0}
   .descuento-grid{grid-template-columns:repeat(2,1fr)}
   .tech-row{grid-template-columns:1fr 1fr 1fr}
   .servicios-grid{grid-template-columns:1fr}
-
+  .why-us{grid-template-columns:1fr}
   .blog-grid{grid-template-columns:1fr}
   .portfolio-grid{grid-template-columns:1fr}
   .footer-grid{grid-template-columns:1fr}
@@ -790,9 +794,12 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
           <div class="team-photo-caption">Recorrida de ensayos · Henderson, Buenos Aires</div>
         </div>
         <div class="nidera-card reveal d1">
-          <img src="assets/logos/nidera.png" alt="Nidera Semillas" style="height:40px;margin:0 auto 1rem;display:block" width="94" height="40">
-          <h3>Distribuidor Exclusivo RED.IN</h3>
-          <p>Nidera Semillas confía en nosotros para llevar su genética a los productores de la zona.</p>
+          <div class="nidera-card-header">
+            <img src="assets/logos/nidera.png" alt="Nidera Semillas" style="height:34px;width:auto;display:block">
+            <span class="nidera-badge">RED.IN</span>
+          </div>
+          <h3>Distribuidor Exclusivo</h3>
+          <p>Nidera Semillas nos eligió para llevar su genética a los productores de la zona.</p>
           <div class="zone-pills">
             <span class="zone-pill">Henderson</span>
             <span class="zone-pill">Bolívar</span>
