@@ -1349,6 +1349,10 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
 <script>
 // ═══ Loader ═══
 window.addEventListener('load', () => {
+  if (window.location.hash) {
+    history.replaceState(null, '', window.location.pathname);
+    window.scrollTo(0, 0);
+  }
   setTimeout(() => document.getElementById('loader').classList.add('hide'), 400);
 });
 
