@@ -1811,5 +1811,50 @@ function sendBotMsg() {
   }, 400);
 }
 </script>
+
+<!-- ═══ Vercel Web Analytics + Speed Insights ═══ -->
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+
+<!-- ═══ Conversion Tracking ═══ -->
+<script>
+// Track WhatsApp clicks
+document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
+  link.addEventListener('click', () => {
+    if(typeof gtag === 'function') gtag('event', 'whatsapp_click', {event_category: 'conversion', event_label: link.closest('section')?.id || 'hero'});
+    if(typeof va === 'function') va('event', {name: 'whatsapp_click', data: {section: link.closest('section')?.id || 'hero'}});
+  });
+});
+
+// Track form submission
+const cForm = document.getElementById('contactForm');
+if(cForm) cForm.addEventListener('submit', () => {
+  if(typeof gtag === 'function') gtag('event', 'form_submit', {event_category: 'conversion', event_label: 'contacto'});
+  if(typeof va === 'function') va('event', {name: 'form_submit'});
+});
+
+// Track portfolio tab switches
+document.querySelectorAll('.ptab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const type = tab.textContent.trim();
+    if(typeof gtag === 'function') gtag('event', 'portfolio_view', {event_category: 'engagement', event_label: type});
+  });
+});
+
+// Track bot usage
+const botToggleEl = document.getElementById('botToggle');
+if(botToggleEl) botToggleEl.addEventListener('click', () => {
+  if(typeof gtag === 'function') gtag('event', 'bot_open', {event_category: 'engagement'});
+  if(typeof va === 'function') va('event', {name: 'bot_open'});
+});
+
+// Track hybrid card flips
+document.querySelectorAll('.hybrid').forEach(card => {
+  card.addEventListener('click', () => {
+    const name = card.querySelector('.hybrid-name')?.textContent || '';
+    if(typeof gtag === 'function') gtag('event', 'hybrid_view', {event_category: 'engagement', event_label: name});
+  });
+});
+</script>
 </body>
 </html>
