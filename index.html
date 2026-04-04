@@ -15,7 +15,10 @@
 <meta property="og:image:height" content="630">
 <link rel="icon" type="image/png" href="assets/logos/henderseeds.png">
 <link rel="apple-touch-icon" href="assets/logos/henderseeds.png">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="HenderSeeds">
 <link rel="canonical" href="https://henderseeds.com">
+<link rel="preload" as="image" href="https://images.pexels.com/photos/1382102/pexels-photo-1382102.jpeg?auto=compress&cs=tinysrgb&w=1920">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -92,6 +95,7 @@ body{font-family:var(--sans);background:var(--navy-dark);color:var(--white);over
 img{max-width:100%;display:block}
 a{text-decoration:none;color:inherit}
 button{font-family:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--orange);outline-offset:2px;border-radius:4px}
 
 /* ═══ UTILITY ═══ */
 .container{max-width:1200px;margin:0 auto;padding:0 2rem}
@@ -111,13 +115,13 @@ button{font-family:inherit;cursor:pointer}
 .nav-cta{background:linear-gradient(135deg,var(--orange),#E8941A)!important;color:var(--navy-dark)!important;padding:.6rem 1.5rem;border-radius:99px;font-weight:700;font-size:.85rem;letter-spacing:.02em;transition:all .25s var(--ease);box-shadow:0 0 15px rgba(245,166,35,.2)}
 .nav-cta:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(245,166,35,.45)}
 .nav-cta::after{display:none!important}
-.hamburger{display:none;background:none;border:none;padding:6px;flex-direction:column;gap:5px}
+.hamburger{display:none;background:none;border:none;padding:12px 10px;flex-direction:column;gap:5px;min-width:44px;min-height:44px;align-items:center;justify-content:center}
 .hamburger span{display:block;width:26px;height:2px;background:var(--white);border-radius:2px;transition:transform .3s,opacity .3s}
 .mobile-menu{position:fixed;inset:0;background:rgba(9,30,62,.98);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;backdrop-filter:blur(20px);opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s}
 .mobile-menu.open{opacity:1;visibility:visible}
 .mobile-menu a{color:var(--white);font-family:var(--arch);font-size:1.5rem;letter-spacing:.02em;transition:color .2s}
 .mobile-menu a:hover{color:var(--orange)}
-.mobile-close{position:absolute;top:1.2rem;right:1.5rem;background:none;border:none;color:var(--white);font-size:2.5rem;cursor:pointer;line-height:1}
+.mobile-close{position:absolute;top:1.2rem;right:1.5rem;background:none;border:none;color:var(--white);font-size:2.5rem;cursor:pointer;line-height:1;width:44px;height:44px;display:flex;align-items:center;justify-content:center}
 
 /* ═══ HERO SLIDER ═══ */
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:var(--navy-dark)}
@@ -160,12 +164,12 @@ button{font-family:inherit;cursor:pointer}
 .hero h1,.hero .hero-h2{font-family:var(--arch);font-size:clamp(2.6rem,5.5vw,4.2rem);line-height:1.05;margin-bottom:1.5rem}
 .hero h1 .text-orange,.hero .hero-h2 .text-orange{color:var(--orange)}
 .hero h1 .text-white,.hero .hero-h2 .text-white{color:var(--white)}
-.hero-sub{font-size:1.15rem;color:rgba(255,255,255,.6);line-height:1.75;max-width:520px;margin-bottom:2.5rem}
+.hero-sub{font-size:1.15rem;color:rgba(255,255,255,.7);line-height:1.75;max-width:520px;margin-bottom:2.5rem}
 .hero-buttons{display:flex;gap:1rem;flex-wrap:wrap}
 
 /* Slide indicators */
 .hero-indicators{display:flex;gap:.6rem;margin-top:2rem}
-.hero-ind{width:40px;height:4px;border-radius:2px;background:rgba(255,255,255,.2);border:none;cursor:pointer;transition:all .3s var(--ease);padding:0}
+.hero-ind{width:40px;height:4px;border-radius:2px;background:rgba(255,255,255,.2);border:none;cursor:pointer;transition:all .3s var(--ease);padding:20px 0;background-clip:content-box}
 .hero-ind.active{background:var(--orange);width:60px}
 .hero-ind:hover:not(.active){background:rgba(255,255,255,.4)}
 
@@ -204,7 +208,7 @@ section{padding:5rem 0}
 .eyebrow{font-family:var(--mono);font-size:.78rem;color:var(--orange);text-transform:uppercase;letter-spacing:.14em;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
 .eyebrow svg{width:16px;height:16px;stroke:var(--orange)}
 .section-title{font-family:var(--arch);font-size:clamp(1.9rem,3.8vw,2.8rem);line-height:1.12;margin-bottom:1rem}
-.section-desc{color:rgba(255,255,255,.5);font-size:1.05rem;line-height:1.75;max-width:600px}
+.section-desc{color:rgba(255,255,255,.65);font-size:1.05rem;line-height:1.75;max-width:600px}
 
 /* Light sections */
 .section-light{background:var(--gray-50);color:var(--gray-800)}
@@ -230,15 +234,10 @@ section{padding:5rem 0}
 .nidera-card-header{display:flex;align-items:center;justify-content:center;gap:.8rem;margin-bottom:1rem}
 .nidera-badge{font-family:var(--mono);font-size:.7rem;padding:.3rem .7rem;border:1px solid var(--orange);border-radius:4px;color:var(--orange);letter-spacing:.08em;font-weight:500}
 .nidera-card h3{font-family:var(--arch);font-size:1.4rem;margin-bottom:.6rem}
-.nidera-card p{color:rgba(255,255,255,.5);font-size:.9rem;line-height:1.65}
+.nidera-card p{color:rgba(255,255,255,.65);font-size:.9rem;line-height:1.65}
 .zone-pills{display:flex;gap:.5rem;justify-content:center;margin-top:1.2rem;flex-wrap:wrap}
 .zone-pill{font-family:var(--mono);font-size:.72rem;padding:.4rem 1rem;border:1px solid rgba(245,166,35,.25);border-radius:99px;color:var(--orange);letter-spacing:.05em;background:rgba(245,166,35,.06);transition:all .25s var(--ease)}
 .zone-pill:hover{background:rgba(245,166,35,.12);border-color:rgba(245,166,35,.4);box-shadow:0 0 15px rgba(245,166,35,.1)}
-.tech-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem}
-.tech-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius-sm);padding:1rem;text-align:center;transition:all .3s var(--ease)}
-.tech-item:hover{border-color:rgba(245,166,35,.2);background:rgba(245,166,35,.04);transform:translateY(-2px);box-shadow:0 4px 15px rgba(0,0,0,.1)}
-.tech-item svg{width:28px;height:28px;stroke:var(--orange);fill:none;stroke-width:1.5;margin:0 auto .5rem}
-.tech-item span{font-size:.78rem;font-weight:600;color:rgba(255,255,255,.6)}
 
 /* Why us checklist */
 .why-us{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:2rem}
@@ -247,30 +246,10 @@ section{padding:5rem 0}
 .why-item svg{flex-shrink:0;margin-top:2px}
 
 /* Descuentos card */
-.descuentos-card{background:linear-gradient(135deg,rgba(245,166,35,.06),rgba(245,158,11,.02));border:1px solid rgba(245,166,35,.15);border-radius:var(--radius-md);padding:1.5rem;margin-top:1.5rem}
-.descuentos-card h4{font-family:var(--arch);font-size:.9rem;margin-bottom:1rem;color:var(--orange)}
-.descuento-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:.8rem}
-.descuento-item{text-align:center;padding:.6rem .4rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius-sm)}
-.descuento-pct{display:block;font-family:var(--arch);font-size:1.3rem;color:var(--orange);line-height:1.2}
-.descuento-label{font-family:var(--mono);font-size:.65rem;color:rgba(255,255,255,.4);letter-spacing:.04em}
-.descuento-note{font-family:var(--mono);font-size:.7rem;color:rgba(255,255,255,.35);letter-spacing:.03em}
 
 /* Testimonios */
-.testimonios-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius-lg);padding:1.5rem;margin-top:1.2rem;display:flex;flex-direction:column;gap:1.2rem}
-.testimonio{position:relative;padding-left:1rem;border-left:2px solid rgba(245,166,35,.3)}
-.testimonio-text{font-size:.88rem;color:rgba(255,255,255,.6);line-height:1.65;font-style:italic}
-.testimonio-author{font-family:var(--mono);font-size:.72rem;color:var(--orange);margin-top:.3rem;display:block}
 
 /* Híbridos resumen card */
-.hibridos-resumen{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius-lg);padding:1.8rem;margin-top:1.2rem}
-.hibridos-resumen h4{font-family:var(--arch);font-size:1rem;margin-bottom:1.2rem;color:var(--white)}
-.hibridos-resumen-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem}
-.hr-item{display:flex;flex-direction:column;gap:.25rem;padding:1rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius-sm)}
-.hr-crop{font-family:var(--arch);font-size:.9rem}
-.hr-stat{font-size:.82rem;color:rgba(255,255,255,.7);font-weight:600}
-.hr-detail{font-family:var(--mono);font-size:.7rem;color:rgba(255,255,255,.35)}
-.hr-tags{display:flex;flex-wrap:wrap;gap:.4rem}
-.hr-tags span{font-family:var(--mono);font-size:.68rem;padding:.3rem .8rem;border:1px solid rgba(255,255,255,.1);border-radius:99px;color:rgba(255,255,255,.45);letter-spacing:.03em}
 
 /* ═══ PRODUCTOS / PORTFOLIO ═══ */
 .portfolio{background:var(--navy-dark);position:relative}
@@ -334,7 +313,7 @@ section{padding:5rem 0}
 .servicio:hover .servicio-icon{background:linear-gradient(135deg,rgba(245,166,35,.18),rgba(245,158,11,.08));border-color:rgba(245,166,35,.3);box-shadow:0 0 30px rgba(245,166,35,.12);transform:translateY(-2px) scale(1.05)}
 .servicio-icon svg{width:28px;height:28px;stroke:var(--orange);fill:none;stroke-width:1.4}
 .servicio h3{font-family:var(--arch);font-size:1.05rem;margin-bottom:.5rem}
-.servicio p{font-size:.88rem;color:rgba(255,255,255,.4);line-height:1.65}
+.servicio p{font-size:.88rem;color:rgba(255,255,255,.6);line-height:1.65}
 
 /* ═══ BLOG ═══ */
 .blog{background:var(--navy)}
@@ -350,7 +329,7 @@ section{padding:5rem 0}
 .blog-body{padding:1.5rem}
 .blog-date{font-family:var(--mono);font-size:.7rem;color:rgba(255,255,255,.3);letter-spacing:.06em;margin-bottom:.5rem}
 .blog-title{font-family:var(--arch);font-size:1.05rem;line-height:1.3;margin-bottom:.6rem}
-.blog-excerpt{font-size:.85rem;color:rgba(255,255,255,.45);line-height:1.65;margin-bottom:1rem}
+.blog-excerpt{font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.65;margin-bottom:1rem}
 .blog-link{font-size:.85rem;color:var(--orange);font-weight:600;display:inline-flex;align-items:center;gap:.4rem;transition:gap .25s}
 .blog-link:hover{gap:.7rem}
 .blog-link svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
@@ -422,6 +401,7 @@ section{padding:5rem 0}
 .reveal.d3{transition-delay:.3s}
 .reveal.d4{transition-delay:.4s}
 .reveal.d5{transition-delay:.5s}
+.reveal.d6{transition-delay:.6s}
 
 /* ═══ RESPONSIVE ═══ */
 @media(max-width:1024px){
@@ -447,8 +427,6 @@ section{padding:5rem 0}
   .hero-content{padding:7rem 0 3rem}
   .hero-data-row{grid-template-columns:1fr}
   .hero-data-card{padding:1rem 1.2rem}
-  .descuento-grid{grid-template-columns:repeat(2,1fr)}
-  .tech-row{grid-template-columns:1fr 1fr 1fr}
   .servicios-grid{grid-template-columns:1fr 1fr}
   .why-us{grid-template-columns:1fr}
   .why-item{font-size:1rem;padding:1rem 1.2rem}
@@ -479,8 +457,14 @@ section{padding:5rem 0}
   .servicio p{font-size:.95rem}
   .wa-float{width:56px;height:56px;bottom:1rem;right:1rem}
   .wa-float svg{width:28px;height:28px}
-  .bot-container{bottom:5rem;right:1rem}
+  .bot-widget{bottom:5rem;right:1rem}
   .bot-btn{width:50px;height:50px}
+  .hs-label{font-size:.75rem}
+  .hs-val{font-size:.85rem}
+  .hm-tag{font-size:.75rem;padding:.3rem .6rem}
+  .hybrid-badge,.blog-tag{font-size:.75rem}
+  .nidera-badge{font-size:.8rem}
+  .portfolio-note{font-size:.8rem}
   .ticker-item{font-size:.85rem}
 }
 @media(max-width:480px){
@@ -549,18 +533,6 @@ body.light-mode .section-desc { color: rgba(9, 30, 62, 0.6); }
 body.light-mode .why-item { color: rgba(9, 30, 62, 0.8); }
 body.light-mode .team-photo-caption { background: linear-gradient(transparent, rgba(255, 255, 255, 0.9)); color: var(--white); }
 body.light-mode .nidera-card p { color: rgba(9, 30, 62, 0.7); }
-body.light-mode .tech-item { background: rgba(9, 30, 62, 0.03); border-color: rgba(9, 30, 62, 0.06); }
-body.light-mode .tech-item span { color: rgba(9, 30, 62, 0.7); }
-body.light-mode .descuento-item { background: rgba(9, 30, 62, 0.03); border-color: rgba(9, 30, 62, 0.06); }
-body.light-mode .descuento-label { color: rgba(9, 30, 62, 0.6); }
-body.light-mode .descuento-note { color: rgba(9, 30, 62, 0.5); }
-body.light-mode .testimonios-card { background: rgba(9, 30, 62, 0.02); border-color: rgba(9, 30, 62, 0.08); }
-body.light-mode .testimonio-text { color: rgba(9, 30, 62, 0.7); }
-body.light-mode .hibridos-resumen { background: rgba(9, 30, 62, 0.02); border-color: rgba(9, 30, 62, 0.08); }
-body.light-mode .hr-item { background: rgba(9, 30, 62, 0.03); border-color: rgba(9, 30, 62, 0.06); }
-body.light-mode .hr-stat { color: rgba(9, 30, 62, 0.8); }
-body.light-mode .hr-detail { color: rgba(9, 30, 62, 0.5); }
-body.light-mode .hr-tags span { color: rgba(9, 30, 62, 0.6); border-color: rgba(9, 30, 62, 0.15); }
 body.light-mode .ptab { color: rgba(9, 30, 62, 0.6); border-color: rgba(9, 30, 62, 0.15); }
 body.light-mode .ptab:hover:not(.active) { color: rgba(9, 30, 62, 0.9); }
 body.light-mode .hybrid-front, body.light-mode .hybrid-back { background: var(--navy); border-color: rgba(9, 30, 62, 0.1); box-shadow: var(--shadow-sm); }
@@ -883,7 +855,7 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
 
     <!-- MAÍZ -->
     <div class="portfolio-grid maiz-grid visible" id="grid-maiz">
-      <div class="hybrid reveal" onclick="this.classList.toggle('flipped')">
+      <div class="hybrid reveal" tabindex="0" role="button" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' ')this.classList.toggle('flipped')">
         <div class="hybrid-inner">
           <div class="hybrid-front">
             <div class="hybrid-bar"></div>
@@ -907,7 +879,7 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
         </div>
       </div>
 
-      <div class="hybrid reveal d1" onclick="this.classList.toggle('flipped')">
+      <div class="hybrid reveal d1" tabindex="0" role="button" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' ')this.classList.toggle('flipped')">
         <div class="hybrid-inner">
           <div class="hybrid-front">
             <div class="hybrid-bar"></div>
@@ -931,7 +903,7 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
         </div>
       </div>
 
-      <div class="hybrid reveal d2" onclick="this.classList.toggle('flipped')">
+      <div class="hybrid reveal d2" tabindex="0" role="button" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' ')this.classList.toggle('flipped')">
         <div class="hybrid-inner">
           <div class="hybrid-front">
             <div class="hybrid-bar"></div>
@@ -955,7 +927,57 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
         </div>
       </div>
 
-      <div class="hybrid reveal d3" onclick="this.classList.toggle('flipped')">
+      <div class="hybrid reveal d3" tabindex="0" role="button" aria-label="Ver ficha de NS 7621" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' ')this.classList.toggle('flipped')">
+        <div class="hybrid-inner">
+          <div class="hybrid-front">
+            <div class="hybrid-bar"></div>
+            <div class="hybrid-name">NS 7621 Viptera3</div>
+            <div class="hybrid-tech">VT3P · MR 117 · Semi-dentado</div>
+            <div class="hybrid-highlight">Top Temprana</div>
+            <div class="hybrid-highlight-label">Máxima performance en ambientes medio-alto</div>
+            <div class="hybrid-flip-hint"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> Ver ficha técnica</div>
+          </div>
+          <div class="hybrid-back">
+            <div class="hybrid-name">NS 7621 Viptera3</div>
+            <div class="hybrid-tech">VT3P · MR 117 · Semi-dentado · PMS 286g</div>
+            <div class="hybrid-stats">
+              <div class="hs"><div class="hs-label">Stay Green</div><div class="hs-val">Alto</div></div>
+              <div class="hs"><div class="hs-label">Vuelco</div><div class="hs-val">Excelente</div></div>
+            </div>
+            <div class="hybrid-meta"><span class="hm-tag">Temprana (+290 kg/ha)</span><span class="hm-tag">GDU 789</span><span class="hm-tag">Amb. MA·A</span><span class="hm-tag">No tardía</span></div>
+            <div class="hybrid-desc">Máxima performance en temprana en ambientes de medio y alto potencial. No usar en tardía.</div>
+            <div class="hybrid-flip-hint"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> Volver</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hybrid reveal d4" tabindex="0" role="button" aria-label="Ver ficha de NS 7818" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' ')this.classList.toggle('flipped')">
+        <div class="hybrid-inner">
+          <div class="hybrid-front">
+            <div class="hybrid-badge">ECONÓMICO</div>
+            <div class="hybrid-bar"></div>
+            <div class="hybrid-name">NS 7818 VIP3</div>
+            <div class="hybrid-tech">VIP3 · MR 118 · Semi-dentado</div>
+            <div class="hybrid-highlight">Precio accesible</div>
+            <div class="hybrid-highlight-label">Buena sanidad · Tolerancia a glufosinato</div>
+            <div class="hybrid-flip-hint"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> Ver ficha técnica</div>
+          </div>
+          <div class="hybrid-back">
+            <div class="hybrid-badge">ECONÓMICO</div>
+            <div class="hybrid-name">NS 7818 VIP3</div>
+            <div class="hybrid-tech">VIP3 · MR 118 · Semi-dentado · PMS 313g</div>
+            <div class="hybrid-stats">
+              <div class="hs"><div class="hs-label">Sanidad</div><div class="hs-val">Muy Buena</div></div>
+              <div class="hs"><div class="hs-label">Vuelco</div><div class="hs-val">Excelente</div></div>
+            </div>
+            <div class="hybrid-meta"><span class="hm-tag">GDU 784</span><span class="hm-tag">Roya 1</span><span class="hm-tag">Tizón 2</span><span class="hm-tag">Glufosinato</span></div>
+            <div class="hybrid-desc">Opción económica. VIP3 con tolerancia a glufosinato. Posicionar por precio y sanidad, no por rinde.</div>
+            <div class="hybrid-flip-hint"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> Volver</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hybrid reveal d5" tabindex="0" role="button" aria-label="Ver ficha de NS 7852" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' ')this.classList.toggle('flipped')">
         <div class="hybrid-inner">
           <div class="hybrid-front">
             <div class="hybrid-badge">NUEVO</div>
@@ -1007,19 +1029,19 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
         </div>
       </div>
 
-      <div class="hybrid reveal d5" onclick="this.classList.toggle('flipped')">
+      <div class="hybrid reveal d5" tabindex="0" role="button" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' ')this.classList.toggle('flipped')">
         <div class="hybrid-inner">
           <div class="hybrid-front">
             <div class="hybrid-bar"></div>
             <div class="hybrid-name">AX 7761 VT3P</div>
-            <div class="hybrid-tech">VT3P · MR 117 · Semi-dentado</div>
+            <div class="hybrid-tech">VT3P · MR 117 · Colorado Duro</div>
             <div class="hybrid-highlight">Sanidad + Estabilidad</div>
             <div class="hybrid-highlight-label">Máxima estabilidad en ambientes bajos</div>
             <div class="hybrid-flip-hint"><svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> Ver ficha técnica</div>
           </div>
           <div class="hybrid-back">
             <div class="hybrid-name">AX 7761 VT3P</div>
-            <div class="hybrid-tech">VT3P · MR 117 · Semi-dentado · PMS 300g</div>
+            <div class="hybrid-tech">VT3P · MR 117 · Colorado Duro · PMS 300g</div>
             <div class="hybrid-stats">
               <div class="hs"><div class="hs-label">Sanidad</div><div class="hs-val">Excelente</div></div>
               <div class="hs"><div class="hs-label">Vuelco</div><div class="hs-val">Muy Bueno</div></div>
@@ -1031,7 +1053,7 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
         </div>
       </div>
 
-      <div class="hybrid reveal d6" onclick="this.classList.toggle('flipped')">
+      <div class="hybrid reveal d6" tabindex="0" role="button" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' ')this.classList.toggle('flipped')">
         <div class="hybrid-inner">
           <div class="hybrid-front">
             <div class="hybrid-badge">SILAJE</div>
@@ -1060,7 +1082,7 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
 
     <!-- GIRASOL -->
     <div class="portfolio-grid girasol-grid" id="grid-girasol">
-      <div class="hybrid reveal" onclick="this.classList.toggle('flipped')">
+      <div class="hybrid reveal" tabindex="0" role="button" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' ')this.classList.toggle('flipped')">
         <div class="hybrid-inner">
           <div class="hybrid-front">
             <div class="hybrid-bar"></div>
@@ -1084,7 +1106,7 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
         </div>
       </div>
 
-      <div class="hybrid reveal d1" onclick="this.classList.toggle('flipped')">
+      <div class="hybrid reveal d1" tabindex="0" role="button" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' ')this.classList.toggle('flipped')">
         <div class="hybrid-inner">
           <div class="hybrid-front">
             <div class="hybrid-badge">PREMIUM</div>
@@ -1110,7 +1132,7 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
         </div>
       </div>
 
-      <div class="hybrid reveal d2" onclick="this.classList.toggle('flipped')">
+      <div class="hybrid reveal d2" tabindex="0" role="button" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' ')this.classList.toggle('flipped')">
         <div class="hybrid-inner">
           <div class="hybrid-front">
             <div class="hybrid-bar"></div>
@@ -1249,7 +1271,7 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
         </div>
         <div class="blog-body">
           <div class="blog-date">03 · NOV · 2025</div>
-          <a href="https://mundoagrocba.com.ar/hibrido-de-nidera-se-hizo-fuerte-en-un-ensayo-historico-en-la-zona-nucleo-mostrando-resistencia-a-sequia/" target="_blank" rel="noopener"><h3 class="blog-title">NS 7765: se hizo fuerte en un ensayo histórico en Zona Núcleo</h3></a>
+          <h3 class="blog-title"><a href="https://mundoagrocba.com.ar/hibrido-de-nidera-se-hizo-fuerte-en-un-ensayo-historico-en-la-zona-nucleo-mostrando-resistencia-a-sequia/" target="_blank" rel="noopener">NS 7765: se hizo fuerte en un ensayo histórico en Zona Núcleo</a></h3>
           <p class="blog-excerpt">El NS 7765 Viptera3 logró 9.960 kg/ha superando al testigo en un 7%, destacándose por su estabilidad bajo sequía severa entre 34 híbridos evaluados.</p>
           <a href="https://mundoagrocba.com.ar/hibrido-de-nidera-se-hizo-fuerte-en-un-ensayo-historico-en-la-zona-nucleo-mostrando-resistencia-a-sequia/" class="blog-link" target="_blank" rel="noopener">Leer nota completa <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
@@ -1261,7 +1283,7 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
         </div>
         <div class="blog-body">
           <div class="blog-date">18 · MAR · 2026</div>
-          <a href="https://www.expoagro.com.ar/cinco-lanzamientos-y-15-materiales-que-marcan-el-rumbo-del-manejo-agricola/" target="_blank" rel="noopener"><h3 class="blog-title">Cinco lanzamientos y 15 materiales que marcan el rumbo</h3></a>
+          <h3 class="blog-title"><a href="https://www.expoagro.com.ar/cinco-lanzamientos-y-15-materiales-que-marcan-el-rumbo-del-manejo-agricola/" target="_blank" rel="noopener">Cinco lanzamientos y 15 materiales que marcan el rumbo</a></h3>
           <p class="blog-excerpt">Nidera llegó a Expoagro 2026 con cinco lanzamientos en maíz, girasol y soja. Entre ellos el NS 1117 CL, uno de los materiales más competitivos del portfolio.</p>
           <a href="https://www.expoagro.com.ar/cinco-lanzamientos-y-15-materiales-que-marcan-el-rumbo-del-manejo-agricola/" class="blog-link" target="_blank" rel="noopener">Leer nota completa <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
@@ -1273,7 +1295,7 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
         </div>
         <div class="blog-body">
           <div class="blog-date">14 · FEB · 2026</div>
-          <a href="https://www.todoagro.com.ar/nidera-puso-primera-a-sus-centros-de-entrenamiento-2026/" target="_blank" rel="noopener"><h3 class="blog-title">Nidera lanzó sus Centros de Entrenamiento 2026</h3></a>
+          <h3 class="blog-title"><a href="https://www.todoagro.com.ar/nidera-puso-primera-a-sus-centros-de-entrenamiento-2026/" target="_blank" rel="noopener">Nidera lanzó sus Centros de Entrenamiento 2026</a></h3>
           <p class="blog-excerpt">15 jornadas regionales con 74 distribuidores RED.IN. Capacitación técnica en maíz y girasol: ecofisiología, densidad, fecha de siembra y manejo por ambiente.</p>
           <a href="https://www.todoagro.com.ar/nidera-puso-primera-a-sus-centros-de-entrenamiento-2026/" class="blog-link" target="_blank" rel="noopener">Leer nota completa <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
@@ -1303,7 +1325,7 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
             </div>
             <div class="ci-detail">
               <h4>WhatsApp</h4>
-              <p><a href="https://wa.me/5492314530691">2314 53-0691</a></p>
+              <p><a href="https://wa.me/5492314530691" target="_blank" rel="noopener">2314 53-0691</a></p>
             </div>
           </div>
           <div class="ci reveal d3">
@@ -1345,7 +1367,7 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
             </div>
             <div class="form-group">
               <label for="cf-phone">Teléfono</label>
-              <input type="tel" id="cf-phone" name="telefono" placeholder="Ej: 2314 53-0691">
+              <input type="tel" id="cf-phone" name="telefono" placeholder="Ej: 2314 53-0691" required>
             </div>
           </div>
           <div class="form-group">
@@ -1403,7 +1425,7 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
       </div>
       <div class="footer-col">
         <h4>Contacto</h4>
-        <a href="https://wa.me/5492314530691">WhatsApp: 2314 53-0691</a>
+        <a href="https://wa.me/5492314530691" target="_blank" rel="noopener">WhatsApp: 2314 53-0691</a>
         <a href="https://instagram.com/henderseeds" target="_blank" rel="noopener">Instagram</a>
         <a href="mailto:info@henderseeds.com">info@henderseeds.com</a>
       </div>
@@ -1541,8 +1563,15 @@ window.addEventListener('load', () => {
       ctx.fill();
     }
 
-    requestAnimationFrame(draw);
+    if (canvasRunning) requestAnimationFrame(draw);
   }
+
+  let canvasRunning = true;
+  const heroObs = new IntersectionObserver(([entry]) => {
+    canvasRunning = entry.isIntersecting;
+    if (canvasRunning) draw();
+  }, { threshold: 0 });
+  heroObs.observe(document.querySelector('.hero'));
 
   init();
   draw();
@@ -1618,6 +1647,7 @@ document.addEventListener('keydown', (e) => {
 // Touch swipe support
 let touchStartX = 0;
 heroEl.addEventListener('touchstart', (e) => {
+  clearInterval(slideInterval);
   touchStartX = e.changedTouches[0].screenX;
 }, { passive: true });
 heroEl.addEventListener('touchend', (e) => {
@@ -1626,6 +1656,7 @@ heroEl.addEventListener('touchend', (e) => {
     if (diff > 0) prevSlide();
     else nextSlide();
   }
+  slideInterval = setInterval(nextSlide, 6000);
 }, { passive: true });
 
 // Portfolio tabs
@@ -1723,7 +1754,7 @@ const hybridsDB = {
   "7621": { name: "NS 7621 Viptera3", tech: "VT3P", mr: "116", gdu: "820", pms: "310g", grain: "Colorado Duro", height: "Media", rinde: "Muy Alto", pos: "El versátil. Muy bueno en secano, ciclo un toque más corto." },
   "7624": { name: "NS 7624 Viptera3 CL", tech: "VT3P + Clearfield", mr: "116", gdu: "815", pms: "305g", grain: "Colorado Duro", height: "Media", rinde: "Alto", pos: "Para lotes con problema de malezas. Clearfield suma flexibilidad herbicida." },
   "7921": { name: "NS 7921 Viptera3 CL", tech: "VT3P + Clearfield", mr: "119", gdu: "850", pms: "330g", grain: "Colorado Semidentado", height: "Alta", rinde: "Top", pos: "Ciclo largo + Clearfield. Ideal para siembra temprana bajo riego." },
-  "7761": { name: "AX 7761 VT3P", tech: "VT3P", mr: "117", gdu: "762", pms: "300g", grain: "Semi-dentado", height: "215cm", rinde: "Alto en temprana", pos: "Muy buena performance en temprana. Máxima estabilidad en bajos. Excelente sanidad." },
+  "7761": { name: "AX 7761 VT3P", tech: "VT3P", mr: "117", gdu: "762", pms: "300g", grain: "Colorado Duro", height: "215cm", rinde: "Alto en temprana", pos: "Muy buena performance en temprana. Máxima estabilidad en bajos. Excelente sanidad." },
   "7784": { name: "AX 7784 VT3P", tech: "VT3P", mr: "117", gdu: "792", pms: "347g", grain: "Semi-dentado", height: "240cm", rinde: "Silaje", pos: "Uso específico silaje/silo de planta. Equilibrio volumen y calidad de materia seca." },
   "7818": { name: "NS 7818 VIP3", tech: "VIP3", mr: "118", gdu: "835", pms: "290g", grain: "Colorado Duro", height: "Media", rinde: "Bueno", pos: "La opción económica. Buena sanidad de planta, precio accesible." },
   "7852": { name: "NS 7852 Viptera3", tech: "VT3P", mr: "118", gdu: "840", pms: "335g", grain: "Colorado Semidentado", height: "Alta", rinde: "Premium", pos: "El premium. Techo de rinde altísimo, ideal ambientes de alto potencial." },
