@@ -500,9 +500,9 @@ section{padding:5rem 0}
   .wa-float{width:56px;height:56px;bottom:1.2rem;right:1.2rem;box-shadow:0 4px 20px rgba(37,211,102,.5)}
   .wa-float svg{width:28px;height:28px}
   .wa-float::before,.wa-float::after{display:none}
-  .bot-widget{bottom:1.5rem;right:5rem}
-  .bot-btn{width:30px;height:30px;border-width:1px;opacity:.55}
-  .bot-btn svg{width:14px;height:14px}
+  .bot-widget{bottom:1.3rem;right:5rem}
+  .bot-btn{width:40px;height:40px;border-width:1.5px;opacity:.6;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+  .bot-btn svg{width:20px;height:20px}
   .bot-window{width:calc(100vw - 1.6rem);right:-3.5rem;max-height:65vh}
   .msg{font-size:.78rem;padding:.55rem .75rem}
   .bot-input-area input{font-size:.78rem}
@@ -545,9 +545,9 @@ section{padding:5rem 0}
   .blog-card .blog-excerpt{font-size:.75rem}
   .wa-float{width:52px;height:52px;bottom:1rem;right:1rem}
   .wa-float svg{width:26px;height:26px}
-  .bot-widget{bottom:1.2rem;right:4.5rem}
-  .bot-btn{width:28px;height:28px}
-  .bot-btn svg{width:13px;height:13px}
+  .bot-widget{bottom:1.1rem;right:4.5rem}
+  .bot-btn{width:36px;height:36px}
+  .bot-btn svg{width:18px;height:18px}
   .bot-window{width:calc(100vw - 1rem);right:-3rem;max-height:60vh}
   .contact-form{padding:1rem}
   .contact-form h3{font-size:.9rem}
@@ -771,7 +771,7 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
           <span class="text-white">Maíz para cada</span><br>
           <span class="text-orange">lote y fecha de siembra</span>
         </h2>
-        <p class="hero-sub">10 híbridos: Viptera3, VIP3, VT3P y Clearfield. Temprana, tardía, silaje. Encontrá el que rinde en tu ambiente.</p>
+        <p class="hero-sub">10 híbridos Viptera3 y Clearfield. Temprana, tardía, silaje. El que rinde en tu ambiente.</p>
         <div class="hero-buttons">
           <a href="#portfolio" class="btn btn-primary">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
@@ -1733,17 +1733,17 @@ function prevSlide() {
 
 function resetAutoplay() {
   clearInterval(slideInterval);
-  slideInterval = setInterval(nextSlide, 6000);
+  slideInterval = setInterval(nextSlide, 5000);
 }
 
 // Start autoplay
-slideInterval = setInterval(nextSlide, 6000);
+slideInterval = setInterval(nextSlide, 5000);
 
 // Pause on hover
 const heroEl = document.querySelector('.hero');
 heroEl.addEventListener('mouseenter', () => clearInterval(slideInterval));
 heroEl.addEventListener('mouseleave', () => {
-  slideInterval = setInterval(nextSlide, 6000);
+  slideInterval = setInterval(nextSlide, 5000);
 });
 
 // Keyboard nav
@@ -1764,7 +1764,7 @@ heroEl.addEventListener('touchend', (e) => {
     if (diff > 0) prevSlide();
     else nextSlide();
   }
-  slideInterval = setInterval(nextSlide, 6000);
+  slideInterval = setInterval(nextSlide, 5000);
 }, { passive: true });
 
 // Portfolio tabs
