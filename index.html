@@ -421,11 +421,12 @@ section{padding:5rem 0}
 @media(max-width:768px){
   section{padding:3rem 0}
   .container{padding:0 1.2rem}
-  .hero-content{padding:5rem 0 3.5rem}
+  .hero-content{padding:5rem 0 3.5rem;max-width:100%;text-align:center;display:flex;flex-direction:column;align-items:center}
+  .hero-text-slide{display:flex;flex-direction:column;align-items:center}
   .hero h1,.hero .hero-h2{font-size:1.65rem;line-height:1.15;margin-bottom:1rem}
   .hero-eyebrow{font-size:.6rem;padding:.3rem .7rem;gap:.4rem;margin-bottom:.8rem}
   .hero-eyebrow svg{width:12px;height:12px}
-  .hero-sub{font-size:.82rem;margin-bottom:1.2rem;line-height:1.6;max-width:100%}
+  .hero-sub{font-size:.82rem;margin-bottom:1.2rem;line-height:1.6;max-width:100%;text-align:center}
   .hero-data-row{grid-template-columns:1fr 1fr;gap:.6rem}
   .hero-data-card{padding:.6rem .8rem}
   .hero-data-card .hdc-value{font-size:1rem}
@@ -499,9 +500,9 @@ section{padding:5rem 0}
   .wa-float{width:56px;height:56px;bottom:1.2rem;right:1.2rem;box-shadow:0 4px 20px rgba(37,211,102,.5)}
   .wa-float svg{width:28px;height:28px}
   .wa-float::before,.wa-float::after{display:none}
-  .bot-widget{bottom:1.2rem;right:5rem}
-  .bot-btn{width:36px;height:36px;border-width:1.5px;opacity:.7}
-  .bot-btn svg{width:17px;height:17px}
+  .bot-widget{bottom:1.5rem;right:5rem}
+  .bot-btn{width:30px;height:30px;border-width:1px;opacity:.55}
+  .bot-btn svg{width:14px;height:14px}
   .bot-window{width:calc(100vw - 1.6rem);right:-3.5rem;max-height:65vh}
   .msg{font-size:.78rem;padding:.55rem .75rem}
   .bot-input-area input{font-size:.78rem}
@@ -544,9 +545,9 @@ section{padding:5rem 0}
   .blog-card .blog-excerpt{font-size:.75rem}
   .wa-float{width:52px;height:52px;bottom:1rem;right:1rem}
   .wa-float svg{width:26px;height:26px}
-  .bot-widget{bottom:1rem;right:4.5rem}
-  .bot-btn{width:32px;height:32px}
-  .bot-btn svg{width:15px;height:15px}
+  .bot-widget{bottom:1.2rem;right:4.5rem}
+  .bot-btn{width:28px;height:28px}
+  .bot-btn svg{width:13px;height:13px}
   .bot-window{width:calc(100vw - 1rem);right:-3rem;max-height:60vh}
   .contact-form{padding:1rem}
   .contact-form h3{font-size:.9rem}
@@ -1556,8 +1557,7 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
 <!-- ═══════════ BOT SEMILLERO HTML ═══════════ -->
 <div class="bot-widget" style="z-index: 10000;">
   <button class="bot-btn" id="botToggle" aria-label="Abrir Asistente">
-    <span class="bot-label">SeedBot</span>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><circle cx="8" cy="10" r="1.5" fill="currentColor" stroke="none"/><circle cx="16" cy="10" r="1.5" fill="currentColor" stroke="none"/><path d="M8 14h8"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="7" width="14" height="10" rx="2"/><circle cx="9.5" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="14.5" cy="12" r="1.5" fill="currentColor" stroke="none"/><path d="M9 17v2M15 17v2"/><line x1="12" y1="4" x2="12" y2="7"/><circle cx="12" cy="3" r="1" fill="currentColor" stroke="none"/></svg>
   </button>
   <div class="bot-window" id="botWindow">
     <div class="bot-header">
