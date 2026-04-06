@@ -1733,17 +1733,17 @@ function prevSlide() {
 
 function resetAutoplay() {
   clearInterval(slideInterval);
-  slideInterval = setInterval(nextSlide, 5000);
+  slideInterval = setInterval(nextSlide, 7000);
 }
 
 // Start autoplay
-slideInterval = setInterval(nextSlide, 5000);
+slideInterval = setInterval(nextSlide, 7000);
 
 // Pause on hover
 const heroEl = document.querySelector('.hero');
 heroEl.addEventListener('mouseenter', () => clearInterval(slideInterval));
 heroEl.addEventListener('mouseleave', () => {
-  slideInterval = setInterval(nextSlide, 5000);
+  slideInterval = setInterval(nextSlide, 7000);
 });
 
 // Keyboard nav
@@ -1764,7 +1764,7 @@ heroEl.addEventListener('touchend', (e) => {
     if (diff > 0) prevSlide();
     else nextSlide();
   }
-  slideInterval = setInterval(nextSlide, 5000);
+  slideInterval = setInterval(nextSlide, 7000);
 }, { passive: true });
 
 // Portfolio tabs
