@@ -6,6 +6,9 @@
 <title>HenderSeeds — Distribuidor Exclusivo RED.IN Nidera Semillas</title>
 <meta name="description" content="Distribuidor exclusivo RED.IN de Nidera Semillas en Henderson, Bolívar y Daireaux. Maíz y Girasol con genética top + tecnología de precisión + trato local.">
 <meta name="theme-color" content="#091E3E">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta property="og:title" content="HenderSeeds — Genética Nidera + Precisión Local">
 <meta property="og:description" content="Distribuidor exclusivo RED.IN de Nidera Semillas. Maíz Viptera3 y Girasol CL en Henderson, Bolívar y Daireaux.">
 <meta property="og:type" content="website">
@@ -385,6 +388,7 @@ section{padding:5rem 0}
 .wa-float::before{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(37,211,102,.4);animation:waRing 2.5s ease-out infinite}
 .wa-float::after{content:'';position:absolute;inset:-10px;border-radius:50%;border:1px solid rgba(37,211,102,.2);animation:waRing 2.5s .5s ease-out infinite}
 @keyframes waRing{0%{transform:scale(.9);opacity:1}100%{transform:scale(1.5);opacity:0}}
+@keyframes botLabelPulse{0%,100%{opacity:1}50%{opacity:.6}}
 
 /* ═══ LOADER ═══ */
 .loader{position:fixed;inset:0;z-index:9999;background:var(--navy-dark);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem;transition:opacity .35s var(--ease),visibility .35s}
@@ -415,83 +419,144 @@ section{padding:5rem 0}
   .footer-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:768px){
-  html{font-size:18px}
-  body{font-size:1.05rem}
-  .nav-logo{height:48px}
-  .nav.scrolled .nav-logo{height:42px}
-  .hamburger span{width:30px;height:3px}
-  section{padding:3.5rem 0}
-  .container{padding:0 1.4rem}
-  .hero-content{padding:6rem 0 5rem}
-  .hero-data-row{grid-template-columns:1fr}
-  .hero-data-card{padding:1rem 1.2rem}
-  .servicios-grid{grid-template-columns:1fr 1fr}
-  .why-us{grid-template-columns:1fr}
-  .why-item{font-size:1rem;padding:1rem 1.2rem}
-  .blog-grid{grid-template-columns:1fr}
-  .portfolio-grid{grid-template-columns:1fr}
-  .footer-grid{grid-template-columns:1fr}
-  .form-row{grid-template-columns:1fr}
-  .hero-sub{font-size:1.05rem}
-  .section-title{font-size:1.8rem}
-  .section-desc{font-size:1rem}
-  .hybrid{min-height:280px}
-  .hybrid-front .hybrid-name{font-size:1.3rem}
-  .hybrid-front .hybrid-tech{font-size:.9rem}
-  .hybrid-front .hybrid-highlight{font-size:1.8rem}
-  .hybrid-front .hybrid-highlight-label{font-size:.9rem}
-  .hybrid-back .hybrid-name{font-size:1.2rem}
-  .hybrid-back .hybrid-tech{font-size:.85rem}
-  .hybrid-back .hybrid-desc{font-size:.95rem}
-  .hybrid-meta .hm-tag{font-size:.75rem;padding:.3rem .6rem}
-  .hybrid-flip-hint{font-size:.8rem}
-  .nidera-card{padding:1.5rem}
-  .nidera-card h3{font-size:1.3rem}
-  .nidera-card p{font-size:1rem}
-  .blog-card .blog-title{font-size:1.15rem}
-  .blog-card .blog-excerpt{font-size:.95rem}
-  .blog-card .blog-date{font-size:.8rem}
-  .servicio h3{font-size:1.1rem}
-  .servicio p{font-size:.95rem}
-  .wa-float{width:52px;height:52px;bottom:1.2rem;right:1rem}
-  .wa-float svg{width:26px;height:26px}
-  .wa-float::before,.wa-float::after{display:none}
-  .bot-widget{bottom:4.8rem;right:1rem}
-  .bot-btn{width:46px;height:46px}
-  .hs-label{font-size:.75rem}
-  .hs-val{font-size:.85rem}
-  .hm-tag{font-size:.75rem;padding:.3rem .6rem}
-  .hybrid-badge,.blog-tag{font-size:.75rem}
-  .nidera-badge{font-size:.8rem}
-  .portfolio-note{font-size:.8rem}
-  .ticker-item{font-size:.85rem}
-}
-@media(max-width:480px){
-  html{font-size:19px}
-  body{font-size:1rem}
+  section{padding:3rem 0}
   .container{padding:0 1.2rem}
-  .nav-logo{height:44px}
-  .hamburger span{width:28px;height:3px}
-  .hero h1,.hero .hero-h2{font-size:2.2rem}
-  .hero-eyebrow{font-size:.85rem}
-  .hero-sub{font-size:1rem;line-height:1.5}
-  .hero-buttons{flex-direction:column;gap:.8rem;margin-top:.5rem}
-  .hero-buttons .btn{justify-content:center;font-size:1rem;padding:.9rem 1.5rem;width:100%}
-  .hero-data-card .hdc-value{font-size:1.3rem}
-  .hero-data-card .hdc-label{font-size:.85rem}
-  .hero-data-card .hdc-detail{font-size:.75rem}
-  .section-title{font-size:1.6rem}
-  .section-desc{font-size:.95rem}
+  .hero-content{padding:5rem 0 3.5rem}
+  .hero h1,.hero .hero-h2{font-size:1.5rem;line-height:1.15;margin-bottom:1rem}
+  .hero-eyebrow{font-size:.6rem;padding:.3rem .7rem;gap:.4rem;margin-bottom:.8rem}
+  .hero-eyebrow svg{width:12px;height:12px}
+  .hero-sub{font-size:.82rem;margin-bottom:1.2rem;line-height:1.6;max-width:100%}
+  .hero-data-row{grid-template-columns:1fr 1fr;gap:.6rem}
+  .hero-data-card{padding:.6rem .8rem}
+  .hero-data-card .hdc-value{font-size:1rem}
+  .hero-data-card .hdc-label{font-size:.55rem}
+  .hero-data-card .hdc-detail{font-size:.6rem}
+  .hero-buttons{flex-direction:column;gap:.5rem}
+  .hero-buttons .btn{justify-content:center;font-size:.8rem;padding:.65rem 1.2rem;width:100%;gap:.4rem}
+  .hero-buttons .btn svg{width:16px;height:16px}
+  .hero-indicators{bottom:1rem}
+  .hero-ind{width:28px;height:3px}
+  .hero-ind.active{width:40px}
+  .section-title{font-size:1.3rem}
+  .section-desc{font-size:.82rem}
+  .eyebrow{font-size:.65rem}
+  .nosotros-grid{gap:2rem}
+  .why-us{grid-template-columns:1fr}
+  .why-item{font-size:.78rem;padding:.6rem .8rem}
+  .nidera-card{padding:1.2rem}
+  .nidera-card h3{font-size:1rem}
+  .nidera-card p{font-size:.78rem}
+  .nidera-badge{font-size:.6rem}
+  .zone-pill{font-size:.62rem;padding:.25rem .6rem}
+  .servicios-grid{grid-template-columns:1fr 1fr}
+  .servicio{padding:1.2rem}
+  .servicio-icon{width:40px;height:40px;border-radius:10px}
+  .servicio-icon svg{width:20px;height:20px}
+  .servicio h3{font-size:.85rem}
+  .servicio p{font-size:.75rem}
+  .portfolio-grid{grid-template-columns:1fr}
+  .ptab{font-size:.7rem;padding:.5rem 1rem}
+  .hybrid{min-height:220px}
+  .hybrid-front{padding:1.5rem 1.2rem}
+  .hybrid-front .hybrid-name{font-size:1.1rem}
+  .hybrid-front .hybrid-tech{font-size:.58rem}
+  .hybrid-front .hybrid-highlight{font-size:1.3rem}
+  .hybrid-front .hybrid-highlight-label{font-size:.68rem}
+  .hybrid-flip-hint{font-size:.62rem}
+  .hybrid-back{padding:1.2rem}
+  .hybrid-back .hybrid-name{font-size:.92rem}
+  .hybrid-back .hybrid-tech{font-size:.55rem}
+  .hybrid-back .hybrid-desc{font-size:.72rem}
+  .hs-label{font-size:.52rem}
+  .hs-val{font-size:.82rem}
+  .hm-tag{font-size:.55rem;padding:.18rem .4rem}
+  .hybrid-badge,.blog-tag{font-size:.58rem}
+  .portfolio-note{font-size:.62rem}
+  .blog-grid{grid-template-columns:1fr}
+  .blog-thumb{height:180px}
+  .blog-card .blog-title{font-size:.88rem}
+  .blog-card .blog-excerpt{font-size:.78rem}
+  .blog-card .blog-date{font-size:.6rem}
+  .blog-body{padding:1rem}
+  .blog-link{font-size:.75rem}
+  .contacto-grid{gap:2rem}
+  .contact-form{padding:1.2rem}
+  .contact-form h3{font-size:.95rem;margin-bottom:1rem}
+  .form-group label{font-size:.72rem}
+  .form-group input,.form-group textarea,.form-group select{font-size:.82rem;padding:.6rem .8rem}
+  .form-row{grid-template-columns:1fr}
+  .btn-submit{font-size:.85rem;padding:.7rem}
+  .ci-icon{width:40px;height:40px;border-radius:10px}
+  .ci-icon svg{width:18px;height:18px}
+  .ci-detail h4{font-size:.85rem}
+  .ci-detail p{font-size:.78rem}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-brand p{font-size:.75rem}
+  .footer-col h4{font-size:.6rem}
+  .footer-col a{font-size:.78rem}
+  .footer-copy{font-size:.68rem}
+  .footer-socials a{width:36px;height:36px}
+  .wa-float{width:48px;height:48px;bottom:.8rem;right:.8rem}
+  .wa-float svg{width:24px;height:24px}
+  .wa-float::before,.wa-float::after{display:none}
+  .bot-widget{bottom:.8rem;right:4.5rem}
+  .bot-btn{width:42px;height:42px}
+  .bot-btn svg{width:20px;height:20px}
+  .bot-window{width:calc(100vw - 1.6rem);right:-3rem;max-height:65vh}
+  .msg{font-size:.78rem;padding:.55rem .75rem}
+  .bot-input-area input{font-size:.78rem}
+  .bh-info h3{font-size:.85rem}
+  .bh-info span{font-size:.62rem}
+  .ticker-item{font-size:.7rem}
+  .ticker-track{gap:1.8rem}
+  .mobile-menu a{font-size:1.2rem}
+}
+@media(max-width:420px){
+  .container{padding:0 1rem}
+  .nav{padding:1rem 0}
+  .nav.scrolled{padding:.6rem 0}
+  .nav-logo{height:32px}
+  .nav.scrolled .nav-logo{height:28px}
+  .hero-content{padding:4rem 0 2.5rem}
+  .hero h1,.hero .hero-h2{font-size:1.25rem;margin-bottom:.8rem}
+  .hero-eyebrow{font-size:.55rem;padding:.25rem .55rem;margin-bottom:.6rem}
+  .hero-sub{font-size:.75rem;line-height:1.5;margin-bottom:1rem}
+  .hero-buttons .btn{font-size:.75rem;padding:.55rem 1rem}
+  .hero-buttons .btn svg{width:14px;height:14px}
+  .hero-data-row{grid-template-columns:1fr 1fr;gap:.5rem}
+  .hero-data-card{padding:.5rem .6rem}
+  .hero-data-card .hdc-value{font-size:.88rem}
+  .hero-data-card .hdc-label{font-size:.5rem}
+  .hero-data-card .hdc-detail{font-size:.52rem}
+  .section-title{font-size:1.15rem}
+  .section-desc{font-size:.78rem}
+  .eyebrow{font-size:.58rem}
   .servicios-grid{grid-template-columns:1fr}
-  .hybrid{min-height:260px}
-  .hybrid-front .hybrid-highlight{font-size:1.6rem}
-  .hybrid-front .hybrid-highlight-label{font-size:.85rem}
-  .blog-card .blog-title{font-size:1.1rem}
-  .blog-card .blog-excerpt{font-size:.9rem}
-  .ticker-item{font-size:.8rem}
-  .ticker-track{gap:2rem}
-  .bot-window{width:calc(100vw - 2rem);right:0;max-height:70vh}
-  .zone-pill{font-size:.8rem}
+  .servicio{padding:1rem}
+  .servicio h3{font-size:.82rem}
+  .servicio p{font-size:.72rem}
+  .hybrid{min-height:200px}
+  .hybrid-front{padding:1.2rem .9rem}
+  .hybrid-front .hybrid-name{font-size:.95rem}
+  .hybrid-front .hybrid-highlight{font-size:1.15rem}
+  .hybrid-front .hybrid-highlight-label{font-size:.6rem}
+  .hybrid-back{padding:1rem}
+  .blog-thumb{height:150px}
+  .blog-card .blog-title{font-size:.82rem}
+  .blog-card .blog-excerpt{font-size:.72rem}
+  .wa-float{width:44px;height:44px;bottom:.6rem;right:.6rem}
+  .wa-float svg{width:22px;height:22px}
+  .bot-widget{bottom:.6rem;right:3.8rem}
+  .bot-btn{width:38px;height:38px}
+  .bot-btn svg{width:18px;height:18px}
+  .bot-window{width:calc(100vw - 1rem);right:-2.5rem;max-height:60vh}
+  .contact-form{padding:1rem}
+  .contact-form h3{font-size:.88rem}
+  .ci-detail h4{font-size:.78rem}
+  .ci-detail p{font-size:.72rem}
+  .zone-pill{font-size:.55rem}
+  .mobile-menu a{font-size:1.1rem}
+  .footer{padding:2.5rem 0 1rem}
 }
 
 /* ═══ MODO CLARO (LIGHT MODE) ═══ */
@@ -574,8 +639,11 @@ body.light-mode .theme-toggle:hover { background: rgba(9,30,62,0.05); }
 
 /* ═══ BOT SEMILLERO (CHAT WIDGET) ═══ */
 .bot-widget { position: fixed; bottom: 6.5rem; right: 1.5rem; z-index: 1000; display: flex; flex-direction: column; align-items: flex-end; }
+.bot-window:not(.open){display:none}
 .bot-btn { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--navy-light), var(--navy-mid)); border: 2px solid var(--orange); display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.2); transition: transform 0.3s; cursor: pointer; }
 .bot-btn:hover { transform: scale(1.1); }
+.bot-label{display:none}
+@media(max-width:768px){.bot-label{display:block;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--orange);color:var(--navy-dark);font-family:var(--mono);font-size:.55rem;font-weight:700;padding:.2rem .5rem;border-radius:5px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.2)}}
 .bot-window { width: 340px; max-height: 480px; height: 60vh; background: rgba(9,30,62,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); display: flex; flex-direction: column; overflow: hidden; opacity: 0; pointer-events: none; transition: all 0.3s var(--ease); transform: translateY(20px); margin-bottom: 1rem; }
 .bot-window.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
 body.light-mode .bot-window { background: rgba(255,255,255,0.95); border-color: rgba(9,30,62,0.1); box-shadow: 0 10px 40px rgba(0,0,0,0.15); }
@@ -609,9 +677,7 @@ body.light-mode .bot-tech-card { background: #FFFFFF; border: 1px solid rgba(9,3
 .btc-label { color: rgba(255,255,255,0.5); }
 body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
 .btc-val { color: var(--white); font-weight: 600; }
-@media (max-width: 480px) {
-  .bot-window { width: calc(100vw - 2rem); right: 0; max-height: 70vh; }
-}
+/* bot-window 480px handled in main responsive block */
 </style>
 </head>
 <body>
@@ -1493,6 +1559,7 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
 <!-- ═══════════ BOT SEMILLERO HTML ═══════════ -->
 <div class="bot-widget" style="z-index: 10000;">
   <button class="bot-btn" id="botToggle" aria-label="Abrir Asistente">
+    <span class="bot-label">SeedBot</span>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><circle cx="8" cy="10" r="1.5" fill="currentColor" stroke="none"/><circle cx="16" cy="10" r="1.5" fill="currentColor" stroke="none"/><path d="M8 14h8"/></svg>
   </button>
   <div class="bot-window" id="botWindow">
