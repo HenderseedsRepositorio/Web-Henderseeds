@@ -500,9 +500,6 @@ section{padding:5rem 0}
   .wa-float{width:56px;height:56px;bottom:1.2rem;right:1.2rem;box-shadow:0 4px 20px rgba(37,211,102,.5)}
   .wa-float svg{width:28px;height:28px}
   .wa-float::before,.wa-float::after{display:none}
-  .bot-widget{bottom:1.3rem;right:5rem}
-  .bot-btn{width:28px;height:28px;border:none;opacity:.5;box-shadow:none;padding:0;background:rgba(255,255,255,.12)}
-  .bot-btn svg{width:20px;height:20px;stroke:rgba(255,255,255,.7)}
   .bot-window{width:calc(100vw - 1.6rem);right:-3.5rem;max-height:65vh}
   .msg{font-size:.78rem;padding:.55rem .75rem}
   .bot-input-area input{font-size:.78rem}
@@ -545,9 +542,6 @@ section{padding:5rem 0}
   .blog-card .blog-excerpt{font-size:.75rem}
   .wa-float{width:52px;height:52px;bottom:1rem;right:1rem}
   .wa-float svg{width:26px;height:26px}
-  .bot-widget{bottom:1.1rem;right:4.2rem}
-  .bot-btn{width:26px;height:26px}
-  .bot-btn svg{width:18px;height:18px}
   .bot-window{width:calc(100vw - 1rem);right:-3rem;max-height:60vh}
   .contact-form{padding:1rem}
   .contact-form h3{font-size:.9rem}
@@ -642,6 +636,16 @@ body.light-mode .theme-toggle:hover { background: rgba(9,30,62,0.05); }
 .bot-btn { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--navy-light), var(--navy-mid)); border: 2px solid var(--orange); display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.2); transition: transform 0.3s; cursor: pointer; }
 .bot-btn:hover { transform: scale(1.1); }
 .bot-label{display:none}
+@media(max-width:768px){
+  .bot-widget{bottom:1.3rem;right:5rem}
+  .bot-btn{width:28px;height:28px;border:none;opacity:.5;box-shadow:none;padding:0;background:rgba(255,255,255,.15)}
+  .bot-btn svg{width:19px;height:19px;stroke:rgba(255,255,255,.6)}
+}
+@media(max-width:420px){
+  .bot-widget{bottom:1.1rem;right:4.2rem}
+  .bot-btn{width:26px;height:26px}
+  .bot-btn svg{width:17px;height:17px}
+}
 .bot-window { width: 340px; max-height: 480px; height: 60vh; background: rgba(9,30,62,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); display: flex; flex-direction: column; overflow: hidden; opacity: 0; pointer-events: none; transition: all 0.3s var(--ease); transform: translateY(20px); margin-bottom: 1rem; }
 .bot-window.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
 body.light-mode .bot-window { background: rgba(255,255,255,0.95); border-color: rgba(9,30,62,0.1); box-shadow: 0 10px 40px rgba(0,0,0,0.15); }
