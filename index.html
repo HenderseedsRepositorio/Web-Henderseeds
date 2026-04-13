@@ -332,6 +332,33 @@ section{padding:5rem 0}
 .blog-link{font-size:.85rem;color:var(--orange);font-weight:600;display:inline-flex;align-items:center;gap:.4rem;transition:gap .25s}
 .blog-link:hover{gap:.7rem}
 .blog-link svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+.blog-thumb-icon{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.blog-thumb-icon svg{width:64px;height:64px;opacity:.25;stroke:#fff;fill:none;stroke-width:1.2}
+.blog-full{display:none;position:fixed;inset:0;z-index:9999;background:rgba(9,30,62,.92);backdrop-filter:blur(12px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+.blog-full.active{display:block}
+.blog-full-inner{max-width:720px;margin:0 auto;padding:3rem 1.5rem 4rem}
+.blog-full-close{position:fixed;top:1.2rem;right:1.5rem;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10000;transition:background .2s}
+.blog-full-close:hover{background:var(--orange);color:var(--navy-dark)}
+.blog-full-close svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
+.blog-full-tag{display:inline-block;font-family:var(--mono);font-size:.65rem;padding:.35rem .8rem;background:var(--orange);color:var(--navy-dark);border-radius:6px;letter-spacing:.05em;font-weight:600;margin-bottom:1rem}
+.blog-full-title{font-family:var(--arch);font-size:1.6rem;line-height:1.25;margin-bottom:.5rem}
+.blog-full-date{font-family:var(--mono);font-size:.7rem;color:rgba(255,255,255,.35);margin-bottom:2rem}
+.blog-full-body{font-size:.92rem;color:rgba(255,255,255,.8);line-height:1.8}
+.blog-full-body h3{font-family:var(--arch);font-size:1.1rem;margin:2rem 0 .8rem;color:#fff}
+.blog-full-body p{margin-bottom:1rem}
+.blog-full-body strong{color:var(--orange)}
+.blog-full-body .dato-clave{background:rgba(245,166,35,.08);border-left:3px solid var(--orange);padding:.8rem 1rem;border-radius:0 8px 8px 0;margin:1.2rem 0;font-size:.88rem}
+.blog-full-body .dato-clave strong{color:#fff}
+.blog-full-body table{width:100%;border-collapse:collapse;margin:1.2rem 0;font-size:.82rem}
+.blog-full-body th{text-align:left;padding:.5rem .6rem;background:rgba(255,255,255,.05);color:var(--orange);font-family:var(--mono);font-size:.7rem;letter-spacing:.04em;border-bottom:1px solid rgba(255,255,255,.08)}
+.blog-full-body td{padding:.5rem .6rem;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.7)}
+.blog-full-firma{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.08);font-size:.78rem;color:rgba(255,255,255,.35)}
+.blog-full-firma strong{color:rgba(255,255,255,.55)}
+@media(max-width:768px){
+  .blog-full-inner{padding:2rem 1rem 3rem}
+  .blog-full-title{font-size:1.25rem}
+  .blog-full-body{font-size:.85rem}
+}
 
 /* ═══ CONTACTO ═══ */
 .contacto{background:var(--navy-dark);position:relative;overflow:hidden}
@@ -1383,45 +1410,163 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
       <p class="section-desc center reveal d2">Contenido útil para tu campaña: manejo de híbridos, tecnología y mercados.</p>
     </div>
     <div class="blog-grid">
-      <div class="blog-card reveal d1">
-        <div class="blog-thumb">
+      <!-- NOTA 1 — NS 7765 en ensayos -->
+      <div class="blog-card reveal d1" onclick="openBlog('blog1')" style="cursor:pointer" role="button" tabindex="0" aria-label="Leer nota sobre NS 7765">
+        <div class="blog-thumb" style="background:linear-gradient(135deg,var(--navy-mid),#1a6a3a)">
           <span class="blog-tag">Ensayos</span>
-          <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600&q=80" alt="Plantas de maíz en campo" loading="lazy" width="600" height="400">
+          <div class="blog-thumb-icon"><svg viewBox="0 0 24 24"><path d="M12 2v8m0 0l-3-3m3 3l3-3M4 14c0 0 2-2 8-2s8 2 8 2v4c0 1-1 2-2 2H6c-1 0-2-1-2-2v-4z"/></svg></div>
         </div>
         <div class="blog-body">
-          <div class="blog-date">03 · NOV · 2025</div>
-          <h3 class="blog-title"><a href="https://mundoagrocba.com.ar/hibrido-de-nidera-se-hizo-fuerte-en-un-ensayo-historico-en-la-zona-nucleo-mostrando-resistencia-a-sequia/" target="_blank" rel="noopener">NS 7765: se hizo fuerte en un ensayo histórico en Zona Núcleo</a></h3>
-          <p class="blog-excerpt">El NS 7765 VIP3 logró 9.960 kg/ha superando al testigo en un 7%, destacándose por su estabilidad bajo sequía severa entre 34 híbridos evaluados.</p>
-          <a href="https://mundoagrocba.com.ar/hibrido-de-nidera-se-hizo-fuerte-en-un-ensayo-historico-en-la-zona-nucleo-mostrando-resistencia-a-sequia/" class="blog-link" target="_blank" rel="noopener">Leer nota completa <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <div class="blog-date">12 · ABR · 2026</div>
+          <h3 class="blog-title">NS 7765: 9.960 kg/ha y 7% arriba del testigo en Zona Núcleo</h3>
+          <p class="blog-excerpt">Nuestro híbrido estrella se destacó entre 34 materiales evaluados bajo sequía severa. Los datos del ensayo y qué significa para nuestra zona.</p>
+          <span class="blog-link">Leer nota completa <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </div>
-      <div class="blog-card reveal d2">
-        <div class="blog-thumb">
+      <!-- NOTA 2 — Girasol Alto Oleico -->
+      <div class="blog-card reveal d2" onclick="openBlog('blog2')" style="cursor:pointer" role="button" tabindex="0" aria-label="Leer nota sobre girasol alto oleico">
+        <div class="blog-thumb" style="background:linear-gradient(135deg,var(--navy-mid),#8a6a1a)">
+          <span class="blog-tag">Mercado</span>
+          <div class="blog-thumb-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3c-2 4-2 8 0 12m0-12c2 4 2 8 0 12M8 6c1 2 1 5 0 8m8-8c-1 2-1 5 0 8"/></svg></div>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date">12 · ABR · 2026</div>
+          <h3 class="blog-title">Girasol alto oleico: hasta USD 100/tn más que el convencional</h3>
+          <p class="blog-excerpt">El alto oleico fue el gran negocio de la campaña 24/25 y las primas se mantienen. Por qué el NS 1227 CLHO es la apuesta más rentable en girasol.</p>
+          <span class="blog-link">Leer nota completa <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+      <!-- NOTA 3 — Expoagro 2026 -->
+      <div class="blog-card reveal d3" onclick="openBlog('blog3')" style="cursor:pointer" role="button" tabindex="0" aria-label="Leer nota sobre Expoagro 2026">
+        <div class="blog-thumb" style="background:linear-gradient(135deg,var(--navy-mid),var(--orange))">
           <span class="blog-tag">Expoagro 2026</span>
-          <img src="https://images.unsplash.com/photo-1597848212624-a19eb35e2651?w=600&q=80" alt="Campo de girasoles" loading="lazy" width="600" height="400">
+          <div class="blog-thumb-icon"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6M9 9h.01M15 9h.01M9 13h.01M15 13h.01"/></svg></div>
         </div>
         <div class="blog-body">
           <div class="blog-date">18 · MAR · 2026</div>
-          <h3 class="blog-title"><a href="https://www.expoagro.com.ar/cinco-lanzamientos-y-15-materiales-que-marcan-el-rumbo-del-manejo-agricola/" target="_blank" rel="noopener">Cinco lanzamientos y 15 materiales que marcan el rumbo</a></h3>
-          <p class="blog-excerpt">Nidera llegó a Expoagro 2026 con cinco lanzamientos en maíz, girasol y soja. Entre ellos el NS 1117 CL, uno de los materiales más competitivos del portfolio.</p>
-          <a href="https://www.expoagro.com.ar/cinco-lanzamientos-y-15-materiales-que-marcan-el-rumbo-del-manejo-agricola/" class="blog-link" target="_blank" rel="noopener">Leer nota completa <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-        </div>
-      </div>
-      <div class="blog-card reveal d3">
-        <div class="blog-thumb">
-          <span class="blog-tag">Capacitación</span>
-          <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80" alt="Campo dorado al atardecer" loading="lazy" width="600" height="400">
-        </div>
-        <div class="blog-body">
-          <div class="blog-date">14 · FEB · 2026</div>
-          <h3 class="blog-title"><a href="https://www.todoagro.com.ar/nidera-puso-primera-a-sus-centros-de-entrenamiento-2026/" target="_blank" rel="noopener">Nidera lanzó sus Centros de Entrenamiento 2026</a></h3>
-          <p class="blog-excerpt">15 jornadas regionales con 74 distribuidores RED.IN. Capacitación técnica en maíz y girasol: ecofisiología, densidad, fecha de siembra y manejo por ambiente.</p>
-          <a href="https://www.todoagro.com.ar/nidera-puso-primera-a-sus-centros-de-entrenamiento-2026/" class="blog-link" target="_blank" rel="noopener">Leer nota completa <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <h3 class="blog-title">Nidera en Expoagro 2026: 5 lanzamientos que nos tocan de cerca</h3>
+          <p class="blog-excerpt">NS 7852, NS 7925 y NS 1117 CL son los nuevos materiales que ya están en nuestro portfolio. Qué ofrecen y para qué ambientes van.</p>
+          <span class="blog-link">Leer nota completa <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- ═══ BLOG NOTAS COMPLETAS ═══ -->
+<div class="blog-full" id="blog1">
+  <button class="blog-full-close" onclick="closeBlog('blog1')" aria-label="Cerrar nota"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+  <div class="blog-full-inner">
+    <span class="blog-full-tag">Ensayos</span>
+    <h2 class="blog-full-title">NS 7765: 9.960 kg/ha y 7% arriba del testigo en Zona Núcleo</h2>
+    <div class="blog-full-date">12 · ABR · 2026 · Por HenderSeeds</div>
+    <div class="blog-full-body">
+      <p>En un ensayo comparativo realizado en la Zona Núcleo con condiciones de <strong>sequía severa</strong>, el <strong>NS 7765 VIPTERA3</strong> registró un rendimiento de <strong>9.960 kg/ha</strong>, superando al testigo por 724 kg/ha — un 7% más de rinde. El dato no es menor: se evaluaron 34 híbridos de distintas empresas en las mismas condiciones.</p>
+
+      <div class="dato-clave"><strong>Dato clave:</strong> En la red de ensayos de Nidera (más de 100 localidades, más de 40 materiales propios y de la competencia), el NS 7765 supera en 500 kg/ha al índice ambiental en siembras tempranas y en 300 kg/ha en siembras tardías.</div>
+
+      <h3>¿Por qué nos importa en Henderson?</h3>
+      <p>El NS 7765 es nuestro material de mayor rotación, y estos números confirman lo que vemos campaña a campaña en los lotes de la zona. Su combinación de <strong>estabilidad bajo estrés hídrico</strong>, tolerancia a vuelco y perfil sanitario frente a roya y tizón lo hacen ideal tanto para ambientes de alto potencial como para años complicados.</p>
+
+      <h3>Perfil técnico rápido</h3>
+      <table>
+        <tr><th>Característica</th><th>Valor</th></tr>
+        <tr><td>Tecnología</td><td>VT3P (Viptera3 Power)</td></tr>
+        <tr><td>Madurez relativa</td><td>117</td></tr>
+        <tr><td>Tipo de grano</td><td>Colorado Duro</td></tr>
+        <tr><td>Stay Green</td><td>Alto</td></tr>
+        <tr><td>Tolerancia a vuelco</td><td>Excelente</td></tr>
+        <tr><td>Potencial de rinde</td><td>Top de la red de ensayos</td></tr>
+        <tr><td>Aptitud</td><td>Riego y secano</td></tr>
+      </table>
+
+      <h3>El argumento comercial</h3>
+      <p>A precio de lista el NS 7765 cotiza USD 250/bolsa (B1). Pero con los descuentos de pre-campaña, contado y volumen que manejamos como distribuidores RED.IN, el precio final puede bajar hasta <strong>~USD 162/bolsa</strong> — un 35% menos. A ese costo, con un rinde potencial de casi 10.000 kg/ha en condiciones difíciles, la ecuación cierra.</p>
+
+      <div class="dato-clave"><strong>Fuente:</strong> Datos de rendimiento publicados por Mundo Agro y red de ensayos Nidera campaña 24/25. Los valores de "potencial de rinde" son orientativos y varían según ambiente, manejo y condiciones climáticas.</div>
+
+      <div class="blog-full-firma"><strong>HenderSeeds SRL</strong> · Distribuidor exclusivo RED.IN de Nidera Semillas · Henderson, Bolívar y Daireaux</div>
+    </div>
+  </div>
+</div>
+
+<div class="blog-full" id="blog2">
+  <button class="blog-full-close" onclick="closeBlog('blog2')" aria-label="Cerrar nota"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+  <div class="blog-full-inner">
+    <span class="blog-full-tag">Mercado</span>
+    <h2 class="blog-full-title">Girasol alto oleico: hasta USD 100/tn más que el convencional</h2>
+    <div class="blog-full-date">12 · ABR · 2026 · Por HenderSeeds</div>
+    <div class="blog-full-body">
+      <p>La campaña 2024/25 dejó un dato que no se puede ignorar: el <strong>girasol alto oleico fue el gran negocio del ciclo</strong>. Las primas pagadas al productor en Argentina se ubicaron entre 30 y 60 USD/tn sobre el linoleico, y en algunos contratos llegaron a <strong>100 USD/tn de diferencial</strong>.</p>
+
+      <p>Para la campaña 2025/26, las señales se mantienen firmes. Los forwards de girasol alto oleico se negociaron en un rango de <strong>USD 400-420/tn</strong> (precio base + diferencial), y las proyecciones ubican una cosecha argentina de 6,2 millones de toneladas con precios sostenidos hasta mediados de 2026.</p>
+
+      <div class="dato-clave"><strong>¿Por qué sube?</strong> El aceite de girasol alto oleico se produce mayormente en la UE-27 y Ucrania. La Argentina es uno de los pocos proveedores alternativos. Cualquier falla en las dos regiones principales genera alzas fuertes de precio — y eso beneficia directamente al productor que eligió alto oleico.</div>
+
+      <h3>NS 1227 CLHO: nuestra apuesta</h3>
+      <p>Dentro del portfolio Nidera, el <strong>NS 1227 CLHO</strong> es el material que mejor captura esta oportunidad. Tiene el contenido de aceite más alto de la línea (<strong>49%</strong>), lo que se traduce directamente en mayor bonificación en la entrega.</p>
+
+      <table>
+        <tr><th>Característica</th><th>NS 1227 CLHO</th><th>NS 1113 CL</th></tr>
+        <tr><td>Tipo</td><td>Alto Oleico</td><td>Linoleico</td></tr>
+        <tr><td>Contenido de aceite</td><td>49%</td><td>47%</td></tr>
+        <tr><td>Tecnología</td><td>Clearfield + HO</td><td>Clearfield</td></tr>
+        <tr><td>Potencial de rinde</td><td>Top</td><td>Top</td></tr>
+        <tr><td>Resistencia Bremia</td><td>Resistente</td><td>Resistente</td></tr>
+        <tr><td>Prima estimada</td><td>+30 a 100 USD/tn</td><td>Precio base</td></tr>
+      </table>
+
+      <h3>La cuenta rápida</h3>
+      <p>Un lote de 100 ha de girasol alto oleico con prima de USD 50/tn sobre el convencional, y un rinde de 2.500 kg/ha, genera <strong>USD 12.500 adicionales</strong> solo por la bonificación de calidad. Sin cambiar de lote ni de manejo — solo eligiendo el material correcto.</p>
+
+      <h3>¿Para quién es?</h3>
+      <p>El alto oleico funciona en todos los ambientes girasoleros de nuestra zona. El NS 1227 CLHO tiene alta performance tanto en ambientes de alta como de baja productividad, con excelente comportamiento a Phomopsis y Downy Mildew. Si el productor ya hace girasol CL, cambiar a alto oleico es una decisión de precio, no de manejo.</p>
+
+      <div class="dato-clave"><strong>Fuentes:</strong> Datos de primas y proyecciones de mercado publicados por Bichos de Campo, ASAGIR, Infocampo y Ruralnet (campaña 24/25 y 25/26). Los valores de bonificación son estimados y varían según contrato, entrega y contenido de aceite.</div>
+
+      <div class="blog-full-firma"><strong>HenderSeeds SRL</strong> · Distribuidor exclusivo RED.IN de Nidera Semillas · Henderson, Bolívar y Daireaux</div>
+    </div>
+  </div>
+</div>
+
+<div class="blog-full" id="blog3">
+  <button class="blog-full-close" onclick="closeBlog('blog3')" aria-label="Cerrar nota"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+  <div class="blog-full-inner">
+    <span class="blog-full-tag">Expoagro 2026</span>
+    <h2 class="blog-full-title">Nidera en Expoagro 2026: 5 lanzamientos que nos tocan de cerca</h2>
+    <div class="blog-full-date">18 · MAR · 2026 · Por HenderSeeds</div>
+    <div class="blog-full-body">
+      <p>Nidera llegó a Expoagro 2026 con <strong>cinco lanzamientos comerciales</strong> y la exhibición de 15 materiales en su plot demostrativo. De esos cinco, tres son de maíz y girasol — los cultivos que trabajamos — y ya están disponibles en nuestro portfolio.</p>
+
+      <h3>NS 7852 VIPTERA3 — El nuevo premium de maíz</h3>
+      <p>Híbrido de <strong>máximo potencial de rinde</strong>, adaptable a siembras tempranas y tardías. Pensado para toda la región maicera argentina. Lo que lo distingue: techo de rinde altísimo en ambientes de alto potencial, con grano colorado semidentado de 335g de peso de mil granos.</p>
+      <div class="dato-clave"><strong>Posicionamiento:</strong> Para productores que buscan el máximo rinde y tienen lotes de buen potencial. Es el paso arriba del NS 7765 en ambientes donde se puede explotar ese techo.</div>
+
+      <h3>NS 7925 VIPTERA3 — El especialista en tardía</h3>
+      <p>Híbrido de <strong>ciclo largo (MR 119)</strong>, especialmente desarrollado para siembras tardías. Se destaca por su excelente comportamiento frente al <strong>complejo de achaparramiento</strong> (Spiroplasma), un problema creciente en maíz tardío de la zona.</p>
+      <div class="dato-clave"><strong>¿Por qué importa?</strong> El achaparramiento fue uno de los mayores problemas sanitarios de la última campaña en maíz tardío. Tener un material con tolerancia comprobada es una herramienta de manejo, no solo genética.</div>
+
+      <h3>NS 1117 CL — Girasol linoleico completo</h3>
+      <p>El nuevo linoleico de Nidera se posiciona como <strong>uno de los materiales más competitivos del portfolio</strong>. Altos rendimientos en todos los ambientes, incluso en zonas girasoleras no tradicionales. Con 44% de contenido de aceite y resistencia a Bremia y Jassid.</p>
+
+      <h3>Lo que ya tenemos disponible</h3>
+      <table>
+        <tr><th>Material</th><th>Cultivo</th><th>Destacado</th><th>Disponible</th></tr>
+        <tr><td>NS 7852 VIP3</td><td>Maíz</td><td>Premium, máximo rinde</td><td>Sí</td></tr>
+        <tr><td>NS 7925 VIP3</td><td>Maíz</td><td>Tardía, tolerancia achaparramiento</td><td>Sí</td></tr>
+        <tr><td>NS 1117 CL</td><td>Girasol</td><td>Linoleico completo, alto rinde</td><td>Sí</td></tr>
+        <tr><td>NS 7765 VIP3</td><td>Maíz</td><td>Buque insignia, estabilidad</td><td>Sí</td></tr>
+        <tr><td>NS 1227 CLHO</td><td>Girasol</td><td>Alto oleico, 49% aceite</td><td>Sí</td></tr>
+      </table>
+
+      <p>Los tres nuevos materiales ya están en nuestro cotizador. Si querés armar una propuesta con los precios de pre-campaña, escribinos por WhatsApp o usá el cotizador online.</p>
+
+      <div class="dato-clave"><strong>Fuente:</strong> Información de lanzamientos publicada por Expoagro, La Nación Campo, Agenda Agraria y Prensa Mercosur (marzo 2026). Los materiales pueden tener disponibilidad limitada según stock de distribución.</div>
+
+      <div class="blog-full-firma"><strong>HenderSeeds SRL</strong> · Distribuidor exclusivo RED.IN de Nidera Semillas · Henderson, Bolívar y Daireaux</div>
+    </div>
+  </div>
+</div>
 
 <!-- ═══════════ CONTACTO ═══════════ -->
 <section class="contacto" id="contacto">
@@ -2080,6 +2225,29 @@ function sendBotMsg() {
     addMsg("No encontré ese híbrido. Probá con el número (ej: 7765, 1113) o buscá por categoría: maíz, girasol, clearfield, alto oleico, temprana, silaje.", 'bot');
   }, 400);
 }
+
+// ═══ Blog full-note open/close ═══
+function openBlog(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  gtag('event', 'blog_read', { blog_id: id });
+}
+function closeBlog(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.blog-full.active').forEach(function(el) {
+      el.classList.remove('active');
+    });
+    document.body.style.overflow = '';
+  }
+});
 </script>
 
 <!-- ═══ Vercel Web Analytics + Speed Insights ═══ -->
