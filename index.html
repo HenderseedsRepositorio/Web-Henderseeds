@@ -2293,6 +2293,31 @@ document.querySelectorAll('.hybrid').forEach(card => {
     if(typeof gtag === 'function') gtag('event', 'hybrid_view', {event_category: 'engagement', event_label: name});
   });
 });
+
+// Track "Contactanos" CTA button in navbar
+document.querySelectorAll('.nav-cta').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if(typeof gtag === 'function') gtag('event', 'click_contactenos', {event_category: 'conversion', event_label: 'navbar'});
+  });
+});
+
+// Track scroll depth 50%
+(function() {
+  var fired50 = false;
+  window.addEventListener('scroll', function() {
+    if (fired50) return;
+    var scrollPct = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100;
+    if (scrollPct >= 50) {
+      fired50 = true;
+      if(typeof gtag === 'function') gtag('event', 'scroll_depth_50', {event_category: 'engagement', event_label: '50%', non_interaction: true});
+    }
+  }, {passive: true});
+})();
+
+// Track engaged sessions (>2 minutes on site)
+setTimeout(function() {
+  if(typeof gtag === 'function') gtag('event', 'session_engagement', {event_category: 'engagement', event_label: '2min+', non_interaction: true});
+}, 120000);
 </script>
 </body>
 </html>
