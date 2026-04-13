@@ -46,11 +46,8 @@
   "sameAs": ["https://instagram.com/henderseeds"]
 }
 </script>
-<!-- TODO: Google Analytics 4 — DESACTIVADO hasta tener Measurement ID real.
-     Reemplazar G-XXXXXXXXXX y descomentar las dos líneas de script.
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
--->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GGC7FRWF6G"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-GGC7FRWF6G');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -638,13 +635,13 @@ body.light-mode .theme-toggle:hover { background: rgba(9,30,62,0.05); }
 .bot-label{display:none}
 @media(max-width:768px){
   .bot-widget{bottom:5rem;right:1.2rem}
-  .bot-btn{width:38px!important;height:38px!important;border:1px solid rgba(245,166,35,.3)!important;opacity:.7;box-shadow:0 2px 8px rgba(0,0,0,.15)!important;padding:0;background:rgba(13,45,94,.85)!important}
-  .bot-btn svg{width:22px!important;height:22px!important;stroke:rgba(255,255,255,.8)}
+  .bot-btn{width:48px!important;height:48px!important;border:1.5px solid rgba(245,166,35,.5)!important;opacity:.9;box-shadow:0 3px 12px rgba(0,0,0,.2)!important;padding:0;background:linear-gradient(135deg,var(--navy-light),var(--navy-mid))!important}
+  .bot-btn svg{width:24px!important;height:24px!important;stroke:rgba(255,255,255,.9)}
 }
 @media(max-width:420px){
   .bot-widget{bottom:4.5rem;right:1rem}
-  .bot-btn{width:34px!important;height:34px!important}
-  .bot-btn svg{width:20px!important;height:20px!important}
+  .bot-btn{width:44px!important;height:44px!important}
+  .bot-btn svg{width:22px!important;height:22px!important}
 }
 .bot-window { width: 340px; max-height: 480px; height: 60vh; background: rgba(9,30,62,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); display: flex; flex-direction: column; overflow: hidden; opacity: 0; pointer-events: none; transition: all 0.3s var(--ease); transform: translateY(20px); margin-bottom: 1rem; }
 .bot-window.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
@@ -674,6 +671,11 @@ body.light-mode .bot-input-area input { background: #FFFFFF; border-color: rgba(
 .bot-input-area button:hover { transform: scale(1.05); }
 .bot-input-area button svg { width: 18px; height: 18px; }
 .bot-tech-card { margin-top: 0.5rem; font-family: var(--mono); font-size: 0.75rem; background: rgba(0,0,0,0.2); padding: 0.8rem; border-radius: var(--radius-sm); border-left: 2px solid var(--orange); }
+.bot-quick-replies { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+.bot-quick-btn { background: rgba(245,166,35,0.12); border: 1px solid rgba(245,166,35,0.35); color: var(--orange); font-family: var(--mono); font-size: 0.72rem; padding: 0.35rem 0.7rem; border-radius: 99px; cursor: pointer; transition: all 0.2s var(--ease); white-space: nowrap; }
+.bot-quick-btn:hover { background: rgba(245,166,35,0.25); border-color: var(--orange); transform: scale(1.03); }
+body.light-mode .bot-quick-btn { background: rgba(245,166,35,0.08); border-color: rgba(245,166,35,0.3); color: #b87a10; }
+body.light-mode .bot-quick-btn:hover { background: rgba(245,166,35,0.18); }
 body.light-mode .bot-tech-card { background: #FFFFFF; border: 1px solid rgba(9,30,62,0.1); border-left: 3px solid var(--orange); color: var(--white); }
 .btc-row { margin-bottom: 0.3rem; }
 .btc-label { color: rgba(255,255,255,0.5); }
@@ -1572,7 +1574,15 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
       <button class="bot-close" id="botClose" aria-label="Cerrar asistente">&times;</button>
     </div>
     <div class="bot-body" id="botBody">
-      <div class="msg bot">¡Hola! Soy SeedBot informacional. ¿De qué híbrido Nidera buscás datos técnicos? (Ej: "NS 7765", "NS 1227")</div>
+      <div class="msg bot">¡Hola! Soy SeedBot. Consultame datos técnicos de cualquier híbrido Nidera. Probá con estos:</div>
+      <div class="bot-quick-replies" id="botQuickStart">
+        <button class="bot-quick-btn" onclick="quickBot('7765')">NS 7765</button>
+        <button class="bot-quick-btn" onclick="quickBot('1113')">NS 1113</button>
+        <button class="bot-quick-btn" onclick="quickBot('7852')">NS 7852</button>
+        <button class="bot-quick-btn" onclick="quickBot('1227')">NS 1227 HO</button>
+        <button class="bot-quick-btn" onclick="quickBot('maiz')">Maíz</button>
+        <button class="bot-quick-btn" onclick="quickBot('girasol')">Girasol</button>
+      </div>
     </div>
     <div class="bot-input-area">
       <input type="text" id="botInput" placeholder="Escribí aquí..." onkeypress="if(event.key==='Enter') sendBotMsg()">
@@ -1931,17 +1941,111 @@ function addHybridCard(h) {
   botBody.scrollTop = botBody.scrollHeight;
 }
 
+// Category groups for search by type
+const hybridCategories = {
+  maiz: Object.keys(hybridsDB).filter(k => parseInt(k) >= 7000),
+  girasol: Object.keys(hybridsDB).filter(k => parseInt(k) < 2000),
+  clearfield: Object.keys(hybridsDB).filter(k => hybridsDB[k].tech.toLowerCase().includes('clearfield') || hybridsDB[k].tech.includes('CL')),
+  oleico: ['1227'],
+  temprana: Object.keys(hybridsDB).filter(k => hybridsDB[k].pos.toLowerCase().includes('temprana')),
+  silaje: Object.keys(hybridsDB).filter(k => hybridsDB[k].pos.toLowerCase().includes('silaje'))
+};
+
+// Fuzzy: find closest hybrid key for typos (max 1 digit off)
+function fuzzyFindHybrid(input) {
+  const nums = input.replace(/\D/g, '');
+  if(nums.length < 3) return null;
+  const keys = Object.keys(hybridsDB);
+  // Exact substring first
+  const exact = keys.find(k => nums.includes(k));
+  if(exact) return exact;
+  // 1-digit tolerance
+  for(const k of keys) {
+    if(k.length === nums.length || Math.abs(k.length - nums.length) <= 1) {
+      let diff = 0;
+      const shorter = Math.min(k.length, nums.length);
+      for(let i = 0; i < shorter; i++) { if(k[i] !== nums[i]) diff++; }
+      diff += Math.abs(k.length - nums.length);
+      if(diff <= 1) return k;
+    }
+  }
+  return null;
+}
+
+function quickBot(query) {
+  // Hide quick-start buttons after first use
+  const qs = document.getElementById('botQuickStart');
+  if(qs) qs.style.display = 'none';
+  botInput.value = query;
+  sendBotMsg();
+}
+
+function addQuickReplies(keys, label) {
+  const container = document.createElement('div');
+  container.className = 'bot-quick-replies';
+  keys.forEach(k => {
+    const btn = document.createElement('button');
+    btn.className = 'bot-quick-btn';
+    btn.textContent = hybridsDB[k].name.split(' ').slice(0,2).join(' ');
+    btn.addEventListener('click', () => {
+      container.remove();
+      botInput.value = k;
+      sendBotMsg();
+    });
+    container.appendChild(btn);
+  });
+  botBody.appendChild(container);
+  botBody.scrollTop = botBody.scrollHeight;
+}
+
 function sendBotMsg() {
-  const val = botInput.value.trim().toLowerCase();
+  const raw = botInput.value.trim();
+  const val = raw.toLowerCase();
   if(!val) return;
-  addMsg(botInput.value, 'user');
+  addMsg(raw, 'user');
   botInput.value = '';
-  
+
   setTimeout(() => {
-    if(val.includes('recomen') || val.includes('que siembro') || val.includes('mejor') || val.includes('cual me') || val.includes('asesor') || val.includes('compr') || val.includes('suger')) {
-      addMsg("Soy SeedBot, el asistente digital informativo. Por políticas de la empresa, no realizo recomendaciones agronómicas directas. Para asesoramiento a medida de tu lote, por favor clicá en 'Contactanos' para enviarnos un WhatsApp.", 'bot');
+    // Greetings
+    if(/^(hola|buenas|buen dia|buenos dias|hey|que tal|buenas tardes|buenas noches)\b/.test(val)) {
+      addMsg("¡Hola! Consultame por cualquier híbrido Nidera — escribí el número (ej: 7765) o buscá por categoría: maíz, girasol, clearfield, alto oleico.", 'bot');
       return;
     }
+
+    // Thanks
+    if(/^(gracias|genial|joya|dale|ok|perfecto|gracia|thx|ty)\b/.test(val)) {
+      addMsg("¡De nada! Si necesitás más datos de otro híbrido, preguntame.", 'bot');
+      return;
+    }
+
+    // Recommendation guard
+    if(val.includes('recomen') || val.includes('que siembro') || val.includes('cual me') || val.includes('asesor') || val.includes('suger')) {
+      addMsg("No hago recomendaciones agronómicas. Para asesoramiento a medida de tu lote, contactá al equipo por WhatsApp desde la sección Contacto.", 'bot');
+      return;
+    }
+
+    // Price questions
+    if(val.includes('precio') || val.includes('cuanto sale') || val.includes('cuánto') || val.includes('costo') || val.includes('valor') || val.includes('lista')) {
+      addMsg("Los precios varían según campaña, volumen y condiciones de pago. Pedí tu cotización personalizada por WhatsApp desde la sección Contacto.", 'bot');
+      return;
+    }
+
+    // Company info
+    if(val.includes('donde están') || val.includes('dónde están') || val.includes('ubicacion') || val.includes('ubicación') || val.includes('direc')) {
+      addMsg("Estamos en Henderson, Buenos Aires. También cubrimos Bolívar y Daireaux. Contactanos por WhatsApp: 2314 53-0691.", 'bot');
+      return;
+    }
+
+    // Category search
+    for(const [cat, keys] of Object.entries(hybridCategories)) {
+      if(val.includes(cat) || (cat === 'oleico' && (val.includes('alto oleico') || val.includes('ho ')))) {
+        addMsg(`Estos son nuestros híbridos de ${cat}:`, 'bot');
+        addQuickReplies(keys, cat);
+        return;
+      }
+    }
+
+    // Direct hybrid lookup
     let found = false;
     for(const key in hybridsDB) {
       if(val.includes(key)) {
@@ -1949,9 +2053,18 @@ function sendBotMsg() {
         found = true;
       }
     }
-    if(!found) {
-      addMsg("No pude identificar el híbrido. Probá escribiendo el número, por ejemplo 'NS 7765' o '1113'. Solo devuelvo información técnica del catálogo Nidera.", 'bot');
+    if(found) return;
+
+    // Fuzzy match
+    const fuzzy = fuzzyFindHybrid(val);
+    if(fuzzy) {
+      addMsg(`¿Quisiste decir ${hybridsDB[fuzzy].name}?`, 'bot');
+      addQuickReplies([fuzzy], 'suggestion');
+      return;
     }
+
+    // Fallback
+    addMsg("No encontré ese híbrido. Probá con el número (ej: 7765, 1113) o buscá por categoría: maíz, girasol, clearfield, alto oleico, temprana, silaje.", 'bot');
   }, 400);
 }
 </script>
