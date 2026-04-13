@@ -365,6 +365,9 @@ section{padding:5rem 0}
 
 /* ═══ FOOTER ═══ */
 .footer{background:linear-gradient(180deg,var(--navy) 0%,var(--navy-dark) 30%);border-top:1px solid rgba(255,255,255,.06);padding:4rem 0 1.5rem}
+.footer-badge{display:flex;align-items:center;gap:.8rem;background:rgba(245,166,35,.06);border:1px solid rgba(245,166,35,.15);border-radius:99px;padding:.5rem 1.2rem;margin-bottom:2.5rem;width:fit-content}
+.footer-badge span{font-family:var(--mono);font-size:.72rem;color:var(--orange);text-transform:uppercase;letter-spacing:.1em}
+.footer-zone{display:flex;align-items:center;gap:.4rem;margin-top:.6rem;color:rgba(255,255,255,.35);font-size:.78rem}
 .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:3rem}
 .footer-brand p{font-size:.85rem;color:rgba(255,255,255,.4);line-height:1.6;margin-top:.8rem}
 .footer-col h4{font-family:var(--mono);font-size:.72rem;color:var(--orange);text-transform:uppercase;letter-spacing:.12em;margin-bottom:1rem}
@@ -611,6 +614,8 @@ body.light-mode .form-group label { color: rgba(9, 30, 62, 0.7); }
 body.light-mode .form-group input, body.light-mode .form-group textarea, body.light-mode .form-group select { background: rgba(9, 30, 62, 0.03); border-color: rgba(9, 30, 62, 0.1); color: var(--white); }
 body.light-mode .form-group select option { background: var(--navy); color: var(--white); }
 body.light-mode .footer { background: var(--navy-mid); border-top-color: rgba(9, 30, 62, 0.06); }
+body.light-mode .footer-badge { background: rgba(245,166,35,0.08); border-color: rgba(245,166,35,0.2); }
+body.light-mode .footer-zone { color: rgba(9,30,62,0.5); }
 body.light-mode .footer-brand p { color: rgba(9, 30, 62, 0.6); }
 body.light-mode .footer-col a { color: rgba(9, 30, 62, 0.6); }
 body.light-mode .footer-col a:hover { color: var(--white); }
@@ -1519,10 +1524,18 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
 <!-- ═══════════ FOOTER ═══════════ -->
 <footer class="footer">
   <div class="container">
+    <div class="footer-badge">
+      <img src="assets/logos/nidera.png" alt="Nidera Semillas" style="height:28px;opacity:.85">
+      <span>Distribuidor Exclusivo RED.IN</span>
+    </div>
     <div class="footer-grid">
       <div class="footer-brand">
         <img src="assets/logos/henderseeds.png" alt="HenderSeeds" style="height:40px">
-        <p>Distribuidor exclusivo RED.IN de Nidera Semillas. Henderson, Bolívar y Daireaux, Buenos Aires, Argentina.</p>
+        <p>Desde 2023 acompañando al productor con la mejor genética, tecnología de precisión y trato local.</p>
+        <div class="footer-zone">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Henderson &middot; Bolívar &middot; Daireaux — Buenos Aires, Argentina</span>
+        </div>
       </div>
       <div class="footer-col">
         <h4>Navegación</h4>
