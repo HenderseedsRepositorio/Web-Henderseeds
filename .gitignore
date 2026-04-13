@@ -2,5 +2,7 @@ node_modules/
 .playwright-cli/
 old-*.png
 new-*.png
+mobile-*.png
 index_backup_*
 *.jpeg
+lighthouse-*.json
