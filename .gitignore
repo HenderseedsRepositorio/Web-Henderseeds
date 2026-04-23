@@ -6,3 +6,7 @@ mobile-*.png
 index_backup_*
 *.jpeg
 lighthouse-*.json
+
+# Diseños de referencia — no van al sitio productivo
+Henderseeds WEB CLAUDE DESIGN/
+Henderseeds Redesign.html
