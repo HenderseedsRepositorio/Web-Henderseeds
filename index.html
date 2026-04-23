@@ -539,6 +539,165 @@ body.light-mode .btc-label { color: rgba(9,30,62,0.6); }
 .btc-val { color: var(--ink); font-weight: 600; }
 body.light-mode .btc-val { color: #15181E; }
 
+/* ══════ ABOUT PHOTO ══════ */
+.about-photo{
+  margin-top:32px;border-radius:12px;overflow:hidden;
+  border:1px solid var(--border);background:var(--panel)
+}
+.about-photo img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover}
+.about-photo figcaption{
+  padding:12px 16px;background:var(--panel-2);font-size:12px;font-family:var(--mono-font);
+  color:var(--ink-dim);letter-spacing:.04em;text-transform:uppercase
+}
+
+/* ══════ LA POSTA NEWSLETTER ══════ */
+#laposta .container{position:relative}
+.laposta-soon{
+  max-width:720px;margin:40px auto 0;padding:60px 48px;
+  background:var(--panel);border:1px dashed var(--border-strong);border-radius:14px;
+  text-align:center;position:relative;overflow:hidden
+}
+.laposta-soon::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 50% 0%, color-mix(in oklab, var(--accent) 14%, transparent), transparent 60%)
+}
+.lps-inner{position:relative;z-index:1}
+.lps-badge{
+  display:inline-block;padding:6px 12px;
+  font-family:var(--mono-font);font-size:10.5px;font-weight:700;
+  color:var(--accent);letter-spacing:.1em;text-transform:uppercase;
+  background:color-mix(in oklab, var(--accent) 14%, transparent);
+  border:1px solid color-mix(in oklab, var(--accent) 35%, transparent);border-radius:6px;
+  margin-bottom:20px
+}
+.laposta-soon h3{
+  font-family:var(--title-font);font-weight:600;font-size:clamp(22px,2.6vw,30px);
+  letter-spacing:-.015em;line-height:1.2;max-width:520px;margin:0 auto 14px
+}
+.laposta-soon p{color:var(--ink-dim);font-size:14.5px;line-height:1.6;max-width:460px;margin:0 auto 26px}
+.lps-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 22px;background:var(--accent);color:#0a0a0a;
+  font-family:var(--mono-font);font-weight:700;font-size:12.5px;
+  letter-spacing:.06em;text-transform:uppercase;
+  border-radius:8px;transition:all .2s var(--ease);cursor:pointer
+}
+.lps-cta:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(245,166,35,.3)}
+
+.laposta-live{margin-top:40px}
+.lp-featured{margin-bottom:16px}
+.lp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.lp-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:12px;
+  padding:28px;transition:.2s;cursor:pointer;display:flex;flex-direction:column;gap:10px
+}
+.lp-card:hover{transform:translateY(-2px);border-color:var(--accent)}
+.lp-card-feat{
+  padding:36px;
+  background:
+    radial-gradient(circle at 0% 0%, color-mix(in oklab, var(--accent) 14%, transparent), transparent 55%),
+    var(--panel);
+  border:1px solid color-mix(in oklab, var(--accent) 40%, var(--border))
+}
+.lp-badge{
+  display:inline-block;align-self:flex-start;
+  padding:4px 10px;font-family:var(--mono-font);font-size:10px;font-weight:700;
+  color:var(--accent);letter-spacing:.1em;text-transform:uppercase;
+  background:color-mix(in oklab, var(--accent) 14%, transparent);
+  border:1px solid color-mix(in oklab, var(--accent) 35%, transparent);border-radius:4px
+}
+.lp-num{
+  font-family:var(--mono-font);font-size:11px;color:var(--accent);
+  letter-spacing:.08em;text-transform:uppercase
+}
+.lp-title{
+  font-family:var(--title-font);font-weight:600;font-size:22px;
+  letter-spacing:-.01em;line-height:1.25;color:var(--ink)
+}
+.lp-card-feat .lp-title{font-size:26px}
+.lp-bajada{
+  color:var(--ink-dim);font-size:14px;line-height:1.55;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;text-overflow:ellipsis
+}
+.lp-card-feat .lp-bajada{-webkit-line-clamp:3}
+.lp-read{
+  font-family:var(--mono-font);font-size:11.5px;color:var(--accent);
+  letter-spacing:.06em;margin-top:4px
+}
+.lp-footer{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:30px;padding-top:20px;border-top:1px dashed var(--border-strong);
+  flex-wrap:wrap;gap:16px
+}
+.lp-all,.lp-sub{
+  font-family:var(--mono-font);font-size:12px;letter-spacing:.06em;
+  color:var(--ink-dim);transition:.2s
+}
+.lp-all:hover{color:var(--ink)}
+.lp-sub{
+  padding:10px 18px;background:var(--accent);color:#0a0a0a;
+  font-weight:700;text-transform:uppercase;border-radius:8px
+}
+.lp-sub:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(245,166,35,.3)}
+
+/* ══════ LA POSTA MODAL ══════ */
+.lp-modal{
+  position:fixed;inset:0;z-index:1200;
+  display:flex;align-items:center;justify-content:center;padding:24px;
+  opacity:0;pointer-events:none;transition:opacity .2s var(--ease)
+}
+.lp-modal.open{opacity:1;pointer-events:auto}
+.lp-modal-overlay{
+  position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)
+}
+.lp-modal-body{
+  position:relative;z-index:1;
+  max-width:760px;width:100%;max-height:80vh;overflow:auto;
+  background:var(--panel);border:1px solid var(--border);border-radius:16px;
+  padding:40px;box-shadow:var(--shadow-lg);transform:translateY(12px);
+  transition:transform .25s var(--ease)
+}
+.lp-modal.open .lp-modal-body{transform:translateY(0)}
+.lp-modal-close{
+  position:absolute;top:14px;right:14px;
+  width:40px;height:40px;border-radius:50%;
+  background:transparent;border:1px solid var(--border);color:var(--ink-dim);
+  font-size:22px;line-height:1;display:grid;place-items:center;
+  cursor:pointer;transition:.2s
+}
+.lp-modal-close:hover{color:var(--accent);border-color:var(--accent)}
+.lp-modal-content h2{
+  font-family:var(--title-font);font-weight:700;font-size:clamp(22px,2.6vw,30px);
+  letter-spacing:-.015em;line-height:1.2;margin:10px 0 14px
+}
+.lp-modal-content p{color:var(--ink-dim);font-size:15px;line-height:1.65}
+.lp-modal-content .lp-modal-bajada{margin-top:4px}
+.lp-modal-foot{
+  margin-top:20px;padding-top:20px;border-top:1px dashed var(--border-strong)
+}
+.lp-modal-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono-font);font-size:12.5px;color:var(--accent);
+  letter-spacing:.06em;transition:.15s
+}
+.lp-modal-link:hover{transform:translateX(3px)}
+
+@media(max-width:768px){
+  .laposta-soon{padding:44px 24px}
+  .lp-grid{grid-template-columns:1fr}
+  .lp-card{padding:22px}
+  .lp-card-feat{padding:26px}
+  .lp-title{font-size:19px}
+  .lp-card-feat .lp-title{font-size:21px}
+  .lp-footer{flex-direction:column;align-items:stretch;text-align:center}
+  .lp-sub{text-align:center}
+  .lp-modal{padding:12px}
+  .lp-modal-body{padding:24px;max-height:88vh}
+  .lp-modal-content h2{font-size:20px}
+  .lp-modal-content p{font-size:14px}
+}
+
 /* Success state on submit button */
 .btn-submit.ok{background:var(--green)!important;color:#fff!important}
 
@@ -572,6 +731,7 @@ body.light-mode .btc-val { color: #15181E; }
       <li><a href="#hybrids">Catálogo</a></li>
       <li><a href="#data">Ensayos</a></li>
       <li><a href="#voices">Productores</a></li>
+      <li><a href="#laposta">La Posta</a></li>
       <li><a href="https://margenes.henderseeds.com" target="_blank" rel="noopener" class="ext">Margenes</a></li>
       <li><a href="#cta" class="nav-cta">Cotizar</a></li>
       <li>
@@ -595,6 +755,7 @@ body.light-mode .btc-val { color: #15181E; }
   <a href="#hybrids" onclick="this.closest('.mobile-menu').classList.remove('open')">Catálogo</a>
   <a href="#data" onclick="this.closest('.mobile-menu').classList.remove('open')">Ensayos</a>
   <a href="#voices" onclick="this.closest('.mobile-menu').classList.remove('open')">Productores</a>
+  <a href="#laposta" onclick="this.closest('.mobile-menu').classList.remove('open')">La Posta</a>
   <a href="https://margenes.henderseeds.com" target="_blank" rel="noopener">Margenes ↗</a>
   <a href="#cta" onclick="this.closest('.mobile-menu').classList.remove('open')" style="color:var(--accent)">Cotizar</a>
   <button class="theme-toggle" aria-label="Modo claro/oscuro" onclick="toggleTheme(); this.closest('.mobile-menu').classList.remove('open');" style="margin-top:1rem;">
@@ -680,6 +841,10 @@ body.light-mode .btc-val { color: #15181E; }
             <div class="kpi"><div class="k">Productores atendidos</div><div class="v">40+</div><div class="sub">zona Henderson</div></div>
             <div class="kpi"><div class="k">Hectáreas bajo plan</div><div class="v acc">12k+</div><div class="sub">campaña 25/26</div></div>
           </div>
+          <figure class="about-photo">
+            <img src="assets/equipo-ensayo.jpeg" alt="Equipo Henderseeds recorriendo ensayos en Henderson" loading="lazy">
+            <figcaption>Recorrida de ensayos · Henderson, Buenos Aires · campaña 25/26</figcaption>
+          </figure>
         </div>
       </div>
       <div class="about-aside reveal">
@@ -798,10 +963,51 @@ body.light-mode .btc-val { color: #15181E; }
   </div>
 </section>
 
+<!-- ══════ LA POSTA · NEWSLETTER ══════ -->
+<section id="laposta">
+  <div class="container">
+    <div class="sec-label reveal"><span class="k">&gt; 05</span>NEWSLETTER</div>
+    <h2 class="sec-title reveal">La Posta <span class="c">·</span> briefing<br>agro-financiero semanal.</h2>
+    <p class="sec-desc reveal">Precios, clima, curva LECAP-Rofex y análisis para decidir cuándo vender, cuándo sembrar, cuándo esperar. Cada semana en tu mail.</p>
+
+    <!-- Feature flag controlled: when LA_POSTA_ACTIVE=false show .laposta-soon; when true show .laposta-live -->
+    <div class="laposta-soon reveal" id="lapostaSoon">
+      <div class="lps-inner">
+        <div class="lps-badge">PRÓXIMO LANZAMIENTO</div>
+        <h3>Estamos ajustando el tono de la primera edición oficial.</h3>
+        <p>Suscribite gratis y recibí el primer envío apenas salga.</p>
+        <a href="https://la-posta.vercel.app" target="_blank" rel="noopener" class="lps-cta" onclick="gtag('event','laposta_subscribe_click',{source:'soon'})">Reservar mi lugar →</a>
+      </div>
+    </div>
+
+    <div class="laposta-live reveal" id="lapostaLive" style="display:none">
+      <div class="lp-featured" id="lpFeatured"><!-- populated by fetch --></div>
+      <div class="lp-grid" id="lpGrid"><!-- populated by fetch --></div>
+      <div class="lp-footer">
+        <a href="https://la-posta.vercel.app" target="_blank" rel="noopener" class="lp-all" onclick="gtag('event','laposta_see_all_click')">Ver todas las ediciones →</a>
+        <a href="https://la-posta.vercel.app" target="_blank" rel="noopener" class="lp-sub" onclick="gtag('event','laposta_subscribe_click',{source:'live'})">Suscribirme gratis →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- La Posta · Modal -->
+<div class="lp-modal" id="lpModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="lp-modal-overlay" onclick="closeLpModal()"></div>
+  <div class="lp-modal-body">
+    <button class="lp-modal-close" onclick="closeLpModal()" aria-label="Cerrar">&times;</button>
+    <div class="lp-modal-content" id="lpModalContent"></div>
+    <div class="lp-modal-foot">
+      <a href="#" target="_blank" rel="noopener" class="lp-modal-link" id="lpModalLink">Ver en La Posta →</a>
+    </div>
+  </div>
+</div>
+
 <!-- ══════ CTA · CONTACTO ══════ -->
 <section id="cta">
   <div class="container">
-    <div class="sec-label reveal"><span class="k">&gt; 05</span>CONTACTO DIRECTO</div>
+    <div class="sec-label reveal"><span class="k">&gt; 06</span>CONTACTO DIRECTO</div>
     <h2 class="sec-title reveal">Sin <span class="c">intermediarios</span>.<br>Del productor al equipo.</h2>
 
     <div class="cta-grid reveal">
@@ -1393,6 +1599,90 @@ document.querySelectorAll('.nav-cta').forEach(btn => {
 setTimeout(function() {
   if(typeof gtag === 'function') gtag('event', 'session_engagement', {event_category: 'engagement', event_label: '2min+', non_interaction: true});
 }, 120000);
+
+// ══════ LA POSTA NEWSLETTER ══════
+const LA_POSTA_ACTIVE = false; // Switch to true when first official edition is ready
+const LA_POSTA_BASE = 'https://la-posta.vercel.app';
+
+async function initLaPosta() {
+  if (!LA_POSTA_ACTIVE) return;
+  document.getElementById('lapostaSoon').style.display = 'none';
+  document.getElementById('lapostaLive').style.display = 'block';
+  try {
+    const res = await fetch(`${LA_POSTA_BASE}/api/latest.json`, { cache: 'no-store' });
+    if (!res.ok) throw new Error('fetch failed');
+    const data = await res.json();
+    renderLaPosta(data.editions || []);
+  } catch (err) {
+    console.warn('[laposta] fetch failed, fallback to soon', err);
+    document.getElementById('lapostaLive').style.display = 'none';
+    document.getElementById('lapostaSoon').style.display = 'block';
+  }
+}
+
+function renderLaPosta(editions) {
+  if (!editions.length) return;
+  const featured = editions[0];
+  const rest = editions.slice(1, 3);
+  const featEl = document.getElementById('lpFeatured');
+  featEl.innerHTML = `
+    <div class="lp-card lp-card-feat" onclick="openLpModal('${featured.numero}')">
+      <div class="lp-badge">ÚLTIMA EDICIÓN</div>
+      <div class="lp-num">#${featured.numero} · ${featured.fecha}</div>
+      <div class="lp-title">${featured.titulo}</div>
+      <div class="lp-bajada">${featured.bajada || ''}</div>
+      <div class="lp-read">Leer edición →</div>
+    </div>
+  `;
+  const gridEl = document.getElementById('lpGrid');
+  gridEl.innerHTML = rest.map(e => `
+    <div class="lp-card" onclick="openLpModal('${e.numero}')">
+      <div class="lp-num">#${e.numero} · ${e.fecha}</div>
+      <div class="lp-title">${e.titulo}</div>
+      <div class="lp-bajada">${e.bajada || ''}</div>
+    </div>
+  `).join('');
+}
+
+async function openLpModal(numero) {
+  const modal = document.getElementById('lpModal');
+  const content = document.getElementById('lpModalContent');
+  const link = document.getElementById('lpModalLink');
+  content.innerHTML = '<p style="text-align:center;opacity:.6">Cargando edición…</p>';
+  link.href = `${LA_POSTA_BASE}/edicion/edicion-${numero}`;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  if (typeof gtag !== 'undefined') gtag('event','laposta_open_modal',{numero});
+  try {
+    const res = await fetch(`${LA_POSTA_BASE}/api/edicion-${numero}.json`, { cache: 'no-store' });
+    if (!res.ok) throw new Error('fetch failed');
+    const data = await res.json();
+    content.innerHTML = `
+      <div class="lp-num" style="margin-bottom:8px">#${data.numero} · ${data.fecha}</div>
+      <h2>${data.titulo}</h2>
+      <p class="lp-modal-bajada">${data.bajada || ''}</p>
+    `;
+  } catch (err) {
+    content.innerHTML = `
+      <p>No pudimos cargar la edición acá.
+      <a href="${LA_POSTA_BASE}/edicion/edicion-${numero}" target="_blank" style="color:var(--accent)">Abrila en La Posta →</a></p>
+    `;
+  }
+}
+
+function closeLpModal() {
+  const modal = document.getElementById('lpModal');
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.getElementById('lpModal').classList.contains('open')) closeLpModal();
+});
+
+initLaPosta();
 </script>
 </body>
 </html>
