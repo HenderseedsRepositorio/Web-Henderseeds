@@ -728,7 +728,7 @@ body.light-mode .btc-val { color: #15181E; }
       <li><a href="#hybrids">Catálogo</a></li>
       <li><a href="#data">Ensayos</a></li>
       <li><a href="#voices">Productores</a></li>
-      <li><a href="#laposta">La Posta</a></li>
+      <li><a href="#laposta">Al Grano</a></li>
       <li><a href="https://margenes.vercel.app?utm_source=henderseeds&amp;utm_medium=nav&amp;utm_campaign=site" target="_blank" rel="noopener" class="ext" onclick="gtag('event','calc_link_click',{source:'nav'})">Calculadora</a></li>
       <li><a href="#cta" class="nav-cta">Cotizar</a></li>
       <li>
@@ -752,7 +752,7 @@ body.light-mode .btc-val { color: #15181E; }
   <a href="#hybrids" onclick="this.closest('.mobile-menu').classList.remove('open')">Catálogo</a>
   <a href="#data" onclick="this.closest('.mobile-menu').classList.remove('open')">Ensayos</a>
   <a href="#voices" onclick="this.closest('.mobile-menu').classList.remove('open')">Productores</a>
-  <a href="#laposta" onclick="this.closest('.mobile-menu').classList.remove('open')">La Posta</a>
+  <a href="#laposta" onclick="this.closest('.mobile-menu').classList.remove('open')">Al Grano</a>
   <a href="https://margenes.vercel.app?utm_source=henderseeds&amp;utm_medium=nav&amp;utm_campaign=site" target="_blank" rel="noopener" onclick="gtag('event','calc_link_click',{source:'nav'})">Calculadora ↗</a>
   <a href="#cta" onclick="this.closest('.mobile-menu').classList.remove('open')" style="color:var(--accent)">Cotizar</a>
   <button class="theme-toggle" aria-label="Modo claro/oscuro" onclick="toggleTheme(); this.closest('.mobile-menu').classList.remove('open');" style="margin-top:1rem;">
@@ -982,7 +982,7 @@ body.light-mode .btc-val { color: #15181E; }
 <section id="laposta">
   <div class="container">
     <div class="sec-label reveal"><span class="k">&gt; 06</span>NEWSLETTER</div>
-    <h2 class="sec-title reveal">La Posta <span class="c">·</span> briefing<br>agro-financiero semanal.</h2>
+    <h2 class="sec-title reveal">Al Grano <span class="c">·</span> 4 min agro-financiero,<br>todos los jueves.</h2>
     <p class="sec-desc reveal">Precios, clima, curva LECAP-Rofex y análisis para decidir cuándo vender, cuándo sembrar, cuándo esperar. Cada semana en tu mail.</p>
 
     <!-- Feature flag controlled: when LA_POSTA_ACTIVE=false show .laposta-soon; when true show .laposta-live -->
@@ -1007,14 +1007,14 @@ body.light-mode .btc-val { color: #15181E; }
   </div>
 </section>
 
-<!-- La Posta · Modal -->
+<!-- Al Grano · Modal -->
 <div class="lp-modal" id="lpModal" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="lp-modal-overlay" onclick="closeLpModal()"></div>
   <div class="lp-modal-body">
     <button class="lp-modal-close" onclick="closeLpModal()" aria-label="Cerrar">&times;</button>
     <div class="lp-modal-content" id="lpModalContent"></div>
     <div class="lp-modal-foot">
-      <a href="#" target="_blank" rel="noopener" class="lp-modal-link" id="lpModalLink">Ver en La Posta →</a>
+      <a href="#" target="_blank" rel="noopener" class="lp-modal-link" id="lpModalLink">Ver en Al Grano →</a>
     </div>
   </div>
 </div>
@@ -1038,9 +1038,6 @@ body.light-mode .btc-val { color: #15181E; }
           </a>
           <a href="https://instagram.com/henderseeds" target="_blank" rel="noopener">
             <span class="lbl">ig →</span><span class="val">@henderseeds</span><span class="arr">→</span>
-          </a>
-          <a href="https://margenes.henderseeds.com" target="_blank" rel="noopener">
-            <span class="lbl">margenes →</span><span class="val">app.henderseeds</span><span class="arr">→</span>
           </a>
         </div>
       </div>
@@ -1681,7 +1678,7 @@ async function openLpModal(numero) {
   } catch (err) {
     content.innerHTML = `
       <p>No pudimos cargar la edición acá.
-      <a href="${LA_POSTA_BASE}/edicion/edicion-${numero}" target="_blank" style="color:var(--accent)">Abrila en La Posta →</a></p>
+      <a href="${LA_POSTA_BASE}/edicion/edicion-${numero}" target="_blank" style="color:var(--accent)">Abrila en Al Grano →</a></p>
     `;
   }
 }
