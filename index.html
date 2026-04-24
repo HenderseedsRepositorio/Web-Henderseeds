@@ -15,9 +15,12 @@
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="es_AR">
 <meta property="og:site_name" content="HenderSeeds">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/logos/favicon-32.png?v=3">
-<link rel="icon" type="image/png" sizes="192x192" href="assets/logos/favicon-192.png?v=3">
-<link rel="apple-touch-icon" sizes="180x180" href="assets/logos/favicon-180.png?v=3">
+<link rel="icon" href="/favicon.ico?v=4" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/logos/favicon-32.png?v=4">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/logos/favicon-192.png?v=4">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/logos/favicon-512.png?v=4">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/logos/favicon-180.png?v=4">
+<link rel="shortcut icon" href="/favicon.ico?v=4">
 <link rel="canonical" href="https://henderseeds.com">
 <script type="application/ld+json">
 {
@@ -144,7 +147,8 @@ button{font:inherit;cursor:pointer;border:0;background:0;color:inherit}
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   border-bottom:1px solid var(--border)
 }
-.topbar-inner{display:flex;align-items:center;gap:28px;padding:14px 0;justify-content:space-between}
+.topbar-inner{display:flex;align-items:center;gap:28px;padding:14px 28px;justify-content:space-between}
+@media(max-width:600px){.topbar-inner{padding:14px 20px}}
 .brand{display:flex;align-items:center;gap:12px;font-family:var(--title-font);font-weight:700;font-size:17px;letter-spacing:-.01em}
 .brand img{height:32px;display:block}
 .status-chips{display:flex;gap:10px;align-items:center}
