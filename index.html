@@ -773,7 +773,7 @@ body.light-mode .btc-val { color: #15181E; }
           <svg viewBox="0 0 60 34"><polyline fill="none" stroke="var(--accent)" stroke-width="1.5" points="0,26 10,22 20,24 30,14 40,18 50,8 60,10"/></svg>
           <div class="label">Top maíz temprana</div>
           <div class="big">+392 <span class="u">kg/ha</span></div>
-          <div class="delta">↑ NS 7765 VIP3 · 74% éxito</div>
+          <div class="delta">↑ NS 7765 Viptera3 · 74% éxito</div>
           <div class="ref">191 comp. · vs. IA RED.IN 24/25</div>
         </div>
         <div class="stat-card">
@@ -1166,13 +1166,13 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 // ═══ Hybrids catalog data (marbete oficial 26/27) ═══
 const hybrids = [
   // MAÍZ (8)
-  {cat:['maiz'],id:'NS 7765 VIP3',tech:'Viptera3 · Semi-dentado',pos:'Temprana +392 · Tardía +324 · riego y secano',d:'+392',mr:'118',pms:'300g',banda:'1'},
-  {cat:['maiz','nuevo'],id:'NS 7852 VIP3',tech:'Viptera3 · Semi-dentado',pos:'Excelente performance temprana y tardía',d:'+316',mr:'118',pms:'305g',banda:'1',badge:'NUEVO'},
-  {cat:['maiz','nuevo'],id:'NS 7925 VIP3',tech:'Viptera3 · Semi-dentado',pos:'Máximo potencial en tardía · Spiroplasma',d:'+228',mr:'119',pms:'287g',banda:'1',badge:'NUEVO'},
-  {cat:['maiz'],id:'NS 7621 VIP3',tech:'Viptera3 · Semi-dentado',pos:'Máxima temprana en MA·A. No usar tardía',d:'+290',mr:'117',pms:'286g',banda:'1'},
+  {cat:['maiz'],id:'NS 7765 Viptera3',tech:'Viptera3 · Semi-dentado',pos:'Temprana +392 · Tardía +324 · riego y secano',d:'+392',mr:'118',pms:'300g',banda:'1'},
+  {cat:['maiz','nuevo'],id:'NS 7852 Viptera3',tech:'Viptera3 · Semi-dentado',pos:'Excelente performance temprana y tardía',d:'+316',mr:'118',pms:'305g',banda:'1',badge:'NUEVO'},
+  {cat:['maiz','nuevo'],id:'NS 7925 Viptera3',tech:'Viptera3 · Semi-dentado',pos:'Máximo potencial en tardía · Spiroplasma',d:'+228',mr:'119',pms:'287g',banda:'1',badge:'NUEVO'},
+  {cat:['maiz'],id:'NS 7621 Viptera3',tech:'Viptera3 · Semi-dentado',pos:'Máxima temprana en MA·A. No usar tardía',d:'+290',mr:'117',pms:'286g',banda:'1'},
   {cat:['maiz'],id:'AX 7761 VT3P',tech:'VT3P · Semi-dentado',pos:'Excelente sanidad. Estabilidad en bajos',d:'+283',mr:'117',pms:'300g',banda:'1'},
-  {cat:['maiz','cl'],id:'NS 7921 VIP3 CL',tech:'VT3P + Clearfield',pos:'Histórico muy rendidor en Henderson',d:'+179',mr:'118',pms:'316g',banda:'2',badge:'HIST',badgeClass:'hist'},
-  {cat:['maiz','cl'],id:'NS 7624 VIP3 CL',tech:'VT3P + Clearfield',pos:'Ciclo corto. Excelente tardía. No usar temprana',d:'+163',mr:'117',pms:'311g',banda:'2'},
+  {cat:['maiz','cl'],id:'NS 7921 Viptera3 CL',tech:'Viptera3 CL · Semi-dentado',pos:'Histórico muy rendidor en Henderson',d:'+179',mr:'118',pms:'316g',banda:'2',badge:'HIST',badgeClass:'hist'},
+  {cat:['maiz','cl'],id:'NS 7624 Viptera3 CL',tech:'Viptera3 CL · Semi-dentado',pos:'Ciclo corto. Excelente tardía. No usar temprana',d:'+163',mr:'117',pms:'311g',banda:'2'},
   {cat:['maiz'],id:'AX 7784 VT3P',tech:'VT3P · Silaje',pos:'Silo de planta. Volumen + materia seca',d:'SILO',mr:'117',pms:'347g',banda:'—',badge:'SILO',badgeClass:'silo'},
   // GIRASOL (4)
   {cat:['girasol','cl'],id:'NS 1113 CL',tech:'CL · Linoleico · aceite muy alto',pos:'Líder. Rinde + aceite + sanidad',d:'+2,11',mr:'110',pms:'lineoleico',banda:'1',badge:'LÍDER'},
@@ -1329,12 +1329,12 @@ if(botToggle && botWindow) {
 
 // Data: marbete oficial Nidera 26/27 — fuente única references/hibridos.md
 const hybridsDB = {
-  "7765": { name: "NS 7765 Viptera3", tech: "Viptera3 (VT3P)", mr: "118", gdu: "783", pms: "300g", grain: "Semi-dentado", height: "227cm", pos: "Máximo potencial y estabilidad en temprana (+392 kg/ha · 74% éxito). Tardía +324 kg/ha. Riego y secano. Ambientes B · MB · MA · A." },
-  "7852": { name: "NS 7852 Viptera3 🆕", tech: "Viptera3 (VT3P)", mr: "118", gdu: "783", pms: "305g", grain: "Semi-dentado", height: "240cm", pos: "Excelente rendimiento y perfil agronómico en temprana (+316 kg/ha · 69% éxito) y tardía (+194 kg/ha · 62%)." },
-  "7925": { name: "NS 7925 Viptera3 🆕", tech: "Viptera3 (VT3P)", mr: "119", gdu: "792", pms: "287g", grain: "Semi-dentado", height: "235cm", pos: "Máximo potencial en tardía (+228 kg/ha · 59% éxito). Excelente comportamiento a Spiroplasma." },
-  "7621": { name: "NS 7621 Viptera3", tech: "Viptera3 (VT3P)", mr: "117", gdu: "789", pms: "286g", grain: "Semi-dentado", height: "227cm", pos: "Máxima performance en temprana (+290 kg/ha · 67% éxito) en ambientes MA·A. No usar en tardía." },
-  "7624": { name: "NS 7624 Viptera3 CL", tech: "VT3P + Clearfield", mr: "117", gdu: "767", pms: "311g", grain: "Semi-dentado", height: "235cm", pos: "Ciclo corto. Excelente performance en tardía (+163 kg/ha · 60% éxito). No usar en temprana." },
-  "7921": { name: "NS 7921 Viptera3 CL ⭐", tech: "VT3P + Clearfield", mr: "118", gdu: "792", pms: "316g", grain: "Semi-dentado", height: "235cm", pos: "Histórico muy rendidor en Henderson. Temprana +167 / Tardía +179 kg/ha. Amplia adaptabilidad." },
+  "7765": { name: "NS 7765 Viptera3", tech: "Viptera3", mr: "118", gdu: "783", pms: "300g", grain: "Semi-dentado", height: "227cm", pos: "Máximo potencial y estabilidad en temprana (+392 kg/ha · 74% éxito · 191 comp.). Tardía templada +324 kg/ha (71% · 165 comp.). Riego y secano. Ambientes B · MB · MA · A. Quebrado 1/9 (excelente)." },
+  "7852": { name: "NS 7852 Viptera3 🆕", tech: "Viptera3", mr: "118", gdu: "783", pms: "305g", grain: "Semi-dentado", height: "240cm", pos: "Lanzamiento 26/27. Excelente performance en temprana (+316 kg/ha · 69% · 133 comp.) y tardía templada (+194 kg/ha · 62% · 120 comp.). Todos los ambientes." },
+  "7925": { name: "NS 7925 Viptera3 🆕", tech: "Viptera3", mr: "119", gdu: "792", pms: "287g", grain: "Semi-dentado", height: "235cm", pos: "Lanzamiento 26/27. Máximo potencial en tardía templada (+228 kg/ha · 59% · 120 comp.). Diferencial Spiroplasma 3/9. Solo siembra tardía." },
+  "7621": { name: "NS 7621 Viptera3", tech: "Viptera3", mr: "117", gdu: "789", pms: "286g", grain: "Semi-dentado", height: "227cm", pos: "Máxima performance en temprana (+290 kg/ha · 67% · 419 comp.) en ambientes MA·A. No usar en tardía (-102 kg/ha)." },
+  "7624": { name: "NS 7624 Viptera3 CL", tech: "Viptera3 CL", mr: "117", gdu: "767", pms: "311g", grain: "Semi-dentado", height: "235cm", pos: "Ciclo corto. Excelente tardía templada (+163 kg/ha · 60% · 222 comp.). No usar en temprana (-89 kg/ha). 3 herramientas herbicidas Clearfield." },
+  "7921": { name: "NS 7921 Viptera3 CL ⭐", tech: "Viptera3 CL", mr: "118", gdu: "792", pms: "316g", grain: "Semi-dentado", height: "235cm", pos: "Volumen del portfolio CL (478+364 comp.). Temprana +167 kg/ha (58%) · Tardía templada +179 kg/ha (60%). Amplia adaptabilidad + control de malezas." },
   "7761": { name: "AX 7761 VT3P", tech: "VT3P (TriplePRO)", mr: "117", gdu: "762", pms: "300g", grain: "Semi-dentado", height: "215cm", pos: "Muy buena performance en temprana (+283 kg/ha · 67% éxito). Excelente sanidad (Roya 1 · Tizón 2 · Green Snap 2)." },
   "7784": { name: "AX 7784 VT3P · Silaje", tech: "VT3P (TriplePRO)", mr: "117", gdu: "792", pms: "347g", grain: "Semi-dentado", height: "240cm", pos: "Uso específico silaje/silo de planta. Equilibrio volumen y calidad de materia seca. No comunicar como híbrido de rinde grano." },
   "7818": { name: "NS 7818 VIP3", tech: "VIP3 (glufosinato)", mr: "118", gdu: "784", pms: "313g", grain: "Semi-dentado", height: "218cm", pos: "Opción económica. Muy buena sanidad (Roya 1 · Tizón 2). Posicionar por precio y sanidad, nunca por rinde." },
