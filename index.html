@@ -15,7 +15,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="es_AR">
 <meta property="og:site_name" content="HenderSeeds">
-<link rel="icon" type="image/png" href="assets/logos/henderseeds.png">
+<link rel="icon" type="image/svg+xml" href="assets/logos/espiga.svg">
 <link rel="apple-touch-icon" href="assets/logos/henderseeds.png">
 <link rel="canonical" href="https://henderseeds.com">
 <script type="application/ld+json">
@@ -620,8 +620,29 @@ body.light-mode .btc-val { color: #15181E; }
 .ag-card-feat .ag-bajada{-webkit-line-clamp:3}
 .ag-read{
   font-family:var(--mono-font);font-size:11.5px;color:var(--accent);
-  letter-spacing:.06em;margin-top:4px
+  letter-spacing:.06em
 }
+.ag-actions{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:6px
+}
+.ag-share{
+  background:transparent;border:1px solid var(--border);color:var(--ink-dim);
+  width:34px;height:34px;border-radius:50%;
+  display:grid;place-items:center;cursor:pointer;transition:.2s;flex-shrink:0;padding:0
+}
+.ag-share:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+.ag-share:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* Toast global */
+.hs-toast{
+  position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(16px);
+  background:var(--panel);border:1px solid var(--accent);color:var(--ink);
+  padding:12px 22px;border-radius:10px;
+  font-family:var(--mono-font);font-size:13px;letter-spacing:.02em;
+  box-shadow:var(--shadow-lg);
+  opacity:0;pointer-events:none;z-index:2000;transition:.25s var(--ease)
+}
+.hs-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .ag-footer{
   display:flex;justify-content:space-between;align-items:center;
   margin-top:30px;padding-top:20px;border-top:1px dashed var(--border-strong);
@@ -637,48 +658,6 @@ body.light-mode .btc-val { color: #15181E; }
   font-weight:700;text-transform:uppercase;border-radius:8px
 }
 .ag-sub:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(245,166,35,.3)}
-
-/* ══════ AL GRANO MODAL ══════ */
-.ag-modal{
-  position:fixed;inset:0;z-index:1200;
-  display:flex;align-items:center;justify-content:center;padding:24px;
-  opacity:0;pointer-events:none;transition:opacity .2s var(--ease)
-}
-.ag-modal.open{opacity:1;pointer-events:auto}
-.ag-modal-overlay{
-  position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)
-}
-.ag-modal-body{
-  position:relative;z-index:1;
-  max-width:760px;width:100%;max-height:80vh;overflow:auto;
-  background:var(--panel);border:1px solid var(--border);border-radius:16px;
-  padding:40px;box-shadow:var(--shadow-lg);transform:translateY(12px);
-  transition:transform .25s var(--ease)
-}
-.ag-modal.open .ag-modal-body{transform:translateY(0)}
-.ag-modal-close{
-  position:absolute;top:14px;right:14px;
-  width:40px;height:40px;border-radius:50%;
-  background:transparent;border:1px solid var(--border);color:var(--ink-dim);
-  font-size:22px;line-height:1;display:grid;place-items:center;
-  cursor:pointer;transition:.2s
-}
-.ag-modal-close:hover{color:var(--accent);border-color:var(--accent)}
-.ag-modal-content h2{
-  font-family:var(--title-font);font-weight:700;font-size:clamp(22px,2.6vw,30px);
-  letter-spacing:-.015em;line-height:1.2;margin:10px 0 14px
-}
-.ag-modal-content p{color:var(--ink-dim);font-size:15px;line-height:1.65}
-.ag-modal-content .ag-modal-bajada{margin-top:4px}
-.ag-modal-foot{
-  margin-top:20px;padding-top:20px;border-top:1px dashed var(--border-strong)
-}
-.ag-modal-link{
-  display:inline-flex;align-items:center;gap:6px;
-  font-family:var(--mono-font);font-size:12.5px;color:var(--accent);
-  letter-spacing:.06em;transition:.15s
-}
-.ag-modal-link:hover{transform:translateX(3px)}
 
 @media(max-width:768px){
   .algrano-soon{padding:44px 24px}
@@ -738,7 +717,7 @@ body.light-mode .btc-val { color: #15181E; }
         </button>
       </li>
     </ul>
-    <button class="hamburger" onclick="document.getElementById('mob').classList.add('open')" aria-label="Menu">
+    <button class="hamburger" onclick="document.getElementById('mob').classList.add('open');if(typeof gtag==='function')gtag('event','mobile_menu_open',{event_category:'ui'})" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -991,7 +970,7 @@ body.light-mode .btc-val { color: #15181E; }
         <div class="ags-badge">PRÓXIMO LANZAMIENTO</div>
         <h3>Estamos ajustando el tono de la primera edición oficial.</h3>
         <p>Suscribite gratis y recibí el primer envío apenas salga.</p>
-        <a href="https://al-grano.vercel.app" target="_blank" rel="noopener" class="ags-cta" onclick="gtag('event','algrano_subscribe_click',{source:'soon'})">Reservar mi lugar →</a>
+        <a href="https://al-grano.vercel.app/?utm_source=henderseeds&amp;utm_medium=site&amp;utm_campaign=algrano&amp;utm_content=soon" target="_blank" rel="noopener" class="ags-cta" onclick="gtag('event','algrano_subscribe_click',{source:'soon'})">Reservar mi lugar →</a>
       </div>
     </div>
 
@@ -999,25 +978,16 @@ body.light-mode .btc-val { color: #15181E; }
       <div class="ag-featured" id="agFeatured"><!-- populated by fetch --></div>
       <div class="ag-grid" id="agGrid"><!-- populated by fetch --></div>
       <div class="ag-footer">
-        <a href="https://al-grano.vercel.app" target="_blank" rel="noopener" class="ag-all" onclick="gtag('event','algrano_see_all_click')">Ver todas las ediciones →</a>
-        <a href="https://al-grano.vercel.app" target="_blank" rel="noopener" class="ag-sub" onclick="gtag('event','algrano_subscribe_click',{source:'live'})">Suscribirme gratis →</a>
+        <a href="https://al-grano.vercel.app/?utm_source=henderseeds&amp;utm_medium=site&amp;utm_campaign=algrano&amp;utm_content=see_all" target="_blank" rel="noopener" class="ag-all" onclick="gtag('event','algrano_see_all_click')">Ver todas las ediciones →</a>
+        <a href="https://al-grano.vercel.app/?utm_source=henderseeds&amp;utm_medium=site&amp;utm_campaign=algrano&amp;utm_content=subscribe_live" target="_blank" rel="noopener" class="ag-sub" onclick="gtag('event','algrano_subscribe_click',{source:'live'})">Suscribirme gratis →</a>
       </div>
     </div>
 
   </div>
 </section>
 
-<!-- Al Grano · Modal -->
-<div class="ag-modal" id="agModal" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="ag-modal-overlay" onclick="closeAgModal()"></div>
-  <div class="ag-modal-body">
-    <button class="ag-modal-close" onclick="closeAgModal()" aria-label="Cerrar">&times;</button>
-    <div class="ag-modal-content" id="agModalContent"></div>
-    <div class="ag-modal-foot">
-      <a href="#" target="_blank" rel="noopener" class="ag-modal-link" id="agModalLink">Ver en Al Grano →</a>
-    </div>
-  </div>
-</div>
+<!-- Toast global (share link copied, etc) -->
+<div class="hs-toast" id="hsToast" role="status" aria-live="polite"></div>
 
 <!-- ══════ CTA · CONTACTO ══════ -->
 <section id="cta">
@@ -1033,7 +1003,7 @@ body.light-mode .btc-val { color: #15181E; }
           <a href="https://wa.me/5492314530691?text=Hola%2C%20quiero%20info%20de%20pre-campa%C3%B1a%2026%2F27" target="_blank" rel="noopener">
             <span class="lbl">whatsapp →</span><span class="val">2314 53-0691</span><span class="arr">→</span>
           </a>
-          <a href="mailto:info@henderseeds.com">
+          <a href="mailto:info@henderseeds.com" onclick="gtag('event','email_click',{event_category:'conversion'})">
             <span class="lbl">email →</span><span class="val">info@henderseeds.com</span><span class="arr">→</span>
           </a>
           <a href="https://instagram.com/henderseeds" target="_blank" rel="noopener">
@@ -1112,7 +1082,7 @@ body.light-mode .btc-val { color: #15181E; }
       <div>
         <h5>// CONTACTO</h5>
         <a href="https://wa.me/5492314530691" target="_blank" rel="noopener">WhatsApp 2314 53-0691</a>
-        <a href="mailto:info@henderseeds.com">info@henderseeds.com</a>
+        <a href="mailto:info@henderseeds.com" onclick="gtag('event','email_click',{event_category:'conversion'})">info@henderseeds.com</a>
         <a href="https://instagram.com/henderseeds" target="_blank" rel="noopener">@henderseeds</a>
       </div>
       <div>
@@ -1347,6 +1317,7 @@ function toggleTheme() {
   document.body.dataset.mode = isLight ? 'light' : 'dark';
   document.querySelectorAll('.sun-icon').forEach(el => el.style.display = isLight ? 'none' : 'block');
   document.querySelectorAll('.moon-icon').forEach(el => el.style.display = isLight ? 'block' : 'none');
+  if(typeof gtag === 'function') gtag('event','theme_toggle',{to:isLight?'light':'dark', event_category:'ui'});
 }
 if(localStorage.getItem('theme') === 'light') toggleTheme();
 
@@ -1494,6 +1465,7 @@ function sendBotMsg() {
   if(!val) return;
   addMsg(raw, 'user');
   botInput.value = '';
+  if(typeof gtag === 'function') gtag('event','bot_message_sent',{length:raw.length, event_category:'engagement'});
 
   setTimeout(() => {
     // Greetings
@@ -1594,17 +1566,19 @@ document.querySelectorAll('.nav-cta').forEach(btn => {
   });
 });
 
-// scroll_depth_50
+// scroll_depth_25/50/75/100
 (function() {
-  var fired50 = false;
-  window.addEventListener('scroll', function() {
-    if (fired50) return;
-    var scrollPct = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100;
-    if (scrollPct >= 50) {
-      fired50 = true;
-      if(typeof gtag === 'function') gtag('event', 'scroll_depth_50', {event_category: 'engagement', event_label: '50%', non_interaction: true});
-    }
-  }, {passive: true});
+  var fired = {25:false, 50:false, 75:false, 100:false};
+  function check() {
+    var pct = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100;
+    [25,50,75,100].forEach(function(t){
+      if (!fired[t] && pct >= t) {
+        fired[t] = true;
+        if(typeof gtag === 'function') gtag('event','scroll_depth',{percent:t, event_category:'engagement', event_label:t+'%', non_interaction:true});
+      }
+    });
+  }
+  window.addEventListener('scroll', check, {passive:true});
 })();
 
 // session_engagement (2min+)
@@ -1632,67 +1606,67 @@ async function initAlGrano() {
   }
 }
 
+const AG_UTM_BASE = 'utm_source=henderseeds&utm_medium=site&utm_campaign=algrano';
+function agEditionUrl(numero, source){
+  return `${AL_GRANO_BASE}/edicion/edicion-${numero}?${AG_UTM_BASE}&utm_content=${source}`;
+}
+
+function escapeAttr(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+const SHARE_SVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>';
+
 function renderAlGrano(editions) {
   if (!editions.length) return;
   const featured = editions[0];
   const rest = editions.slice(1, 3);
-  const featEl = document.getElementById('agFeatured');
-  featEl.innerHTML = `
-    <div class="ag-card ag-card-feat" onclick="openAgModal('${featured.numero}')">
-      <div class="ag-badge">ÚLTIMA EDICIÓN</div>
-      <div class="ag-num">#${featured.numero} · ${featured.fecha}</div>
-      <div class="ag-title">${featured.titulo}</div>
-      <div class="ag-bajada">${featured.bajada || ''}</div>
-      <div class="ag-read">Leer edición →</div>
-    </div>
-  `;
-  const gridEl = document.getElementById('agGrid');
-  gridEl.innerHTML = rest.map(e => `
-    <div class="ag-card" onclick="openAgModal('${e.numero}')">
+  const cardHtml = (e, position, extra='') => `
+    <div class="ag-card ${position==='featured'?'ag-card-feat':''}" onclick="goToEdicion('${e.numero}','${position}')" role="link" tabindex="0" onkeydown="if(event.key==='Enter')goToEdicion('${e.numero}','${position}')">
+      ${extra}
       <div class="ag-num">#${e.numero} · ${e.fecha}</div>
       <div class="ag-title">${e.titulo}</div>
       <div class="ag-bajada">${e.bajada || ''}</div>
+      <div class="ag-actions">
+        <span class="ag-read">Leer edición →</span>
+        <button type="button" class="ag-share" aria-label="Compartir edición" onclick="event.stopPropagation();shareEdicion('${e.numero}','${escapeAttr(e.titulo)}','${position}')">${SHARE_SVG}</button>
+      </div>
     </div>
-  `).join('');
+  `;
+  document.getElementById('agFeatured').innerHTML = cardHtml(featured, 'featured', '<div class="ag-badge">ÚLTIMA EDICIÓN</div>');
+  document.getElementById('agGrid').innerHTML = rest.map(e => cardHtml(e, 'grid')).join('');
 }
 
-async function openAgModal(numero) {
-  const modal = document.getElementById('agModal');
-  const content = document.getElementById('agModalContent');
-  const link = document.getElementById('agModalLink');
-  content.innerHTML = '<p style="text-align:center;opacity:.6">Cargando edición…</p>';
-  link.href = `${AL_GRANO_BASE}/edicion/edicion-${numero}`;
-  modal.classList.add('open');
-  modal.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
-  if (typeof gtag !== 'undefined') gtag('event','algrano_open_modal',{numero});
+function goToEdicion(numero, source){
+  if (typeof gtag === 'function') gtag('event','algrano_card_click',{numero, position:source});
+  window.open(agEditionUrl(numero, source), '_blank', 'noopener');
+}
+
+async function shareEdicion(numero, titulo, source){
+  const url = agEditionUrl(numero, 'shared');
+  if (typeof gtag === 'function') gtag('event','algrano_share_click',{numero, position:source});
+  const shareData = { title:`Al Grano #${numero}`, text:titulo, url };
   try {
-    const res = await fetch(`${AL_GRANO_BASE}/api/edicion-${numero}.json`, { cache: 'no-store' });
-    if (!res.ok) throw new Error('fetch failed');
-    const data = await res.json();
-    content.innerHTML = `
-      <div class="ag-num" style="margin-bottom:8px">#${data.numero} · ${data.fecha}</div>
-      <h2>${data.titulo}</h2>
-      <p class="ag-modal-bajada">${data.bajada || ''}</p>
-    `;
-  } catch (err) {
-    content.innerHTML = `
-      <p>No pudimos cargar la edición acá.
-      <a href="${AL_GRANO_BASE}/edicion/edicion-${numero}" target="_blank" style="color:var(--accent)">Abrila en Al Grano →</a></p>
-    `;
-  }
+    if (navigator.share) {
+      await navigator.share(shareData);
+    } else if (navigator.clipboard) {
+      await navigator.clipboard.writeText(url);
+      showToast('Link copiado');
+    } else {
+      window.prompt('Copiá el link:', url);
+    }
+  } catch (err) { /* user cancelled */ }
 }
 
-function closeAgModal() {
-  const modal = document.getElementById('agModal');
-  modal.classList.remove('open');
-  modal.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('hsToast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
 }
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && document.getElementById('agModal').classList.contains('open')) closeAgModal();
-});
 
 initAlGrano();
 </script>

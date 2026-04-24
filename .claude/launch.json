@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "henderseeds-site",
-      "runtimeExecutable": "node",
-      "runtimeArgs": ["node_modules/serve/build/main.js", "-l", "3456", "."],
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "serve", "-l", "3456", "."],
       "port": 3456
     }
   ]
