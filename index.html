@@ -331,14 +331,14 @@ section{padding:80px 0;position:relative}
   background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden
 }
 .table-head{
-  display:grid;grid-template-columns:150px 1fr 120px 70px 80px 90px 40px;gap:16px;
+  display:grid;grid-template-columns:150px 1fr 120px 70px 80px 90px 50px;gap:16px;
   padding:14px 20px;background:var(--panel-2);border-bottom:1px solid var(--border);
   font-family:var(--mono-font);font-size:10.5px;color:var(--ink-dim);letter-spacing:.08em;text-transform:uppercase
 }
 .table-row{
-  display:grid;grid-template-columns:150px 1fr 120px 70px 80px 90px 40px;gap:16px;
+  display:grid;grid-template-columns:150px 1fr 120px 70px 80px 90px 50px;gap:16px;
   padding:16px 20px;border-bottom:1px solid var(--border);align-items:center;
-  transition:.15s;cursor:pointer
+  transition:background .15s
 }
 .table-row:last-child{border-bottom:0}
 .table-row:hover{background:var(--panel-2)}
@@ -350,16 +350,15 @@ section{padding:80px 0;position:relative}
 .table-row .name .tech{display:block;font-family:var(--mono-font);font-size:11px;color:var(--ink-dim);margin-top:2px}
 .table-row .n{font-family:var(--mono-font);font-size:13px;text-align:right}
 .table-row .n.pos{color:var(--accent)}
-.table-row .arr{font-family:var(--mono-font);color:var(--ink-dim);text-align:right}
-.table-row:hover .arr{color:var(--accent);transform:translateX(4px)}
+.table-row .arr{display:flex;justify-content:flex-end;align-items:center}
 @media(max-width:900px){
   .table-head{display:none}
   .table-row{grid-template-columns:1fr auto;gap:8px;padding:14px 16px}
   .table-row .name{grid-column:1/-1;order:2}
   .table-row .id{order:1}
+  .table-row .arr{order:1;justify-self:end}
   .table-row .n{order:3;font-size:13px;text-align:left}
   .table-row .n::before{content:attr(data-l) ": ";color:var(--ink-dim);font-size:10px;letter-spacing:.06em;text-transform:uppercase;margin-right:4px}
-  .table-row .arr{display:none}
 }
 
 /* ══════ ENSAYOS CHART ══════ */
@@ -704,80 +703,17 @@ body.light-mode .btc-val { color: #15181E; }
 /* Hide mobile hamburger on desktop */
 @media(min-width:901px){.hamburger{display:none}}
 
-/* ══════ HYBRID DETAIL MODAL ══════ */
-.hybrid-modal{
-  position:fixed;inset:0;z-index:11000;
-  display:flex;align-items:center;justify-content:center;
-  background:rgba(10,15,27,.78);
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  opacity:0;pointer-events:none;transition:opacity .25s var(--ease);
-  padding:24px
+/* ══════ BOTÓN MARBETE INLINE (fila de catálogo) ══════ */
+.btn-marbete-row{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border-radius:8px;
+  border:1px solid var(--border);background:transparent;color:var(--ink-dim);
+  transition:.15s;text-decoration:none;flex-shrink:0
 }
-.hybrid-modal.open{opacity:1;pointer-events:auto}
-.hybrid-modal-card{
-  width:100%;max-width:640px;max-height:90vh;
-  background:var(--panel);border:1px solid var(--border-strong);
-  border-radius:14px;overflow:hidden;display:flex;flex-direction:column;
-  box-shadow:var(--shadow-lg);
-  transform:translateY(20px);transition:transform .25s var(--ease)
-}
-.hybrid-modal.open .hybrid-modal-card{transform:translateY(0)}
-.hm-head{
-  padding:18px 24px;border-bottom:1px solid var(--border);
-  display:flex;justify-content:space-between;align-items:flex-start;gap:16px;
-  background:var(--panel-2)
-}
-.hm-head .hm-id{
-  font-family:var(--title-font);font-weight:700;font-size:19px;letter-spacing:-.01em;
-  display:flex;align-items:center;gap:10px;flex-wrap:wrap;line-height:1.2
-}
-.hm-head .hm-id .badge{
-  font-size:10px;padding:3px 7px;background:var(--accent);color:#0a0a0a;
-  border-radius:4px;letter-spacing:.06em;font-weight:700
-}
-.hm-head .hm-id .badge.silo{background:var(--navy-light);color:var(--accent)}
-.hm-head .hm-id .badge.hist{background:transparent;color:var(--accent);border:1px solid var(--accent)}
-.hm-head .hm-tech{font-family:var(--mono-font);font-size:11px;color:var(--ink-dim);letter-spacing:.06em;text-transform:uppercase;margin-top:6px}
-.hm-close{
-  width:34px;height:34px;border-radius:8px;border:1px solid var(--border);
-  display:grid;place-items:center;color:var(--ink-dim);background:transparent;
-  flex-shrink:0;font-size:22px;line-height:1;transition:.15s;cursor:pointer
-}
-.hm-close:hover{color:var(--accent);border-color:var(--accent)}
-.hm-body{padding:24px;overflow-y:auto;flex:1}
-.hm-pos{
-  font-size:14.5px;line-height:1.6;color:var(--ink);
-  padding:14px 16px;border-left:3px solid var(--accent);
-  background:linear-gradient(90deg,rgba(245,166,35,.06),transparent);
-  margin-bottom:22px;border-radius:0 6px 6px 0
-}
-.hm-grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:1px;
-  background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden
-}
-.hm-cell{padding:14px 16px;background:var(--panel)}
-.hm-cell .lbl{font-family:var(--mono-font);font-size:10px;color:var(--ink-dim);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
-.hm-cell .val{font-family:var(--mono-font);font-size:13.5px;color:var(--ink);font-weight:600;word-break:break-word}
-.hm-foot{
-  padding:18px 24px;border-top:1px solid var(--border);background:var(--panel-2);
-  display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;align-items:center
-}
-.hm-cta{
-  display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:8px;
-  font-family:var(--mono-font);font-size:12px;font-weight:600;letter-spacing:.04em;
-  transition:.2s;cursor:pointer;border:0
-}
-.hm-cta.primary{background:var(--accent);color:#0a0a0a}
-.hm-cta.primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px -8px var(--accent)}
-.hm-cta.ghost{border:1px solid var(--border-strong);color:var(--ink);background:transparent}
-.hm-cta.ghost:hover{background:var(--bg)}
-@media(max-width:600px){
-  .hybrid-modal{padding:0;align-items:flex-end}
-  .hybrid-modal-card{max-width:100%;max-height:92vh;border-radius:14px 14px 0 0;transform:translateY(100%)}
-  .hybrid-modal.open .hybrid-modal-card{transform:translateY(0)}
-  .hm-foot{flex-direction:column-reverse;align-items:stretch}
-  .hm-cta{justify-content:center}
-}
+.btn-marbete-row:hover{color:var(--accent);border-color:var(--accent);transform:translateY(-1px)}
+.btn-marbete-row svg{width:15px;height:15px}
+.btn-marbete-row.disabled{opacity:.3;pointer-events:none;cursor:default}
+@media(max-width:900px){.btn-marbete-row{width:36px;height:36px}}
 </style>
 </head>
 <body data-mode="dark">
@@ -954,7 +890,7 @@ body.light-mode .btc-val { color: #15181E; }
         <div style="text-align:right">MR</div>
         <div style="text-align:right">PMS</div>
         <div style="text-align:right">BANDA</div>
-        <div></div>
+        <div style="text-align:right">PDF</div>
       </div>
       <div id="rows"></div>
     </div>
@@ -1238,31 +1174,6 @@ body.light-mode .btc-val { color: #15181E; }
   </div>
 </div>
 
-<!-- ══════ HYBRID DETAIL MODAL ══════ -->
-<div class="hybrid-modal" id="hybridModal" role="dialog" aria-modal="true" aria-labelledby="hmTitle" aria-hidden="true">
-  <div class="hybrid-modal-card">
-    <div class="hm-head">
-      <div>
-        <div class="hm-id" id="hmTitle"></div>
-        <div class="hm-tech" id="hmTech"></div>
-      </div>
-      <button class="hm-close" id="hmClose" aria-label="Cerrar ficha">&times;</button>
-    </div>
-    <div class="hm-body">
-      <div class="hm-pos" id="hmPos"></div>
-      <div class="hm-grid" id="hmGrid"></div>
-    </div>
-    <div class="hm-foot">
-      <button type="button" class="hm-cta ghost" id="hmCloseBottom">Cerrar</button>
-      <a class="hm-cta ghost" id="hmMarbete" href="#" target="_blank" rel="noopener" hidden>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="14" height="14"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        MARBETE OFICIAL PDF
-      </a>
-      <a class="hm-cta primary" id="hmWa" href="#" target="_blank" rel="noopener">► COTIZAR ESTE HÍBRIDO</a>
-    </div>
-  </div>
-</div>
-
 <!-- ══════ SCRIPTS ══════ -->
 <script>
 // ═══ Loader ═══
@@ -1357,9 +1268,34 @@ function renderRows(filter='all'){
     banda.dataset.l = 'Banda';
     banda.textContent = h.banda === '—' ? '—' : 'B' + h.banda;
 
-    const arr = document.createElement('div');
-    arr.className = 'arr';
-    arr.textContent = '→';
+    // Marbete oficial inline (último celda) — link directo al PDF
+    const marbeteCell = document.createElement('div');
+    marbeteCell.className = 'arr';
+    const key = extractHybridKey(h.id);
+    const detail = key && hybridsDB[key];
+    const marbeteSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>';
+    if (detail && detail.marbete) {
+      const a = document.createElement('a');
+      a.href = detail.marbete;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.className = 'btn-marbete-row';
+      a.title = 'Descargar marbete oficial PDF';
+      a.setAttribute('aria-label', `Marbete ${h.id}`);
+      a.innerHTML = marbeteSvg;
+      a.addEventListener('click', e => {
+        e.stopPropagation();
+        if(typeof gtag === 'function') gtag('event','marbete_download_click',{event_category:'engagement', event_label: h.id});
+      });
+      marbeteCell.appendChild(a);
+    } else {
+      // Híbrido sin marbete cargado: placeholder discreto
+      const span = document.createElement('span');
+      span.className = 'btn-marbete-row disabled';
+      span.title = 'Marbete pendiente';
+      span.innerHTML = marbeteSvg;
+      marbeteCell.appendChild(span);
+    }
 
     row.appendChild(idDiv);
     row.appendChild(nameDiv);
@@ -1367,115 +1303,19 @@ function renderRows(filter='all'){
     row.appendChild(mr);
     row.appendChild(pms);
     row.appendChild(banda);
-    row.appendChild(arr);
-
-    // Open detail modal (also tracks via gtag inside openHybridModal)
-    row.addEventListener('click', () => openHybridModal(h));
+    row.appendChild(marbeteCell);
 
     rowsEl.appendChild(row);
   });
 }
 renderRows();
 
-// ═══ Hybrid detail modal ═══
+// ═══ Helper: extract hybrid key from full ID (hoisted) ═══
 function extractHybridKey(id){
   // "NS 7765 Viptera3" → "7765" · "AX 7761 VT3P" → "7761"
   const m = String(id).match(/\b(\d{3,4})\b/);
   return m ? m[1] : null;
 }
-
-function openHybridModal(h){
-  const key = extractHybridKey(h.id);
-  const detail = key && hybridsDB[key] ? hybridsDB[key] : null;
-  const modal = document.getElementById('hybridModal');
-  const title = document.getElementById('hmTitle');
-  const tech = document.getElementById('hmTech');
-  const pos = document.getElementById('hmPos');
-  const grid = document.getElementById('hmGrid');
-  const wa = document.getElementById('hmWa');
-  const marbeteBtn = document.getElementById('hmMarbete');
-  if(!modal || !title) return;
-
-  // Title with optional badge
-  title.textContent = '';
-  title.appendChild(document.createTextNode(h.id + ' '));
-  if (h.badge){
-    const b = document.createElement('span');
-    b.className = 'badge' + (h.badgeClass ? ' ' + h.badgeClass : '');
-    b.textContent = h.badge;
-    title.appendChild(b);
-  }
-  tech.textContent = h.tech || '';
-
-  // Posicionamiento (long form from hybridsDB if available, else from catalog row)
-  pos.textContent = detail ? detail.pos : (h.pos || '');
-
-  // Specs grid
-  grid.innerHTML = '';
-  const cells = [
-    ['Δ rinde', h.d],
-    ['MR', h.mr],
-    ['PMS', h.pms],
-    ['Banda', h.banda === '—' ? '—' : 'B' + h.banda]
-  ];
-  if (detail){
-    if (detail.gdu && detail.gdu !== '—') cells.push(['GDU', detail.gdu]);
-    if (detail.grain) cells.push(['Grano', detail.grain]);
-    if (detail.height) cells.push(['Altura', detail.height]);
-  }
-  cells.forEach(([lbl, val]) => {
-    if (val == null || val === '') return;
-    const c = document.createElement('div');
-    c.className = 'hm-cell';
-    const l = document.createElement('div'); l.className = 'lbl'; l.textContent = lbl;
-    const v = document.createElement('div'); v.className = 'val'; v.textContent = val;
-    c.appendChild(l); c.appendChild(v);
-    grid.appendChild(c);
-  });
-
-  // WhatsApp prefill specific to this hybrid
-  const waText = `Hola, me interesa cotizar el ${h.id} para la precampaña 26/27.`;
-  wa.href = `https://wa.me/5492314530691?text=${encodeURIComponent(waText)}`;
-  wa.onclick = () => {
-    if(typeof gtag === 'function') gtag('event','hybrid_quote_click',{event_category:'conversion', event_label: h.id});
-  };
-
-  // Marbete oficial PDF (Drive link) — only show if hybridsDB has it
-  if (marbeteBtn) {
-    if (detail && detail.marbete) {
-      marbeteBtn.href = detail.marbete;
-      marbeteBtn.hidden = false;
-      marbeteBtn.onclick = () => {
-        if(typeof gtag === 'function') gtag('event','marbete_download_click',{event_category:'engagement', event_label: h.id});
-      };
-    } else {
-      marbeteBtn.hidden = true;
-      marbeteBtn.removeAttribute('href');
-    }
-  }
-
-  modal.classList.add('open');
-  modal.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
-  if(typeof gtag === 'function') gtag('event','hybrid_detail_open',{event_category:'engagement', event_label: h.id});
-}
-
-function closeHybridModal(){
-  const modal = document.getElementById('hybridModal');
-  if(!modal) return;
-  modal.classList.remove('open');
-  modal.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
-}
-
-document.getElementById('hmClose')?.addEventListener('click', closeHybridModal);
-document.getElementById('hmCloseBottom')?.addEventListener('click', closeHybridModal);
-document.getElementById('hybridModal')?.addEventListener('click', e => {
-  if (e.target.id === 'hybridModal') closeHybridModal();
-});
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeHybridModal();
-});
 
 // ═══ Filter chips ═══
 document.querySelectorAll('#filters .chip').forEach(c => {
