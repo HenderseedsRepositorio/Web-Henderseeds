@@ -331,12 +331,12 @@ section{padding:80px 0;position:relative}
   background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden
 }
 .table-head{
-  display:grid;grid-template-columns:150px 1fr 120px 70px 80px 90px 50px;gap:16px;
+  display:grid;grid-template-columns:150px 1fr 120px 70px 80px 90px 110px;gap:16px;
   padding:14px 20px;background:var(--panel-2);border-bottom:1px solid var(--border);
   font-family:var(--mono-font);font-size:10.5px;color:var(--ink-dim);letter-spacing:.08em;text-transform:uppercase
 }
 .table-row{
-  display:grid;grid-template-columns:150px 1fr 120px 70px 80px 90px 50px;gap:16px;
+  display:grid;grid-template-columns:150px 1fr 120px 70px 80px 90px 110px;gap:16px;
   padding:16px 20px;border-bottom:1px solid var(--border);align-items:center;
   transition:background .15s
 }
@@ -705,15 +705,17 @@ body.light-mode .btc-val { color: #15181E; }
 
 /* ══════ BOTÓN MARBETE INLINE (fila de catálogo) ══════ */
 .btn-marbete-row{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:34px;height:34px;border-radius:8px;
+  display:inline-flex;align-items:center;gap:6px;justify-content:center;
+  padding:7px 12px;border-radius:6px;
   border:1px solid var(--border);background:transparent;color:var(--ink-dim);
-  transition:.15s;text-decoration:none;flex-shrink:0
+  font-family:var(--mono-font);font-size:10.5px;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;
+  transition:.15s;text-decoration:none;flex-shrink:0;white-space:nowrap
 }
-.btn-marbete-row:hover{color:var(--accent);border-color:var(--accent);transform:translateY(-1px)}
-.btn-marbete-row svg{width:15px;height:15px}
+.btn-marbete-row:hover{color:var(--accent);border-color:var(--accent);background:color-mix(in oklab,var(--accent) 8%,transparent);transform:translateY(-1px)}
+.btn-marbete-row svg{width:12px;height:12px}
 .btn-marbete-row.disabled{opacity:.3;pointer-events:none;cursor:default}
-@media(max-width:900px){.btn-marbete-row{width:36px;height:36px}}
+@media(max-width:900px){.btn-marbete-row{padding:8px 12px;font-size:11px}}
 </style>
 </head>
 <body data-mode="dark">
@@ -890,7 +892,7 @@ body.light-mode .btc-val { color: #15181E; }
         <div style="text-align:right">MR</div>
         <div style="text-align:right">PMS</div>
         <div style="text-align:right">BANDA</div>
-        <div style="text-align:right">PDF</div>
+        <div style="text-align:right">MARBETE</div>
       </div>
       <div id="rows"></div>
     </div>
@@ -1203,7 +1205,26 @@ const revealObs = new IntersectionObserver((entries) => {
 }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-// ═══ Hybrids catalog data (marbete oficial 26/27) ═══
+// ═══ Hybrids data: marbete oficial Nidera 26/27 ═══
+// fuente única: references/hibridos.md · marbete URLs sincronizados con Supabase tabla `catalogo`
+// Debe declararse ANTES que renderRows() y antes que el bot, ambos lo consumen.
+const hybridsDB = {
+  "7765": { name: "NS 7765 Viptera3", tech: "Viptera3", mr: "118", gdu: "783", pms: "300g", grain: "Semi-dentado", height: "227cm", pos: "Máximo potencial y estabilidad en temprana (+392 kg/ha · 74% éxito · 191 comp.). Tardía templada +324 kg/ha (71% · 165 comp.). Riego y secano. Ambientes B · MB · MA · A. Quebrado 1/9 (excelente).", marbete: "https://drive.google.com/file/d/1Lrq6WFzHZhualSUMSO63J4jd0lhItIVZ/view?usp=drive_link" },
+  "7852": { name: "NS 7852 Viptera3 🆕", tech: "Viptera3", mr: "118", gdu: "783", pms: "305g", grain: "Semi-dentado", height: "240cm", pos: "Lanzamiento 26/27. Excelente performance en temprana (+316 kg/ha · 69% · 133 comp.) y tardía templada (+194 kg/ha · 62% · 120 comp.). Todos los ambientes.", marbete: "https://drive.google.com/file/d/1sqTlgOj4BVXmiHmMMIuy8QacpvJYn-IA/view?usp=drive_link" },
+  "7925": { name: "NS 7925 Viptera3 🆕", tech: "Viptera3", mr: "119", gdu: "792", pms: "287g", grain: "Semi-dentado", height: "235cm", pos: "Lanzamiento 26/27. Máximo potencial en tardía templada (+228 kg/ha · 59% · 120 comp.). Diferencial Spiroplasma 3/9. Solo siembra tardía.", marbete: "https://drive.google.com/file/d/1DNbxY_SDTDxDpTdnrcwYvQMKRd-Y8hEo/view?usp=drive_link" },
+  "7621": { name: "NS 7621 Viptera3", tech: "Viptera3", mr: "117", gdu: "789", pms: "286g", grain: "Semi-dentado", height: "227cm", pos: "Máxima performance en temprana (+290 kg/ha · 67% · 419 comp.) en ambientes MA·A. No usar en tardía (-102 kg/ha).", marbete: "https://drive.google.com/file/d/1RtCcAl5IRlLMnwSX5lacLiHAtY6rAZ5l/view?usp=drive_link" },
+  "7624": { name: "NS 7624 Viptera3 CL", tech: "Viptera3 CL", mr: "117", gdu: "767", pms: "311g", grain: "Semi-dentado", height: "235cm", pos: "Ciclo corto. Excelente tardía templada (+163 kg/ha · 60% · 222 comp.). No usar en temprana (-89 kg/ha). 3 herramientas herbicidas Clearfield.", marbete: "https://drive.google.com/file/d/1aJrB-xtiwN3K0Hh2DfXiAFVMvOCArD3d/view?usp=drive_link" },
+  "7921": { name: "NS 7921 Viptera3 CL ⭐", tech: "Viptera3 CL", mr: "118", gdu: "792", pms: "316g", grain: "Semi-dentado", height: "235cm", pos: "Volumen del portfolio CL (478+364 comp.). Temprana +167 kg/ha (58%) · Tardía templada +179 kg/ha (60%). Amplia adaptabilidad + control de malezas.", marbete: "https://drive.google.com/file/d/1_LXHrcT0KUQQGHez6zuaT62BYKLnUfYr/view?usp=drive_link" },
+  "7761": { name: "AX 7761 VT3P", tech: "VT3P (TriplePRO)", mr: "117", gdu: "762", pms: "300g", grain: "Semi-dentado", height: "215cm", pos: "Muy buena performance en temprana (+283 kg/ha · 67% éxito). Excelente sanidad (Roya 1 · Tizón 2 · Green Snap 2).", marbete: "https://drive.google.com/file/d/1g9fmv14rd-eSPE8xDZYRW1aDfd01yZMY/view?usp=drive_link" },
+  "7784": { name: "AX 7784 VT3P · Silaje", tech: "VT3P (TriplePRO)", mr: "117", gdu: "792", pms: "347g", grain: "Semi-dentado", height: "240cm", pos: "Uso específico silaje/silo de planta. Equilibrio volumen y calidad de materia seca. No comunicar como híbrido de rinde grano.", marbete: "https://drive.google.com/file/d/1lCf_HYx_K6SlNSsr0YENL3s9_bJx___Vy/view?usp=drive_link" },
+  "7818": { name: "NS 7818 VIP3", tech: "VIP3 (glufosinato)", mr: "118", gdu: "784", pms: "313g", grain: "Semi-dentado", height: "218cm", pos: "Opción económica. Muy buena sanidad (Roya 1 · Tizón 2). Posicionar por precio y sanidad, nunca por rinde.", marbete: "https://drive.google.com/file/d/1V4t79rqNstQKHOcgtFmyLpeDht7XvNKA/view?usp=drive_link" },
+  // GIRASOL
+  "1113": { name: "NS 1113 CL ⭐", tech: "Clearfield · Linoleico", mr: "110", gdu: "—", pms: "aceite muy alto", grain: "Linoleico", height: "capítulo muy decumbente", pos: "Líder del portfolio. Máxima bonificación por aceite. Rinde + aceite + sanidad (Downy R · Roya R). Sur+oeste +2,11 qq/ha · 74% éxito.", marbete: "https://drive.google.com/file/d/1pLULB_xcaDaMArKLRiOsluX_Pu1vxexG/view?usp=drive_link" },
+  "1227": { name: "NS 1227 CL HO", tech: "Clearfield + Alto Oleico (único)", mr: "112", gdu: "—", pms: "aceite muy alto", grain: "Alto Oleico", height: "capítulo muy decumbente", pos: "Premium alto oleico. Precio diferencial en mercado industrial. Sur+oeste +0,61 qq/ha. Sanidad: Downy R · Sclerotinia 4 · Verticilium 3.", marbete: "https://drive.google.com/file/d/1FXGJMJwOpgUtXE4dikjGlQ63NelsH2hz/view?usp=drive_link" },
+  "1117": { name: "NS 1117 CL 🆕", tech: "Clearfield · Linoleico", mr: "111", gdu: "—", pms: "aceite muy alto", grain: "Linoleico", height: "capítulo muy decumbente", pos: "El linoleico completo. Máximos rendimientos con excelente Phomopsis (2). Sur+oeste +1,75 qq/ha · 67% éxito.", marbete: "https://drive.google.com/file/d/15zNhsn2VnJ3uv2yl6SUJqasGmzk7CUbW/view?usp=drive_link" },
+  "1115": { name: "NS 1115 CL", tech: "Clearfield · Linoleico", mr: "111", gdu: "—", pms: "aceite muy alto", grain: "Linoleico", height: "capítulo muy decumbente", pos: "Perfil sanitario más completo del portfolio. Alto potencial bonificado. Muy estable. Sur+oeste +1,64 qq/ha · 69% éxito.", marbete: "https://drive.google.com/file/d/1Cn2QjvUAfRkdIHVS2JH7o_FAsRVejqXr/view?usp=drive_link" }
+};
+
 const hybrids = [
   // MAÍZ (8)
   {cat:['maiz'],id:'NS 7765 Viptera3',tech:'Viptera3 · Semi-dentado',pos:'Temprana +392 · Tardía +324 · riego y secano',d:'+392',mr:'118',pms:'300g',banda:'1'},
@@ -1273,16 +1294,17 @@ function renderRows(filter='all'){
     marbeteCell.className = 'arr';
     const key = extractHybridKey(h.id);
     const detail = key && hybridsDB[key];
-    const marbeteSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>';
+    // Icono de descarga (flecha hacia abajo + línea base) — universal para "bajar archivo"
+    const dlSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>';
     if (detail && detail.marbete) {
       const a = document.createElement('a');
       a.href = detail.marbete;
       a.target = '_blank';
       a.rel = 'noopener';
       a.className = 'btn-marbete-row';
-      a.title = 'Descargar marbete oficial PDF';
-      a.setAttribute('aria-label', `Marbete ${h.id}`);
-      a.innerHTML = marbeteSvg;
+      a.title = `Marbete oficial ${h.id} (PDF, abre en nueva pestaña)`;
+      a.setAttribute('aria-label', `Descargar marbete ${h.id}`);
+      a.innerHTML = dlSvg + '<span>MARBETE</span>';
       a.addEventListener('click', e => {
         e.stopPropagation();
         if(typeof gtag === 'function') gtag('event','marbete_download_click',{event_category:'engagement', event_label: h.id});
@@ -1293,7 +1315,7 @@ function renderRows(filter='all'){
       const span = document.createElement('span');
       span.className = 'btn-marbete-row disabled';
       span.title = 'Marbete pendiente';
-      span.innerHTML = marbeteSvg;
+      span.innerHTML = dlSvg + '<span>—</span>';
       marbeteCell.appendChild(span);
     }
 
@@ -1407,24 +1429,7 @@ if(botToggle && botWindow) {
   botClose.addEventListener('click', () => botWindow.classList.remove('open'));
 }
 
-// Data: marbete oficial Nidera 26/27 — fuente única references/hibridos.md
-// marbete URLs: links a Drive de marbetes oficiales Nidera (sincronizar con Supabase tabla `catalogo`)
-const hybridsDB = {
-  "7765": { name: "NS 7765 Viptera3", tech: "Viptera3", mr: "118", gdu: "783", pms: "300g", grain: "Semi-dentado", height: "227cm", pos: "Máximo potencial y estabilidad en temprana (+392 kg/ha · 74% éxito · 191 comp.). Tardía templada +324 kg/ha (71% · 165 comp.). Riego y secano. Ambientes B · MB · MA · A. Quebrado 1/9 (excelente).", marbete: "https://drive.google.com/file/d/1Lrq6WFzHZhualSUMSO63J4jd0lhItIVZ/view?usp=drive_link" },
-  "7852": { name: "NS 7852 Viptera3 🆕", tech: "Viptera3", mr: "118", gdu: "783", pms: "305g", grain: "Semi-dentado", height: "240cm", pos: "Lanzamiento 26/27. Excelente performance en temprana (+316 kg/ha · 69% · 133 comp.) y tardía templada (+194 kg/ha · 62% · 120 comp.). Todos los ambientes.", marbete: "https://drive.google.com/file/d/1sqTlgOj4BVXmiHmMMIuy8QacpvJYn-IA/view?usp=drive_link" },
-  "7925": { name: "NS 7925 Viptera3 🆕", tech: "Viptera3", mr: "119", gdu: "792", pms: "287g", grain: "Semi-dentado", height: "235cm", pos: "Lanzamiento 26/27. Máximo potencial en tardía templada (+228 kg/ha · 59% · 120 comp.). Diferencial Spiroplasma 3/9. Solo siembra tardía.", marbete: "https://drive.google.com/file/d/1DNbxY_SDTDxDpTdnrcwYvQMKRd-Y8hEo/view?usp=drive_link" },
-  "7621": { name: "NS 7621 Viptera3", tech: "Viptera3", mr: "117", gdu: "789", pms: "286g", grain: "Semi-dentado", height: "227cm", pos: "Máxima performance en temprana (+290 kg/ha · 67% · 419 comp.) en ambientes MA·A. No usar en tardía (-102 kg/ha).", marbete: "https://drive.google.com/file/d/1RtCcAl5IRlLMnwSX5lacLiHAtY6rAZ5l/view?usp=drive_link" },
-  "7624": { name: "NS 7624 Viptera3 CL", tech: "Viptera3 CL", mr: "117", gdu: "767", pms: "311g", grain: "Semi-dentado", height: "235cm", pos: "Ciclo corto. Excelente tardía templada (+163 kg/ha · 60% · 222 comp.). No usar en temprana (-89 kg/ha). 3 herramientas herbicidas Clearfield.", marbete: "https://drive.google.com/file/d/1aJrB-xtiwN3K0Hh2DfXiAFVMvOCArD3d/view?usp=drive_link" },
-  "7921": { name: "NS 7921 Viptera3 CL ⭐", tech: "Viptera3 CL", mr: "118", gdu: "792", pms: "316g", grain: "Semi-dentado", height: "235cm", pos: "Volumen del portfolio CL (478+364 comp.). Temprana +167 kg/ha (58%) · Tardía templada +179 kg/ha (60%). Amplia adaptabilidad + control de malezas.", marbete: "https://drive.google.com/file/d/1_LXHrcT0KUQQGHez6zuaT62BYKLnUfYr/view?usp=drive_link" },
-  "7761": { name: "AX 7761 VT3P", tech: "VT3P (TriplePRO)", mr: "117", gdu: "762", pms: "300g", grain: "Semi-dentado", height: "215cm", pos: "Muy buena performance en temprana (+283 kg/ha · 67% éxito). Excelente sanidad (Roya 1 · Tizón 2 · Green Snap 2).", marbete: "https://drive.google.com/file/d/1g9fmv14rd-eSPE8xDZYRW1aDfd01yZMY/view?usp=drive_link" },
-  "7784": { name: "AX 7784 VT3P · Silaje", tech: "VT3P (TriplePRO)", mr: "117", gdu: "792", pms: "347g", grain: "Semi-dentado", height: "240cm", pos: "Uso específico silaje/silo de planta. Equilibrio volumen y calidad de materia seca. No comunicar como híbrido de rinde grano.", marbete: "https://drive.google.com/file/d/1lCf_HYx_K6SlNSsr0YENL3s9_bJx___Vy/view?usp=drive_link" },
-  "7818": { name: "NS 7818 VIP3", tech: "VIP3 (glufosinato)", mr: "118", gdu: "784", pms: "313g", grain: "Semi-dentado", height: "218cm", pos: "Opción económica. Muy buena sanidad (Roya 1 · Tizón 2). Posicionar por precio y sanidad, nunca por rinde.", marbete: "https://drive.google.com/file/d/1V4t79rqNstQKHOcgtFmyLpeDht7XvNKA/view?usp=drive_link" },
-  // GIRASOL
-  "1113": { name: "NS 1113 CL ⭐", tech: "Clearfield · Linoleico", mr: "110", gdu: "—", pms: "aceite muy alto", grain: "Linoleico", height: "capítulo muy decumbente", pos: "Líder del portfolio. Máxima bonificación por aceite. Rinde + aceite + sanidad (Downy R · Roya R). Sur+oeste +2,11 qq/ha · 74% éxito.", marbete: "https://drive.google.com/file/d/1pLULB_xcaDaMArKLRiOsluX_Pu1vxexG/view?usp=drive_link" },
-  "1227": { name: "NS 1227 CL HO", tech: "Clearfield + Alto Oleico (único)", mr: "112", gdu: "—", pms: "aceite muy alto", grain: "Alto Oleico", height: "capítulo muy decumbente", pos: "Premium alto oleico. Precio diferencial en mercado industrial. Sur+oeste +0,61 qq/ha. Sanidad: Downy R · Sclerotinia 4 · Verticilium 3.", marbete: "https://drive.google.com/file/d/1FXGJMJwOpgUtXE4dikjGlQ63NelsH2hz/view?usp=drive_link" },
-  "1117": { name: "NS 1117 CL 🆕", tech: "Clearfield · Linoleico", mr: "111", gdu: "—", pms: "aceite muy alto", grain: "Linoleico", height: "capítulo muy decumbente", pos: "El linoleico completo. Máximos rendimientos con excelente Phomopsis (2). Sur+oeste +1,75 qq/ha · 67% éxito.", marbete: "https://drive.google.com/file/d/15zNhsn2VnJ3uv2yl6SUJqasGmzk7CUbW/view?usp=drive_link" },
-  "1115": { name: "NS 1115 CL", tech: "Clearfield · Linoleico", mr: "111", gdu: "—", pms: "aceite muy alto", grain: "Linoleico", height: "capítulo muy decumbente", pos: "Perfil sanitario más completo del portfolio. Alto potencial bonificado. Muy estable. Sur+oeste +1,64 qq/ha · 69% éxito.", marbete: "https://drive.google.com/file/d/1Cn2QjvUAfRkdIHVS2JH7o_FAsRVejqXr/view?usp=drive_link" }
-};
+// hybridsDB declarado arriba (junto a hybrids[]) — el bot lo consume aquí abajo
 
 function addMsg(text, sender) {
   const div = document.createElement('div');
