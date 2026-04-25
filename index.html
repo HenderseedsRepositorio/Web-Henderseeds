@@ -331,24 +331,24 @@ section{padding:80px 0;position:relative}
   background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden
 }
 .table-head{
-  display:grid;grid-template-columns:150px 1fr 120px 70px 80px 90px 110px;gap:16px;
+  display:grid;grid-template-columns:160px 1fr 130px 80px 90px 120px;gap:16px;
   padding:14px 20px;background:var(--panel-2);border-bottom:1px solid var(--border);
-  font-family:var(--mono-font);font-size:10.5px;color:var(--ink-dim);letter-spacing:.08em;text-transform:uppercase
+  font-family:var(--mono-font);font-size:11.5px;color:var(--ink-dim);letter-spacing:.08em;text-transform:uppercase
 }
 .table-row{
-  display:grid;grid-template-columns:150px 1fr 120px 70px 80px 90px 110px;gap:16px;
-  padding:16px 20px;border-bottom:1px solid var(--border);align-items:center;
+  display:grid;grid-template-columns:160px 1fr 130px 80px 90px 120px;gap:16px;
+  padding:18px 20px;border-bottom:1px solid var(--border);align-items:center;
   transition:background .15s
 }
 .table-row:last-child{border-bottom:0}
 .table-row:hover{background:var(--panel-2)}
-.table-row .id{font-family:var(--mono-font);font-size:13px;font-weight:600;color:var(--ink)}
-.table-row .id .badge{display:inline-block;margin-left:6px;font-size:9px;padding:2px 5px;background:var(--accent);color:#0a0a0a;border-radius:3px;letter-spacing:.06em;font-weight:700}
+.table-row .id{font-family:var(--mono-font);font-size:14px;font-weight:600;color:var(--ink)}
+.table-row .id .badge{display:inline-block;margin-left:6px;font-size:9.5px;padding:2px 5px;background:var(--accent);color:#0a0a0a;border-radius:3px;letter-spacing:.06em;font-weight:700}
 .table-row .id .badge.silo{background:var(--navy-light);color:var(--accent)}
 .table-row .id .badge.hist{background:transparent;color:var(--accent);border:1px solid var(--accent)}
-.table-row .name{font-size:13.5px}
-.table-row .name .tech{display:block;font-family:var(--mono-font);font-size:11px;color:var(--ink-dim);margin-top:2px}
-.table-row .n{font-family:var(--mono-font);font-size:13px;text-align:right}
+.table-row .name{font-size:14.5px}
+.table-row .name .tech{display:block;font-family:var(--mono-font);font-size:12px;color:var(--ink-dim);margin-top:3px}
+.table-row .n{font-family:var(--mono-font);font-size:14px;text-align:right}
 .table-row .n.pos{color:var(--accent)}
 .table-row .arr{display:flex;justify-content:flex-end;align-items:center}
 @media(max-width:900px){
@@ -706,16 +706,16 @@ body.light-mode .btc-val { color: #15181E; }
 /* ══════ BOTÓN MARBETE INLINE (fila de catálogo) ══════ */
 .btn-marbete-row{
   display:inline-flex;align-items:center;gap:6px;justify-content:center;
-  padding:7px 12px;border-radius:6px;
+  padding:8px 14px;border-radius:6px;
   border:1px solid var(--border);background:transparent;color:var(--ink-dim);
-  font-family:var(--mono-font);font-size:10.5px;font-weight:600;
+  font-family:var(--mono-font);font-size:11.5px;font-weight:600;
   letter-spacing:.06em;text-transform:uppercase;
   transition:.15s;text-decoration:none;flex-shrink:0;white-space:nowrap
 }
 .btn-marbete-row:hover{color:var(--accent);border-color:var(--accent);background:color-mix(in oklab,var(--accent) 8%,transparent);transform:translateY(-1px)}
-.btn-marbete-row svg{width:12px;height:12px}
+.btn-marbete-row svg{width:13px;height:13px}
 .btn-marbete-row.disabled{opacity:.3;pointer-events:none;cursor:default}
-@media(max-width:900px){.btn-marbete-row{padding:8px 12px;font-size:11px}}
+@media(max-width:900px){.btn-marbete-row{padding:9px 14px;font-size:12px}}
 </style>
 </head>
 <body data-mode="dark">
@@ -891,7 +891,6 @@ body.light-mode .btc-val { color: #15181E; }
         <div style="text-align:right">RINDE Δ</div>
         <div style="text-align:right">MR</div>
         <div style="text-align:right">PMS</div>
-        <div style="text-align:right">BANDA</div>
         <div style="text-align:right">MARBETE</div>
       </div>
       <div id="rows"></div>
@@ -1284,11 +1283,6 @@ function renderRows(filter='all'){
     pms.dataset.l = 'PMS';
     pms.textContent = h.pms;
 
-    const banda = document.createElement('div');
-    banda.className = 'n';
-    banda.dataset.l = 'Banda';
-    banda.textContent = h.banda === '—' ? '—' : 'B' + h.banda;
-
     // Marbete oficial inline (último celda) — link directo al PDF
     const marbeteCell = document.createElement('div');
     marbeteCell.className = 'arr';
@@ -1324,7 +1318,6 @@ function renderRows(filter='all'){
     row.appendChild(rinde);
     row.appendChild(mr);
     row.appendChild(pms);
-    row.appendChild(banda);
     row.appendChild(marbeteCell);
 
     rowsEl.appendChild(row);
