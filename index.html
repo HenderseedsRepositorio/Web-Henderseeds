@@ -572,35 +572,13 @@ body.light-mode .btc-val { color: #15181E; }
 
 /* ══════ AL GRANO NEWSLETTER ══════ */
 #algrano .container{position:relative}
-.algrano-soon{
-  max-width:720px;margin:40px auto 0;padding:60px 48px;
-  background:var(--panel);border:1px dashed var(--border-strong);border-radius:14px;
-  text-align:center;position:relative;overflow:hidden
-}
-.algrano-soon::before{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(circle at 50% 0%, color-mix(in oklab, var(--accent) 14%, transparent), transparent 60%)
-}
-.ags-inner{position:relative;z-index:1}
-.ags-badge{
-  display:inline-block;padding:6px 12px;
-  font-family:var(--mono-font);font-size:10.5px;font-weight:700;
-  color:var(--accent);letter-spacing:.1em;text-transform:uppercase;
-  background:color-mix(in oklab, var(--accent) 14%, transparent);
-  border:1px solid color-mix(in oklab, var(--accent) 35%, transparent);border-radius:6px;
-  margin-bottom:20px
-}
-.algrano-soon h3{
-  font-family:var(--title-font);font-weight:600;font-size:clamp(22px,2.6vw,30px);
-  letter-spacing:-.015em;line-height:1.2;max-width:520px;margin:0 auto 14px
-}
-.algrano-soon p{color:var(--ink-dim);font-size:14.5px;line-height:1.6;max-width:460px;margin:0 auto 26px}
 .ags-cta{
   display:inline-flex;align-items:center;gap:8px;
   padding:13px 22px;background:var(--accent);color:#0a0a0a;
   font-family:var(--mono-font);font-weight:700;font-size:12.5px;
   letter-spacing:.06em;text-transform:uppercase;
-  border-radius:8px;transition:all .2s var(--ease);cursor:pointer
+  border-radius:8px;transition:all .2s var(--ease);cursor:pointer;
+  text-decoration:none
 }
 .ags-cta:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(245,166,35,.3)}
 
@@ -671,26 +649,19 @@ body.light-mode .btc-val { color: #15181E; }
   margin-top:30px;padding-top:20px;border-top:1px dashed var(--border-strong);
   flex-wrap:wrap;gap:16px
 }
-.ag-all,.ag-sub{
+.ag-all{
   font-family:var(--mono-font);font-size:12px;letter-spacing:.06em;
   color:var(--ink-dim);transition:.2s
 }
 .ag-all:hover{color:var(--ink)}
-.ag-sub{
-  padding:10px 18px;background:var(--accent);color:#0a0a0a;
-  font-weight:700;text-transform:uppercase;border-radius:8px
-}
-.ag-sub:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(245,166,35,.3)}
 
 @media(max-width:768px){
-  .algrano-soon{padding:44px 24px}
   .ag-grid{grid-template-columns:1fr}
   .ag-card{padding:22px}
   .ag-card-feat{padding:26px}
   .ag-title{font-size:19px}
   .ag-card-feat .ag-title{font-size:21px}
   .ag-footer{flex-direction:column;align-items:stretch;text-align:center}
-  .ag-sub{text-align:center}
   .ag-modal{padding:12px}
   .ag-modal-body{padding:24px;max-height:88vh}
   .ag-modal-content h2{font-size:20px}
@@ -993,22 +964,19 @@ body.light-mode .btc-val { color: #15181E; }
     <h2 class="sec-title reveal">Al Grano <span class="c">·</span> 4 min agro-financiero,<br>todos los jueves.</h2>
     <p class="sec-desc reveal">Precios, clima, curva LECAP-Rofex y análisis para decidir cuándo vender, cuándo sembrar, cuándo esperar. Cada semana en tu mail.</p>
 
-    <!-- Feature flag controlled: when AL_GRANO_ACTIVE=false show .algrano-soon; when true show .algrano-live -->
-    <div class="algrano-soon reveal" id="algranoSoon">
-      <div class="ags-inner">
-        <div class="ags-badge">PRÓXIMO LANZAMIENTO</div>
-        <h3>Estamos ajustando el tono de la primera edición oficial.</h3>
-        <p>Suscribite gratis y recibí el primer envío apenas salga.</p>
-        <a href="https://al-grano.vercel.app/?utm_source=henderseeds&amp;utm_medium=site&amp;utm_campaign=algrano&amp;utm_content=soon" target="_blank" rel="noopener" class="ags-cta" onclick="gtag('event','algrano_subscribe_click',{source:'soon'})">Reservar mi lugar →</a>
-      </div>
+    <!-- CTA prominente: ir al home del newsletter -->
+    <div class="reveal" style="margin-top:28px">
+      <a href="https://al-grano.vercel.app/?utm_source=henderseeds&amp;utm_medium=site&amp;utm_campaign=algrano&amp;utm_content=hero_cta" target="_blank" rel="noopener" class="ags-cta" onclick="gtag('event','algrano_home_click',{source:'hero_cta'})">
+        IR AL NEWSLETTER →
+      </a>
     </div>
 
-    <div class="algrano-live reveal" id="algranoLive" style="display:none">
+    <!-- Últimas ediciones (cada una linkea a su nota individual) -->
+    <div class="algrano-live reveal" id="algranoLive">
       <div class="ag-featured" id="agFeatured"><!-- populated by fetch --></div>
       <div class="ag-grid" id="agGrid"><!-- populated by fetch --></div>
       <div class="ag-footer">
         <a href="https://al-grano.vercel.app/?utm_source=henderseeds&amp;utm_medium=site&amp;utm_campaign=algrano&amp;utm_content=see_all" target="_blank" rel="noopener" class="ag-all" onclick="gtag('event','algrano_see_all_click')">Ver todas las ediciones →</a>
-        <a href="https://al-grano.vercel.app/?utm_source=henderseeds&amp;utm_medium=site&amp;utm_campaign=algrano&amp;utm_content=subscribe_live" target="_blank" rel="noopener" class="ag-sub" onclick="gtag('event','algrano_subscribe_click',{source:'live'})">Suscribirme gratis →</a>
       </div>
     </div>
 
@@ -1660,22 +1628,26 @@ setTimeout(function() {
 }, 120000);
 
 // ══════ AL GRANO NEWSLETTER ══════
-const AL_GRANO_ACTIVE = true; // Switch to true when first official edition is ready
 const AL_GRANO_BASE = 'https://al-grano.vercel.app';
 
 async function initAlGrano() {
-  if (!AL_GRANO_ACTIVE) return;
-  document.getElementById('algranoSoon').style.display = 'none';
-  document.getElementById('algranoLive').style.display = 'block';
+  const live = document.getElementById('algranoLive');
+  if (!live) return;
   try {
     const res = await fetch(`${AL_GRANO_BASE}/api/latest.json`, { cache: 'no-store' });
     if (!res.ok) throw new Error('fetch failed');
     const data = await res.json();
     renderAlGrano(data.editions || []);
   } catch (err) {
-    console.warn('[algrano] fetch failed, fallback to soon', err);
-    document.getElementById('algranoLive').style.display = 'none';
-    document.getElementById('algranoSoon').style.display = 'block';
+    // Newsletter ya esta oficial — si la API falla, ocultamos el grid
+    // (el CTA "Ir al newsletter" sigue visible y resuelve la conversion).
+    console.warn('[algrano] fetch failed', err);
+    const featured = document.getElementById('agFeatured');
+    const grid = document.getElementById('agGrid');
+    const footer = document.querySelector('#algranoLive .ag-footer');
+    if (featured) featured.innerHTML = '';
+    if (grid) grid.innerHTML = '';
+    if (footer) footer.style.display = 'none';
   }
 }
 
