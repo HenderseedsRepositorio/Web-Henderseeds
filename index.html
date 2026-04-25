@@ -1254,6 +1254,10 @@ body.light-mode .btc-val { color: #15181E; }
     </div>
     <div class="hm-foot">
       <button type="button" class="hm-cta ghost" id="hmCloseBottom">Cerrar</button>
+      <a class="hm-cta ghost" id="hmMarbete" href="#" target="_blank" rel="noopener" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="14" height="14"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        MARBETE OFICIAL PDF
+      </a>
       <a class="hm-cta primary" id="hmWa" href="#" target="_blank" rel="noopener">► COTIZAR ESTE HÍBRIDO</a>
     </div>
   </div>
@@ -1389,6 +1393,7 @@ function openHybridModal(h){
   const pos = document.getElementById('hmPos');
   const grid = document.getElementById('hmGrid');
   const wa = document.getElementById('hmWa');
+  const marbeteBtn = document.getElementById('hmMarbete');
   if(!modal || !title) return;
 
   // Title with optional badge
@@ -1434,6 +1439,20 @@ function openHybridModal(h){
   wa.onclick = () => {
     if(typeof gtag === 'function') gtag('event','hybrid_quote_click',{event_category:'conversion', event_label: h.id});
   };
+
+  // Marbete oficial PDF (Drive link) — only show if hybridsDB has it
+  if (marbeteBtn) {
+    if (detail && detail.marbete) {
+      marbeteBtn.href = detail.marbete;
+      marbeteBtn.hidden = false;
+      marbeteBtn.onclick = () => {
+        if(typeof gtag === 'function') gtag('event','marbete_download_click',{event_category:'engagement', event_label: h.id});
+      };
+    } else {
+      marbeteBtn.hidden = true;
+      marbeteBtn.removeAttribute('href');
+    }
+  }
 
   modal.classList.add('open');
   modal.setAttribute('aria-hidden', 'false');
@@ -1549,21 +1568,22 @@ if(botToggle && botWindow) {
 }
 
 // Data: marbete oficial Nidera 26/27 — fuente única references/hibridos.md
+// marbete URLs: links a Drive de marbetes oficiales Nidera (sincronizar con Supabase tabla `catalogo`)
 const hybridsDB = {
-  "7765": { name: "NS 7765 Viptera3", tech: "Viptera3", mr: "118", gdu: "783", pms: "300g", grain: "Semi-dentado", height: "227cm", pos: "Máximo potencial y estabilidad en temprana (+392 kg/ha · 74% éxito · 191 comp.). Tardía templada +324 kg/ha (71% · 165 comp.). Riego y secano. Ambientes B · MB · MA · A. Quebrado 1/9 (excelente)." },
-  "7852": { name: "NS 7852 Viptera3 🆕", tech: "Viptera3", mr: "118", gdu: "783", pms: "305g", grain: "Semi-dentado", height: "240cm", pos: "Lanzamiento 26/27. Excelente performance en temprana (+316 kg/ha · 69% · 133 comp.) y tardía templada (+194 kg/ha · 62% · 120 comp.). Todos los ambientes." },
-  "7925": { name: "NS 7925 Viptera3 🆕", tech: "Viptera3", mr: "119", gdu: "792", pms: "287g", grain: "Semi-dentado", height: "235cm", pos: "Lanzamiento 26/27. Máximo potencial en tardía templada (+228 kg/ha · 59% · 120 comp.). Diferencial Spiroplasma 3/9. Solo siembra tardía." },
-  "7621": { name: "NS 7621 Viptera3", tech: "Viptera3", mr: "117", gdu: "789", pms: "286g", grain: "Semi-dentado", height: "227cm", pos: "Máxima performance en temprana (+290 kg/ha · 67% · 419 comp.) en ambientes MA·A. No usar en tardía (-102 kg/ha)." },
-  "7624": { name: "NS 7624 Viptera3 CL", tech: "Viptera3 CL", mr: "117", gdu: "767", pms: "311g", grain: "Semi-dentado", height: "235cm", pos: "Ciclo corto. Excelente tardía templada (+163 kg/ha · 60% · 222 comp.). No usar en temprana (-89 kg/ha). 3 herramientas herbicidas Clearfield." },
-  "7921": { name: "NS 7921 Viptera3 CL ⭐", tech: "Viptera3 CL", mr: "118", gdu: "792", pms: "316g", grain: "Semi-dentado", height: "235cm", pos: "Volumen del portfolio CL (478+364 comp.). Temprana +167 kg/ha (58%) · Tardía templada +179 kg/ha (60%). Amplia adaptabilidad + control de malezas." },
-  "7761": { name: "AX 7761 VT3P", tech: "VT3P (TriplePRO)", mr: "117", gdu: "762", pms: "300g", grain: "Semi-dentado", height: "215cm", pos: "Muy buena performance en temprana (+283 kg/ha · 67% éxito). Excelente sanidad (Roya 1 · Tizón 2 · Green Snap 2)." },
-  "7784": { name: "AX 7784 VT3P · Silaje", tech: "VT3P (TriplePRO)", mr: "117", gdu: "792", pms: "347g", grain: "Semi-dentado", height: "240cm", pos: "Uso específico silaje/silo de planta. Equilibrio volumen y calidad de materia seca. No comunicar como híbrido de rinde grano." },
-  "7818": { name: "NS 7818 VIP3", tech: "VIP3 (glufosinato)", mr: "118", gdu: "784", pms: "313g", grain: "Semi-dentado", height: "218cm", pos: "Opción económica. Muy buena sanidad (Roya 1 · Tizón 2). Posicionar por precio y sanidad, nunca por rinde." },
+  "7765": { name: "NS 7765 Viptera3", tech: "Viptera3", mr: "118", gdu: "783", pms: "300g", grain: "Semi-dentado", height: "227cm", pos: "Máximo potencial y estabilidad en temprana (+392 kg/ha · 74% éxito · 191 comp.). Tardía templada +324 kg/ha (71% · 165 comp.). Riego y secano. Ambientes B · MB · MA · A. Quebrado 1/9 (excelente).", marbete: "https://drive.google.com/file/d/1Lrq6WFzHZhualSUMSO63J4jd0lhItIVZ/view?usp=drive_link" },
+  "7852": { name: "NS 7852 Viptera3 🆕", tech: "Viptera3", mr: "118", gdu: "783", pms: "305g", grain: "Semi-dentado", height: "240cm", pos: "Lanzamiento 26/27. Excelente performance en temprana (+316 kg/ha · 69% · 133 comp.) y tardía templada (+194 kg/ha · 62% · 120 comp.). Todos los ambientes.", marbete: "https://drive.google.com/file/d/1sqTlgOj4BVXmiHmMMIuy8QacpvJYn-IA/view?usp=drive_link" },
+  "7925": { name: "NS 7925 Viptera3 🆕", tech: "Viptera3", mr: "119", gdu: "792", pms: "287g", grain: "Semi-dentado", height: "235cm", pos: "Lanzamiento 26/27. Máximo potencial en tardía templada (+228 kg/ha · 59% · 120 comp.). Diferencial Spiroplasma 3/9. Solo siembra tardía.", marbete: "https://drive.google.com/file/d/1DNbxY_SDTDxDpTdnrcwYvQMKRd-Y8hEo/view?usp=drive_link" },
+  "7621": { name: "NS 7621 Viptera3", tech: "Viptera3", mr: "117", gdu: "789", pms: "286g", grain: "Semi-dentado", height: "227cm", pos: "Máxima performance en temprana (+290 kg/ha · 67% · 419 comp.) en ambientes MA·A. No usar en tardía (-102 kg/ha).", marbete: "https://drive.google.com/file/d/1RtCcAl5IRlLMnwSX5lacLiHAtY6rAZ5l/view?usp=drive_link" },
+  "7624": { name: "NS 7624 Viptera3 CL", tech: "Viptera3 CL", mr: "117", gdu: "767", pms: "311g", grain: "Semi-dentado", height: "235cm", pos: "Ciclo corto. Excelente tardía templada (+163 kg/ha · 60% · 222 comp.). No usar en temprana (-89 kg/ha). 3 herramientas herbicidas Clearfield.", marbete: "https://drive.google.com/file/d/1aJrB-xtiwN3K0Hh2DfXiAFVMvOCArD3d/view?usp=drive_link" },
+  "7921": { name: "NS 7921 Viptera3 CL ⭐", tech: "Viptera3 CL", mr: "118", gdu: "792", pms: "316g", grain: "Semi-dentado", height: "235cm", pos: "Volumen del portfolio CL (478+364 comp.). Temprana +167 kg/ha (58%) · Tardía templada +179 kg/ha (60%). Amplia adaptabilidad + control de malezas.", marbete: "https://drive.google.com/file/d/1_LXHrcT0KUQQGHez6zuaT62BYKLnUfYr/view?usp=drive_link" },
+  "7761": { name: "AX 7761 VT3P", tech: "VT3P (TriplePRO)", mr: "117", gdu: "762", pms: "300g", grain: "Semi-dentado", height: "215cm", pos: "Muy buena performance en temprana (+283 kg/ha · 67% éxito). Excelente sanidad (Roya 1 · Tizón 2 · Green Snap 2).", marbete: "https://drive.google.com/file/d/1g9fmv14rd-eSPE8xDZYRW1aDfd01yZMY/view?usp=drive_link" },
+  "7784": { name: "AX 7784 VT3P · Silaje", tech: "VT3P (TriplePRO)", mr: "117", gdu: "792", pms: "347g", grain: "Semi-dentado", height: "240cm", pos: "Uso específico silaje/silo de planta. Equilibrio volumen y calidad de materia seca. No comunicar como híbrido de rinde grano.", marbete: "https://drive.google.com/file/d/1lCf_HYx_K6SlNSsr0YENL3s9_bJx___Vy/view?usp=drive_link" },
+  "7818": { name: "NS 7818 VIP3", tech: "VIP3 (glufosinato)", mr: "118", gdu: "784", pms: "313g", grain: "Semi-dentado", height: "218cm", pos: "Opción económica. Muy buena sanidad (Roya 1 · Tizón 2). Posicionar por precio y sanidad, nunca por rinde.", marbete: "https://drive.google.com/file/d/1V4t79rqNstQKHOcgtFmyLpeDht7XvNKA/view?usp=drive_link" },
   // GIRASOL
-  "1113": { name: "NS 1113 CL ⭐", tech: "Clearfield · Linoleico", mr: "110", gdu: "—", pms: "aceite muy alto", grain: "Linoleico", height: "capítulo muy decumbente", pos: "Líder del portfolio. Máxima bonificación por aceite. Rinde + aceite + sanidad (Downy R · Roya R). Sur+oeste +2,11 qq/ha · 74% éxito." },
-  "1227": { name: "NS 1227 CL HO", tech: "Clearfield + Alto Oleico (único)", mr: "112", gdu: "—", pms: "aceite muy alto", grain: "Alto Oleico", height: "capítulo muy decumbente", pos: "Premium alto oleico. Precio diferencial en mercado industrial. Sur+oeste +0,61 qq/ha. Sanidad: Downy R · Sclerotinia 4 · Verticilium 3." },
-  "1117": { name: "NS 1117 CL 🆕", tech: "Clearfield · Linoleico", mr: "111", gdu: "—", pms: "aceite muy alto", grain: "Linoleico", height: "capítulo muy decumbente", pos: "El linoleico completo. Máximos rendimientos con excelente Phomopsis (2). Sur+oeste +1,75 qq/ha · 67% éxito." },
-  "1115": { name: "NS 1115 CL", tech: "Clearfield · Linoleico", mr: "111", gdu: "—", pms: "aceite muy alto", grain: "Linoleico", height: "capítulo muy decumbente", pos: "Perfil sanitario más completo del portfolio. Alto potencial bonificado. Muy estable. Sur+oeste +1,64 qq/ha · 69% éxito." }
+  "1113": { name: "NS 1113 CL ⭐", tech: "Clearfield · Linoleico", mr: "110", gdu: "—", pms: "aceite muy alto", grain: "Linoleico", height: "capítulo muy decumbente", pos: "Líder del portfolio. Máxima bonificación por aceite. Rinde + aceite + sanidad (Downy R · Roya R). Sur+oeste +2,11 qq/ha · 74% éxito.", marbete: "https://drive.google.com/file/d/1pLULB_xcaDaMArKLRiOsluX_Pu1vxexG/view?usp=drive_link" },
+  "1227": { name: "NS 1227 CL HO", tech: "Clearfield + Alto Oleico (único)", mr: "112", gdu: "—", pms: "aceite muy alto", grain: "Alto Oleico", height: "capítulo muy decumbente", pos: "Premium alto oleico. Precio diferencial en mercado industrial. Sur+oeste +0,61 qq/ha. Sanidad: Downy R · Sclerotinia 4 · Verticilium 3.", marbete: "https://drive.google.com/file/d/1FXGJMJwOpgUtXE4dikjGlQ63NelsH2hz/view?usp=drive_link" },
+  "1117": { name: "NS 1117 CL 🆕", tech: "Clearfield · Linoleico", mr: "111", gdu: "—", pms: "aceite muy alto", grain: "Linoleico", height: "capítulo muy decumbente", pos: "El linoleico completo. Máximos rendimientos con excelente Phomopsis (2). Sur+oeste +1,75 qq/ha · 67% éxito.", marbete: "https://drive.google.com/file/d/15zNhsn2VnJ3uv2yl6SUJqasGmzk7CUbW/view?usp=drive_link" },
+  "1115": { name: "NS 1115 CL", tech: "Clearfield · Linoleico", mr: "111", gdu: "—", pms: "aceite muy alto", grain: "Linoleico", height: "capítulo muy decumbente", pos: "Perfil sanitario más completo del portfolio. Alto potencial bonificado. Muy estable. Sur+oeste +1,64 qq/ha · 69% éxito.", marbete: "https://drive.google.com/file/d/1Cn2QjvUAfRkdIHVS2JH7o_FAsRVejqXr/view?usp=drive_link" }
 };
 
 function addMsg(text, sender) {
