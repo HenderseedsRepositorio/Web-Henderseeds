@@ -306,6 +306,68 @@ section{padding:80px 0;position:relative}
 .tech-row p{font-family:var(--mono-font);font-size:11.5px;color:var(--ink-dim);margin-top:2px;letter-spacing:.02em}
 .tech-row .arr{font-family:var(--mono-font);color:var(--ink-dim);font-size:14px}
 
+/* ══════ HERRAMIENTAS (tools grid) ══════ */
+.tools-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px
+}
+@media(max-width:980px){.tools-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.tools-grid{grid-template-columns:1fr}}
+.tool-card{
+  display:flex;flex-direction:column;gap:14px;
+  padding:22px 22px 18px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  text-decoration:none;color:inherit;
+  transition:.2s;
+  position:relative;overflow:hidden;
+  min-height:230px;
+}
+.tool-card::before{
+  content:"";position:absolute;left:0;top:0;right:0;height:2px;
+  background:linear-gradient(90deg, var(--accent), color-mix(in oklab, var(--accent) 40%, transparent));
+  opacity:.7;transition:.2s
+}
+.tool-card:hover{
+  border-color:color-mix(in oklab, var(--accent) 35%, var(--border));
+  transform:translateY(-2px);
+  box-shadow:0 12px 32px -16px color-mix(in oklab, var(--accent) 50%, transparent);
+}
+.tool-card:hover::before{opacity:1}
+.tool-card:hover .tool-arrow{transform:translateX(3px);color:var(--accent)}
+.tool-card .tool-head{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.tool-card .tool-tag{
+  font-family:var(--mono-font);font-size:11px;letter-spacing:.08em;
+  color:var(--accent);text-transform:uppercase;font-weight:600
+}
+.tool-card .tool-arrow{
+  font-family:var(--mono-font);font-size:18px;color:var(--ink-dim);
+  transition:.2s
+}
+.tool-card .tool-title{
+  font-family:var(--title-font);font-weight:700;
+  font-size:24px;letter-spacing:-.015em;line-height:1.1;
+  color:var(--ink)
+}
+.tool-card .tool-desc{
+  color:var(--ink-dim);font-size:14px;line-height:1.55;flex:1
+}
+.tool-card .tool-meta{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding-top:14px;border-top:1px dashed var(--border);
+  flex-wrap:wrap
+}
+.tool-card .tool-chip{
+  font-family:var(--mono-font);font-size:10.5px;color:var(--ink-dim);
+  letter-spacing:.04em
+}
+.tool-card .tool-cta{
+  font-family:var(--mono-font);font-size:11px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--accent)
+}
+
 /* ══════ HÍBRIDOS ══════ */
 .cmd{
   font-family:var(--mono-font);font-size:12px;color:var(--ink-dim);
@@ -470,7 +532,8 @@ section{padding:80px 0;position:relative}
 footer{padding:50px 0 30px;border-top:1px solid var(--border);margin-top:80px;font-family:var(--mono-font);font-size:12px}
 .footer-badge{display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border:1px solid var(--border);border-radius:99px;background:var(--panel);font-family:var(--mono-font);font-size:11.5px;color:var(--ink-dim);letter-spacing:.06em;margin-bottom:28px}
 .footer-badge img{height:18px;width:auto;opacity:.9}
-.foot-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px;margin-bottom:30px}
+.foot-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:30px;margin-bottom:30px}
+@media(max-width:980px){.foot-top{grid-template-columns:1fr 1fr 1fr}}
 @media(max-width:780px){.foot-top{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.foot-top{grid-template-columns:1fr}}
 .foot-top h5{color:var(--accent);font-size:10.5px;letter-spacing:.1em;margin-bottom:12px;text-transform:uppercase}
@@ -715,7 +778,7 @@ body.light-mode .btc-val { color: #15181E; }
       <li><a href="#hybrids">Catálogo</a></li>
       <li><a href="#metodo">Método</a></li>
       <li><a href="#algrano">Al Grano</a></li>
-      <li><a href="https://margen.henderseeds.com?utm_source=henderseeds&amp;utm_medium=nav&amp;utm_campaign=site" target="_blank" rel="noopener" class="ext" onclick="gtag('event','calc_link_click',{source:'nav'})">Márgenes</a></li>
+      <li><a href="#tools" onclick="gtag('event','tools_nav_click',{source:'nav'})">Herramientas</a></li>
       <li><a href="#cta" class="nav-cta">Cotizar</a></li>
       <li>
         <button class="theme-toggle" id="themeToggleDesk" aria-label="Modo claro/oscuro" onclick="toggleTheme()">
@@ -738,7 +801,7 @@ body.light-mode .btc-val { color: #15181E; }
   <a href="#hybrids" onclick="this.closest('.mobile-menu').classList.remove('open')">Catálogo</a>
   <a href="#metodo" onclick="this.closest('.mobile-menu').classList.remove('open')">Método</a>
   <a href="#algrano" onclick="this.closest('.mobile-menu').classList.remove('open')">Al Grano</a>
-  <a href="https://margen.henderseeds.com?utm_source=henderseeds&amp;utm_medium=nav&amp;utm_campaign=site" target="_blank" rel="noopener" onclick="gtag('event','calc_link_click',{source:'nav'})">Márgenes ↗</a>
+  <a href="#tools" onclick="gtag('event','tools_nav_click',{source:'nav_mobile'});this.closest('.mobile-menu').classList.remove('open')">Herramientas</a>
   <a href="#cta" onclick="this.closest('.mobile-menu').classList.remove('open')" style="color:var(--accent)">Cotizar</a>
   <button class="theme-toggle" aria-label="Modo claro/oscuro" onclick="toggleTheme(); this.closest('.mobile-menu').classList.remove('open');" style="margin-top:1rem;">
     <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -871,14 +934,56 @@ body.light-mode .btc-val { color: #15181E; }
 <section id="tools" style="padding:60px 0">
   <div class="container">
     <div class="sec-label reveal"><span class="k">&gt; 03</span>HERRAMIENTAS</div>
-    <h2 class="sec-title reveal">Calculá tu margen <span class="c">antes</span> de sembrar.</h2>
-    <p class="sec-desc reveal">Calculadora interactiva: 6 cultivos, sensibilidad precio-rinde, escenarios.</p>
-    <div class="reveal" style="margin-top:20px">
+    <h2 class="sec-title reveal">Decisiones <span class="c">concretas</span>,<br>antes de sembrar y antes de financiarte.</h2>
+    <p class="sec-desc reveal">Tres calculadoras gratis para el productor. Margen por cultivo, financiamiento en pesos vs dólares, y la tasa real que pagás cuando comprás en cuotas o descontás un cheque.</p>
+
+    <div class="tools-grid reveal">
       <a href="https://margen.henderseeds.com?utm_source=henderseeds&amp;utm_medium=tools_section&amp;utm_campaign=site"
          target="_blank" rel="noopener"
-         class="btn-term primary"
-         onclick="gtag('event','calc_link_click',{source:'tools_section'})">
-         Abrir calculadora →
+         class="tool-card"
+         onclick="gtag('event','calc_link_click',{source:'tools_section',tool:'margen'})">
+        <div class="tool-head">
+          <span class="tool-tag">01 · Margen</span>
+          <span class="tool-arrow">→</span>
+        </div>
+        <h3 class="tool-title">Margen por hectárea</h3>
+        <p class="tool-desc">6 cultivos, sensibilidad precio-rinde, escenarios. Decidí cuál sembrar antes de poner la primera bolsa en el lote.</p>
+        <div class="tool-meta">
+          <span class="tool-chip">Maíz · Soja · Trigo · Girasol</span>
+          <span class="tool-cta">Abrir calculadora</span>
+        </div>
+      </a>
+
+      <a href="https://13-finanzas-suite.vercel.app/finanzas?utm_source=henderseeds&amp;utm_medium=tools_section&amp;utm_campaign=site"
+         target="_blank" rel="noopener"
+         class="tool-card"
+         onclick="gtag('event','calc_link_click',{source:'tools_section',tool:'pesos_vs_usd'})">
+        <div class="tool-head">
+          <span class="tool-tag">02 · Finanzas</span>
+          <span class="tool-arrow">→</span>
+        </div>
+        <h3 class="tool-title">Pesos vs dólares</h3>
+        <p class="tool-desc">¿Conviene financiarse en pesos o en USD? Ajusta por devaluación esperada y devuelve el costo financiero total en USD reales.</p>
+        <div class="tool-meta">
+          <span class="tool-chip">CFTEA · TEA · break-even</span>
+          <span class="tool-cta">Comparar</span>
+        </div>
+      </a>
+
+      <a href="https://13-finanzas-suite.vercel.app/cuotas?utm_source=henderseeds&amp;utm_medium=tools_section&amp;utm_campaign=site"
+         target="_blank" rel="noopener"
+         class="tool-card"
+         onclick="gtag('event','calc_link_click',{source:'tools_section',tool:'cuotas'})">
+        <div class="tool-head">
+          <span class="tool-tag">03 · Finanzas</span>
+          <span class="tool-arrow">→</span>
+        </div>
+        <h3 class="tool-title">Cuotas y cheques</h3>
+        <p class="tool-desc">¿Qué tasa estás pagando realmente? Ingresá contado y pagos a fecha, te devuelve la TEA implícita por TIR (XIRR).</p>
+        <div class="tool-meta">
+          <span class="tool-chip">TEA real · cheque diferido · cuotas ML</span>
+          <span class="tool-cta">Calcular TEA</span>
+        </div>
       </a>
     </div>
   </div>
@@ -1033,7 +1138,13 @@ body.light-mode .btc-val { color: #15181E; }
         <a href="#about">Equipo</a>
         <a href="#hybrids">Catálogo</a>
         <a href="#metodo">Método</a>
-        <a href="https://margen.henderseeds.com?utm_source=henderseeds&amp;utm_medium=footer&amp;utm_campaign=site" target="_blank" rel="noopener" onclick="gtag('event','calc_link_click',{source:'footer'})">Calculadora ↗</a>
+        <a href="#tools" onclick="gtag('event','tools_nav_click',{source:'footer'})">Herramientas</a>
+      </div>
+      <div>
+        <h5>// CALCULADORAS</h5>
+        <a href="https://margen.henderseeds.com?utm_source=henderseeds&amp;utm_medium=footer&amp;utm_campaign=site" target="_blank" rel="noopener" onclick="gtag('event','calc_link_click',{source:'footer',tool:'margen'})">Márgenes ↗</a>
+        <a href="https://13-finanzas-suite.vercel.app/finanzas?utm_source=henderseeds&amp;utm_medium=footer&amp;utm_campaign=site" target="_blank" rel="noopener" onclick="gtag('event','calc_link_click',{source:'footer',tool:'pesos_vs_usd'})">Pesos vs USD ↗</a>
+        <a href="https://13-finanzas-suite.vercel.app/cuotas?utm_source=henderseeds&amp;utm_medium=footer&amp;utm_campaign=site" target="_blank" rel="noopener" onclick="gtag('event','calc_link_click',{source:'footer',tool:'cuotas'})">Cuotas y cheques ↗</a>
       </div>
       <div>
         <h5>// CONTACTO</h5>
