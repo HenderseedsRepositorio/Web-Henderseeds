@@ -8,26 +8,45 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 
 <style>
 :root{
-  --navy:#0D2D5E; --navy-dark:#091E3E; --navy-mid:#1A4A8A;
-  --bg:#F7F9FC; --bg-panel:#FFFFFF; --bg-soft:#EEF2F8;
-  --ink:#0D2D5E; --ink-dim:#5F7299; --ink-mute:#9AABC7;
-  --accent:#F5A623; --accent-dim:#C7841B; --accent-soft:#FEF5E1;
-  --border:rgba(13,45,94,.10);
-  --border-strong:rgba(13,45,94,.18);
-  --good:#1E9B5E; --warn:#C7841B;
-  --shadow-sm:0 1px 2px rgba(13,45,94,.06);
-  --shadow-md:0 4px 12px rgba(13,45,94,.08);
-  --shadow-lg:0 12px 32px rgba(13,45,94,.12);
-  --arch:'Space Grotesk',system-ui,sans-serif;
-  --sans:'DM Sans',system-ui,sans-serif;
-  --mono:'DM Mono',ui-monospace,monospace;
+  /* Editorial agrotech palette (Claude Design Direction A) */
+  --bg:#f4f0e6;
+  --bg-panel:#fbf9f3;
+  --bg-soft:#ebe6d4;
+  --ink:#1a1a18;
+  --ink-dim:#6e6857;
+  --ink-mute:#9c947f;
+  --line:#d8d0b8;
+  --line-soft:#e5dec7;
+  /* cultivo accents */
+  --maize:#5a7a3a;
+  --sunflower:#d4a02a;
+  /* Nidera highlight (terra cotta) */
+  --nidera:#b85c2a;
+  --nidera-soft:#fcf1e3;
+  --nidera-mid:#e8c7a8;
+  /* compat aliases */
+  --border:var(--line);
+  --border-strong:var(--ink-mute);
+  --accent:var(--nidera);
+  --accent-dim:#9a4a20;
+  --accent-soft:var(--nidera-soft);
+  --shadow-sm:0 1px 2px rgba(40,30,15,.04);
+  --shadow-md:0 6px 18px rgba(40,30,15,.08);
+  --shadow-lg:0 20px 60px rgba(26,26,24,.18);
+  --serif:'IBM Plex Serif',Georgia,serif;
+  --sans:'IBM Plex Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  /* legacy aliases for existing CSS */
+  --arch:var(--serif);
+  --navy:var(--ink);
+  --navy-dark:var(--ink);
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -39,45 +58,77 @@ body{
   display:flex; flex-direction:column;
 }
 
-/* ═══ HEADER ═══ */
+/* ═══ HEADER editorial ═══ */
 header{
-  display:flex; align-items:center; gap:1.5rem;
-  padding:.85rem 1.25rem;
+  display:flex; align-items:center; gap:1rem;
+  padding:0 1.25rem;height:56px;
   background:var(--bg-panel);
-  border-bottom:1px solid var(--border);
-  box-shadow:var(--shadow-sm);
+  border-bottom:1px solid var(--line);
   z-index:2;
-  flex-wrap:wrap;
 }
-.brand{display:flex;align-items:center;gap:.7rem;font-family:var(--arch);font-weight:700}
-.brand .dot{width:9px;height:9px;background:var(--accent);border-radius:50%;box-shadow:0 0 12px var(--accent)}
-.brand .name{font-size:1.05rem;letter-spacing:.5px}
+/* Brand: logo + nombre mono */
+.brand{display:flex;align-items:center;gap:.6rem}
+.brand svg{width:14px;height:14px;color:var(--ink)}
+.brand .name{font-family:var(--mono);font-weight:600;font-size:.81rem;letter-spacing:.04em;color:var(--ink)}
+
+/* Breadcrumb estilo terminal */
 .crumb{
   font-family:var(--mono);font-size:.72rem;
-  color:var(--ink-dim);letter-spacing:.5px;
-  padding:.3rem .55rem;border:1px solid var(--border);border-radius:6px;
+  color:var(--ink-mute);letter-spacing:.04em;
+  display:flex;align-items:center;gap:.5rem;
 }
-.crumb b{color:var(--accent);font-weight:500}
+.crumb .sep{color:var(--line);font-weight:300}
+.crumb .path{color:var(--ink-mute)}
+.crumb .ctx{
+  color:var(--ink-dim);text-transform:uppercase;
+  letter-spacing:.06em;font-size:.71rem;
+}
 
-.filters{display:flex;gap:.5rem;flex-wrap:wrap;margin-left:auto;align-items:center}
+.filters{display:flex;gap:0;margin-left:auto;align-items:center}
+
+/* Tab pills group (TODOS / GIRASOL / MAIZ) - container */
+.tabs-group{
+  display:flex;align-items:center;gap:0;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:2px;background:var(--bg-panel);
+}
+.tab-pill{
+  padding:6px 14px;
+  border-radius:999px;background:transparent;
+  border:0;cursor:pointer;
+  font-family:var(--mono);font-size:.7rem;
+  color:var(--ink);letter-spacing:.06em;
+  display:inline-flex;align-items:center;gap:.45rem;
+  transition:background .15s;
+}
+.tab-pill .dot{
+  width:6px;height:6px;border-radius:999px;
+}
+.tab-pill .count{
+  font-size:.62rem;color:var(--ink-mute);
+  font-variant-numeric:tabular-nums;opacity:.6;
+}
+.tab-pill:hover{background:var(--bg-soft)}
+.tab-pill.active{
+  background:var(--nidera);color:#fff;font-weight:500;
+}
+.tab-pill.active .count{color:#fff;opacity:.8}
+
+/* Filter strip chips (rectangulares, no pills) */
 .chip{
-  display:inline-flex;align-items:center;gap:.4rem;
-  padding:.45rem .85rem;font-family:var(--mono);font-size:.72rem;
-  letter-spacing:.5px;text-transform:uppercase;
-  background:var(--bg-panel);color:var(--ink-dim);
-  border:1px solid var(--border);border-radius:999px;
-  cursor:pointer;transition:all .15s;
-  user-select:none;
+  display:inline-flex;align-items:center;gap:.35rem;
+  padding:6px 12px;font-family:var(--mono);font-size:.7rem;
+  letter-spacing:.04em;
+  background:var(--bg-panel);color:var(--ink);
+  border:1px solid var(--line);border-radius:4px;
+  cursor:pointer;transition:all .15s;user-select:none;
 }
-.chip:hover{border-color:var(--accent);color:var(--ink);background:var(--accent-soft)}
-.chip.active{background:var(--accent);color:#FFFFFF;border-color:var(--accent);font-weight:500;box-shadow:0 2px 8px rgba(245,166,35,.35)}
-.chip .count{
-  font-size:.68rem;background:var(--bg-soft);color:var(--ink-dim);
-  padding:.05rem .35rem;border-radius:4px;
-}
-.chip.active .count{background:rgba(255,255,255,.25);color:#FFFFFF}
+.chip:hover{border-color:var(--ink-dim)}
+.chip.ghost{background:transparent;border-color:var(--line-soft);color:var(--ink-dim)}
+.chip .caret{color:var(--ink-mute);margin-left:.15rem}
 
-select.chip{appearance:none;padding-right:1.6rem;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path fill='%235F7299' d='M2 4l4 4 4-4z'/></svg>");background-repeat:no-repeat;background-position:right .55rem center;background-size:9px}
+select.chip{appearance:none;padding-right:1.6rem;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path fill='%239c947f' d='M2 4l4 4 4-4z'/></svg>");background-repeat:no-repeat;background-position:right .55rem center;background-size:9px}
 
 /* ═══ LAYOUT ═══ */
 .main{flex:1; display:flex; min-height:0; position:relative}
@@ -93,199 +144,280 @@ select.chip{appearance:none;padding-right:1.6rem;background-image:url("data:imag
 }
 .maplibregl-ctrl-attrib a{color:var(--ink-dim)!important}
 
-/* ═══ SIDEBAR PANEL ═══ */
+/* ═══ SIDEBAR PANEL — Editorial ═══ */
 aside{
-  width:380px; max-width:90vw;
+  width:440px; max-width:90vw;
   background:var(--bg-panel);
-  border-left:1px solid var(--border);
+  border-left:1px solid var(--line);
   display:flex;flex-direction:column;
   overflow:hidden;
   transform:translateX(100%);
   transition:transform .25s ease;
-  box-shadow:-8px 0 24px rgba(13,45,94,.08);
+  box-shadow:-8px 0 24px rgba(40,30,15,.06);
 }
 aside.open{transform:translateX(0)}
 .aside-head{
-  padding:1.1rem 1.25rem .9rem;
-  border-bottom:1px solid var(--border);
-  display:flex;flex-direction:column;gap:.35rem;
+  padding:1.4rem 1.5rem 1rem;
+  border-bottom:1px solid var(--line-soft);
+  position:relative;
 }
 .aside-head .loc{
-  font-family:var(--arch);font-size:1.35rem;font-weight:700;
-  letter-spacing:.3px;
+  font-family:var(--serif);font-size:1.9rem;font-weight:500;
+  letter-spacing:-0.01em;line-height:1.1;color:var(--ink);
+  display:inline-block;
 }
-.aside-head .sub{
-  font-family:var(--mono);font-size:.7rem;
-  color:var(--ink-dim);letter-spacing:.5px;
+.aside-head .coords{
+  font-family:var(--mono);font-size:.65rem;color:var(--ink-mute);
+  letter-spacing:.06em;margin-left:.6rem;vertical-align:middle;
 }
+.aside-head .meta-chips{
+  display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.6rem;
+}
+.meta-chip{
+  font-family:var(--mono);font-size:.6rem;
+  letter-spacing:.06em;text-transform:uppercase;
+  padding:3px 8px;border:1px solid var(--line);
+  color:var(--ink-dim);border-radius:3px;
+}
+.meta-chip.maiz{color:var(--maize);border-color:var(--maize)}
+.meta-chip.maiz::before{content:"";display:inline-block;width:5px;height:5px;border-radius:999px;background:var(--maize);margin-right:5px;vertical-align:1px}
+.meta-chip.girasol{color:var(--sunflower);border-color:var(--sunflower)}
+.meta-chip.girasol::before{content:"";display:inline-block;width:5px;height:5px;border-radius:999px;background:var(--sunflower);margin-right:5px;vertical-align:1px}
+
 .aside-head .close{
-  position:absolute;top:.7rem;right:.7rem;
-  width:30px;height:30px;border-radius:50%;
-  border:1px solid var(--border);background:transparent;
-  color:var(--ink-dim);cursor:pointer;font-size:1.1rem;
+  position:absolute;top:1.1rem;right:1.1rem;
+  width:26px;height:26px;border-radius:3px;
+  border:1px solid var(--line);background:var(--bg-panel);
+  color:var(--ink-dim);cursor:pointer;font-size:1rem;
   display:flex;align-items:center;justify-content:center;
   transition:all .15s;
 }
-.aside-head .close:hover{border-color:var(--accent);color:var(--accent)}
+.aside-head .close:hover{border-color:var(--ink);color:var(--ink)}
 
+/* Big metrics 2x2 grid editorial */
 .aside-meta{
-  display:grid;grid-template-columns:1fr 1fr;gap:.5rem;
-  padding:1rem 1.25rem;border-bottom:1px solid var(--border);
+  display:grid;grid-template-columns:1fr 1fr;gap:1rem;
+  padding:1.1rem 1.5rem;border-bottom:1px solid var(--line-soft);
 }
-.kpi{
-  background:var(--bg-soft);
-  border:1px solid var(--border);border-radius:8px;
-  padding:.55rem .7rem;
+.kpi{padding:0}
+.kpi .l{
+  font-family:var(--mono);font-size:.6rem;color:var(--ink-mute);
+  letter-spacing:.08em;text-transform:uppercase;margin-bottom:.3rem;
 }
-.kpi .v{font-family:var(--arch);font-size:1.1rem;font-weight:700;color:var(--navy)}
-.kpi .l{font-family:var(--mono);font-size:.62rem;color:var(--ink-dim);letter-spacing:.5px;text-transform:uppercase;margin-top:.1rem}
+.kpi .v{
+  font-family:var(--serif);font-size:1.55rem;font-weight:500;
+  color:var(--ink);letter-spacing:-0.01em;
+  font-variant-numeric:tabular-nums;line-height:1.1;
+  display:inline-block;
+}
+.kpi .suffix{
+  font-family:var(--mono);font-size:.6rem;color:var(--ink-mute);
+  letter-spacing:.04em;margin-left:.3rem;
+}
+.kpi.accent .v{color:var(--nidera)}
 
-.aside-body{flex:1;overflow-y:auto;padding:1rem 1.25rem}
+.aside-body{flex:1;overflow-y:auto;padding:1.1rem 1.5rem;background:var(--bg-panel)}
 .aside-body h4{
-  font-family:var(--mono);font-size:.68rem;
-  color:var(--ink-dim);text-transform:uppercase;letter-spacing:1px;
-  margin-bottom:.5rem;
+  font-family:var(--mono);font-size:.65rem;
+  color:var(--ink);text-transform:uppercase;letter-spacing:.1em;
+  font-weight:600;margin-bottom:.65rem;
 }
+.aside-body h4:not(:first-child){margin-top:1.2rem}
+.aside-section{
+  padding-bottom:1.1rem;
+  border-bottom:1px solid var(--line-soft);
+  margin-bottom:0;
+}
+.aside-section:last-child{border-bottom:0}
 .aside-body .meta-line{
-  font-size:.82rem;color:var(--ink-dim);margin-bottom:.35rem;
-  line-height:1.4;
+  font-size:.78rem;color:var(--ink-dim);margin-bottom:.25rem;
+  line-height:1.5;font-family:var(--mono);
 }
-.aside-body .meta-line b{color:var(--ink);font-weight:500;font-family:var(--mono)}
-.aside-body .meta-line a{color:var(--accent-dim);text-decoration:none;font-weight:500}
-.aside-body .meta-line a:hover{text-decoration:underline}
+.aside-body .meta-line b{color:var(--ink-mute);font-weight:400;font-family:var(--mono);font-size:.7rem}
+.aside-body .meta-line a{color:var(--nidera);text-decoration:underline;text-decoration-style:dotted;font-weight:400}
+.aside-body .meta-line a:hover{text-decoration-style:solid}
 
-table.cult{width:100%;border-collapse:collapse;margin-top:.5rem;font-size:.78rem}
-table.cult th{
-  text-align:left;padding:.45rem .35rem;
-  font-family:var(--mono);font-size:.65rem;font-weight:500;
-  color:var(--ink-dim);text-transform:uppercase;letter-spacing:.5px;
-  border-bottom:1px solid var(--border);
-}
-table.cult th.r{text-align:right}
-table.cult td{
-  padding:.45rem .35rem;border-bottom:1px solid var(--border);
-}
-table.cult td.r{text-align:right;font-family:var(--mono);font-size:.78rem;color:var(--ink)}
-table.cult td.cv{font-weight:500;color:var(--ink)}
-
-/* ═══ MANEJO AGRONOMICO ═══ */
-.manejo-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:.5rem;
-  margin-top:.5rem;
-}
-.manejo-card{
-  background:var(--bg-soft);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:.55rem .7rem;
-}
-.manejo-card.full{grid-column:1/-1}
-.manejo-card .icn{font-size:.85rem;color:var(--accent-dim);margin-right:.3rem}
-.manejo-card .lbl{
-  font-family:var(--mono);font-size:.6rem;
-  color:var(--ink-dim);text-transform:uppercase;letter-spacing:.5px;
-  display:block;margin-bottom:.15rem;
-}
-.manejo-card .val{
-  font-size:.78rem;color:var(--ink);font-weight:500;
-  line-height:1.35;word-break:break-word;
-}
-.manejo-card.full .val{font-size:.75rem;font-weight:400}
-.manejo-fechas{
-  display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.4rem;
-}
-.fecha-pill{
-  display:inline-flex;align-items:center;gap:.35rem;
-  background:var(--bg-panel);border:1px solid var(--border);
-  border-radius:6px;padding:.3rem .55rem;
+/* Key-value rows editoriales */
+.kv-grid{
+  display:grid;grid-template-columns:100px 1fr;row-gap:.3rem;
   font-family:var(--mono);font-size:.7rem;
 }
-.fecha-pill .lbl{color:var(--ink-dim);text-transform:uppercase;font-size:.6rem;letter-spacing:.5px}
-.fecha-pill .val{color:var(--ink);font-weight:500}
+.kv-grid .k{color:var(--ink-mute);letter-spacing:.02em}
+.kv-grid .v{color:var(--ink)}
+.kv-grid .v a{color:var(--nidera);text-decoration:underline;text-decoration-style:dotted}
+.kv-grid .v .hint{color:var(--ink-mute);font-size:.62rem;margin-left:.3rem}
+
+/* Ranking editorial: 5 columnas (#, cultivar+empresa, kg/ha, delta-bar, sitios) */
+.rank-head{
+  display:grid;grid-template-columns:24px 1fr 64px 70px 36px;
+  gap:8px;padding-bottom:.4rem;
+  border-bottom:1px solid var(--line-soft);
+  font-family:var(--mono);font-size:.6rem;color:var(--ink-mute);
+  letter-spacing:.06em;text-transform:uppercase;
+}
+.rank-head .r{text-align:right}
+.rank-row{
+  display:grid;grid-template-columns:24px 1fr 64px 70px 36px;
+  gap:8px;padding:.55rem 0;
+  border-bottom:1px solid var(--line-soft);
+  font-family:var(--mono);font-size:.74rem;
+  align-items:center;
+}
+.rank-row.nidera{
+  background:var(--nidera-soft);
+  margin:0 -1.5rem;padding-left:1.5rem;padding-right:1.5rem;
+}
+.rank-row .pos{color:var(--ink-mute);font-variant-numeric:tabular-nums}
+.rank-row .name{font-weight:500;color:var(--ink);font-size:.74rem;line-height:1.2}
+.rank-row .name .star{color:var(--nidera);margin-left:.2rem}
+.rank-row .company{color:var(--ink-mute);font-size:.66rem;margin-top:.1rem}
+.rank-row .rinde{
+  text-align:right;font-variant-numeric:tabular-nums;color:var(--ink);
+}
+.rank-row.nidera .rinde{color:var(--nidera);font-weight:600}
+.rank-row .delta{display:flex;flex-direction:column;gap:.15rem;align-items:flex-end}
+.rank-row .delta-bar{
+  width:56px;height:3px;background:var(--line-soft);border-radius:0;overflow:hidden;
+}
+.rank-row .delta-bar > i{
+  display:block;height:100%;background:var(--maize);
+}
+.rank-row.nidera .delta-bar > i{background:var(--nidera)}
+.rank-row .delta-val{
+  font-size:.6rem;color:var(--ink-mute);font-variant-numeric:tabular-nums;
+}
+.rank-row .sites{
+  display:flex;justify-content:flex-end;align-items:center;gap:4px;
+  color:var(--ink-mute);font-variant-numeric:tabular-nums;font-size:.66rem;
+}
+.rank-row .spark{width:32px;height:12px}
+
+/* ═══ MANEJO AGRONOMICO — Editorial ═══ */
+.manejo-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:.55rem;
+  margin-top:.4rem;
+}
+.manejo-card{
+  background:var(--bg);
+  border:1px solid var(--line-soft);
+  border-radius:0;
+  padding:.65rem .8rem;
+}
+.manejo-card.full{grid-column:1/-1}
+.manejo-card .icn{font-size:.85rem;color:var(--nidera);margin-right:.3rem}
+.manejo-card .lbl{
+  font-family:var(--mono);font-size:.58rem;
+  color:var(--ink-mute);text-transform:uppercase;letter-spacing:.08em;
+  display:block;margin-bottom:.2rem;
+}
+.manejo-card .val{
+  font-family:var(--mono);font-size:.72rem;color:var(--ink);font-weight:500;
+  line-height:1.4;word-break:break-word;
+}
+.manejo-card.full .val{font-size:.7rem;font-weight:400;color:var(--ink-dim)}
+
+.manejo-fechas{display:flex;gap:.4rem;flex-wrap:wrap}
+.fecha-pill{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:var(--bg);border:1px solid var(--line);
+  border-radius:0;padding:.35rem .65rem;
+  font-family:var(--mono);font-size:.68rem;
+}
+.fecha-pill .lbl{color:var(--ink-mute);text-transform:uppercase;font-size:.58rem;letter-spacing:.08em}
+.fecha-pill .val{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
 .empty-manejo{
   font-family:var(--mono);font-size:.7rem;color:var(--ink-mute);
-  padding:.5rem 0;font-style:italic;
+  padding:.3rem 0;font-style:italic;
 }
-table.cult tr.nidera{background:var(--accent-soft)}
-table.cult tr.nidera td.cv::after{
-  content:'★';color:var(--accent);margin-left:.3rem;font-size:.7rem;
-}
-table.cult tr.top td.r{color:var(--accent-dim);font-weight:600}
 
 .cta-row{
-  display:flex;gap:.5rem;margin-top:1rem;
-  padding-top:1rem;border-top:1px solid var(--border);
+  display:flex;gap:.5rem;margin-top:1.2rem;
 }
 .btn{
-  flex:1;padding:.65rem .85rem;
-  font-family:var(--mono);font-size:.72rem;
-  letter-spacing:.5px;text-transform:uppercase;
-  border:1px solid var(--border-strong);border-radius:8px;
+  flex:1;padding:.7rem .9rem;
+  font-family:var(--mono);font-size:.7rem;
+  letter-spacing:.06em;text-transform:uppercase;
+  border:1px solid var(--ink);border-radius:0;
   background:var(--bg-panel);color:var(--ink);
   cursor:pointer;text-decoration:none;text-align:center;
   display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
   transition:all .15s;font-weight:500;
 }
-.btn:hover{border-color:var(--accent);color:var(--accent-dim);background:var(--accent-soft)}
-.btn.primary{background:var(--accent);color:#FFFFFF;border-color:var(--accent);font-weight:600;box-shadow:0 2px 8px rgba(245,166,35,.35)}
-.btn.primary:hover{background:var(--accent-dim);border-color:var(--accent-dim);color:#FFFFFF}
+.btn:hover{background:var(--ink);color:var(--bg-panel)}
+.btn.primary{background:var(--nidera);color:#fff;border-color:var(--nidera);font-weight:600}
+.btn.primary:hover{background:var(--accent-dim);border-color:var(--accent-dim);color:#fff}
 
-/* ═══ POPUP del marker ═══ */
+/* ═══ POPUP del marker — Editorial ═══ */
 .maplibregl-popup-content{
   background:var(--bg-panel)!important;
   color:var(--ink)!important;
-  border:1px solid var(--border);border-radius:10px!important;
-  padding:.7rem .9rem!important;
-  font-family:var(--sans);
-  box-shadow:var(--shadow-lg)!important;
+  border:1px solid var(--line)!important;border-radius:0!important;
+  padding:.8rem 1rem!important;
+  font-family:var(--sans)!important;
+  box-shadow:var(--shadow-md)!important;
 }
 .maplibregl-popup-tip{
-  border-top-color:var(--bg-panel)!important;
-  border-bottom-color:var(--bg-panel)!important;
+  border-top-color:var(--line)!important;
+  border-bottom-color:var(--line)!important;
 }
 .maplibregl-popup-close-button{
-  color:var(--ink-dim)!important;font-size:1.1rem!important;
-  padding:0 .3rem!important;
+  color:var(--ink-mute)!important;font-size:1.1rem!important;
+  padding:0 .35rem!important;
 }
-.pop-loc{font-family:var(--arch);font-weight:700;font-size:.95rem}
-.pop-meta{font-family:var(--mono);font-size:.68rem;color:var(--ink-dim);margin-top:.2rem}
-.pop-stats{display:flex;gap:.8rem;margin-top:.55rem;font-size:.78rem}
-.pop-stats b{color:var(--accent);font-family:var(--mono)}
+.pop-loc{
+  font-family:var(--serif);font-weight:500;font-size:1rem;color:var(--ink);
+  letter-spacing:-0.01em;
+}
+.pop-meta{
+  font-family:var(--mono);font-size:.62rem;color:var(--ink-mute);
+  letter-spacing:.08em;text-transform:uppercase;margin-top:.25rem;
+}
+.pop-stats{
+  display:flex;gap:1.2rem;margin-top:.55rem;
+  font-family:var(--mono);font-size:.7rem;color:var(--ink-dim);
+}
+.pop-stats b{color:var(--nidera);font-weight:600;font-variant-numeric:tabular-nums}
 .pop-cta{
-  margin-top:.55rem;display:inline-block;
-  font-family:var(--mono);font-size:.7rem;color:var(--accent);
-  text-decoration:none;border-bottom:1px solid var(--accent);
+  margin-top:.6rem;display:inline-block;
+  font-family:var(--mono);font-size:.65rem;color:var(--nidera);
+  text-decoration:underline;text-decoration-style:dotted;
+  letter-spacing:.04em;
 }
 
-/* ═══ LEGEND ═══ */
+/* ═══ LEGEND — Editorial ═══ */
 .legend{
-  position:absolute;left:1rem;bottom:1.6rem;z-index:1;
-  background:rgba(255,255,255,.95);
-  border:1px solid var(--border);border-radius:8px;
-  padding:.65rem .85rem;
-  font-family:var(--mono);font-size:.7rem;color:var(--ink-dim);
-  letter-spacing:.5px;
-  display:flex;flex-direction:column;gap:.35rem;
-  backdrop-filter:blur(6px);
-  box-shadow:var(--shadow-md);
+  position:absolute;left:1.5rem;bottom:1.8rem;z-index:1;
+  background:transparent;
+  padding:0;
+  font-family:var(--mono);font-size:.62rem;color:var(--ink-dim);
+  letter-spacing:.04em;line-height:1.8;
+  display:flex;flex-direction:column;gap:.1rem;
 }
 .legend .row{display:flex;align-items:center;gap:.5rem}
-.legend .dot{width:12px;height:12px;border-radius:50%;border:2px solid #FFFFFF;box-shadow:0 0 0 1px rgba(13,45,94,.2)}
-.legend .girasol{background:#F5A623}
-.legend .maiz{background:#E8B547}
+.legend .dot{width:8px;height:8px;border-radius:999px;border:1px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.05)}
+.legend .lbl{color:var(--ink-dim);text-transform:uppercase}
+.legend .count{color:var(--ink-mute);margin-left:.2rem;font-variant-numeric:tabular-nums}
+.legend .note{margin-top:.35rem;color:var(--ink-mute);font-size:.6rem;letter-spacing:.04em}
 
-/* ═══ COUNT BADGE ═══ */
+/* ═══ COUNT BADGE — Editorial ═══ */
 .counter{
-  position:absolute;right:1rem;top:1rem;z-index:1;
-  background:rgba(255,255,255,.95);
-  border:1px solid var(--border);border-radius:8px;
-  padding:.55rem .85rem;
-  font-family:var(--mono);font-size:.72rem;color:var(--ink-dim);
-  letter-spacing:.5px;
-  backdrop-filter:blur(6px);
-  box-shadow:var(--shadow-md);
+  position:absolute;right:1.5rem;top:1.5rem;z-index:1;
+  background:var(--bg-panel);
+  border:1px solid var(--line);border-radius:0;
+  padding:.5rem .85rem;
+  font-family:var(--mono);font-size:.66rem;color:var(--ink-dim);
+  letter-spacing:.06em;text-transform:uppercase;
 }
-.counter b{color:var(--navy);font-weight:600}
+.counter b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.counter .sep{color:var(--line);margin:0 .4rem}
+
+/* Map corner title */
+.map-corner-title{
+  position:absolute;top:1.5rem;left:2rem;z-index:1;
+  font-family:var(--mono);font-size:.62rem;color:var(--ink-mute);
+  letter-spacing:.1em;text-transform:uppercase;line-height:1.5;
+}
+.map-corner-title .l1{color:var(--ink);font-size:.66rem}
 .counter .sep{margin:0 .35rem;color:var(--border-strong)}
 
 /* ═══ MOBILE ═══ */
@@ -303,24 +435,32 @@ table.cult tr.top td.r{color:var(--accent-dim);font-weight:600}
 
 <header>
   <div class="brand">
-    <span class="dot"></span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">
+      <path d="M4 12 L8 4 L12 12 L16 4 L20 12 L16 20 L12 12 L8 20 Z" />
+    </svg>
     <span class="name">HENDERSEEDS</span>
   </div>
-  <div class="crumb">~/mapa-ensayos · <b id="crumb-camp">TODAS LAS CAMPAÑAS</b></div>
+  <div class="crumb">
+    <span class="path">~/mapa-ensayos</span>
+    <span class="sep">·</span>
+    <span class="ctx" id="crumb-camp">TODAS LAS CAMPAÑAS</span>
+  </div>
   <div class="filters" id="filters">
-    <button class="chip active" data-cultivo="*">TODOS <span class="count" id="cnt-all">0</span></button>
-    <button class="chip" data-cultivo="girasol">GIRASOL <span class="count" id="cnt-gir">0</span></button>
-    <button class="chip" data-cultivo="maiz">MAÍZ <span class="count" id="cnt-mai">0</span></button>
-    <select class="chip" id="sel-campania">
+    <div class="tabs-group">
+      <button class="tab-pill active" data-cultivo="*">TODOS <span class="count" id="cnt-all">0</span></button>
+      <button class="tab-pill" data-cultivo="girasol"><span class="dot" style="background:#d4a02a"></span>GIRASOL <span class="count" id="cnt-gir">0</span></button>
+      <button class="tab-pill" data-cultivo="maiz"><span class="dot" style="background:#5a7a3a"></span>MAÍZ <span class="count" id="cnt-mai">0</span></button>
+    </div>
+    <select class="chip" id="sel-campania" style="margin-left:.5rem">
       <option value="*">TODAS LAS CAMPAÑAS</option>
     </select>
-    <select class="chip" id="sel-red">
+    <select class="chip" id="sel-red" style="margin-left:.35rem">
       <option value="*">TODAS LAS REDES</option>
     </select>
-    <select class="chip" id="sel-empresa">
+    <select class="chip" id="sel-empresa" style="margin-left:.35rem">
       <option value="*">TODAS LAS EMPRESAS</option>
     </select>
-    <select class="chip" id="sel-zona">
+    <select class="chip" id="sel-zona" style="margin-left:.35rem">
       <option value="*">TODAS LAS ZONAS</option>
     </select>
   </div>
@@ -328,45 +468,66 @@ table.cult tr.top td.r{color:var(--accent-dim);font-weight:600}
 
 <div class="main">
   <div id="map"></div>
+  <div class="map-corner-title">
+    <div class="l1">ENSAYOS COMPARATIVOS</div>
+    <div>MAÍZ + GIRASOL · ARGENTINA</div>
+  </div>
   <div class="counter">
-    <span id="visible-count"><b>0</b> ensayos</span>
+    <span id="visible-count"><b>0</b> ENSAYOS</span>
     <span class="sep">·</span>
-    <span id="visible-cultivares"><b>0</b> cultivares</span>
+    <span id="visible-cultivares"><b>0</b> CULTIVARES</span>
   </div>
   <div class="legend">
-    <div class="row"><span class="dot" style="background:#F5A623"></span> GIRASOL</div>
-    <div class="row"><span class="dot" style="background:#1E9B5E"></span> MAÍZ</div>
+    <div class="row"><span class="dot" style="background:#d4a02a"></span><span class="lbl">GIRASOL</span><span class="count" id="leg-gir"></span></div>
+    <div class="row"><span class="dot" style="background:#5a7a3a"></span><span class="lbl">MAÍZ</span><span class="count" id="leg-mai"></span></div>
+    <div class="note">El tamaño del punto = nº de cultivares</div>
   </div>
   <aside id="aside">
-    <div class="aside-head" style="position:relative">
+    <div class="aside-head">
       <button class="close" onclick="closeAside()" aria-label="Cerrar">×</button>
-      <div class="loc" id="a-loc">—</div>
-      <div class="sub" id="a-sub">—</div>
+      <h1 class="loc" id="a-loc">—</h1>
+      <span class="coords" id="a-coords"></span>
+      <div class="meta-chips" id="a-meta-chips"></div>
     </div>
     <div class="aside-meta">
-      <div class="kpi"><div class="v" id="a-n">—</div><div class="l">CULTIVARES</div></div>
-      <div class="kpi"><div class="v" id="a-rmax">—</div><div class="l">RINDE MÁX KG/HA</div></div>
-      <div class="kpi"><div class="v" id="a-ravg">—</div><div class="l">PROMEDIO KG/HA</div></div>
-      <div class="kpi"><div class="v" id="a-emp">—</div><div class="l">EMPRESAS</div></div>
+      <div class="kpi"><div class="l">CULTIVARES EVALUADOS</div><span class="v" id="a-n">—</span></div>
+      <div class="kpi accent"><div class="l">RINDE MÁX</div><span class="v" id="a-rmax">—</span><span class="suffix">kg/ha</span></div>
+      <div class="kpi"><div class="l">PROMEDIO</div><span class="v" id="a-ravg">—</span><span class="suffix">kg/ha</span></div>
+      <div class="kpi"><div class="l">EMPRESAS</div><span class="v" id="a-emp">—</span></div>
     </div>
     <div class="aside-body">
-      <h4>DATOS DEL ENSAYO</h4>
-      <div class="meta-line" id="a-meta"></div>
+      <div class="aside-section">
+        <h4>DATOS DEL ENSAYO</h4>
+        <div class="kv-grid" id="a-meta"></div>
+      </div>
 
-      <h4 style="margin-top:1rem">FECHAS DEL CICLO</h4>
-      <div class="manejo-fechas" id="a-fechas"></div>
+      <div class="aside-section" id="a-fechas-wrap">
+        <h4>FECHAS DEL CICLO</h4>
+        <div class="manejo-fechas" id="a-fechas"></div>
+      </div>
 
-      <h4 style="margin-top:1rem">MANEJO AGRONÓMICO</h4>
-      <div id="a-manejo"></div>
+      <div class="aside-section" id="a-manejo-wrap">
+        <h4>MANEJO AGRONÓMICO</h4>
+        <div id="a-manejo"></div>
+      </div>
 
-      <h4 style="margin-top:1rem">RANKING POR RINDE</h4>
-      <table class="cult">
-        <thead><tr id="a-thead"><th>CULTIVAR</th><th>EMPRESA</th><th class="r">KG/HA</th></tr></thead>
-        <tbody id="a-rows"></tbody>
-      </table>
-      <div class="cta-row">
-        <a class="btn" id="a-excel" target="_blank" rel="noopener">↓ INFORME ORIGINAL</a>
-        <a class="btn primary" href="https://wa.me/5492314509060?text=Quiero%20cotizar%20genética%20para%20mi%20campo" target="_blank" rel="noopener">WhatsApp</a>
+      <div class="aside-section">
+        <div style="display:flex;align-items:baseline;justify-content:space-between">
+          <h4 style="margin-bottom:.5rem">RANKING POR RINDE</h4>
+          <span style="font-family:var(--mono);font-size:.6rem;color:var(--ink-mute);letter-spacing:.04em">★ NIDERA · RED.IN</span>
+        </div>
+        <div class="rank-head">
+          <div>#</div>
+          <div>CULTIVAR · EMPRESA</div>
+          <div class="r">KG/HA</div>
+          <div class="r">vs #1</div>
+          <div class="r">SITIOS</div>
+        </div>
+        <div id="a-rows"></div>
+        <div class="cta-row">
+          <a class="btn" id="a-excel" target="_blank" rel="noopener">↓ INFORME ORIGINAL</a>
+          <a class="btn primary" href="https://wa.me/5492314509060?text=Quiero%20cotizar%20genética%20para%20mi%20campo" target="_blank" rel="noopener">WHATSAPP</a>
+        </div>
       </div>
     </div>
   </aside>
@@ -374,10 +535,12 @@ table.cult tr.top td.r{color:var(--accent-dim);font-weight:600}
 
 <script>
 const COLOR = {
-  girasol: '#F5A623',  // naranja Henderseeds
-  maiz: '#1E9B5E',     // verde maíz (contrasta sobre fondo claro)
+  girasol: '#d4a02a',  // sunflower mostaza editorial
+  maiz: '#5a7a3a',     // verde maíz oliva editorial
+  nidera: '#b85c2a',   // terra cotta (halo cuando hay top Nidera)
 };
-const NIDERA_RX = /\b(NS|NK|NSS)\s?\d/i;
+const NIDERA_RX = /\b(NS|NK|NSS|AX)\s?\d/i;
+const fmtAR = n => new Intl.NumberFormat('es-AR', {maximumFractionDigits:0}).format(Math.round(n));
 
 let map, allFeatures = [], filters = {cultivo:'*', campania:'*', red:'*', empresa:'*', zona:'*'};
 
@@ -425,10 +588,14 @@ async function init(){
     selZ.appendChild(o);
   });
 
-  // Counts iniciales por cultivo
+  // Counts iniciales por cultivo (tabs + legend)
+  const nGir = allFeatures.filter(f=>f.properties.cultivo==='girasol').length;
+  const nMai = allFeatures.filter(f=>f.properties.cultivo==='maiz').length;
   document.getElementById('cnt-all').textContent = allFeatures.length;
-  document.getElementById('cnt-gir').textContent = allFeatures.filter(f=>f.properties.cultivo==='girasol').length;
-  document.getElementById('cnt-mai').textContent = allFeatures.filter(f=>f.properties.cultivo==='maiz').length;
+  document.getElementById('cnt-gir').textContent = nGir;
+  document.getElementById('cnt-mai').textContent = nMai;
+  document.getElementById('leg-gir').textContent = nGir;
+  document.getElementById('leg-mai').textContent = nMai;
 
   initMap();
   bindFilters();
@@ -482,39 +649,46 @@ function initMap(){
       source:'zona-core',
       paint:{
         'circle-radius':{stops:[[5,40],[8,180]]},
-        'circle-color':'#F5A623',
-        'circle-opacity':0.08,
-        'circle-stroke-color':'#F5A623',
-        'circle-stroke-width':1.5,
-        'circle-stroke-opacity':0.5,
+        'circle-color': COLOR.nidera,
+        'circle-opacity':0.06,
+        'circle-stroke-color': COLOR.nidera,
+        'circle-stroke-width':1,
+        'circle-stroke-opacity':0.35,
       },
     });
 
     // Labels arriba
     map.addLayer({id:'lbls', type:'raster', source:'carto-labels'});
 
-    // Halo (glow)
+    // Halo Nidera (cuando el top del ensayo es Nidera) — anillo terra cotta
     map.addLayer({
-      id:'ensayos-halo',
+      id:'ensayos-nidera-ring',
       type:'circle',
       source:'ensayos',
+      filter:['==',['get','top_is_nidera'], true],
       paint:{
-        'circle-radius':['interpolate',['linear'],['get','n_cultivares'],10,14,40,28],
-        'circle-color':['match',['get','cultivo'],'girasol',COLOR.girasol,'maiz',COLOR.maiz,'#9AABC7'],
-        'circle-opacity':0.22,
-        'circle-blur':0.6,
+        'circle-radius':['interpolate',['linear'],['get','n_cultivares'],10,14,40,22],
+        'circle-color':'transparent',
+        'circle-stroke-color': COLOR.nidera,
+        'circle-stroke-width':2,
+        'circle-stroke-opacity':0.55,
       },
     });
-    // Dot
+
+    // Dot (sin halo difuso, estética editorial limpia)
     map.addLayer({
       id:'ensayos-dot',
       type:'circle',
       source:'ensayos',
       paint:{
-        'circle-radius':['interpolate',['linear'],['get','n_cultivares'],10,6,40,12],
-        'circle-color':['match',['get','cultivo'],'girasol',COLOR.girasol,'maiz',COLOR.maiz,'#9AABC7'],
-        'circle-stroke-width':2.5,
-        'circle-stroke-color':'#FFFFFF',
+        // Tamaño según fórmula editorial: r = 3 + sqrt(n) * 0.7
+        'circle-radius':[
+          '+', 3,
+          ['*', 0.7, ['sqrt',['max',1,['get','n_cultivares']]]]
+        ],
+        'circle-color':['match',['get','cultivo'],'girasol',COLOR.girasol,'maiz',COLOR.maiz,'#9c947f'],
+        'circle-stroke-width':1.5,
+        'circle-stroke-color':'#fbf9f3',
       },
     });
 
@@ -535,9 +709,9 @@ function initMap(){
 }
 
 function bindFilters(){
-  document.querySelectorAll('.chip[data-cultivo]').forEach(btn=>{
+  document.querySelectorAll('.tab-pill[data-cultivo]').forEach(btn=>{
     btn.addEventListener('click',()=>{
-      document.querySelectorAll('.chip[data-cultivo]').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab-pill[data-cultivo]').forEach(b=>b.classList.remove('active'));
       btn.classList.add('active');
       filters.cultivo = btn.dataset.cultivo;
       applyFilter();
@@ -585,91 +759,121 @@ function updateCounter(features){
   document.getElementById('visible-cultivares').innerHTML = `<b>${n_cult}</b> cultivares`;
 }
 
+function isNideraCultivar(c){
+  return (c.empresa || '').toLowerCase() === 'nidera' || NIDERA_RX.test(c.cultivar || '');
+}
+
+function escapeHtml(s){
+  if(s == null) return '';
+  return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
 function openAside(f){
   const p = f.properties;
-  document.getElementById('a-loc').textContent = `${p.localidad}`;
-  document.getElementById('a-sub').textContent = `${p.zona.toUpperCase()} · ${p.provincia.toUpperCase()} · ${p.cultivo.toUpperCase()} · ${p.campania}`;
-  document.getElementById('a-n').textContent = p.n_cultivares;
-  document.getElementById('a-rmax').textContent = fmtN(p.rinde_max_kg_ha);
-  document.getElementById('a-ravg').textContent = fmtN(p.rinde_avg_kg_ha);
-  document.getElementById('a-emp').textContent = p.n_empresas;
 
-  // Datos del ensayo (resumen institucional)
-  const meta = [];
-  if(p.productor) meta.push(`<b>Productor:</b> ${p.productor}`);
-  if(p.campo) meta.push(`<b>Campo:</b> ${p.campo}`);
-  if(p.fuente_responsable) meta.push(`<b>Responsable técnico:</b> ${p.fuente_responsable}`);
-  if(p.fuente_email) meta.push(`<b>Contacto:</b> <a href="mailto:${p.fuente_email}">${p.fuente_email}</a>`);
-  meta.push(`<b>Red:</b> ${p.red}`);
-  if(p.licencia) meta.push(`<b>Licencia:</b> ${p.licencia}`);
-  document.getElementById('a-meta').innerHTML = meta.join('<br>');
+  // Site header
+  document.getElementById('a-loc').textContent = p.localidad;
+  const [lon, lat] = f.geometry.coordinates;
+  document.getElementById('a-coords').textContent =
+    `${lat.toFixed(2)}° / ${lon.toFixed(2)}°`;
 
-  // Fechas del ciclo (pills horizontales)
+  // Meta chips: zona · provincia · cultivo · campaña
+  const chips = [];
+  chips.push(`<span class="meta-chip">${escapeHtml(p.zona.toUpperCase())}</span>`);
+  if(p.provincia) chips.push(`<span class="meta-chip">${escapeHtml(p.provincia.toUpperCase())}</span>`);
+  chips.push(`<span class="meta-chip ${p.cultivo}">${escapeHtml(p.cultivo.toUpperCase())}</span>`);
+  chips.push(`<span class="meta-chip">${escapeHtml(p.campania)}</span>`);
+  document.getElementById('a-meta-chips').innerHTML = chips.join('');
+
+  // Big metrics
+  document.getElementById('a-n').textContent = fmtAR(p.n_cultivares);
+  document.getElementById('a-rmax').textContent = fmtAR(p.rinde_max_kg_ha);
+  document.getElementById('a-ravg').textContent = fmtAR(p.rinde_avg_kg_ha);
+  document.getElementById('a-emp').textContent = fmtAR(p.n_empresas);
+
+  // Datos del ensayo (kv-grid editorial)
+  const kvRows = [];
+  if(p.productor) kvRows.push(['Productor', escapeHtml(p.productor)]);
+  if(p.campo) kvRows.push(['Campo', escapeHtml(p.campo)]);
+  if(p.fuente_responsable) kvRows.push(['Responsable', escapeHtml(p.fuente_responsable)]);
+  if(p.fuente_email) kvRows.push(['Contacto', `<a href="mailto:${escapeHtml(p.fuente_email)}">${escapeHtml(p.fuente_email)}</a>`]);
+  kvRows.push(['Red', escapeHtml(p.red || '—')]);
+  if(p.licencia) {
+    let lic = escapeHtml(p.licencia);
+    if(/pendiente/i.test(p.licencia)) {
+      lic = lic.replace(/\((.*?pendiente.*?)\)/i,
+        '<span class="hint">($1)</span>');
+    }
+    kvRows.push(['Licencia', lic]);
+  }
+  if(p.url_fuente) kvRows.push(['Fuente', `<a href="${escapeHtml(p.url_fuente)}" target="_blank" rel="noopener">Informe original ↗</a>`]);
+  document.getElementById('a-meta').innerHTML = kvRows
+    .map(([k,v]) => `<div class="k">${k}:</div><div class="v">${v}</div>`)
+    .join('');
+
+  // Fechas del ciclo
   const fechas = [];
   if(p.fecha_siembra) fechas.push({l:'SIEMBRA', v:p.fecha_siembra});
   if(p.fecha_emergencia) fechas.push({l:'EMERGENCIA', v:p.fecha_emergencia});
   if(p.fecha_cosecha) fechas.push({l:'COSECHA', v:p.fecha_cosecha});
-  const elF = document.getElementById('a-fechas');
+  const elFw = document.getElementById('a-fechas-wrap');
   if(fechas.length){
-    elF.innerHTML = fechas.map(x=>`<span class="fecha-pill"><span class="lbl">${x.l}</span><span class="val">${x.v}</span></span>`).join('');
-    elF.previousElementSibling.style.display = '';
-    elF.style.display = '';
+    elFw.style.display = '';
+    document.getElementById('a-fechas').innerHTML = fechas
+      .map(x => `<span class="fecha-pill"><span class="lbl">${x.l}</span><span class="val">${escapeHtml(x.v)}</span></span>`)
+      .join('');
   } else {
-    elF.previousElementSibling.style.display = 'none';
-    elF.style.display = 'none';
+    elFw.style.display = 'none';
   }
 
-  // Manejo agronómico (grid de cards)
+  // Manejo agronómico
   const manejo = [];
-  if(p.manejo_repeticiones) manejo.push({l:'Repeticiones', v:p.manejo_repeticiones+' bloques', i:'◫', full:false});
-  if(p.manejo_parcela) manejo.push({l:'Parcela', v:p.manejo_parcela, i:'▭', full:false});
-  if(p.precipitaciones_mm) manejo.push({l:'Lluvia del ciclo', v:p.precipitaciones_mm+' mm', i:'☂', full:false});
-  if(p.manejo_herbicida) manejo.push({l:'Herbicidas', v:p.manejo_herbicida, i:'⚠', full:true});
-  if(p.manejo_fertilizacion) manejo.push({l:'Fertilización', v:p.manejo_fertilizacion, i:'⚇', full:true});
-  if(p.manejo_nutricion) manejo.push({l:'Nutrición / Patrocinio', v:p.manejo_nutricion, i:'⚇', full:true});
+  if(p.manejo_repeticiones) manejo.push({l:'Repeticiones', v: p.manejo_repeticiones + ' bloques', full:false});
+  if(p.manejo_parcela)      manejo.push({l:'Parcela',      v: p.manejo_parcela, full:false});
+  if(p.precipitaciones_mm)  manejo.push({l:'Lluvia ciclo', v: p.precipitaciones_mm + ' mm', full:false});
+  if(p.manejo_herbicida)    manejo.push({l:'Herbicidas',   v: p.manejo_herbicida, full:true});
+  if(p.manejo_fertilizacion) manejo.push({l:'Fertilización', v: p.manejo_fertilizacion, full:true});
+  if(p.manejo_nutricion)    manejo.push({l:'Nutrición / Patrocinio', v: p.manejo_nutricion, full:true});
+  const elMw = document.getElementById('a-manejo-wrap');
   const elM = document.getElementById('a-manejo');
   if(manejo.length){
-    elM.innerHTML = '<div class="manejo-grid">' + manejo.map(x=>`
-      <div class="manejo-card${x.full?' full':''}">
-        <span class="lbl"><span class="icn">${x.i}</span>${x.l}</span>
-        <span class="val">${x.v}</span>
-      </div>
-    `).join('') + '</div>';
+    elMw.style.display = '';
+    elM.innerHTML = '<div class="manejo-grid">' + manejo.map(x =>
+      `<div class="manejo-card${x.full?' full':''}">
+        <span class="lbl">${escapeHtml(x.l)}</span>
+        <span class="val">${escapeHtml(x.v)}</span>
+      </div>`
+    ).join('') + '</div>';
   } else {
+    elMw.style.display = '';
     elM.innerHTML = '<div class="empty-manejo">Sin datos de manejo publicados para este ensayo.</div>';
   }
 
-  const tbody = document.getElementById('a-rows');
-  const thead = document.getElementById('a-thead');
-  tbody.innerHTML = '';
-  const topRinde = p.cultivar_top_rinde;
-
-  // ¿Tenemos datos de densidad/humedad? (al menos en algún cultivar)
-  const hasDens = p.cultivares.some(c=>c.densidad_pl_ha);
-  const hasHum  = p.cultivares.some(c=>c.humedad_pct);
-
-  // Reconstruir thead según columnas disponibles
-  let theadHtml = '<th>CULTIVAR</th><th>EMPRESA</th><th class="r">KG/HA</th>';
-  if(hasDens) theadHtml += '<th class="r">DENS</th>';
-  if(hasHum)  theadHtml += '<th class="r">HUM%</th>';
-  thead.innerHTML = theadHtml;
-
-  p.cultivares.slice(0, 25).forEach(c=>{
-    const tr = document.createElement('tr');
-    const isNidera = c.empresa === 'Nidera' || NIDERA_RX.test(c.cultivar);
-    const isTop = c.rinde_kg_ha === topRinde;
-    if(isNidera) tr.classList.add('nidera');
-    if(isTop) tr.classList.add('top');
-    let rowHtml = `
-      <td class="cv">${c.cultivar}</td>
-      <td>${c.empresa||'—'}</td>
-      <td class="r">${fmtN(c.rinde_kg_ha)}</td>
+  // Ranking editorial con delta-bar y sparkline placeholder
+  const maxRinde = p.rinde_max_kg_ha;
+  const minRinde = p.rinde_min_kg_ha || maxRinde;
+  const range = maxRinde - minRinde || maxRinde;
+  const rows = p.cultivares.slice(0, 20).map((c, i) => {
+    const nidera = isNideraCultivar(c);
+    const pct = Math.max(0.04, c.rinde_kg_ha / maxRinde);
+    const delta = c.rinde_kg_ha - maxRinde;
+    return `
+      <div class="rank-row${nidera?' nidera':''}">
+        <div class="pos">${String(i+1).padStart(2,'0')}</div>
+        <div>
+          <div class="name">${escapeHtml(c.cultivar)}${nidera?'<span class="star">★</span>':''}</div>
+          <div class="company">${escapeHtml(c.empresa || '—')}</div>
+        </div>
+        <div class="rinde">${fmtAR(c.rinde_kg_ha)}</div>
+        <div class="delta">
+          <span class="delta-bar"><i style="width:${(pct*100).toFixed(0)}%"></i></span>
+          <span class="delta-val">${delta === 0 ? '—' : (delta>0?'+':'') + fmtAR(delta)}</span>
+        </div>
+        <div class="sites">${c.humedad_pct ? c.humedad_pct.toFixed(1) + '%' : '—'}</div>
+      </div>
     `;
-    if(hasDens) rowHtml += `<td class="r">${c.densidad_pl_ha ? fmtN(c.densidad_pl_ha/1000)+'k' : '—'}</td>`;
-    if(hasHum)  rowHtml += `<td class="r">${c.humedad_pct ? c.humedad_pct.toFixed(1) : '—'}</td>`;
-    tr.innerHTML = rowHtml;
-    tbody.appendChild(tr);
-  });
+  }).join('');
+  document.getElementById('a-rows').innerHTML = rows;
 
   const excelBtn = document.getElementById('a-excel');
   if(p.url_fuente){ excelBtn.href = p.url_fuente; excelBtn.style.display=''; }
