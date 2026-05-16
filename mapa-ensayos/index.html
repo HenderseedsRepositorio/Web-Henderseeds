@@ -12,6 +12,7 @@
 
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
 <style>
 :root{
@@ -814,10 +815,26 @@ aside.open{transform:translateX(0)}
         <div id="a-manejo"></div>
       </div>
 
-      <!-- ★ TALKING POINTS — feature edge -->
+      <div class="aside-section">
+        <div style="display:flex;align-items:baseline;justify-content:space-between">
+          <h4 style="margin-bottom:.5rem">RANKING POR RINDE</h4>
+          <span style="font-family:var(--mono);font-size:.6rem;color:var(--ink-mute);letter-spacing:.04em">★ NIDERA · RED.IN</span>
+        </div>
+        <div class="rank-head">
+          <div>#</div>
+          <div>CULTIVAR · EMPRESA</div>
+          <div class="r">KG/HA</div>
+          <div class="r">vs #1</div>
+          <div class="r">SITIOS</div>
+        </div>
+        <div id="a-rows"></div>
+      </div>
+
+      <!-- ★ TALKING POINTS — al final del flujo, antes de los CTAs.
+           El productor primero lee datos + ranking, después elige el ángulo. -->
       <div class="aside-section" id="a-tp-wrap">
         <h4 style="margin-bottom:.5rem">
-          <span style="color:var(--nidera)">✎</span> TALKING POINTS · PARA EL PRODUCTOR
+          <span style="color:var(--nidera)">✎</span> ARMÁ TU MENSAJE PARA EL PRODUCTOR
         </h4>
         <div class="tp-card">
           <div class="tp-header">
@@ -846,22 +863,11 @@ aside.open{transform:translateX(0)}
         </div>
       </div>
 
-      <div class="aside-section">
-        <div style="display:flex;align-items:baseline;justify-content:space-between">
-          <h4 style="margin-bottom:.5rem">RANKING POR RINDE</h4>
-          <span style="font-family:var(--mono);font-size:.6rem;color:var(--ink-mute);letter-spacing:.04em">★ NIDERA · RED.IN</span>
-        </div>
-        <div class="rank-head">
-          <div>#</div>
-          <div>CULTIVAR · EMPRESA</div>
-          <div class="r">KG/HA</div>
-          <div class="r">vs #1</div>
-          <div class="r">SITIOS</div>
-        </div>
-        <div id="a-rows"></div>
+      <!-- CTAs finales -->
+      <div class="aside-section" style="border-bottom:0;padding-bottom:0">
         <div class="cta-row">
           <a class="btn" id="a-excel" target="_blank" rel="noopener">↓ INFORME</a>
-          <button class="btn" id="a-share" type="button">↗ COMPARTIR</button>
+          <button class="btn" id="a-share" type="button">↗ COMPARTIR PDF</button>
           <a class="btn primary" href="https://wa.me/5492314509060?text=Quiero%20cotizar%20genética%20para%20mi%20campo" target="_blank" rel="noopener">WHATSAPP</a>
         </div>
       </div>
@@ -870,72 +876,22 @@ aside.open{transform:translateX(0)}
   <div class="toast" id="toast"></div>
 </div>
 
-<!-- ═══ MODAL COMPARTIR ═══ -->
+<!-- ═══ MODAL COMPARTIR PDF ═══ -->
 <div class="modal-backdrop" id="share-modal">
-  <div class="modal" style="position:relative;max-width:680px">
+  <div class="modal" style="position:relative;max-width:780px">
     <button class="close-x" onclick="closeShareModal()">×</button>
-    <h2>Compartir resumen del ensayo</h2>
-    <div class="sub">RESUMEN PARA WHATSAPP / MAIL</div>
-    <div style="background:var(--bg-soft);border:1px solid var(--line);padding:1.1rem 1.25rem;font-family:var(--sans);font-size:.85rem;line-height:1.55;color:var(--ink);white-space:pre-wrap;max-height:50vh;overflow:auto;margin-bottom:1rem" id="share-text"></div>
-    <div class="share-actions">
-      <button class="share-btn" id="share-copy">⎘ COPIAR TEXTO</button>
-      <a class="share-btn primary" id="share-wa-btn" target="_blank" rel="noopener">↗ WHATSAPP</a>
+    <h2>Compartir ensayo</h2>
+    <div class="sub">DESCARGAR PDF · LISTO PARA WHATSAPP / MAIL / IMPRESIÓN</div>
+    <div style="background:var(--bg-soft);border:1px solid var(--line);padding:0;margin-bottom:1rem;min-height:480px;overflow:hidden">
+      <iframe id="share-pdf-iframe" style="width:100%;height:520px;border:0;background:#fff" title="Vista previa PDF"></iframe>
     </div>
-  </div>
-</div>
-
-<!-- ═══ SHARE TEMPLATES (off-screen) ═══ -->
-<div class="share-template square" id="share-tpl-square">
-  <div class="st-head">
-    <div class="st-brand">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter">
-        <path d="M4 12 L8 4 L12 12 L16 4 L20 12 L16 20 L12 12 L8 20 Z" />
-      </svg>
-      <span class="name">HENDERSEEDS</span>
+    <div class="share-actions" style="justify-content:space-between;align-items:center">
+      <span style="font-family:var(--mono);font-size:.6rem;color:var(--ink-mute);letter-spacing:.04em" id="share-pdf-status">Generando PDF...</span>
+      <div style="display:flex;gap:.5rem">
+        <button class="share-btn" id="share-native">↗ COMPARTIR</button>
+        <button class="share-btn primary" id="share-download">↓ DESCARGAR PDF</button>
+      </div>
     </div>
-    <div class="st-eyebrow">RED.IN · NIDERA</div>
-  </div>
-  <h1 class="st-title" id="stq-loc">—</h1>
-  <div class="st-meta" id="stq-meta"></div>
-  <div class="st-stats">
-    <div class="st-stat"><div class="l">CULTIVARES</div><div class="v" id="stq-n">—</div></div>
-    <div class="st-stat"><div class="l">RINDE MÁX</div><div class="v accent" id="stq-rmax">—</div><span class="suffix">kg/ha</span></div>
-    <div class="st-stat"><div class="l">PROMEDIO</div><div class="v" id="stq-ravg">—</div><span class="suffix">kg/ha</span></div>
-  </div>
-  <div class="st-ranking">
-    <div class="st-rank-title">RANKING POR RINDE · TOP 5 <span class="right">★ NIDERA</span></div>
-    <div id="stq-rows"></div>
-  </div>
-  <div class="st-footer">
-    <span>Mapa Ensayos · <span id="stq-red">—</span></span>
-    <span class="url">henderseeds.com/mapa-ensayos</span>
-  </div>
-</div>
-
-<div class="share-template portrait" id="share-tpl-portrait">
-  <div class="st-head">
-    <div class="st-brand">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter">
-        <path d="M4 12 L8 4 L12 12 L16 4 L20 12 L16 20 L12 12 L8 20 Z" />
-      </svg>
-      <span class="name">HENDERSEEDS</span>
-    </div>
-    <div class="st-eyebrow">ENSAYO COMPARATIVO</div>
-  </div>
-  <h1 class="st-title" id="stp-loc">—</h1>
-  <div class="st-meta" id="stp-meta"></div>
-  <div class="st-stats">
-    <div class="st-stat"><div class="l">CULTIVARES</div><div class="v" id="stp-n">—</div></div>
-    <div class="st-stat"><div class="l">RINDE MÁX</div><div class="v accent" id="stp-rmax">—</div><span class="suffix">kg/ha</span></div>
-    <div class="st-stat"><div class="l">PROMEDIO</div><div class="v" id="stp-ravg">—</div><span class="suffix">kg/ha</span></div>
-  </div>
-  <div class="st-ranking">
-    <div class="st-rank-title">RANKING POR RINDE · TOP 8 <span class="right">★ NIDERA</span></div>
-    <div id="stp-rows"></div>
-  </div>
-  <div class="st-footer">
-    <span>Fuente: <span id="stp-red">—</span> · Mapa Henderseeds</span>
-    <span class="url">henderseeds.com/mapa-ensayos</span>
   </div>
 </div>
 
@@ -1557,118 +1513,337 @@ function showToast(msg){
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-//  SHARE TEMPLATES — exporta PNG para WhatsApp/IG
+//  SHARE PDF — genera un PDF editorial del ensayo (jsPDF)
+//  Layout A4 portrait, paleta editorial cream/terra cotta, todo client-side
 // ═══════════════════════════════════════════════════════════════════════════
 
-let shareState = { ensayo: null };
+let shareState = { ensayo: null, pdfBlob: null, pdfUrl: null, pdfFile: null };
 
-function buildShareText(f){
-  const p = f.properties;
-  const top = (p.cultivares || [])[0] || {};
-  const top2 = (p.cultivares || [])[1] || {};
-  const top3 = (p.cultivares || [])[2] || {};
-  const lines = [];
-  lines.push(`*Ensayo ${p.localidad} ${p.campania}* — ${p.cultivo.toUpperCase()}`);
-  lines.push(`${p.zona}, ${p.provincia}. Red: ${p.red}.`);
-  if(p.productor) lines.push(`Productor: ${p.productor}${p.campo ? ' · Campo: '+p.campo : ''}`);
-  lines.push('');
-  lines.push(`📊 *${p.n_cultivares} cultivares* evaluados de *${p.n_empresas} empresas*`);
-  lines.push(`🥇 Rinde máx: *${fmtAR(p.rinde_max_kg_ha)} kg/ha*`);
-  lines.push(`📈 Promedio: ${fmtAR(p.rinde_avg_kg_ha)} kg/ha`);
-  lines.push('');
-  lines.push('*TOP 3:*');
-  if(top.cultivar) lines.push(`1. ${top.cultivar} (${top.empresa || '—'}) — ${fmtAR(top.rinde_kg_ha)} kg/ha`);
-  if(top2.cultivar) lines.push(`2. ${top2.cultivar} (${top2.empresa || '—'}) — ${fmtAR(top2.rinde_kg_ha)} kg/ha`);
-  if(top3.cultivar) lines.push(`3. ${top3.cultivar} (${top3.empresa || '—'}) — ${fmtAR(top3.rinde_kg_ha)} kg/ha`);
-  lines.push('');
-  lines.push(`Mapa completo: henderseeds.com/mapa-ensayos`);
-  if(p.url_fuente) lines.push(`Informe original: ${p.url_fuente}`);
-  return lines.join('\n');
+// Colores como tuplas RGB para jsPDF
+const PDF_COLORS = {
+  ink:        [26, 26, 24],
+  inkDim:     [110, 104, 87],
+  inkMute:    [156, 148, 127],
+  line:       [216, 208, 184],
+  lineSoft:   [229, 222, 199],
+  bg:         [244, 240, 230],
+  surface:    [251, 249, 243],
+  maize:      [90, 122, 58],
+  sunflower:  [212, 160, 42],
+  nidera:     [184, 92, 42],
+  niderasoft: [252, 241, 227],
+};
+
+function pdfText(doc, txt, x, y, opts = {}){
+  if(opts.color) doc.setTextColor(opts.color[0], opts.color[1], opts.color[2]);
+  if(opts.size) doc.setFontSize(opts.size);
+  if(opts.font) doc.setFont(opts.font[0], opts.font[1] || 'normal');
+  doc.text(txt, x, y, opts.align ? {align: opts.align} : undefined);
 }
 
-function fillShareTemplate(prefix, f){
-  const p = f.properties;
-  // Helpers para top N rows
-  const topN = prefix === 'stq' ? 5 : 8;
-  document.getElementById(prefix+'-loc').textContent = p.localidad;
-  document.getElementById(prefix+'-n').textContent = fmtAR(p.n_cultivares);
-  document.getElementById(prefix+'-rmax').textContent = fmtAR(p.rinde_max_kg_ha);
-  document.getElementById(prefix+'-ravg').textContent = fmtAR(p.rinde_avg_kg_ha);
-  document.getElementById(prefix+'-red').textContent = p.red + ' · ' + p.campania;
-
-  // Meta chips
-  const chips = [];
-  chips.push(`<span class="chip">${escapeHtml(p.zona.toUpperCase())}</span>`);
-  if(p.provincia) chips.push(`<span class="chip">${escapeHtml(p.provincia.toUpperCase())}</span>`);
-  chips.push(`<span class="chip ${p.cultivo}">${escapeHtml(p.cultivo.toUpperCase())}</span>`);
-  chips.push(`<span class="chip">${escapeHtml(p.campania)}</span>`);
-  document.getElementById(prefix+'-meta').innerHTML = chips.join('');
-
-  // Ranking rows
-  const rows = (p.cultivares || []).slice(0, topN).map((c, i) => {
-    const nidera = isNideraCultivar(c);
-    return `
-      <div class="st-rank-row${nidera?' nidera':''}">
-        <div class="pos">${String(i+1).padStart(2,'0')}</div>
-        <div>
-          <div class="name">${escapeHtml(c.cultivar)}${nidera?'<span class="star">★</span>':''}</div>
-          <div class="company">${escapeHtml(c.empresa || '—')}</div>
-        </div>
-        <div class="rinde">${fmtAR(c.rinde_kg_ha)} kg/ha</div>
-      </div>
-    `;
-  }).join('');
-  document.getElementById(prefix+'-rows').innerHTML = rows;
+function pdfHLine(doc, x1, y, x2, color = PDF_COLORS.line, width = 0.5){
+  doc.setDrawColor(color[0], color[1], color[2]);
+  doc.setLineWidth(width);
+  doc.line(x1, y, x2, y);
 }
 
-async function generateSharePng(){
-  if(!shareState.ensayo) return null;
-  const prefix = shareState.format === 'square' ? 'stq' : 'stp';
-  fillShareTemplate(prefix, shareState.ensayo);
-  const node = document.getElementById('share-tpl-' + shareState.format);
+function pdfFillRect(doc, x, y, w, h, color){
+  doc.setFillColor(color[0], color[1], color[2]);
+  doc.rect(x, y, w, h, 'F');
+}
 
-  // Esperar fonts
-  if(document.fonts && document.fonts.ready) {
-    await document.fonts.ready;
+function generateEnsayoPDF(f){
+  const p = f.properties;
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const W = 210, H = 297;
+  const M = 15; // margin
+  let y = M;
+
+  // Header: HENDERSEEDS + breadcrumb editorial
+  pdfText(doc, 'HENDERSEEDS', M, y + 4, {
+    color: PDF_COLORS.ink, size: 11, font: ['helvetica','bold']
+  });
+  pdfText(doc, '~/mapa-ensayos', W - M, y + 4, {
+    color: PDF_COLORS.inkMute, size: 9, font: ['courier'], align: 'right'
+  });
+  y += 7;
+  pdfHLine(doc, M, y, W - M, PDF_COLORS.ink, 0.8);
+  y += 8;
+
+  // Eyebrow + Title (localidad serif)
+  pdfText(doc, 'ENSAYO COMPARATIVO', M, y, {
+    color: PDF_COLORS.inkMute, size: 8, font: ['courier']
+  });
+  y += 9;
+  pdfText(doc, p.localidad || '—', M, y, {
+    color: PDF_COLORS.ink, size: 26, font: ['times','normal']
+  });
+  // Coordenadas a la derecha del título (en mono, mismo baseline)
+  if(f.geometry && f.geometry.coordinates) {
+    const [lon, lat] = f.geometry.coordinates;
+    pdfText(doc, `${lat.toFixed(2)}° / ${lon.toFixed(2)}°`, W - M, y, {
+      color: PDF_COLORS.inkMute, size: 9, font: ['courier'], align: 'right'
+    });
+  }
+  y += 6;
+
+  // Meta chips inline (zona · provincia · cultivo · campaña)
+  const chipsText = [
+    (p.zona || '').toUpperCase(),
+    (p.provincia || '').toUpperCase(),
+    (p.cultivo || '').toUpperCase(),
+    p.campania || '',
+  ].filter(Boolean).join('   ·   ');
+  pdfText(doc, chipsText, M, y, {
+    color: PDF_COLORS.inkDim, size: 8, font: ['courier']
+  });
+  y += 8;
+
+  // Big stats: 3 columnas
+  const colW = (W - 2 * M) / 3;
+  const statsY0 = y;
+  pdfHLine(doc, M, y, W - M);
+  y += 6;
+
+  const stats = [
+    { l: 'CULTIVARES', v: fmtAR(p.n_cultivares), suffix: '' },
+    { l: 'RINDE MÁX', v: fmtAR(p.rinde_max_kg_ha), suffix: ' kg/ha', accent: true },
+    { l: 'PROMEDIO', v: fmtAR(p.rinde_avg_kg_ha), suffix: ' kg/ha' },
+  ];
+  stats.forEach((s, i) => {
+    const x = M + i * colW;
+    pdfText(doc, s.l, x, y, {
+      color: PDF_COLORS.inkMute, size: 7, font: ['courier']
+    });
+    pdfText(doc, s.v, x, y + 7, {
+      color: s.accent ? PDF_COLORS.nidera : PDF_COLORS.ink,
+      size: 18, font: ['times','normal']
+    });
+    if(s.suffix) {
+      pdfText(doc, s.suffix, x + doc.getTextWidth(s.v) + 1, y + 7, {
+        color: PDF_COLORS.inkMute, size: 7, font: ['courier']
+      });
+    }
+  });
+  y += 13;
+  pdfHLine(doc, M, y, W - M);
+  y += 9;
+
+  // Datos del ensayo (kv-grid mono)
+  pdfText(doc, 'DATOS DEL ENSAYO', M, y, {
+    color: PDF_COLORS.ink, size: 8, font: ['courier','bold']
+  });
+  y += 6;
+
+  const kvRows = [];
+  if(p.productor) kvRows.push(['Productor', p.productor]);
+  if(p.campo) kvRows.push(['Campo', p.campo]);
+  if(p.fuente_responsable) kvRows.push(['Responsable', p.fuente_responsable]);
+  if(p.fuente_email) kvRows.push(['Contacto', p.fuente_email]);
+  kvRows.push(['Red', p.red || '—']);
+  if(p.licencia) kvRows.push(['Licencia', p.licencia]);
+  if(p.fecha_siembra) kvRows.push(['Siembra', p.fecha_siembra]);
+  if(p.fecha_cosecha) kvRows.push(['Cosecha', p.fecha_cosecha]);
+  if(p.precipitaciones_mm) kvRows.push(['Lluvia ciclo', p.precipitaciones_mm + ' mm']);
+
+  doc.setFontSize(8.5);
+  doc.setFont('courier', 'normal');
+  kvRows.forEach(([k, v]) => {
+    pdfText(doc, k + ':', M, y, {
+      color: PDF_COLORS.inkMute, size: 8, font: ['courier']
+    });
+    const vText = doc.splitTextToSize(String(v), W - M - M - 30);
+    pdfText(doc, vText, M + 30, y, {
+      color: PDF_COLORS.ink, size: 8, font: ['courier']
+    });
+    y += 5 * vText.length;
+  });
+  y += 4;
+
+  // Manejo (si hay)
+  const manejoLines = [];
+  if(p.manejo_herbicida) manejoLines.push(['Herbicidas', p.manejo_herbicida]);
+  if(p.manejo_fertilizacion) manejoLines.push(['Fertilización', p.manejo_fertilizacion]);
+  if(p.manejo_nutricion) manejoLines.push(['Nutrición', p.manejo_nutricion]);
+  if(manejoLines.length) {
+    pdfText(doc, 'MANEJO AGRONÓMICO', M, y, {
+      color: PDF_COLORS.ink, size: 8, font: ['courier','bold']
+    });
+    y += 6;
+    manejoLines.forEach(([k, v]) => {
+      pdfText(doc, k + ':', M, y, {color: PDF_COLORS.inkMute, size: 8, font: ['courier']});
+      const vText = doc.splitTextToSize(String(v), W - M - M - 30);
+      pdfText(doc, vText, M + 30, y, {color: PDF_COLORS.ink, size: 8, font: ['courier']});
+      y += 5 * vText.length;
+    });
+    y += 5;
   }
 
-  // Diagnostic: log dimensions
-  const r = node.getBoundingClientRect();
-  console.log('Share template rect:', r.width, 'x', r.height);
-
-  const dataUrl = await htmlToImage.toPng(node, {
-    pixelRatio: 1,
-    cacheBust: false,
-    skipFonts: true,
-    skipAutoScale: true,
-    backgroundColor: '#fbf9f3',
+  // Ranking title
+  pdfHLine(doc, M, y, W - M, PDF_COLORS.line, 0.5);
+  y += 6;
+  pdfText(doc, 'RANKING POR RINDE', M, y, {
+    color: PDF_COLORS.ink, size: 9, font: ['courier','bold']
   });
-  return dataUrl;
+  pdfText(doc, '* NIDERA · RED.IN', W - M, y, {
+    color: PDF_COLORS.nidera, size: 7, font: ['courier'], align: 'right'
+  });
+  y += 5;
+
+  // Ranking header
+  const rkColPos = M + 2;          // #
+  const rkColName = M + 12;        // cultivar
+  const rkColCompany = M + 12;     // empresa (segunda línea)
+  const rkColRinde = W - M - 30;   // kg/ha
+  const rkColDelta = W - M - 2;    // vs #1 (derecha)
+  pdfFillRect(doc, M, y - 3, W - 2*M, 5, PDF_COLORS.bg);
+  pdfText(doc, '#', rkColPos, y, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier']});
+  pdfText(doc, 'CULTIVAR · EMPRESA', rkColName, y, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier']});
+  pdfText(doc, 'KG/HA', rkColRinde, y, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier'], align: 'right'});
+  pdfText(doc, 'vs #1', rkColDelta, y, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier'], align: 'right'});
+  y += 5;
+
+  // Ranking rows
+  const maxRinde = p.rinde_max_kg_ha;
+  const cultivares = (p.cultivares || []).slice(0, 12);
+  cultivares.forEach((c, i) => {
+    const nidera = isNideraCultivar(c);
+    const rowH = 7;
+    if(nidera) {
+      pdfFillRect(doc, M, y - 4.5, W - 2*M, rowH, PDF_COLORS.niderasoft);
+    }
+    pdfText(doc, String(i+1).padStart(2, '0'), rkColPos, y, {
+      color: PDF_COLORS.inkMute, size: 8, font: ['courier']
+    });
+    const nameStr = c.cultivar + (nidera ? ' *' : '');
+    pdfText(doc, nameStr, rkColName, y, {
+      color: nidera ? PDF_COLORS.nidera : PDF_COLORS.ink, size: 8.5, font: ['courier', nidera?'bold':'normal']
+    });
+    pdfText(doc, c.empresa || '—', rkColName, y + 3.2, {
+      color: PDF_COLORS.inkMute, size: 7, font: ['courier']
+    });
+    pdfText(doc, fmtAR(c.rinde_kg_ha), rkColRinde, y, {
+      color: nidera ? PDF_COLORS.nidera : PDF_COLORS.ink, size: 8.5,
+      font: ['courier', nidera?'bold':'normal'], align: 'right'
+    });
+    const delta = c.rinde_kg_ha - maxRinde;
+    pdfText(doc, delta === 0 ? '—' : (delta>0?'+':'') + fmtAR(delta), rkColDelta, y, {
+      color: PDF_COLORS.inkMute, size: 7.5, font: ['courier'], align: 'right'
+    });
+    pdfHLine(doc, M, y + 2.5, W - M, PDF_COLORS.lineSoft, 0.2);
+    y += rowH;
+    if(y > H - 35) return;  // dejar espacio para footer
+  });
+
+  // Footer fijo abajo: atribución + URL
+  const footerY = H - 18;
+  pdfHLine(doc, M, footerY, W - M, PDF_COLORS.line, 0.5);
+  pdfText(doc,
+    `Fuente: ${p.red || '—'} · ${p.campania || ''}${p.licencia ? '. ' + p.licencia.substring(0, 60) : ''}`,
+    M, footerY + 5, { color: PDF_COLORS.inkDim, size: 7, font: ['courier'] }
+  );
+  pdfText(doc, 'henderseeds.com/mapa-ensayos', M, footerY + 10, {
+    color: PDF_COLORS.ink, size: 8, font: ['courier','bold']
+  });
+  const now = new Date();
+  pdfText(doc,
+    `Generado ${now.toISOString().slice(0,10)} ${now.toTimeString().slice(0,5)}`,
+    W - M, footerY + 10, { color: PDF_COLORS.inkMute, size: 7, font: ['courier'], align: 'right' }
+  );
+
+  return doc;
 }
 
-function openShareModal(){
+async function generatePdfArtifacts(){
+  if(!shareState.ensayo) return null;
+  const doc = generateEnsayoPDF(shareState.ensayo);
+  const blob = doc.output('blob');
+  const url = URL.createObjectURL(blob);
+  const slug = (shareState.ensayo.properties.localidad || 'ensayo')
+    .toLowerCase().normalize('NFKD').replace(/[^\w]+/g,'-').replace(/^-|-$/g,'');
+  const filename = `henderseeds-${slug}-${shareState.ensayo.properties.campania.replace('/','-')}.pdf`;
+  let file = null;
+  try {
+    file = new File([blob], filename, { type: 'application/pdf' });
+  } catch(e){}
+  // Limpiar URL anterior
+  if(shareState.pdfUrl) URL.revokeObjectURL(shareState.pdfUrl);
+  shareState.pdfBlob = blob;
+  shareState.pdfUrl = url;
+  shareState.pdfFile = file;
+  shareState.pdfFilename = filename;
+  return { blob, url, file, filename };
+}
+
+async function openShareModal(){
   if(!shareState.ensayo) return;
-  const txt = buildShareText(shareState.ensayo);
-  document.getElementById('share-text').textContent = txt;
-  document.getElementById('share-wa-btn').href = 'https://wa.me/?text=' + encodeURIComponent(txt);
   document.getElementById('share-modal').classList.add('show');
+  document.getElementById('share-pdf-status').textContent = 'Generando PDF...';
+  document.getElementById('share-pdf-iframe').src = 'about:blank';
+  try {
+    const r = await generatePdfArtifacts();
+    if(!r) return;
+    document.getElementById('share-pdf-iframe').src = r.url + '#view=FitH';
+    const sizeKb = (r.blob.size / 1024).toFixed(0);
+    document.getElementById('share-pdf-status').textContent = `${r.filename}  ·  ${sizeKb} KB`;
+  } catch(e) {
+    console.error('PDF gen error', e);
+    document.getElementById('share-pdf-status').textContent = 'Error al generar PDF';
+    showToast('No se pudo generar el PDF');
+  }
 }
 
 function closeShareModal(){
   document.getElementById('share-modal').classList.remove('show');
+  if(shareState.pdfUrl) {
+    URL.revokeObjectURL(shareState.pdfUrl);
+    shareState.pdfUrl = null;
+  }
 }
 
 function bindShare(){
   document.getElementById('a-share').addEventListener('click', openShareModal);
-  document.getElementById('share-copy').addEventListener('click', async () => {
-    const txt = document.getElementById('share-text').textContent;
-    try {
-      await navigator.clipboard.writeText(txt);
-      showToast('Texto copiado al portapapeles');
-    } catch(e) {
-      showToast('No se pudo copiar — copialo manual');
+
+  document.getElementById('share-download').addEventListener('click', () => {
+    if(!shareState.pdfBlob) return;
+    const a = document.createElement('a');
+    a.href = shareState.pdfUrl;
+    a.download = shareState.pdfFilename;
+    a.click();
+    showToast('PDF descargado');
+  });
+
+  document.getElementById('share-native').addEventListener('click', async () => {
+    if(!shareState.pdfFile) {
+      showToast('Generá el PDF primero');
+      return;
+    }
+    // Web Share API con archivo (funciona en mobile y desktop modernos)
+    if(navigator.canShare && navigator.canShare({ files: [shareState.pdfFile] })) {
+      try {
+        await navigator.share({
+          files: [shareState.pdfFile],
+          title: 'Ensayo ' + shareState.ensayo.properties.localidad,
+          text: `Ensayo comparativo ${shareState.ensayo.properties.localidad} ${shareState.ensayo.properties.campania} — Mapa Henderseeds`,
+        });
+        showToast('Compartido');
+      } catch(e) {
+        if(e.name !== 'AbortError') showToast('No se pudo compartir');
+      }
+    } else {
+      // Fallback: descargar + abrir WhatsApp con texto corto
+      const a = document.createElement('a');
+      a.href = shareState.pdfUrl;
+      a.download = shareState.pdfFilename;
+      a.click();
+      const p = shareState.ensayo.properties;
+      const txt = `Ensayo ${p.localidad} ${p.campania} — ${fmtAR(p.n_cultivares)} cultivares · Rinde máx ${fmtAR(p.rinde_max_kg_ha)} kg/ha. Te paso el PDF adjunto. Mapa completo: henderseeds.com/mapa-ensayos`;
+      window.open('https://wa.me/?text=' + encodeURIComponent(txt), '_blank', 'noopener');
+      showToast('PDF descargado · adjuntalo al chat');
     }
   });
+
   document.getElementById('share-modal').addEventListener('click', (e) => {
     if(e.target.id === 'share-modal') closeShareModal();
   });
