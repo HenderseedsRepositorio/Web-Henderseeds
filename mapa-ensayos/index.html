@@ -16,12 +16,15 @@
 <style>
 :root{
   --navy:#0D2D5E; --navy-dark:#091E3E; --navy-mid:#1A4A8A;
-  --ink:#E8EEF7; --ink-dim:#9AABC7; --ink-mute:#5F7299;
-  --accent:#F5A623; --accent-dim:#C7841B;
-  --panel:rgba(13,45,94,.92);
-  --panel-solid:#0D2D5E;
-  --border:rgba(154,171,199,.18);
-  --good:#3DC97D; --warn:#E8B547;
+  --bg:#F7F9FC; --bg-panel:#FFFFFF; --bg-soft:#EEF2F8;
+  --ink:#0D2D5E; --ink-dim:#5F7299; --ink-mute:#9AABC7;
+  --accent:#F5A623; --accent-dim:#C7841B; --accent-soft:#FEF5E1;
+  --border:rgba(13,45,94,.10);
+  --border-strong:rgba(13,45,94,.18);
+  --good:#1E9B5E; --warn:#C7841B;
+  --shadow-sm:0 1px 2px rgba(13,45,94,.06);
+  --shadow-md:0 4px 12px rgba(13,45,94,.08);
+  --shadow-lg:0 12px 32px rgba(13,45,94,.12);
   --arch:'Space Grotesk',system-ui,sans-serif;
   --sans:'DM Sans',system-ui,sans-serif;
   --mono:'DM Mono',ui-monospace,monospace;
@@ -31,7 +34,7 @@
 html,body{height:100%;overflow:hidden}
 body{
   font-family:var(--sans);
-  background:var(--navy-dark);
+  background:var(--bg);
   color:var(--ink);
   display:flex; flex-direction:column;
 }
@@ -40,8 +43,9 @@ body{
 header{
   display:flex; align-items:center; gap:1.5rem;
   padding:.85rem 1.25rem;
-  background:var(--navy-dark);
+  background:var(--bg-panel);
   border-bottom:1px solid var(--border);
+  box-shadow:var(--shadow-sm);
   z-index:2;
   flex-wrap:wrap;
 }
@@ -60,43 +64,45 @@ header{
   display:inline-flex;align-items:center;gap:.4rem;
   padding:.45rem .85rem;font-family:var(--mono);font-size:.72rem;
   letter-spacing:.5px;text-transform:uppercase;
-  background:transparent;color:var(--ink-dim);
+  background:var(--bg-panel);color:var(--ink-dim);
   border:1px solid var(--border);border-radius:999px;
   cursor:pointer;transition:all .15s;
   user-select:none;
 }
-.chip:hover{border-color:var(--accent);color:var(--ink)}
-.chip.active{background:var(--accent);color:var(--navy-dark);border-color:var(--accent);font-weight:500}
+.chip:hover{border-color:var(--accent);color:var(--ink);background:var(--accent-soft)}
+.chip.active{background:var(--accent);color:#FFFFFF;border-color:var(--accent);font-weight:500;box-shadow:0 2px 8px rgba(245,166,35,.35)}
 .chip .count{
-  font-size:.68rem;background:rgba(255,255,255,.15);
+  font-size:.68rem;background:var(--bg-soft);color:var(--ink-dim);
   padding:.05rem .35rem;border-radius:4px;
 }
-.chip.active .count{background:rgba(13,45,94,.25)}
+.chip.active .count{background:rgba(255,255,255,.25);color:#FFFFFF}
 
-select.chip{appearance:none;padding-right:1.6rem;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path fill='%239AABC7' d='M2 4l4 4 4-4z'/></svg>");background-repeat:no-repeat;background-position:right .55rem center;background-size:9px}
+select.chip{appearance:none;padding-right:1.6rem;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path fill='%235F7299' d='M2 4l4 4 4-4z'/></svg>");background-repeat:no-repeat;background-position:right .55rem center;background-size:9px}
 
 /* ═══ LAYOUT ═══ */
 .main{flex:1; display:flex; min-height:0; position:relative}
-#map{flex:1; position:relative; background:#0a1828}
+#map{flex:1; position:relative; background:#EAEFF5}
 .maplibregl-canvas{outline:none}
 
 /* override maplibre attribution */
 .maplibregl-ctrl-attrib{
-  background:rgba(9,30,62,.85)!important;
+  background:rgba(255,255,255,.92)!important;
   color:var(--ink-dim)!important;
   font-family:var(--mono);font-size:.65rem;
+  box-shadow:var(--shadow-sm);
 }
 .maplibregl-ctrl-attrib a{color:var(--ink-dim)!important}
 
 /* ═══ SIDEBAR PANEL ═══ */
 aside{
   width:380px; max-width:90vw;
-  background:var(--panel-solid);
+  background:var(--bg-panel);
   border-left:1px solid var(--border);
   display:flex;flex-direction:column;
   overflow:hidden;
   transform:translateX(100%);
   transition:transform .25s ease;
+  box-shadow:-8px 0 24px rgba(13,45,94,.08);
 }
 aside.open{transform:translateX(0)}
 .aside-head{
@@ -127,11 +133,11 @@ aside.open{transform:translateX(0)}
   padding:1rem 1.25rem;border-bottom:1px solid var(--border);
 }
 .kpi{
-  background:rgba(154,171,199,.04);
+  background:var(--bg-soft);
   border:1px solid var(--border);border-radius:8px;
   padding:.55rem .7rem;
 }
-.kpi .v{font-family:var(--arch);font-size:1.1rem;font-weight:700;color:var(--accent)}
+.kpi .v{font-family:var(--arch);font-size:1.1rem;font-weight:700;color:var(--navy)}
 .kpi .l{font-family:var(--mono);font-size:.62rem;color:var(--ink-dim);letter-spacing:.5px;text-transform:uppercase;margin-top:.1rem}
 
 .aside-body{flex:1;overflow-y:auto;padding:1rem 1.25rem}
@@ -145,7 +151,7 @@ aside.open{transform:translateX(0)}
   line-height:1.4;
 }
 .aside-body .meta-line b{color:var(--ink);font-weight:500;font-family:var(--mono)}
-.aside-body .meta-line a{color:var(--accent);text-decoration:none}
+.aside-body .meta-line a{color:var(--accent-dim);text-decoration:none;font-weight:500}
 .aside-body .meta-line a:hover{text-decoration:underline}
 
 table.cult{width:100%;border-collapse:collapse;margin-top:.5rem;font-size:.78rem}
@@ -157,15 +163,15 @@ table.cult th{
 }
 table.cult th.r{text-align:right}
 table.cult td{
-  padding:.45rem .35rem;border-bottom:1px solid rgba(154,171,199,.08);
+  padding:.45rem .35rem;border-bottom:1px solid var(--border);
 }
-table.cult td.r{text-align:right;font-family:var(--mono);font-size:.78rem}
-table.cult td.cv{font-weight:500}
-table.cult tr.nidera{background:rgba(245,166,35,.06)}
+table.cult td.r{text-align:right;font-family:var(--mono);font-size:.78rem;color:var(--ink)}
+table.cult td.cv{font-weight:500;color:var(--ink)}
+table.cult tr.nidera{background:var(--accent-soft)}
 table.cult tr.nidera td.cv::after{
   content:'★';color:var(--accent);margin-left:.3rem;font-size:.7rem;
 }
-table.cult tr.top td.r{color:var(--accent);font-weight:500}
+table.cult tr.top td.r{color:var(--accent-dim);font-weight:600}
 
 .cta-row{
   display:flex;gap:.5rem;margin-top:1rem;
@@ -175,28 +181,28 @@ table.cult tr.top td.r{color:var(--accent);font-weight:500}
   flex:1;padding:.65rem .85rem;
   font-family:var(--mono);font-size:.72rem;
   letter-spacing:.5px;text-transform:uppercase;
-  border:1px solid var(--border);border-radius:8px;
-  background:transparent;color:var(--ink);
+  border:1px solid var(--border-strong);border-radius:8px;
+  background:var(--bg-panel);color:var(--ink);
   cursor:pointer;text-decoration:none;text-align:center;
   display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
-  transition:all .15s;
+  transition:all .15s;font-weight:500;
 }
-.btn:hover{border-color:var(--accent);color:var(--accent)}
-.btn.primary{background:var(--accent);color:var(--navy-dark);border-color:var(--accent);font-weight:500}
-.btn.primary:hover{background:var(--accent-dim);border-color:var(--accent-dim);color:var(--navy-dark)}
+.btn:hover{border-color:var(--accent);color:var(--accent-dim);background:var(--accent-soft)}
+.btn.primary{background:var(--accent);color:#FFFFFF;border-color:var(--accent);font-weight:600;box-shadow:0 2px 8px rgba(245,166,35,.35)}
+.btn.primary:hover{background:var(--accent-dim);border-color:var(--accent-dim);color:#FFFFFF}
 
 /* ═══ POPUP del marker ═══ */
 .maplibregl-popup-content{
-  background:var(--navy-dark)!important;
+  background:var(--bg-panel)!important;
   color:var(--ink)!important;
   border:1px solid var(--border);border-radius:10px!important;
   padding:.7rem .9rem!important;
   font-family:var(--sans);
-  box-shadow:0 8px 32px rgba(0,0,0,.4)!important;
+  box-shadow:var(--shadow-lg)!important;
 }
 .maplibregl-popup-tip{
-  border-top-color:var(--navy-dark)!important;
-  border-bottom-color:var(--navy-dark)!important;
+  border-top-color:var(--bg-panel)!important;
+  border-bottom-color:var(--bg-panel)!important;
 }
 .maplibregl-popup-close-button{
   color:var(--ink-dim)!important;font-size:1.1rem!important;
@@ -215,31 +221,33 @@ table.cult tr.top td.r{color:var(--accent);font-weight:500}
 /* ═══ LEGEND ═══ */
 .legend{
   position:absolute;left:1rem;bottom:1.6rem;z-index:1;
-  background:rgba(9,30,62,.92);
+  background:rgba(255,255,255,.95);
   border:1px solid var(--border);border-radius:8px;
   padding:.65rem .85rem;
   font-family:var(--mono);font-size:.7rem;color:var(--ink-dim);
   letter-spacing:.5px;
   display:flex;flex-direction:column;gap:.35rem;
   backdrop-filter:blur(6px);
+  box-shadow:var(--shadow-md);
 }
 .legend .row{display:flex;align-items:center;gap:.5rem}
-.legend .dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--navy-dark);box-shadow:0 0 0 1px rgba(255,255,255,.15)}
+.legend .dot{width:12px;height:12px;border-radius:50%;border:2px solid #FFFFFF;box-shadow:0 0 0 1px rgba(13,45,94,.2)}
 .legend .girasol{background:#F5A623}
-.legend .maiz{background:#FFD93D}
+.legend .maiz{background:#E8B547}
 
 /* ═══ COUNT BADGE ═══ */
 .counter{
   position:absolute;right:1rem;top:1rem;z-index:1;
-  background:rgba(9,30,62,.92);
+  background:rgba(255,255,255,.95);
   border:1px solid var(--border);border-radius:8px;
   padding:.55rem .85rem;
   font-family:var(--mono);font-size:.72rem;color:var(--ink-dim);
   letter-spacing:.5px;
   backdrop-filter:blur(6px);
+  box-shadow:var(--shadow-md);
 }
-.counter b{color:var(--accent);font-weight:500}
-.counter .sep{margin:0 .35rem;color:var(--border)}
+.counter b{color:var(--navy);font-weight:600}
+.counter .sep{margin:0 .35rem;color:var(--border-strong)}
 
 /* ═══ MOBILE ═══ */
 @media(max-width:768px){
@@ -287,8 +295,8 @@ table.cult tr.top td.r{color:var(--accent);font-weight:500}
     <span id="visible-cultivares"><b>0</b> cultivares</span>
   </div>
   <div class="legend">
-    <div class="row"><span class="dot girasol"></span> GIRASOL</div>
-    <div class="row"><span class="dot maiz"></span> MAÍZ</div>
+    <div class="row"><span class="dot" style="background:#F5A623"></span> GIRASOL</div>
+    <div class="row"><span class="dot" style="background:#1E9B5E"></span> MAÍZ</div>
   </div>
   <aside id="aside">
     <div class="aside-head" style="position:relative">
@@ -320,8 +328,8 @@ table.cult tr.top td.r{color:var(--accent);font-weight:500}
 
 <script>
 const COLOR = {
-  girasol: '#F5A623',
-  maiz: '#FFD93D',
+  girasol: '#F5A623',  // naranja Henderseeds
+  maiz: '#1E9B5E',     // verde maíz (contrasta sobre fondo claro)
 };
 const NIDERA_RX = /\b(NS|NK|NSS)\s?\d/i;
 
@@ -386,20 +394,20 @@ function initMap(){
     style: {
       version: 8,
       sources: {
-        'carto-dark': {
+        'carto-light': {
           type:'raster',
-          tiles:['https://basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png'],
+          tiles:['https://basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}@2x.png'],
           tileSize:256,
-          attribution:'© <a href="https://www.openstreetmap.org/copyright">OSM</a> © <a href="https://carto.com/attributions">CARTO</a> · Ensayos: ASAGIR, INTA · Henderseeds SRL',
+          attribution:'© <a href="https://www.openstreetmap.org/copyright">OSM</a> © <a href="https://carto.com/attributions">CARTO</a> · Ensayos: ASAGIR, INTA, FCA UNMdP, ODSAGRO · Henderseeds SRL',
         },
         'carto-labels': {
           type:'raster',
-          tiles:['https://basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}@2x.png'],
+          tiles:['https://basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}@2x.png'],
           tileSize:256,
         },
       },
       layers: [
-        {id:'bg', type:'raster', source:'carto-dark'},
+        {id:'bg', type:'raster', source:'carto-light'},
       ],
     },
     center: [-61.8, -36.5],
@@ -429,10 +437,10 @@ function initMap(){
       paint:{
         'circle-radius':{stops:[[5,40],[8,180]]},
         'circle-color':'#F5A623',
-        'circle-opacity':0.05,
+        'circle-opacity':0.08,
         'circle-stroke-color':'#F5A623',
         'circle-stroke-width':1.5,
-        'circle-stroke-opacity':0.35,
+        'circle-stroke-opacity':0.5,
       },
     });
 
@@ -447,7 +455,7 @@ function initMap(){
       paint:{
         'circle-radius':['interpolate',['linear'],['get','n_cultivares'],10,14,40,28],
         'circle-color':['match',['get','cultivo'],'girasol',COLOR.girasol,'maiz',COLOR.maiz,'#9AABC7'],
-        'circle-opacity':0.18,
+        'circle-opacity':0.22,
         'circle-blur':0.6,
       },
     });
@@ -459,8 +467,8 @@ function initMap(){
       paint:{
         'circle-radius':['interpolate',['linear'],['get','n_cultivares'],10,6,40,12],
         'circle-color':['match',['get','cultivo'],'girasol',COLOR.girasol,'maiz',COLOR.maiz,'#9AABC7'],
-        'circle-stroke-width':2,
-        'circle-stroke-color':'#091E3E',
+        'circle-stroke-width':2.5,
+        'circle-stroke-color':'#FFFFFF',
       },
     });
 
