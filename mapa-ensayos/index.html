@@ -428,6 +428,211 @@ aside.open{transform:translateX(0)}
 }
 .toast.show{opacity:1}
 
+/* ═══ MODAL COMPARTIR ═══ */
+.modal-backdrop{
+  position:fixed;inset:0;z-index:50;
+  background:rgba(26,26,24,.55);
+  display:none;align-items:center;justify-content:center;
+  padding:2rem;
+}
+.modal-backdrop.show{display:flex}
+.modal{
+  background:var(--bg-panel);
+  border:1px solid var(--ink);
+  max-width:1100px;width:100%;max-height:92vh;overflow:auto;
+  padding:1.5rem 1.75rem;
+  box-shadow:0 30px 80px rgba(26,26,24,.4);
+}
+.modal h2{
+  font-family:var(--serif);font-size:1.4rem;font-weight:500;
+  letter-spacing:-0.01em;color:var(--ink);
+  margin-bottom:.3rem;
+}
+.modal .sub{
+  font-family:var(--mono);font-size:.7rem;color:var(--ink-dim);
+  letter-spacing:.06em;margin-bottom:1rem;
+}
+.modal .close-x{
+  position:absolute;top:1rem;right:1.2rem;font-size:1.4rem;
+  background:transparent;border:0;cursor:pointer;color:var(--ink-mute);
+}
+.share-format-tabs{
+  display:flex;gap:.4rem;margin-bottom:1rem;
+}
+.share-format-tabs .tab{
+  padding:8px 14px;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;
+  background:transparent;color:var(--ink-dim);
+  border:1px solid var(--line);cursor:pointer;border-radius:0;
+}
+.share-format-tabs .tab.active{
+  background:var(--ink);color:var(--bg-panel);border-color:var(--ink);font-weight:600;
+}
+.share-preview-wrap{
+  display:flex;justify-content:center;align-items:center;
+  background:var(--bg-soft);padding:1.5rem;margin-bottom:1rem;
+  min-height:380px;
+}
+.share-actions{
+  display:flex;gap:.5rem;justify-content:flex-end;
+}
+.share-btn{
+  padding:.65rem 1rem;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;
+  font-weight:600;text-transform:uppercase;
+  border:1px solid var(--ink);background:var(--bg-panel);color:var(--ink);
+  cursor:pointer;border-radius:0;
+}
+.share-btn:hover{background:var(--ink);color:var(--bg-panel)}
+.share-btn.primary{background:var(--nidera);color:#fff;border-color:var(--nidera)}
+.share-btn.primary:hover{background:var(--accent-dim);border-color:var(--accent-dim)}
+
+/* ═══ SHARE TEMPLATES (capturados a PNG)
+   Posicionados fuera de pantalla pero RENDERIZADOS (no display:none ni
+   left:-9999px que html-to-image no captura bien).
+   Usar valores HEX literales (no var(--*)) porque html-to-image no resuelve
+   CSS variables al clonar el nodo. ═══ */
+.share-template{
+  /* Fuera de viewport pero visible al render engine.
+     Evitamos opacity:0, visibility:hidden y left:-9999px porque
+     html-to-image no captura bien esos casos. */
+  position:fixed;top:0;left:100vw;
+  pointer-events:none;
+  background:#fbf9f3;
+  font-family:'IBM Plex Sans',system-ui,sans-serif;
+  color:#1a1a18;
+}
+.share-template.square{
+  width:1080px;height:1080px;padding:60px 60px;box-sizing:border-box;
+  display:flex;flex-direction:column;
+}
+.share-template.portrait{
+  width:1080px;height:1350px;padding:60px 60px;box-sizing:border-box;
+  display:flex;flex-direction:column;
+}
+
+.share-template .st-head{
+  border-bottom:3px solid #1a1a18;padding-bottom:24px;
+  display:flex;justify-content:space-between;align-items:flex-end;
+}
+.share-template .st-brand{display:flex;align-items:center;gap:14px}
+.share-template .st-brand svg{width:36px;height:36px;color:#1a1a18}
+.share-template .st-brand .name{
+  font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:600;font-size:24px;letter-spacing:.04em;
+  color:#1a1a18;
+}
+.share-template .st-eyebrow{
+  font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:18px;color:#9c947f;
+  letter-spacing:.18em;text-transform:uppercase;
+}
+.share-template .st-title{
+  margin-top:32px;font-family:'IBM Plex Serif',Georgia,serif;font-weight:500;
+  letter-spacing:-0.01em;color:#1a1a18;line-height:1.05;
+}
+.share-template.square .st-title{font-size:64px}
+.share-template.portrait .st-title{font-size:72px}
+.share-template .st-meta{
+  margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;
+}
+.share-template .st-meta .chip{
+  font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:14px;
+  letter-spacing:.06em;text-transform:uppercase;
+  padding:6px 12px;border:1px solid #d8d0b8;color:#6e6857;
+  background:transparent;
+}
+.share-template .st-meta .chip.maiz{color:#5a7a3a;border-color:#5a7a3a}
+.share-template .st-meta .chip.girasol{color:#d4a02a;border-color:#d4a02a}
+
+.share-template .st-stats{
+  margin-top:34px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;
+  padding:24px 0;border-top:1px solid #d8d0b8;border-bottom:1px solid #d8d0b8;
+}
+.share-template .st-stat .l{
+  font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:14px;color:#9c947f;
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;
+}
+.share-template .st-stat .v{
+  font-family:'IBM Plex Serif',Georgia,serif;font-weight:500;font-size:42px;color:#1a1a18;
+  font-variant-numeric:tabular-nums;letter-spacing:-0.01em;
+}
+.share-template .st-stat .v.accent{color:#b85c2a}
+.share-template .st-stat .suffix{
+  font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:14px;color:#9c947f;margin-left:6px;
+}
+
+.share-template .st-ranking{margin-top:30px}
+.share-template .st-rank-title{
+  font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:14px;color:#1a1a18;
+  letter-spacing:.12em;text-transform:uppercase;font-weight:600;
+  margin-bottom:14px;display:flex;justify-content:space-between;align-items:baseline;
+}
+.share-template .st-rank-title .right{color:#b85c2a;font-size:13px}
+.share-template .st-rank-row{
+  display:grid;grid-template-columns:42px 1fr 160px;gap:12px;
+  padding:14px 0;border-bottom:1px solid #e5dec7;
+  font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:20px;align-items:center;
+}
+.share-template .st-rank-row.nidera{
+  background:#fcf1e3;
+  margin:0 -60px;padding-left:60px;padding-right:60px;
+}
+.share-template .st-rank-row .pos{
+  color:#9c947f;font-variant-numeric:tabular-nums;font-size:18px;
+}
+.share-template .st-rank-row .name{font-weight:500;color:#1a1a18;font-size:20px;line-height:1.2}
+.share-template .st-rank-row .star{color:#b85c2a;margin-left:6px}
+.share-template .st-rank-row .company{color:#9c947f;font-size:16px;margin-top:2px}
+.share-template .st-rank-row .rinde{
+  text-align:right;font-variant-numeric:tabular-nums;color:#1a1a18;
+}
+.share-template .st-rank-row.nidera .rinde{color:#b85c2a;font-weight:600}
+
+.share-template .st-footer{
+  margin-top:auto;padding-top:20px;border-top:1px solid #d8d0b8;
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:14px;color:#9c947f;letter-spacing:.06em;
+}
+.share-template .st-footer .url{color:#1a1a18;font-weight:600}
+
+/* ═══ MOBILE bottom sheet ═══ */
+@media(max-width:768px){
+  header{
+    height:auto;padding:.6rem .85rem;
+    flex-wrap:wrap;gap:.5rem;
+  }
+  .crumb{order:99;width:100%;border-top:1px solid var(--line-soft);padding-top:.4rem}
+  .filters{
+    width:100%;order:50;overflow-x:auto;
+    flex-wrap:nowrap;padding-bottom:.25rem;
+  }
+  .filters::-webkit-scrollbar{height:3px}
+  .filters .chip{flex-shrink:0}
+  .filters .tabs-group{flex-shrink:0}
+  /* Aside como bottom sheet */
+  aside{
+    width:100%;max-width:100%;
+    position:absolute;left:0;right:0;bottom:0;top:auto;
+    height:75vh;
+    transform:translateY(100%);
+    border-left:0;border-top:1px solid var(--line);
+    box-shadow:0 -8px 24px rgba(40,30,15,.12);
+  }
+  aside.open{transform:translateY(0)}
+  .aside-head{padding:1rem 1.1rem .8rem}
+  .aside-head .loc{font-size:1.45rem}
+  .aside-body{padding:.9rem 1.1rem}
+  .aside-meta{padding:.85rem 1.1rem;gap:.8rem}
+  .kpi .v{font-size:1.25rem}
+  .map-corner-title{display:none}
+  .counter{top:.6rem;right:.7rem;font-size:.58rem;padding:.4rem .6rem}
+  .legend{bottom:1rem;left:.85rem;font-size:.56rem}
+  /* drag handle visual */
+  .aside-head::before{
+    content:'';position:absolute;top:.45rem;left:50%;transform:translateX(-50%);
+    width:36px;height:3px;background:var(--line);border-radius:2px;
+  }
+}
+
 .cta-row{
   display:flex;gap:.5rem;margin-top:1.2rem;
 }
@@ -655,13 +860,83 @@ aside.open{transform:translateX(0)}
         </div>
         <div id="a-rows"></div>
         <div class="cta-row">
-          <a class="btn" id="a-excel" target="_blank" rel="noopener">↓ INFORME ORIGINAL</a>
+          <a class="btn" id="a-excel" target="_blank" rel="noopener">↓ INFORME</a>
+          <button class="btn" id="a-share" type="button">↗ COMPARTIR</button>
           <a class="btn primary" href="https://wa.me/5492314509060?text=Quiero%20cotizar%20genética%20para%20mi%20campo" target="_blank" rel="noopener">WHATSAPP</a>
         </div>
       </div>
     </div>
   </aside>
   <div class="toast" id="toast"></div>
+</div>
+
+<!-- ═══ MODAL COMPARTIR ═══ -->
+<div class="modal-backdrop" id="share-modal">
+  <div class="modal" style="position:relative;max-width:680px">
+    <button class="close-x" onclick="closeShareModal()">×</button>
+    <h2>Compartir resumen del ensayo</h2>
+    <div class="sub">RESUMEN PARA WHATSAPP / MAIL</div>
+    <div style="background:var(--bg-soft);border:1px solid var(--line);padding:1.1rem 1.25rem;font-family:var(--sans);font-size:.85rem;line-height:1.55;color:var(--ink);white-space:pre-wrap;max-height:50vh;overflow:auto;margin-bottom:1rem" id="share-text"></div>
+    <div class="share-actions">
+      <button class="share-btn" id="share-copy">⎘ COPIAR TEXTO</button>
+      <a class="share-btn primary" id="share-wa-btn" target="_blank" rel="noopener">↗ WHATSAPP</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SHARE TEMPLATES (off-screen) ═══ -->
+<div class="share-template square" id="share-tpl-square">
+  <div class="st-head">
+    <div class="st-brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter">
+        <path d="M4 12 L8 4 L12 12 L16 4 L20 12 L16 20 L12 12 L8 20 Z" />
+      </svg>
+      <span class="name">HENDERSEEDS</span>
+    </div>
+    <div class="st-eyebrow">RED.IN · NIDERA</div>
+  </div>
+  <h1 class="st-title" id="stq-loc">—</h1>
+  <div class="st-meta" id="stq-meta"></div>
+  <div class="st-stats">
+    <div class="st-stat"><div class="l">CULTIVARES</div><div class="v" id="stq-n">—</div></div>
+    <div class="st-stat"><div class="l">RINDE MÁX</div><div class="v accent" id="stq-rmax">—</div><span class="suffix">kg/ha</span></div>
+    <div class="st-stat"><div class="l">PROMEDIO</div><div class="v" id="stq-ravg">—</div><span class="suffix">kg/ha</span></div>
+  </div>
+  <div class="st-ranking">
+    <div class="st-rank-title">RANKING POR RINDE · TOP 5 <span class="right">★ NIDERA</span></div>
+    <div id="stq-rows"></div>
+  </div>
+  <div class="st-footer">
+    <span>Mapa Ensayos · <span id="stq-red">—</span></span>
+    <span class="url">henderseeds.com/mapa-ensayos</span>
+  </div>
+</div>
+
+<div class="share-template portrait" id="share-tpl-portrait">
+  <div class="st-head">
+    <div class="st-brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter">
+        <path d="M4 12 L8 4 L12 12 L16 4 L20 12 L16 20 L12 12 L8 20 Z" />
+      </svg>
+      <span class="name">HENDERSEEDS</span>
+    </div>
+    <div class="st-eyebrow">ENSAYO COMPARATIVO</div>
+  </div>
+  <h1 class="st-title" id="stp-loc">—</h1>
+  <div class="st-meta" id="stp-meta"></div>
+  <div class="st-stats">
+    <div class="st-stat"><div class="l">CULTIVARES</div><div class="v" id="stp-n">—</div></div>
+    <div class="st-stat"><div class="l">RINDE MÁX</div><div class="v accent" id="stp-rmax">—</div><span class="suffix">kg/ha</span></div>
+    <div class="st-stat"><div class="l">PROMEDIO</div><div class="v" id="stp-ravg">—</div><span class="suffix">kg/ha</span></div>
+  </div>
+  <div class="st-ranking">
+    <div class="st-rank-title">RANKING POR RINDE · TOP 8 <span class="right">★ NIDERA</span></div>
+    <div id="stp-rows"></div>
+  </div>
+  <div class="st-footer">
+    <span>Fuente: <span id="stp-red">—</span> · Mapa Henderseeds</span>
+    <span class="url">henderseeds.com/mapa-ensayos</span>
+  </div>
 </div>
 
 <script>
@@ -731,6 +1006,7 @@ async function init(){
   initMap();
   bindFilters();
   bindTalkingPoints();
+  bindShare();
 }
 
 function initMap(){
@@ -1011,8 +1287,9 @@ function openAside(f){
   if(p.url_fuente){ excelBtn.href = p.url_fuente; excelBtn.style.display=''; }
   else { excelBtn.style.display='none'; }
 
-  // Talking points — vincular al ensayo activo y renderizar
+  // Talking points + Share — vincular al ensayo activo
   tpState.ensayo = f;
+  shareState.ensayo = f;
   renderTpMessage();
 
   document.getElementById('aside').classList.add('open');
@@ -1277,6 +1554,124 @@ function showToast(msg){
   t.classList.add('show');
   clearTimeout(showToast._tm);
   showToast._tm = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  SHARE TEMPLATES — exporta PNG para WhatsApp/IG
+// ═══════════════════════════════════════════════════════════════════════════
+
+let shareState = { ensayo: null };
+
+function buildShareText(f){
+  const p = f.properties;
+  const top = (p.cultivares || [])[0] || {};
+  const top2 = (p.cultivares || [])[1] || {};
+  const top3 = (p.cultivares || [])[2] || {};
+  const lines = [];
+  lines.push(`*Ensayo ${p.localidad} ${p.campania}* — ${p.cultivo.toUpperCase()}`);
+  lines.push(`${p.zona}, ${p.provincia}. Red: ${p.red}.`);
+  if(p.productor) lines.push(`Productor: ${p.productor}${p.campo ? ' · Campo: '+p.campo : ''}`);
+  lines.push('');
+  lines.push(`📊 *${p.n_cultivares} cultivares* evaluados de *${p.n_empresas} empresas*`);
+  lines.push(`🥇 Rinde máx: *${fmtAR(p.rinde_max_kg_ha)} kg/ha*`);
+  lines.push(`📈 Promedio: ${fmtAR(p.rinde_avg_kg_ha)} kg/ha`);
+  lines.push('');
+  lines.push('*TOP 3:*');
+  if(top.cultivar) lines.push(`1. ${top.cultivar} (${top.empresa || '—'}) — ${fmtAR(top.rinde_kg_ha)} kg/ha`);
+  if(top2.cultivar) lines.push(`2. ${top2.cultivar} (${top2.empresa || '—'}) — ${fmtAR(top2.rinde_kg_ha)} kg/ha`);
+  if(top3.cultivar) lines.push(`3. ${top3.cultivar} (${top3.empresa || '—'}) — ${fmtAR(top3.rinde_kg_ha)} kg/ha`);
+  lines.push('');
+  lines.push(`Mapa completo: henderseeds.com/mapa-ensayos`);
+  if(p.url_fuente) lines.push(`Informe original: ${p.url_fuente}`);
+  return lines.join('\n');
+}
+
+function fillShareTemplate(prefix, f){
+  const p = f.properties;
+  // Helpers para top N rows
+  const topN = prefix === 'stq' ? 5 : 8;
+  document.getElementById(prefix+'-loc').textContent = p.localidad;
+  document.getElementById(prefix+'-n').textContent = fmtAR(p.n_cultivares);
+  document.getElementById(prefix+'-rmax').textContent = fmtAR(p.rinde_max_kg_ha);
+  document.getElementById(prefix+'-ravg').textContent = fmtAR(p.rinde_avg_kg_ha);
+  document.getElementById(prefix+'-red').textContent = p.red + ' · ' + p.campania;
+
+  // Meta chips
+  const chips = [];
+  chips.push(`<span class="chip">${escapeHtml(p.zona.toUpperCase())}</span>`);
+  if(p.provincia) chips.push(`<span class="chip">${escapeHtml(p.provincia.toUpperCase())}</span>`);
+  chips.push(`<span class="chip ${p.cultivo}">${escapeHtml(p.cultivo.toUpperCase())}</span>`);
+  chips.push(`<span class="chip">${escapeHtml(p.campania)}</span>`);
+  document.getElementById(prefix+'-meta').innerHTML = chips.join('');
+
+  // Ranking rows
+  const rows = (p.cultivares || []).slice(0, topN).map((c, i) => {
+    const nidera = isNideraCultivar(c);
+    return `
+      <div class="st-rank-row${nidera?' nidera':''}">
+        <div class="pos">${String(i+1).padStart(2,'0')}</div>
+        <div>
+          <div class="name">${escapeHtml(c.cultivar)}${nidera?'<span class="star">★</span>':''}</div>
+          <div class="company">${escapeHtml(c.empresa || '—')}</div>
+        </div>
+        <div class="rinde">${fmtAR(c.rinde_kg_ha)} kg/ha</div>
+      </div>
+    `;
+  }).join('');
+  document.getElementById(prefix+'-rows').innerHTML = rows;
+}
+
+async function generateSharePng(){
+  if(!shareState.ensayo) return null;
+  const prefix = shareState.format === 'square' ? 'stq' : 'stp';
+  fillShareTemplate(prefix, shareState.ensayo);
+  const node = document.getElementById('share-tpl-' + shareState.format);
+
+  // Esperar fonts
+  if(document.fonts && document.fonts.ready) {
+    await document.fonts.ready;
+  }
+
+  // Diagnostic: log dimensions
+  const r = node.getBoundingClientRect();
+  console.log('Share template rect:', r.width, 'x', r.height);
+
+  const dataUrl = await htmlToImage.toPng(node, {
+    pixelRatio: 1,
+    cacheBust: false,
+    skipFonts: true,
+    skipAutoScale: true,
+    backgroundColor: '#fbf9f3',
+  });
+  return dataUrl;
+}
+
+function openShareModal(){
+  if(!shareState.ensayo) return;
+  const txt = buildShareText(shareState.ensayo);
+  document.getElementById('share-text').textContent = txt;
+  document.getElementById('share-wa-btn').href = 'https://wa.me/?text=' + encodeURIComponent(txt);
+  document.getElementById('share-modal').classList.add('show');
+}
+
+function closeShareModal(){
+  document.getElementById('share-modal').classList.remove('show');
+}
+
+function bindShare(){
+  document.getElementById('a-share').addEventListener('click', openShareModal);
+  document.getElementById('share-copy').addEventListener('click', async () => {
+    const txt = document.getElementById('share-text').textContent;
+    try {
+      await navigator.clipboard.writeText(txt);
+      showToast('Texto copiado al portapapeles');
+    } catch(e) {
+      showToast('No se pudo copiar — copialo manual');
+    }
+  });
+  document.getElementById('share-modal').addEventListener('click', (e) => {
+    if(e.target.id === 'share-modal') closeShareModal();
+  });
 }
 
 init().catch(err=>{
