@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mapa interactivo de ensayos comparativos de cultivares de girasol y maíz en Argentina — Henderseeds SRL.">
+<title>Mapa de Ensayos · Henderseeds</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+
+<style>
+:root{
+  --navy:#0D2D5E; --navy-dark:#091E3E; --navy-mid:#1A4A8A;
+  --ink:#E8EEF7; --ink-dim:#9AABC7; --ink-mute:#5F7299;
+  --accent:#F5A623; --accent-dim:#C7841B;
+  --panel:rgba(13,45,94,.92);
+  --panel-solid:#0D2D5E;
+  --border:rgba(154,171,199,.18);
+  --good:#3DC97D; --warn:#E8B547;
+  --arch:'Space Grotesk',system-ui,sans-serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --mono:'DM Mono',ui-monospace,monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:var(--sans);
+  background:var(--navy-dark);
+  color:var(--ink);
+  display:flex; flex-direction:column;
+}
+
+/* ═══ HEADER ═══ */
+header{
+  display:flex; align-items:center; gap:1.5rem;
+  padding:.85rem 1.25rem;
+  background:var(--navy-dark);
+  border-bottom:1px solid var(--border);
+  z-index:2;
+  flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:.7rem;font-family:var(--arch);font-weight:700}
+.brand .dot{width:9px;height:9px;background:var(--accent);border-radius:50%;box-shadow:0 0 12px var(--accent)}
+.brand .name{font-size:1.05rem;letter-spacing:.5px}
+.crumb{
+  font-family:var(--mono);font-size:.72rem;
+  color:var(--ink-dim);letter-spacing:.5px;
+  padding:.3rem .55rem;border:1px solid var(--border);border-radius:6px;
+}
+.crumb b{color:var(--accent);font-weight:500}
+
+.filters{display:flex;gap:.5rem;flex-wrap:wrap;margin-left:auto;align-items:center}
+.chip{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.45rem .85rem;font-family:var(--mono);font-size:.72rem;
+  letter-spacing:.5px;text-transform:uppercase;
+  background:transparent;color:var(--ink-dim);
+  border:1px solid var(--border);border-radius:999px;
+  cursor:pointer;transition:all .15s;
+  user-select:none;
+}
+.chip:hover{border-color:var(--accent);color:var(--ink)}
+.chip.active{background:var(--accent);color:var(--navy-dark);border-color:var(--accent);font-weight:500}
+.chip .count{
+  font-size:.68rem;background:rgba(255,255,255,.15);
+  padding:.05rem .35rem;border-radius:4px;
+}
+.chip.active .count{background:rgba(13,45,94,.25)}
+
+select.chip{appearance:none;padding-right:1.6rem;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path fill='%239AABC7' d='M2 4l4 4 4-4z'/></svg>");background-repeat:no-repeat;background-position:right .55rem center;background-size:9px}
+
+/* ═══ LAYOUT ═══ */
+.main{flex:1; display:flex; min-height:0; position:relative}
+#map{flex:1; position:relative; background:#0a1828}
+.maplibregl-canvas{outline:none}
+
+/* override maplibre attribution */
+.maplibregl-ctrl-attrib{
+  background:rgba(9,30,62,.85)!important;
+  color:var(--ink-dim)!important;
+  font-family:var(--mono);font-size:.65rem;
+}
+.maplibregl-ctrl-attrib a{color:var(--ink-dim)!important}
+
+/* ═══ SIDEBAR PANEL ═══ */
+aside{
+  width:380px; max-width:90vw;
+  background:var(--panel-solid);
+  border-left:1px solid var(--border);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  transform:translateX(100%);
+  transition:transform .25s ease;
+}
+aside.open{transform:translateX(0)}
+.aside-head{
+  padding:1.1rem 1.25rem .9rem;
+  border-bottom:1px solid var(--border);
+  display:flex;flex-direction:column;gap:.35rem;
+}
+.aside-head .loc{
+  font-family:var(--arch);font-size:1.35rem;font-weight:700;
+  letter-spacing:.3px;
+}
+.aside-head .sub{
+  font-family:var(--mono);font-size:.7rem;
+  color:var(--ink-dim);letter-spacing:.5px;
+}
+.aside-head .close{
+  position:absolute;top:.7rem;right:.7rem;
+  width:30px;height:30px;border-radius:50%;
+  border:1px solid var(--border);background:transparent;
+  color:var(--ink-dim);cursor:pointer;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;
+}
+.aside-head .close:hover{border-color:var(--accent);color:var(--accent)}
+
+.aside-meta{
+  display:grid;grid-template-columns:1fr 1fr;gap:.5rem;
+  padding:1rem 1.25rem;border-bottom:1px solid var(--border);
+}
+.kpi{
+  background:rgba(154,171,199,.04);
+  border:1px solid var(--border);border-radius:8px;
+  padding:.55rem .7rem;
+}
+.kpi .v{font-family:var(--arch);font-size:1.1rem;font-weight:700;color:var(--accent)}
+.kpi .l{font-family:var(--mono);font-size:.62rem;color:var(--ink-dim);letter-spacing:.5px;text-transform:uppercase;margin-top:.1rem}
+
+.aside-body{flex:1;overflow-y:auto;padding:1rem 1.25rem}
+.aside-body h4{
+  font-family:var(--mono);font-size:.68rem;
+  color:var(--ink-dim);text-transform:uppercase;letter-spacing:1px;
+  margin-bottom:.5rem;
+}
+.aside-body .meta-line{
+  font-size:.82rem;color:var(--ink-dim);margin-bottom:.35rem;
+  line-height:1.4;
+}
+.aside-body .meta-line b{color:var(--ink);font-weight:500;font-family:var(--mono)}
+.aside-body .meta-line a{color:var(--accent);text-decoration:none}
+.aside-body .meta-line a:hover{text-decoration:underline}
+
+table.cult{width:100%;border-collapse:collapse;margin-top:.5rem;font-size:.78rem}
+table.cult th{
+  text-align:left;padding:.45rem .35rem;
+  font-family:var(--mono);font-size:.65rem;font-weight:500;
+  color:var(--ink-dim);text-transform:uppercase;letter-spacing:.5px;
+  border-bottom:1px solid var(--border);
+}
+table.cult th.r{text-align:right}
+table.cult td{
+  padding:.45rem .35rem;border-bottom:1px solid rgba(154,171,199,.08);
+}
+table.cult td.r{text-align:right;font-family:var(--mono);font-size:.78rem}
+table.cult td.cv{font-weight:500}
+table.cult tr.nidera{background:rgba(245,166,35,.06)}
+table.cult tr.nidera td.cv::after{
+  content:'★';color:var(--accent);margin-left:.3rem;font-size:.7rem;
+}
+table.cult tr.top td.r{color:var(--accent);font-weight:500}
+
+.cta-row{
+  display:flex;gap:.5rem;margin-top:1rem;
+  padding-top:1rem;border-top:1px solid var(--border);
+}
+.btn{
+  flex:1;padding:.65rem .85rem;
+  font-family:var(--mono);font-size:.72rem;
+  letter-spacing:.5px;text-transform:uppercase;
+  border:1px solid var(--border);border-radius:8px;
+  background:transparent;color:var(--ink);
+  cursor:pointer;text-decoration:none;text-align:center;
+  display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+  transition:all .15s;
+}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--navy-dark);border-color:var(--accent);font-weight:500}
+.btn.primary:hover{background:var(--accent-dim);border-color:var(--accent-dim);color:var(--navy-dark)}
+
+/* ═══ POPUP del marker ═══ */
+.maplibregl-popup-content{
+  background:var(--navy-dark)!important;
+  color:var(--ink)!important;
+  border:1px solid var(--border);border-radius:10px!important;
+  padding:.7rem .9rem!important;
+  font-family:var(--sans);
+  box-shadow:0 8px 32px rgba(0,0,0,.4)!important;
+}
+.maplibregl-popup-tip{
+  border-top-color:var(--navy-dark)!important;
+  border-bottom-color:var(--navy-dark)!important;
+}
+.maplibregl-popup-close-button{
+  color:var(--ink-dim)!important;font-size:1.1rem!important;
+  padding:0 .3rem!important;
+}
+.pop-loc{font-family:var(--arch);font-weight:700;font-size:.95rem}
+.pop-meta{font-family:var(--mono);font-size:.68rem;color:var(--ink-dim);margin-top:.2rem}
+.pop-stats{display:flex;gap:.8rem;margin-top:.55rem;font-size:.78rem}
+.pop-stats b{color:var(--accent);font-family:var(--mono)}
+.pop-cta{
+  margin-top:.55rem;display:inline-block;
+  font-family:var(--mono);font-size:.7rem;color:var(--accent);
+  text-decoration:none;border-bottom:1px solid var(--accent);
+}
+
+/* ═══ LEGEND ═══ */
+.legend{
+  position:absolute;left:1rem;bottom:1.6rem;z-index:1;
+  background:rgba(9,30,62,.92);
+  border:1px solid var(--border);border-radius:8px;
+  padding:.65rem .85rem;
+  font-family:var(--mono);font-size:.7rem;color:var(--ink-dim);
+  letter-spacing:.5px;
+  display:flex;flex-direction:column;gap:.35rem;
+  backdrop-filter:blur(6px);
+}
+.legend .row{display:flex;align-items:center;gap:.5rem}
+.legend .dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--navy-dark);box-shadow:0 0 0 1px rgba(255,255,255,.15)}
+.legend .girasol{background:#F5A623}
+.legend .maiz{background:#FFD93D}
+
+/* ═══ COUNT BADGE ═══ */
+.counter{
+  position:absolute;right:1rem;top:1rem;z-index:1;
+  background:rgba(9,30,62,.92);
+  border:1px solid var(--border);border-radius:8px;
+  padding:.55rem .85rem;
+  font-family:var(--mono);font-size:.72rem;color:var(--ink-dim);
+  letter-spacing:.5px;
+  backdrop-filter:blur(6px);
+}
+.counter b{color:var(--accent);font-weight:500}
+.counter .sep{margin:0 .35rem;color:var(--border)}
+
+/* ═══ MOBILE ═══ */
+@media(max-width:768px){
+  header{gap:.7rem;padding:.7rem .85rem}
+  .filters{margin-left:0;width:100%}
+  .crumb{display:none}
+  aside{width:100%;max-width:100%;position:absolute;inset:0;z-index:5}
+  .legend{font-size:.65rem;padding:.5rem .65rem}
+  .counter{font-size:.65rem;padding:.4rem .65rem;top:.7rem;right:.7rem}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <span class="dot"></span>
+    <span class="name">HENDERSEEDS</span>
+  </div>
+  <div class="crumb">~/mapa-ensayos · <b>CAMPAÑA 25/26</b></div>
+  <div class="filters" id="filters">
+    <button class="chip active" data-cultivo="*">TODOS <span class="count" id="cnt-all">0</span></button>
+    <button class="chip" data-cultivo="girasol">GIRASOL <span class="count" id="cnt-gir">0</span></button>
+    <button class="chip" data-cultivo="maiz">MAÍZ <span class="count" id="cnt-mai">0</span></button>
+    <select class="chip" id="sel-empresa">
+      <option value="*">TODAS LAS EMPRESAS</option>
+    </select>
+    <select class="chip" id="sel-zona">
+      <option value="*">TODAS LAS ZONAS</option>
+    </select>
+  </div>
+</header>
+
+<div class="main">
+  <div id="map"></div>
+  <div class="counter">
+    <span id="visible-count"><b>0</b> ensayos</span>
+    <span class="sep">·</span>
+    <span id="visible-cultivares"><b>0</b> cultivares</span>
+  </div>
+  <div class="legend">
+    <div class="row"><span class="dot girasol"></span> GIRASOL</div>
+    <div class="row"><span class="dot maiz"></span> MAÍZ</div>
+  </div>
+  <aside id="aside">
+    <div class="aside-head" style="position:relative">
+      <button class="close" onclick="closeAside()" aria-label="Cerrar">×</button>
+      <div class="loc" id="a-loc">—</div>
+      <div class="sub" id="a-sub">—</div>
+    </div>
+    <div class="aside-meta">
+      <div class="kpi"><div class="v" id="a-n">—</div><div class="l">CULTIVARES</div></div>
+      <div class="kpi"><div class="v" id="a-rmax">—</div><div class="l">RINDE MÁX KG/HA</div></div>
+      <div class="kpi"><div class="v" id="a-ravg">—</div><div class="l">PROMEDIO KG/HA</div></div>
+      <div class="kpi"><div class="v" id="a-emp">—</div><div class="l">EMPRESAS</div></div>
+    </div>
+    <div class="aside-body">
+      <h4>DATOS DEL ENSAYO</h4>
+      <div class="meta-line" id="a-meta"></div>
+      <h4 style="margin-top:1rem">RANKING POR RINDE</h4>
+      <table class="cult">
+        <thead><tr><th>CULTIVAR</th><th>EMPRESA</th><th class="r">KG/HA</th></tr></thead>
+        <tbody id="a-rows"></tbody>
+      </table>
+      <div class="cta-row">
+        <a class="btn" id="a-excel" target="_blank" rel="noopener">↓ EXCEL ORIGINAL</a>
+        <a class="btn primary" href="https://wa.me/5492314509060?text=Quiero%20cotizar%20genética%20para%20mi%20campo" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<script>
+const COLOR = {
+  girasol: '#F5A623',
+  maiz: '#FFD93D',
+};
+const NIDERA_RX = /\b(NS|NK|NSS)\s?\d/i;
+
+let map, allFeatures = [], filters = {cultivo:'*', empresa:'*', zona:'*'};
+
+async function init(){
+  const resp = await fetch('data/ensayos.geojson');
+  const gj = await resp.json();
+  allFeatures = gj.features;
+
+  // Populate selects de filtros
+  const empresas = new Set();
+  const zonas = new Set();
+  allFeatures.forEach(f=>{
+    (f.properties.empresas||[]).forEach(e=>empresas.add(e));
+    if(f.properties.zona) zonas.add(f.properties.zona);
+  });
+  const selE = document.getElementById('sel-empresa');
+  [...empresas].sort().forEach(e=>{
+    const o = document.createElement('option');
+    o.value = e; o.textContent = e.toUpperCase();
+    selE.appendChild(o);
+  });
+  const selZ = document.getElementById('sel-zona');
+  [...zonas].sort().forEach(z=>{
+    const o = document.createElement('option');
+    o.value = z; o.textContent = z.toUpperCase();
+    selZ.appendChild(o);
+  });
+
+  // Counts iniciales por cultivo
+  document.getElementById('cnt-all').textContent = allFeatures.length;
+  document.getElementById('cnt-gir').textContent = allFeatures.filter(f=>f.properties.cultivo==='girasol').length;
+  document.getElementById('cnt-mai').textContent = allFeatures.filter(f=>f.properties.cultivo==='maiz').length;
+
+  initMap();
+  bindFilters();
+}
+
+function initMap(){
+  map = new maplibregl.Map({
+    container: 'map',
+    style: {
+      version: 8,
+      sources: {
+        'carto-dark': {
+          type:'raster',
+          tiles:['https://basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png'],
+          tileSize:256,
+          attribution:'© <a href="https://www.openstreetmap.org/copyright">OSM</a> © <a href="https://carto.com/attributions">CARTO</a> · Ensayos: ASAGIR, INTA · Henderseeds SRL',
+        },
+        'carto-labels': {
+          type:'raster',
+          tiles:['https://basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}@2x.png'],
+          tileSize:256,
+        },
+      },
+      layers: [
+        {id:'bg', type:'raster', source:'carto-dark'},
+      ],
+    },
+    center: [-61.8, -36.5],
+    zoom: 5.4,
+    minZoom: 3, maxZoom: 14,
+    attributionControl: {compact: true},
+  });
+
+  map.addControl(new maplibregl.NavigationControl({showCompass:false}), 'top-right');
+
+  map.on('load', () => {
+    // Capa source con todos los puntos
+    map.addSource('ensayos', {
+      type:'geojson',
+      data: {type:'FeatureCollection', features: allFeatures},
+    });
+
+    // Circulo highlight zona core Henderseeds (Henderson/Bolivar/Daireaux)
+    map.addSource('zona-core',{
+      type:'geojson',
+      data:{type:'Feature', geometry:{type:'Point', coordinates:[-61.8, -36.55]}, properties:{}},
+    });
+    map.addLayer({
+      id:'zona-core-ring',
+      type:'circle',
+      source:'zona-core',
+      paint:{
+        'circle-radius':{stops:[[5,40],[8,180]]},
+        'circle-color':'#F5A623',
+        'circle-opacity':0.05,
+        'circle-stroke-color':'#F5A623',
+        'circle-stroke-width':1.5,
+        'circle-stroke-opacity':0.35,
+      },
+    });
+
+    // Labels arriba
+    map.addLayer({id:'lbls', type:'raster', source:'carto-labels'});
+
+    // Halo (glow)
+    map.addLayer({
+      id:'ensayos-halo',
+      type:'circle',
+      source:'ensayos',
+      paint:{
+        'circle-radius':['interpolate',['linear'],['get','n_cultivares'],10,14,40,28],
+        'circle-color':['match',['get','cultivo'],'girasol',COLOR.girasol,'maiz',COLOR.maiz,'#9AABC7'],
+        'circle-opacity':0.18,
+        'circle-blur':0.6,
+      },
+    });
+    // Dot
+    map.addLayer({
+      id:'ensayos-dot',
+      type:'circle',
+      source:'ensayos',
+      paint:{
+        'circle-radius':['interpolate',['linear'],['get','n_cultivares'],10,6,40,12],
+        'circle-color':['match',['get','cultivo'],'girasol',COLOR.girasol,'maiz',COLOR.maiz,'#9AABC7'],
+        'circle-stroke-width':2,
+        'circle-stroke-color':'#091E3E',
+      },
+    });
+
+    map.on('mouseenter','ensayos-dot',()=>map.getCanvas().style.cursor='pointer');
+    map.on('mouseleave','ensayos-dot',()=>map.getCanvas().style.cursor='');
+
+    map.on('click','ensayos-dot', e => {
+      const f = e.features[0];
+      // MapLibre no preserva el id string del GeoJSON en eventos click;
+      // matchear por ensayo_id en properties
+      const eid = f.properties.ensayo_id;
+      const full = allFeatures.find(x => x.properties.ensayo_id === eid);
+      if(full) openAside(full);
+    });
+
+    updateCounter();
+  });
+}
+
+function bindFilters(){
+  document.querySelectorAll('.chip[data-cultivo]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.chip[data-cultivo]').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      filters.cultivo = btn.dataset.cultivo;
+      applyFilter();
+    });
+  });
+  document.getElementById('sel-empresa').addEventListener('change', e=>{
+    filters.empresa = e.target.value;
+    applyFilter();
+  });
+  document.getElementById('sel-zona').addEventListener('change', e=>{
+    filters.zona = e.target.value;
+    applyFilter();
+  });
+}
+
+function applyFilter(){
+  const filtered = allFeatures.filter(f=>{
+    const p = f.properties;
+    if(filters.cultivo!=='*' && p.cultivo!==filters.cultivo) return false;
+    if(filters.empresa!=='*' && !(p.empresas||[]).includes(filters.empresa)) return false;
+    if(filters.zona!=='*' && p.zona!==filters.zona) return false;
+    return true;
+  });
+  map.getSource('ensayos').setData({type:'FeatureCollection', features:filtered});
+  updateCounter(filtered);
+}
+
+function updateCounter(features){
+  features = features || allFeatures;
+  const n_ens = features.length;
+  const n_cult = features.reduce((a,f)=>a+(f.properties.n_cultivares||0),0);
+  document.getElementById('visible-count').innerHTML = `<b>${n_ens}</b> ensayo${n_ens===1?'':'s'}`;
+  document.getElementById('visible-cultivares').innerHTML = `<b>${n_cult}</b> cultivares`;
+}
+
+function openAside(f){
+  const p = f.properties;
+  document.getElementById('a-loc').textContent = `${p.localidad}`;
+  document.getElementById('a-sub').textContent = `${p.zona.toUpperCase()} · ${p.provincia.toUpperCase()} · ${p.cultivo.toUpperCase()} · ${p.campania}`;
+  document.getElementById('a-n').textContent = p.n_cultivares;
+  document.getElementById('a-rmax').textContent = fmtN(p.rinde_max_kg_ha);
+  document.getElementById('a-ravg').textContent = fmtN(p.rinde_avg_kg_ha);
+  document.getElementById('a-emp').textContent = p.n_empresas;
+
+  const meta = [];
+  if(p.fecha_siembra) meta.push(`<b>Siembra:</b> ${p.fecha_siembra}`);
+  if(p.fuente_responsable) meta.push(`<b>Responsable:</b> ${p.fuente_responsable}`);
+  if(p.fuente_email) meta.push(`<b>Contacto:</b> <a href="mailto:${p.fuente_email}">${p.fuente_email}</a>`);
+  meta.push(`<b>Red:</b> ${p.red}`);
+  meta.push(`<b>Licencia:</b> ${p.licencia}`);
+  document.getElementById('a-meta').innerHTML = meta.join('<br>');
+
+  const tbody = document.getElementById('a-rows');
+  tbody.innerHTML = '';
+  const topRinde = p.cultivar_top_rinde;
+  p.cultivares.slice(0, 20).forEach(c=>{
+    const tr = document.createElement('tr');
+    const isNidera = c.empresa === 'Nidera' || NIDERA_RX.test(c.cultivar);
+    const isTop = c.rinde_kg_ha === topRinde;
+    if(isNidera) tr.classList.add('nidera');
+    if(isTop) tr.classList.add('top');
+    tr.innerHTML = `
+      <td class="cv">${c.cultivar}</td>
+      <td>${c.empresa||'—'}</td>
+      <td class="r">${fmtN(c.rinde_kg_ha)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  const excelBtn = document.getElementById('a-excel');
+  if(p.url_fuente){ excelBtn.href = p.url_fuente; excelBtn.style.display=''; }
+  else { excelBtn.style.display='none'; }
+
+  document.getElementById('aside').classList.add('open');
+  map.flyTo({center: f.geometry.coordinates, zoom: Math.max(map.getZoom(), 7), speed:0.8});
+}
+
+function closeAside(){
+  document.getElementById('aside').classList.remove('open');
+}
+
+function fmtN(n){
+  if(n==null||isNaN(n)) return '—';
+  return new Intl.NumberFormat('es-AR',{maximumFractionDigits:0}).format(Math.round(n));
+}
+
+init().catch(err=>{
+  console.error(err);
+  document.getElementById('map').innerHTML = `<div style="padding:2rem;color:#E8B547;font-family:var(--mono)">[ERR] No se pudo cargar el dataset: ${err.message}</div>`;
+});
+</script>
+</body>
+</html>

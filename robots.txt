@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /mapa-ensayos/
 
 Sitemap: https://henderseeds.com/sitemap.xml
