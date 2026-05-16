@@ -167,6 +167,45 @@ table.cult td{
 }
 table.cult td.r{text-align:right;font-family:var(--mono);font-size:.78rem;color:var(--ink)}
 table.cult td.cv{font-weight:500;color:var(--ink)}
+
+/* ═══ MANEJO AGRONOMICO ═══ */
+.manejo-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:.5rem;
+  margin-top:.5rem;
+}
+.manejo-card{
+  background:var(--bg-soft);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:.55rem .7rem;
+}
+.manejo-card.full{grid-column:1/-1}
+.manejo-card .icn{font-size:.85rem;color:var(--accent-dim);margin-right:.3rem}
+.manejo-card .lbl{
+  font-family:var(--mono);font-size:.6rem;
+  color:var(--ink-dim);text-transform:uppercase;letter-spacing:.5px;
+  display:block;margin-bottom:.15rem;
+}
+.manejo-card .val{
+  font-size:.78rem;color:var(--ink);font-weight:500;
+  line-height:1.35;word-break:break-word;
+}
+.manejo-card.full .val{font-size:.75rem;font-weight:400}
+.manejo-fechas{
+  display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.4rem;
+}
+.fecha-pill{
+  display:inline-flex;align-items:center;gap:.35rem;
+  background:var(--bg-panel);border:1px solid var(--border);
+  border-radius:6px;padding:.3rem .55rem;
+  font-family:var(--mono);font-size:.7rem;
+}
+.fecha-pill .lbl{color:var(--ink-dim);text-transform:uppercase;font-size:.6rem;letter-spacing:.5px}
+.fecha-pill .val{color:var(--ink);font-weight:500}
+.empty-manejo{
+  font-family:var(--mono);font-size:.7rem;color:var(--ink-mute);
+  padding:.5rem 0;font-style:italic;
+}
 table.cult tr.nidera{background:var(--accent-soft)}
 table.cult tr.nidera td.cv::after{
   content:'★';color:var(--accent);margin-left:.3rem;font-size:.7rem;
@@ -313,13 +352,20 @@ table.cult tr.top td.r{color:var(--accent-dim);font-weight:600}
     <div class="aside-body">
       <h4>DATOS DEL ENSAYO</h4>
       <div class="meta-line" id="a-meta"></div>
+
+      <h4 style="margin-top:1rem">FECHAS DEL CICLO</h4>
+      <div class="manejo-fechas" id="a-fechas"></div>
+
+      <h4 style="margin-top:1rem">MANEJO AGRONÓMICO</h4>
+      <div id="a-manejo"></div>
+
       <h4 style="margin-top:1rem">RANKING POR RINDE</h4>
       <table class="cult">
         <thead><tr><th>CULTIVAR</th><th>EMPRESA</th><th class="r">KG/HA</th></tr></thead>
         <tbody id="a-rows"></tbody>
       </table>
       <div class="cta-row">
-        <a class="btn" id="a-excel" target="_blank" rel="noopener">↓ EXCEL ORIGINAL</a>
+        <a class="btn" id="a-excel" target="_blank" rel="noopener">↓ INFORME ORIGINAL</a>
         <a class="btn primary" href="https://wa.me/5492314509060?text=Quiero%20cotizar%20genética%20para%20mi%20campo" target="_blank" rel="noopener">WhatsApp</a>
       </div>
     </div>
@@ -548,13 +594,50 @@ function openAside(f){
   document.getElementById('a-ravg').textContent = fmtN(p.rinde_avg_kg_ha);
   document.getElementById('a-emp').textContent = p.n_empresas;
 
+  // Datos del ensayo (resumen institucional)
   const meta = [];
-  if(p.fecha_siembra) meta.push(`<b>Siembra:</b> ${p.fecha_siembra}`);
-  if(p.fuente_responsable) meta.push(`<b>Responsable:</b> ${p.fuente_responsable}`);
+  if(p.productor) meta.push(`<b>Productor:</b> ${p.productor}`);
+  if(p.campo) meta.push(`<b>Campo:</b> ${p.campo}`);
+  if(p.fuente_responsable) meta.push(`<b>Responsable técnico:</b> ${p.fuente_responsable}`);
   if(p.fuente_email) meta.push(`<b>Contacto:</b> <a href="mailto:${p.fuente_email}">${p.fuente_email}</a>`);
   meta.push(`<b>Red:</b> ${p.red}`);
-  meta.push(`<b>Licencia:</b> ${p.licencia}`);
+  if(p.licencia) meta.push(`<b>Licencia:</b> ${p.licencia}`);
   document.getElementById('a-meta').innerHTML = meta.join('<br>');
+
+  // Fechas del ciclo (pills horizontales)
+  const fechas = [];
+  if(p.fecha_siembra) fechas.push({l:'SIEMBRA', v:p.fecha_siembra});
+  if(p.fecha_emergencia) fechas.push({l:'EMERGENCIA', v:p.fecha_emergencia});
+  if(p.fecha_cosecha) fechas.push({l:'COSECHA', v:p.fecha_cosecha});
+  const elF = document.getElementById('a-fechas');
+  if(fechas.length){
+    elF.innerHTML = fechas.map(x=>`<span class="fecha-pill"><span class="lbl">${x.l}</span><span class="val">${x.v}</span></span>`).join('');
+    elF.previousElementSibling.style.display = '';
+    elF.style.display = '';
+  } else {
+    elF.previousElementSibling.style.display = 'none';
+    elF.style.display = 'none';
+  }
+
+  // Manejo agronómico (grid de cards)
+  const manejo = [];
+  if(p.manejo_repeticiones) manejo.push({l:'Repeticiones', v:p.manejo_repeticiones+' bloques', i:'◫', full:false});
+  if(p.manejo_parcela) manejo.push({l:'Parcela', v:p.manejo_parcela, i:'▭', full:false});
+  if(p.precipitaciones_mm) manejo.push({l:'Lluvia del ciclo', v:p.precipitaciones_mm+' mm', i:'☂', full:false});
+  if(p.manejo_herbicida) manejo.push({l:'Herbicidas', v:p.manejo_herbicida, i:'⚠', full:true});
+  if(p.manejo_fertilizacion) manejo.push({l:'Fertilización', v:p.manejo_fertilizacion, i:'⚇', full:true});
+  if(p.manejo_nutricion) manejo.push({l:'Nutrición / Patrocinio', v:p.manejo_nutricion, i:'⚇', full:true});
+  const elM = document.getElementById('a-manejo');
+  if(manejo.length){
+    elM.innerHTML = '<div class="manejo-grid">' + manejo.map(x=>`
+      <div class="manejo-card${x.full?' full':''}">
+        <span class="lbl"><span class="icn">${x.i}</span>${x.l}</span>
+        <span class="val">${x.v}</span>
+      </div>
+    `).join('') + '</div>';
+  } else {
+    elM.innerHTML = '<div class="empty-manejo">Sin datos de manejo publicados para este ensayo.</div>';
+  }
 
   const tbody = document.getElementById('a-rows');
   tbody.innerHTML = '';
