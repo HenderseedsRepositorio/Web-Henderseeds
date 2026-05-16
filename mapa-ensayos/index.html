@@ -361,7 +361,7 @@ table.cult tr.top td.r{color:var(--accent-dim);font-weight:600}
 
       <h4 style="margin-top:1rem">RANKING POR RINDE</h4>
       <table class="cult">
-        <thead><tr><th>CULTIVAR</th><th>EMPRESA</th><th class="r">KG/HA</th></tr></thead>
+        <thead><tr id="a-thead"><th>CULTIVAR</th><th>EMPRESA</th><th class="r">KG/HA</th></tr></thead>
         <tbody id="a-rows"></tbody>
       </table>
       <div class="cta-row">
@@ -640,19 +640,34 @@ function openAside(f){
   }
 
   const tbody = document.getElementById('a-rows');
+  const thead = document.getElementById('a-thead');
   tbody.innerHTML = '';
   const topRinde = p.cultivar_top_rinde;
-  p.cultivares.slice(0, 20).forEach(c=>{
+
+  // ¿Tenemos datos de densidad/humedad? (al menos en algún cultivar)
+  const hasDens = p.cultivares.some(c=>c.densidad_pl_ha);
+  const hasHum  = p.cultivares.some(c=>c.humedad_pct);
+
+  // Reconstruir thead según columnas disponibles
+  let theadHtml = '<th>CULTIVAR</th><th>EMPRESA</th><th class="r">KG/HA</th>';
+  if(hasDens) theadHtml += '<th class="r">DENS</th>';
+  if(hasHum)  theadHtml += '<th class="r">HUM%</th>';
+  thead.innerHTML = theadHtml;
+
+  p.cultivares.slice(0, 25).forEach(c=>{
     const tr = document.createElement('tr');
     const isNidera = c.empresa === 'Nidera' || NIDERA_RX.test(c.cultivar);
     const isTop = c.rinde_kg_ha === topRinde;
     if(isNidera) tr.classList.add('nidera');
     if(isTop) tr.classList.add('top');
-    tr.innerHTML = `
+    let rowHtml = `
       <td class="cv">${c.cultivar}</td>
       <td>${c.empresa||'—'}</td>
       <td class="r">${fmtN(c.rinde_kg_ha)}</td>
     `;
+    if(hasDens) rowHtml += `<td class="r">${c.densidad_pl_ha ? fmtN(c.densidad_pl_ha/1000)+'k' : '—'}</td>`;
+    if(hasHum)  rowHtml += `<td class="r">${c.humedad_pct ? c.humedad_pct.toFixed(1) : '—'}</td>`;
+    tr.innerHTML = rowHtml;
     tbody.appendChild(tr);
   });
 
