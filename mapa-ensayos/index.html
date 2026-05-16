@@ -259,11 +259,17 @@ table.cult tr.top td.r{color:var(--accent);font-weight:500}
     <span class="dot"></span>
     <span class="name">HENDERSEEDS</span>
   </div>
-  <div class="crumb">~/mapa-ensayos · <b>CAMPAÑA 25/26</b></div>
+  <div class="crumb">~/mapa-ensayos · <b id="crumb-camp">TODAS LAS CAMPAÑAS</b></div>
   <div class="filters" id="filters">
     <button class="chip active" data-cultivo="*">TODOS <span class="count" id="cnt-all">0</span></button>
     <button class="chip" data-cultivo="girasol">GIRASOL <span class="count" id="cnt-gir">0</span></button>
     <button class="chip" data-cultivo="maiz">MAÍZ <span class="count" id="cnt-mai">0</span></button>
+    <select class="chip" id="sel-campania">
+      <option value="*">TODAS LAS CAMPAÑAS</option>
+    </select>
+    <select class="chip" id="sel-red">
+      <option value="*">TODAS LAS REDES</option>
+    </select>
     <select class="chip" id="sel-empresa">
       <option value="*">TODAS LAS EMPRESAS</option>
     </select>
@@ -319,7 +325,7 @@ const COLOR = {
 };
 const NIDERA_RX = /\b(NS|NK|NSS)\s?\d/i;
 
-let map, allFeatures = [], filters = {cultivo:'*', empresa:'*', zona:'*'};
+let map, allFeatures = [], filters = {cultivo:'*', campania:'*', red:'*', empresa:'*', zona:'*'};
 
 async function init(){
   const resp = await fetch('data/ensayos.geojson');
@@ -329,9 +335,28 @@ async function init(){
   // Populate selects de filtros
   const empresas = new Set();
   const zonas = new Set();
+  const campanias = new Set();
+  const redes = new Set();
   allFeatures.forEach(f=>{
-    (f.properties.empresas||[]).forEach(e=>empresas.add(e));
+    (f.properties.empresas||[]).forEach(e=>e && empresas.add(e));
     if(f.properties.zona) zonas.add(f.properties.zona);
+    if(f.properties.campania) campanias.add(f.properties.campania);
+    if(f.properties.red) redes.add(f.properties.red);
+  });
+
+  // campañas: más recientes primero
+  const sortCamp = (a,b) => b.localeCompare(a);
+  const selC = document.getElementById('sel-campania');
+  [...campanias].sort(sortCamp).forEach(c=>{
+    const o = document.createElement('option');
+    o.value = c; o.textContent = c;
+    selC.appendChild(o);
+  });
+  const selR = document.getElementById('sel-red');
+  [...redes].sort().forEach(r=>{
+    const o = document.createElement('option');
+    o.value = r; o.textContent = r;
+    selR.appendChild(o);
   });
   const selE = document.getElementById('sel-empresa');
   [...empresas].sort().forEach(e=>{
@@ -464,6 +489,16 @@ function bindFilters(){
       applyFilter();
     });
   });
+  document.getElementById('sel-campania').addEventListener('change', e=>{
+    filters.campania = e.target.value;
+    const crumb = document.getElementById('crumb-camp');
+    crumb.textContent = filters.campania === '*' ? 'TODAS LAS CAMPAÑAS' : `CAMPAÑA ${filters.campania}`;
+    applyFilter();
+  });
+  document.getElementById('sel-red').addEventListener('change', e=>{
+    filters.red = e.target.value;
+    applyFilter();
+  });
   document.getElementById('sel-empresa').addEventListener('change', e=>{
     filters.empresa = e.target.value;
     applyFilter();
@@ -478,6 +513,8 @@ function applyFilter(){
   const filtered = allFeatures.filter(f=>{
     const p = f.properties;
     if(filters.cultivo!=='*' && p.cultivo!==filters.cultivo) return false;
+    if(filters.campania!=='*' && p.campania!==filters.campania) return false;
+    if(filters.red!=='*' && p.red!==filters.red) return false;
     if(filters.empresa!=='*' && !(p.empresas||[]).includes(filters.empresa)) return false;
     if(filters.zona!=='*' && p.zona!==filters.zona) return false;
     return true;
