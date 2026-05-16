@@ -330,6 +330,104 @@ aside.open{transform:translateX(0)}
   padding:.3rem 0;font-style:italic;
 }
 
+/* ═══ TALKING POINTS — feature edge ═══ */
+.tp-card{
+  background:var(--nidera-soft);
+  border:1px solid var(--nidera);
+  padding:.85rem 1rem;
+  margin-top:.3rem;
+}
+.tp-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:.4rem;
+}
+.tp-header .lbl{
+  font-family:var(--mono);font-size:.6rem;color:var(--nidera);
+  letter-spacing:.14em;font-weight:600;
+}
+.tp-header .tone-label{
+  font-family:var(--mono);font-size:.58rem;
+  color:var(--ink-mute);letter-spacing:.04em;text-transform:uppercase;
+}
+.tp-tabs{
+  display:flex;gap:4px;margin:.55rem 0;flex-wrap:wrap;
+}
+.tp-tab{
+  padding:3px 8px;
+  font-family:var(--mono);font-size:.58rem;letter-spacing:.06em;
+  background:transparent;color:var(--ink-dim);
+  border:1px solid var(--line);
+  cursor:pointer;border-radius:0;text-transform:uppercase;
+  white-space:nowrap;
+}
+.tp-tab:hover{border-color:var(--ink-dim)}
+.tp-tab.active{
+  background:var(--nidera);color:#fff;border-color:var(--nidera);font-weight:600;
+}
+.tp-msg{
+  background:#fff;
+  border:1px solid var(--line-soft);
+  padding:.7rem .9rem;
+  min-height:88px;
+  font-family:var(--sans);font-size:.78rem;line-height:1.55;
+  color:var(--ink);
+}
+.tp-msg .v-name{
+  color:var(--nidera);font-weight:600;
+}
+.tp-msg .v-num{
+  font-family:var(--mono);font-weight:600;font-variant-numeric:tabular-nums;
+  letter-spacing:-0.005em;
+}
+.tp-msg .v-loc{
+  color:var(--ink);
+}
+.tp-msg .v-src{
+  border-bottom:1px dotted var(--ink-dim);
+}
+.tp-footer{
+  margin-top:.7rem;display:flex;align-items:center;justify-content:space-between;gap:.6rem;
+}
+.tp-footer .sub{
+  font-family:var(--mono);font-size:.58rem;color:var(--ink-dim);
+  letter-spacing:.04em;line-height:1.35;flex:1;
+}
+.tp-actions{display:flex;gap:.4rem}
+.tp-tones{display:flex;gap:4px;margin-top:.55rem}
+.tp-tone{
+  padding:3px 7px;
+  font-family:var(--mono);font-size:.55rem;letter-spacing:.06em;text-transform:uppercase;
+  background:transparent;color:var(--ink-dim);
+  border:1px solid var(--line);cursor:pointer;
+}
+.tp-tone:hover{border-color:var(--ink-dim)}
+.tp-tone.active{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:600}
+.tp-btn{
+  padding:5px 10px;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;
+  font-weight:600;text-transform:uppercase;
+  border:1px solid var(--line);background:#fff;color:var(--ink);
+  cursor:pointer;border-radius:0;
+  display:inline-flex;align-items:center;gap:.25rem;
+  transition:all .15s;
+}
+.tp-btn:hover{border-color:var(--ink)}
+.tp-btn.primary{
+  background:var(--nidera);color:#fff;border-color:var(--nidera);
+}
+.tp-btn.primary:hover{background:var(--accent-dim);border-color:var(--accent-dim)}
+
+/* Toast */
+.toast{
+  position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);
+  background:var(--ink);color:var(--bg-panel);
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.04em;
+  padding:.6rem 1.1rem;
+  z-index:100;
+  opacity:0;transition:opacity .25s;pointer-events:none;
+}
+.toast.show{opacity:1}
+
 .cta-row{
   display:flex;gap:.5rem;margin-top:1.2rem;
 }
@@ -511,6 +609,38 @@ aside.open{transform:translateX(0)}
         <div id="a-manejo"></div>
       </div>
 
+      <!-- ★ TALKING POINTS — feature edge -->
+      <div class="aside-section" id="a-tp-wrap">
+        <h4 style="margin-bottom:.5rem">
+          <span style="color:var(--nidera)">✎</span> TALKING POINTS · PARA EL PRODUCTOR
+        </h4>
+        <div class="tp-card">
+          <div class="tp-header">
+            <span class="lbl">WHATSAPP · COPIAR Y PEGAR</span>
+            <span class="tone-label" id="tp-tone-label">informal</span>
+          </div>
+          <div class="tp-tabs" id="tp-tabs">
+            <button class="tp-tab active" data-tp-angle="resumen">RESUMEN</button>
+            <button class="tp-tab" data-tp-angle="confiabilidad">CONFIABILIDAD ★</button>
+            <button class="tp-tab" data-tp-angle="vscompetencia">vs COMPETENCIA</button>
+            <button class="tp-tab" data-tp-angle="economico">DIFERENCIAL $</button>
+          </div>
+          <div class="tp-msg" id="tp-msg"></div>
+          <div class="tp-tones" id="tp-tones">
+            <button class="tp-tone active" data-tp-tone="informal">INFORMAL</button>
+            <button class="tp-tone" data-tp-tone="formal">FORMAL</button>
+            <button class="tp-tone" data-tp-tone="corto">CORTO</button>
+          </div>
+          <div class="tp-footer">
+            <span class="sub" id="tp-sub"></span>
+            <div class="tp-actions">
+              <button class="tp-btn" id="tp-copy">⎘ COPIAR</button>
+              <button class="tp-btn primary" id="tp-wa">↗ WHATSAPP</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="aside-section">
         <div style="display:flex;align-items:baseline;justify-content:space-between">
           <h4 style="margin-bottom:.5rem">RANKING POR RINDE</h4>
@@ -531,6 +661,7 @@ aside.open{transform:translateX(0)}
       </div>
     </div>
   </aside>
+  <div class="toast" id="toast"></div>
 </div>
 
 <script>
@@ -599,6 +730,7 @@ async function init(){
 
   initMap();
   bindFilters();
+  bindTalkingPoints();
 }
 
 function initMap(){
@@ -879,6 +1011,10 @@ function openAside(f){
   if(p.url_fuente){ excelBtn.href = p.url_fuente; excelBtn.style.display=''; }
   else { excelBtn.style.display='none'; }
 
+  // Talking points — vincular al ensayo activo y renderizar
+  tpState.ensayo = f;
+  renderTpMessage();
+
   document.getElementById('aside').classList.add('open');
   map.flyTo({center: f.geometry.coordinates, zoom: Math.max(map.getZoom(), 7), speed:0.8});
 }
@@ -890,6 +1026,257 @@ function closeAside(){
 function fmtN(n){
   if(n==null||isNaN(n)) return '—';
   return new Intl.NumberFormat('es-AR',{maximumFractionDigits:0}).format(Math.round(n));
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  TALKING POINTS — feature edge para el vendedor
+//  4 ángulos × 3 tonos = 12 mensajes pre-armados con variables del ensayo
+// ═══════════════════════════════════════════════════════════════════════════
+
+const CONTEXT_DEFAULTS = {
+  precioTnUSD: 160,         // precio referencia USD/tn
+  hectareasEjemplo: 100,    // para cuenta económica
+  productorDefault: 'productor',
+  mapaUrl: 'mapa.henderseeds.com',
+};
+
+// Estado del talking-points en el panel activo
+let tpState = { angle:'resumen', tone:'informal', ensayo:null };
+
+// Construye un dataset listo para interpolar a partir del feature
+function buildTpData(f){
+  const p = f.properties;
+  const cult = p.cultivares || [];
+  const top = cult[0] || {};
+  const second = cult[1] || {};
+  // Diferencia top vs mediana (para diferencial $)
+  const mid = cult.length ? cult[Math.floor(cult.length/2)].rinde_kg_ha : 0;
+  const difKg = Math.round((top.rinde_kg_ha || 0) - mid);
+  const difTn = difKg / 1000;
+  const difUsdHa = Math.round(difTn * CONTEXT_DEFAULTS.precioTnUSD);
+  const totalUsd = difUsdHa * CONTEXT_DEFAULTS.hectareasEjemplo;
+  // Top 3 cultivares para mostrar
+  const top3names = cult.slice(0,3).map(c => `${c.cultivar} (${c.empresa||'—'})`);
+  return {
+    productor: p.productor && p.productor.split(/[\s,]/)[0] || CONTEXT_DEFAULTS.productorDefault,
+    localidad: p.localidad,
+    campania: p.campania,
+    red: p.red,
+    zona: p.zona,
+    nCultivares: p.n_cultivares,
+    rindMax: p.rinde_max_kg_ha,
+    rindAvg: p.rinde_avg_kg_ha,
+    topCultivar: top.cultivar || '—',
+    topEmpresa: top.empresa || '—',
+    topRinde: top.rinde_kg_ha || 0,
+    secondCultivar: second.cultivar,
+    secondEmpresa: second.empresa,
+    secondRinde: second.rinde_kg_ha,
+    deltaSecond: (top.rinde_kg_ha || 0) - (second.rinde_kg_ha || 0),
+    difKgHa: difKg,
+    difUsdHa,
+    totalUsd,
+    top3names,
+    cultivo: p.cultivo,
+    mapaUrl: CONTEXT_DEFAULTS.mapaUrl,
+  };
+}
+
+// Genera array de segments según ángulo + tono + data
+function generateTalkingPoint(angle, tone, d){
+  // Helpers de format
+  const N = n => fmtAR(n);
+  const FN = (txt) => ({ t: txt, v: 'name' });
+  const NUM = (txt) => ({ t: txt, v: 'num' });
+  const LOC = (txt) => ({ t: txt, v: 'loc' });
+  const SRC = (txt) => ({ t: txt, v: 'src' });
+  const T = (txt) => ({ t: txt });
+
+  if(angle === 'resumen'){
+    if(tone === 'informal') return [
+      T('Hola '), FN(d.productor), T(', te paso el ranking del ensayo de '),
+      LOC(`${d.localidad} ${d.campania}`), T(' — '),
+      NUM(`${N(d.nCultivares)} cultivares`),
+      T(` de ${d.cultivo}, red `), SRC(d.red), T('. El top fue '),
+      FN(d.topCultivar), T(' ('), FN(d.topEmpresa), T(') con '),
+      NUM(`${N(d.topRinde)} kg/ha`), T('. Promedio del ensayo: '),
+      NUM(`${N(d.rindAvg)} kg`), T('. El detalle completo te lo paso por mapa: '),
+      SRC(d.mapaUrl), T('.'),
+    ];
+    if(tone === 'formal') return [
+      T('Estimado '), FN(d.productor), T(', le comparto los resultados del ensayo comparativo de '),
+      LOC(d.localidad), T(', campaña '), NUM(d.campania), T(', '),
+      NUM(`${N(d.nCultivares)} cultivares`), T(` de ${d.cultivo} evaluados bajo la red `),
+      SRC(d.red), T('. El rinde máximo fue '),
+      NUM(`${N(d.topRinde)} kg/ha`), T(', correspondiente a '),
+      FN(d.topCultivar), T(' ('), FN(d.topEmpresa), T('). Promedio del ensayo '),
+      NUM(`${N(d.rindAvg)} kg/ha`), T('. Quedo a disposición.'),
+    ];
+    return [ // corto
+      LOC(`${d.localidad} ${d.campania}`), T(', '),
+      NUM(`${N(d.nCultivares)} cult. ${d.cultivo}`), T('. Top: '),
+      FN(`${d.topCultivar} (${d.topEmpresa})`), T(' · '),
+      NUM(`${N(d.topRinde)} kg/ha`), T('. Prom: '), NUM(`${N(d.rindAvg)} kg`),
+      T(`. Fuente `), SRC(d.red), T('. → '), SRC(d.mapaUrl),
+    ];
+  }
+
+  if(angle === 'confiabilidad'){
+    // Usa el top cultivar del ensayo (no requiere data multi-sitio, simplifica)
+    const lead = (d.topRinde - d.rindAvg);
+    if(tone === 'informal') return [
+      T('Hola '), FN(d.productor), T(', mirá este número: '),
+      FN(d.topCultivar), T(' ('), FN(d.topEmpresa), T(') fue '),
+      NUM('#1'), T(' en '), LOC(`${d.localidad} ${d.campania}`), T(' con '),
+      NUM(`${N(d.topRinde)} kg/ha`), T(', '), NUM(`+${N(lead)} kg/ha`),
+      T(' arriba del promedio del ensayo. En tu zona ('),
+      LOC(d.zona), T(`) es de los híbridos que más rinden cuando el ambiente acompaña. ¿Te paso la ficha?`),
+    ];
+    if(tone === 'formal') return [
+      T('Estimado '), FN(d.productor), T(', quería destacar el desempeño de '),
+      FN(d.topCultivar), T(' ('), FN(d.topEmpresa), T(') en el ensayo de '),
+      LOC(d.localidad), T(', campaña '), NUM(d.campania), T(': primer lugar con '),
+      NUM(`${N(d.topRinde)} kg/ha`), T(', '), NUM(`${N(lead)} kg/ha`),
+      T(' por encima del promedio. Para la zona de '), LOC(d.zona),
+      T(' es de los híbridos más sólidos. Quedo a disposición.'),
+    ];
+    return [ // corto
+      FN(d.topCultivar), T(': '), NUM('#1 ' + d.localidad), T(' '),
+      NUM(d.campania), T(' · '), NUM(`${N(d.topRinde)} kg/ha`),
+      T(' ('), NUM(`+${N(lead)}`), T(' vs promedio).'),
+    ];
+  }
+
+  if(angle === 'vscompetencia'){
+    if(!d.secondCultivar) {
+      return [ T('Datos insuficientes en este ensayo para comparar competencia (necesita 2+ cultivares).') ];
+    }
+    if(tone === 'informal') return [
+      T('Hola '), FN(d.productor), T(', sobre la diferencia entre los dos top del ensayo de '),
+      LOC(`${d.localidad} ${d.campania}`), T(': '),
+      FN(d.topCultivar), T(' ('), FN(d.topEmpresa), T(') quedó #1 con '),
+      NUM(`${N(d.topRinde)} kg/ha`), T(', '),
+      NUM(`+${N(d.deltaSecond)} kg/ha`), T(' por encima de '),
+      FN(`${d.secondCultivar} (${d.secondEmpresa})`), T(' que rindió '),
+      NUM(`${N(d.secondRinde)} kg/ha`), T(`. Si querés que te pase los dos lado a lado en el comparador, decime.`),
+    ];
+    if(tone === 'formal') return [
+      T('Estimado '), FN(d.productor), T(', respecto a la comparación entre los principales del ensayo '),
+      LOC(`${d.localidad} ${d.campania}`), T(': '),
+      FN(d.topCultivar), T(' ('), FN(d.topEmpresa), T(') ocupó la primera posición con '),
+      NUM(`${N(d.topRinde)} kg/ha`), T(', '), NUM(`${N(d.deltaSecond)} kg/ha`),
+      T(' por encima de '), FN(`${d.secondCultivar}`), T(' ('),
+      FN(d.secondEmpresa), T(') con '), NUM(`${N(d.secondRinde)} kg/ha`), T('.'),
+    ];
+    return [ // corto
+      FN(`${d.topCultivar} (${d.topEmpresa})`), T(' #1: '),
+      NUM(`${N(d.topRinde)} kg/ha`), T(' · '),
+      FN(`${d.secondCultivar} (${d.secondEmpresa})`), T(' #2: '),
+      NUM(`${N(d.secondRinde)} kg/ha`), T(' (Δ '),
+      NUM(`${N(d.deltaSecond)} kg`), T(').'),
+    ];
+  }
+
+  if(angle === 'economico'){
+    const ha = CONTEXT_DEFAULTS.hectareasEjemplo;
+    if(d.difKgHa <= 0) {
+      return [ T('No hay diferencia significativa entre top y mediana de este ensayo.') ];
+    }
+    if(tone === 'informal') return [
+      T('Hola '), FN(d.productor), T(', cuenta rápida del ensayo de '),
+      LOC(d.localidad), T(': si en vez del híbrido del medio del ranking sembrás uno del top, son '),
+      NUM(`${N(d.difKgHa)} kg/ha`), T(' de diferencia. A '),
+      NUM(`USD ${CONTEXT_DEFAULTS.precioTnUSD}/tn`), T(' son '),
+      NUM(`USD ${N(d.difUsdHa)}/ha`), T('. En '),
+      NUM(`${ha} ha`), T(' son '),
+      NUM(`USD ${N(d.totalUsd)}`), T(' por elegir bien. El top incluye '),
+      ...d.top3names.slice(0,3).flatMap((n,i) => i===0 ? [FN(n)] : [T(', '), FN(n)]),
+      T('.'),
+    ];
+    if(tone === 'formal') return [
+      T('Estimado '), FN(d.productor), T(', a modo de referencia económica: el diferencial entre la mediana del ensayo '),
+      LOC(`${d.localidad} ${d.campania}`), T(' y el top es de '),
+      NUM(`${N(d.difKgHa)} kg/ha`), T('. Al precio actual de '),
+      NUM(`USD ${CONTEXT_DEFAULTS.precioTnUSD}/tn`), T(', representa '),
+      NUM(`USD ${N(d.difUsdHa)}/ha`), T(' adicionales ('),
+      NUM(`USD ${N(d.totalUsd)} en ${ha} ha`), T(').'),
+    ];
+    return [
+      LOC(`${d.localidad} ${d.campania}`), T(': top vs mediana = '),
+      NUM(`+${N(d.difKgHa)} kg/ha`), T('. A USD '),
+      NUM(`${CONTEXT_DEFAULTS.precioTnUSD}/tn`), T(' = '),
+      NUM(`+USD ${N(d.difUsdHa)}/ha`), T('. '),
+      NUM(`${ha} ha = USD ${N(d.totalUsd)}`), T('.'),
+    ];
+  }
+
+  return [ T('—') ];
+}
+
+const TP_META = {
+  resumen:       { label:'Resumen',       sub:'Dato duro · neutral · para abrir conversación' },
+  confiabilidad: { label:'Confiabilidad', sub:'Top del ensayo + delta sobre promedio · enfoque sólido' },
+  vscompetencia: { label:'vs Competencia',sub:'Comparación entre top y segundo del ensayo' },
+  economico:     { label:'Diferencial $', sub:'Cuenta rápida USD/ha · cuando el productor mide en plata' },
+};
+
+function segmentsToPlainText(segs){
+  return segs.map(s => s.t).join('');
+}
+
+function renderTpMessage(){
+  if(!tpState.ensayo) return;
+  const d = buildTpData(tpState.ensayo);
+  const segs = generateTalkingPoint(tpState.angle, tpState.tone, d);
+  const html = segs.map(s => {
+    const safe = escapeHtml(s.t);
+    if(!s.v) return safe;
+    return `<span class="v-${s.v}">${safe}</span>`;
+  }).join('');
+  document.getElementById('tp-msg').innerHTML = html;
+  document.getElementById('tp-msg').dataset.plain = segmentsToPlainText(segs);
+  document.getElementById('tp-sub').textContent = TP_META[tpState.angle].sub;
+  document.getElementById('tp-tone-label').textContent = tpState.tone;
+}
+
+function bindTalkingPoints(){
+  document.querySelectorAll('.tp-tab').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.tp-tab').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      tpState.angle = b.dataset.tpAngle;
+      renderTpMessage();
+    });
+  });
+  document.querySelectorAll('.tp-tone').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.tp-tone').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      tpState.tone = b.dataset.tpTone;
+      renderTpMessage();
+    });
+  });
+  document.getElementById('tp-copy').addEventListener('click', async () => {
+    const plain = document.getElementById('tp-msg').dataset.plain || '';
+    try {
+      await navigator.clipboard.writeText(plain);
+      showToast('Copiado al portapapeles');
+    } catch(e) {
+      showToast('No se pudo copiar — copialo manualmente');
+    }
+  });
+  document.getElementById('tp-wa').addEventListener('click', () => {
+    const plain = document.getElementById('tp-msg').dataset.plain || '';
+    window.open('https://wa.me/?text=' + encodeURIComponent(plain), '_blank', 'noopener');
+  });
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(showToast._tm);
+  showToast._tm = setTimeout(() => t.classList.remove('show'), 1800);
 }
 
 init().catch(err=>{
