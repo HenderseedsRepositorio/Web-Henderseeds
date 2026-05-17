@@ -131,6 +131,88 @@ header{
 
 select.chip{appearance:none;padding-right:1.6rem;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path fill='%239c947f' d='M2 4l4 4 4-4z'/></svg>");background-repeat:no-repeat;background-position:right .55rem center;background-size:9px}
 
+/* ═══ MULTISELECT (campaña, red, empresa, zona) ═══ */
+.ms{position:relative;display:inline-block}
+.ms-trigger{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:6px 12px;font-family:var(--mono);font-size:.7rem;
+  letter-spacing:.04em;
+  background:var(--bg-panel);color:var(--ink);
+  border:1px solid var(--line);border-radius:4px;
+  cursor:pointer;transition:border-color .15s;
+}
+.ms-trigger:hover{border-color:var(--ink-dim)}
+.ms-trigger.has-selection{border-color:var(--ink);background:var(--bg)}
+.ms-trigger .ms-label{
+  max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.ms-trigger .ms-pill{
+  display:inline-block;
+  padding:1px 5px;margin-left:.25rem;
+  background:var(--nidera);color:#fff;
+  font-size:.58rem;font-weight:600;letter-spacing:.04em;
+  font-variant-numeric:tabular-nums;
+}
+.ms-trigger .ms-caret{color:var(--ink-mute);margin-left:.15rem;font-size:.7rem}
+.ms-menu{
+  position:absolute;top:calc(100% + 4px);right:0;z-index:30;
+  background:var(--bg-panel);
+  border:1px solid var(--ink);border-radius:0;
+  min-width:220px;max-width:280px;
+  max-height:340px;overflow-y:auto;
+  box-shadow:var(--shadow-md);
+  padding:.25rem 0;
+  display:none;
+}
+.ms.open .ms-menu{display:block}
+.ms-menu .ms-section-head{
+  font-family:var(--mono);font-size:.58rem;
+  color:var(--ink-mute);letter-spacing:.1em;text-transform:uppercase;
+  padding:.55rem .85rem .25rem;
+}
+.ms-menu .ms-item{
+  display:flex;align-items:center;gap:.55rem;
+  padding:.4rem .85rem;
+  font-family:var(--mono);font-size:.7rem;color:var(--ink);
+  cursor:pointer;user-select:none;
+  transition:background .1s;
+}
+.ms-menu .ms-item:hover{background:var(--bg-soft)}
+.ms-menu .ms-item input[type=checkbox]{
+  appearance:none;
+  width:13px;height:13px;flex-shrink:0;
+  border:1px solid var(--ink-mute);background:var(--bg-panel);
+  margin:0;cursor:pointer;
+  position:relative;border-radius:0;
+}
+.ms-menu .ms-item input[type=checkbox]:checked{
+  background:var(--ink);border-color:var(--ink);
+}
+.ms-menu .ms-item input[type=checkbox]:checked::after{
+  content:'';position:absolute;
+  left:3px;top:0px;
+  width:4px;height:8px;
+  border-right:1.5px solid var(--bg-panel);
+  border-bottom:1.5px solid var(--bg-panel);
+  transform:rotate(45deg);
+}
+.ms-menu .ms-item .ms-name{flex:1;letter-spacing:.02em}
+.ms-menu .ms-item .ms-count{
+  font-size:.62rem;color:var(--ink-mute);
+  font-variant-numeric:tabular-nums;
+}
+.ms-menu .ms-divider{
+  height:1px;background:var(--line-soft);margin:.3rem 0;
+}
+.ms-menu .ms-clear{
+  display:block;width:100%;
+  padding:.45rem .85rem;
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--nidera);
+  background:transparent;border:0;text-align:left;cursor:pointer;
+}
+.ms-menu .ms-clear:hover{background:var(--nidera-soft)}
+
 /* ═══ LAYOUT ═══ */
 .main{flex:1; display:flex; min-height:0; position:relative}
 #map{flex:1; position:relative; background:#EAEFF5}
@@ -161,8 +243,8 @@ aside.open{transform:translateX(0)}
    no se solape con el título largo del panel ('Chascomús' u otros). */
 .main:has(aside.open) .counter{display:none}
 .aside-head{
-  padding:1.4rem 1.5rem 1rem;
-  border-bottom:1px solid var(--line-soft);
+  padding:1.4rem 1.5rem 1.1rem;
+  border-bottom:1px solid var(--line);
   position:relative;
 }
 .aside-head .loc{
@@ -174,17 +256,18 @@ aside.open{transform:translateX(0)}
   max-width:100%;
 }
 .aside-head .coords{
-  font-family:var(--mono);font-size:.65rem;color:var(--ink-mute);
-  letter-spacing:.06em;margin-left:.6rem;vertical-align:middle;
+  font-family:var(--mono);font-size:.68rem;color:var(--ink-mute);
+  letter-spacing:.06em;margin-left:.7rem;vertical-align:middle;
+  font-variant-numeric:tabular-nums;
 }
 .aside-head .meta-chips{
-  display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.6rem;
+  display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem;
 }
 .meta-chip{
-  font-family:var(--mono);font-size:.6rem;
-  letter-spacing:.06em;text-transform:uppercase;
-  padding:3px 8px;border:1px solid var(--line);
-  color:var(--ink-dim);border-radius:3px;
+  font-family:var(--mono);font-size:.62rem;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:3.5px 9px;border:1px solid var(--line);
+  color:var(--ink-dim);border-radius:3px;font-weight:500;
 }
 .meta-chip.maiz{color:var(--maize);border-color:var(--maize)}
 .meta-chip.maiz::before{content:"";display:inline-block;width:5px;height:5px;border-radius:999px;background:var(--maize);margin-right:5px;vertical-align:1px}
@@ -203,71 +286,81 @@ aside.open{transform:translateX(0)}
 
 /* Big metrics 2x2 grid editorial */
 .aside-meta{
-  display:grid;grid-template-columns:1fr 1fr;gap:1rem;
-  padding:1.1rem 1.5rem;border-bottom:1px solid var(--line-soft);
+  display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;
+  padding:1.2rem 1.5rem 1.3rem;
+  border-bottom:1px solid var(--line);
+  background:var(--bg);
 }
 .kpi{padding:0}
 .kpi .l{
-  font-family:var(--mono);font-size:.6rem;color:var(--ink-mute);
-  letter-spacing:.08em;text-transform:uppercase;margin-bottom:.3rem;
+  font-family:var(--mono);font-size:.62rem;color:var(--ink-mute);
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem;
+  font-weight:500;
 }
 .kpi .v{
-  font-family:var(--serif);font-size:1.55rem;font-weight:500;
-  color:var(--ink);letter-spacing:-0.01em;
-  font-variant-numeric:tabular-nums;line-height:1.1;
+  font-family:var(--serif);font-size:1.75rem;font-weight:500;
+  color:var(--ink);letter-spacing:-0.015em;
+  font-variant-numeric:tabular-nums;line-height:1;
   display:inline-block;
 }
 .kpi .suffix{
-  font-family:var(--mono);font-size:.6rem;color:var(--ink-mute);
-  letter-spacing:.04em;margin-left:.3rem;
+  font-family:var(--mono);font-size:.65rem;color:var(--ink-mute);
+  letter-spacing:.04em;margin-left:.35rem;
 }
-.kpi.accent .v{color:var(--nidera)}
+.kpi.accent .v{color:var(--nidera);font-weight:600}
 
-.aside-body{flex:1;overflow-y:auto;padding:1.1rem 1.5rem;background:var(--bg-panel)}
+.aside-body{flex:1;overflow-y:auto;padding:1.2rem 1.5rem;background:var(--bg-panel)}
 .aside-body h4{
-  font-family:var(--mono);font-size:.65rem;
-  color:var(--ink);text-transform:uppercase;letter-spacing:.1em;
-  font-weight:600;margin-bottom:.65rem;
+  font-family:var(--mono);font-size:.68rem;
+  color:var(--ink);text-transform:uppercase;letter-spacing:.12em;
+  font-weight:600;margin-bottom:.75rem;
 }
-.aside-body h4:not(:first-child){margin-top:1.2rem}
+.aside-body h4:not(:first-child){margin-top:1.3rem}
 .aside-section{
-  padding-bottom:1.1rem;
-  border-bottom:1px solid var(--line-soft);
+  padding-bottom:1.25rem;
+  border-bottom:1px solid var(--line);
   margin-bottom:0;
 }
 .aside-section:last-child{border-bottom:0}
 .aside-body .meta-line{
-  font-size:.78rem;color:var(--ink-dim);margin-bottom:.25rem;
+  font-size:.8rem;color:var(--ink-dim);margin-bottom:.25rem;
   line-height:1.5;font-family:var(--mono);
 }
-.aside-body .meta-line b{color:var(--ink-mute);font-weight:400;font-family:var(--mono);font-size:.7rem}
+.aside-body .meta-line b{color:var(--ink-mute);font-weight:400;font-family:var(--mono);font-size:.72rem}
 .aside-body .meta-line a{color:var(--nidera);text-decoration:underline;text-decoration-style:dotted;font-weight:400}
 .aside-body .meta-line a:hover{text-decoration-style:solid}
 
-/* Key-value rows editoriales */
+/* Key-value rows editoriales — más legibles */
 .kv-grid{
-  display:grid;grid-template-columns:100px 1fr;row-gap:.3rem;
-  font-family:var(--mono);font-size:.7rem;
+  display:grid;grid-template-columns:108px 1fr;row-gap:.4rem;column-gap:.5rem;
+  font-family:var(--mono);
 }
-.kv-grid .k{color:var(--ink-mute);letter-spacing:.02em}
-.kv-grid .v{color:var(--ink)}
-.kv-grid .v a{color:var(--nidera);text-decoration:underline;text-decoration-style:dotted}
-.kv-grid .v .hint{color:var(--ink-mute);font-size:.62rem;margin-left:.3rem}
+.kv-grid .k{
+  color:var(--ink-mute);letter-spacing:.04em;
+  font-size:.66rem;text-transform:uppercase;
+  padding-top:.05rem;
+}
+.kv-grid .v{
+  color:var(--ink);font-size:.78rem;
+  line-height:1.4;word-break:break-word;
+}
+.kv-grid .v a{color:var(--nidera);text-decoration:underline;text-decoration-style:dotted;font-weight:500}
+.kv-grid .v .hint{color:var(--ink-mute);font-size:.65rem;margin-left:.3rem}
 
 /* Ranking editorial: 4 columnas (#, cultivar+empresa, kg/ha, delta-bar+delta)
    La columna "sitios" se quitó — siempre tenía '—' o humedad inconsistente.
    Si en el futuro tenemos humedad confiable, agregamos columna opcional. */
 .rank-head{
-  display:grid;grid-template-columns:26px 1fr 90px 86px;
-  gap:10px;padding-bottom:.45rem;
-  border-bottom:1px solid var(--line-soft);
-  font-family:var(--mono);font-size:.62rem;color:var(--ink-mute);
-  letter-spacing:.08em;text-transform:uppercase;
+  display:grid;grid-template-columns:28px 1fr 96px 90px;
+  gap:10px;padding-bottom:.5rem;
+  border-bottom:1.5px solid var(--ink);
+  font-family:var(--mono);font-size:.64rem;color:var(--ink);
+  letter-spacing:.1em;text-transform:uppercase;font-weight:600;
 }
 .rank-head .r{text-align:right}
 .rank-row{
-  display:grid;grid-template-columns:26px 1fr 90px 86px;
-  gap:10px;padding:.7rem 0;
+  display:grid;grid-template-columns:28px 1fr 96px 90px;
+  gap:10px;padding:.75rem 0;
   border-bottom:1px solid var(--line-soft);
   font-family:var(--mono);
   align-items:center;
@@ -278,39 +371,40 @@ aside.open{transform:translateX(0)}
 }
 .rank-row .pos{
   color:var(--ink-mute);font-variant-numeric:tabular-nums;
-  font-size:.72rem;letter-spacing:.02em;
+  font-size:.74rem;letter-spacing:.02em;font-weight:500;
 }
-.rank-row .name{font-weight:500;color:var(--ink);font-size:.76rem;line-height:1.25}
-.rank-row .name .star{color:var(--nidera);margin-left:.25rem;font-weight:700}
+.rank-row .name{font-weight:600;color:var(--ink);font-size:.8rem;line-height:1.25;letter-spacing:.01em}
+.rank-row .name .star{color:var(--nidera);margin-left:.3rem;font-weight:700;font-size:.85rem}
 .rank-row .company{
-  color:var(--ink-mute);font-size:.65rem;
-  margin-top:.15rem;letter-spacing:.02em;
+  color:var(--ink-mute);font-size:.66rem;
+  margin-top:.18rem;letter-spacing:.04em;
 }
 .rank-row .rinde{
   text-align:right;font-variant-numeric:tabular-nums;color:var(--ink);
-  font-size:.92rem;font-weight:600;letter-spacing:-0.01em;
-  line-height:1.1;
+  font-size:.98rem;font-weight:600;letter-spacing:-0.015em;
+  line-height:1.05;
 }
 .rank-row .rinde .suffix{
   font-size:.58rem;color:var(--ink-mute);font-weight:400;
-  letter-spacing:.04em;margin-left:.15rem;display:inline-block;
+  letter-spacing:.04em;margin-left:.2rem;display:block;
+  margin-top:1px;
 }
-.rank-row.nidera .rinde{color:var(--nidera)}
+.rank-row.nidera .rinde{color:var(--nidera);font-weight:700}
 .rank-row .delta{
   display:flex;flex-direction:column;gap:.2rem;align-items:flex-end;
 }
 .rank-row .delta-bar{
-  width:72px;height:4px;background:var(--line-soft);overflow:hidden;
+  width:76px;height:5px;background:var(--line-soft);overflow:hidden;
 }
 .rank-row .delta-bar > i{
-  display:block;height:100%;background:var(--maize);opacity:.7;
+  display:block;height:100%;background:var(--maize);opacity:.8;
 }
 .rank-row.nidera .delta-bar > i{background:var(--nidera);opacity:1}
 .rank-row .delta-val{
-  font-size:.66rem;color:var(--ink-dim);font-variant-numeric:tabular-nums;
-  letter-spacing:-0.005em;
+  font-size:.7rem;color:var(--ink-dim);font-variant-numeric:tabular-nums;
+  letter-spacing:-0.005em;font-weight:500;
 }
-.rank-row.nidera .delta-val{color:var(--ink-dim)}
+.rank-row.nidera .delta-val{color:var(--nidera);font-weight:600;opacity:.85}
 
 /* ═══ MANEJO AGRONOMICO — Editorial ═══ */
 .manejo-grid{
@@ -774,18 +868,30 @@ aside.open{transform:translateX(0)}
       <button class="tab-pill" data-cultivo="girasol"><span class="dot" style="background:#d4a02a"></span>GIRASOL <span class="count" id="cnt-gir">0</span></button>
       <button class="tab-pill" data-cultivo="maiz"><span class="dot" style="background:#5a7a3a"></span>MAÍZ <span class="count" id="cnt-mai">0</span></button>
     </div>
-    <select class="chip" id="sel-campania" style="margin-left:.5rem">
-      <option value="*">TODAS LAS CAMPAÑAS</option>
-    </select>
-    <select class="chip" id="sel-red" style="margin-left:.35rem">
-      <option value="*">TODAS LAS REDES</option>
-    </select>
-    <select class="chip" id="sel-empresa" style="margin-left:.35rem">
-      <option value="*">TODAS LAS EMPRESAS</option>
-    </select>
-    <select class="chip" id="sel-zona" style="margin-left:.35rem">
-      <option value="*">TODAS LAS ZONAS</option>
-    </select>
+    <div class="ms" data-ms="campania" style="margin-left:.5rem">
+      <button class="ms-trigger" type="button">
+        <span class="ms-label">CAMPAÑA</span><span class="ms-caret">▾</span>
+      </button>
+      <div class="ms-menu"></div>
+    </div>
+    <div class="ms" data-ms="red" style="margin-left:.35rem">
+      <button class="ms-trigger" type="button">
+        <span class="ms-label">RED</span><span class="ms-caret">▾</span>
+      </button>
+      <div class="ms-menu"></div>
+    </div>
+    <div class="ms" data-ms="empresa" style="margin-left:.35rem">
+      <button class="ms-trigger" type="button">
+        <span class="ms-label">EMPRESA</span><span class="ms-caret">▾</span>
+      </button>
+      <div class="ms-menu"></div>
+    </div>
+    <div class="ms" data-ms="zona" style="margin-left:.35rem">
+      <button class="ms-trigger" type="button">
+        <span class="ms-label">ZONA</span><span class="ms-caret">▾</span>
+      </button>
+      <div class="ms-menu"></div>
+    </div>
   </div>
 </header>
 
@@ -929,7 +1035,23 @@ function isNideraCultivar(c){
   return (c && c.empresa || '').trim().toLowerCase() === 'nidera';
 }
 
-let map, allFeatures = [], filters = {cultivo:'*', campania:'*', red:'*', empresa:'*', zona:'*'};
+let map, allFeatures = [];
+// filters.cultivo: string ('*' o 'maiz' o 'girasol').
+// filters.campania/red/empresa/zona: Set<string> de valores seleccionados.
+// Set vacío = "todo" (no filtra). Set con N valores = "solo esos N".
+let filters = {
+  cultivo: '*',
+  campania: new Set(),
+  red: new Set(),
+  empresa: new Set(),
+  zona: new Set(),
+};
+const FILTER_LABELS = {
+  campania: { all: 'CAMPAÑA', singular: 'CAMPAÑA', plural: 'CAMPAÑAS' },
+  red:      { all: 'RED',     singular: 'RED',     plural: 'REDES' },
+  empresa:  { all: 'EMPRESA', singular: 'EMPRESA', plural: 'EMPRESAS' },
+  zona:     { all: 'ZONA',    singular: 'ZONA',    plural: 'ZONAS' },
+};
 
 async function init(){
   const resp = await fetch('data/ensayos.geojson');
@@ -948,32 +1070,35 @@ async function init(){
     if(f.properties.red) redes.add(f.properties.red);
   });
 
-  // campañas: más recientes primero
+  // Construir opciones de cada multiselect con conteo de ensayos por valor
+  // (ordenamos por count desc, campañas por fecha desc).
   const sortCamp = (a,b) => b.localeCompare(a);
-  const selC = document.getElementById('sel-campania');
-  [...campanias].sort(sortCamp).forEach(c=>{
-    const o = document.createElement('option');
-    o.value = c; o.textContent = c;
-    selC.appendChild(o);
-  });
-  const selR = document.getElementById('sel-red');
-  [...redes].sort().forEach(r=>{
-    const o = document.createElement('option');
-    o.value = r; o.textContent = r;
-    selR.appendChild(o);
-  });
-  const selE = document.getElementById('sel-empresa');
-  [...empresas].sort().forEach(e=>{
-    const o = document.createElement('option');
-    o.value = e; o.textContent = e.toUpperCase();
-    selE.appendChild(o);
-  });
-  const selZ = document.getElementById('sel-zona');
-  [...zonas].sort().forEach(z=>{
-    const o = document.createElement('option');
-    o.value = z; o.textContent = z.toUpperCase();
-    selZ.appendChild(o);
-  });
+  const countBy = (key) => {
+    const m = new Map();
+    allFeatures.forEach(f => {
+      const v = f.properties[key];
+      if(v) m.set(v, (m.get(v) || 0) + 1);
+    });
+    return m;
+  };
+  const countEmpresas = () => {
+    const m = new Map();
+    allFeatures.forEach(f => {
+      (f.properties.empresas || []).forEach(e => {
+        if(e) m.set(e, (m.get(e) || 0) + 1);
+      });
+    });
+    return m;
+  };
+
+  populateMultiselect('campania', [...countBy('campania').entries()]
+    .sort((a,b) => sortCamp(a[0], b[0])));
+  populateMultiselect('red', [...countBy('red').entries()]
+    .sort((a,b) => a[0].localeCompare(b[0])));
+  populateMultiselect('empresa', [...countEmpresas().entries()]
+    .sort((a,b) => b[1] - a[1] || a[0].localeCompare(b[0])));
+  populateMultiselect('zona', [...countBy('zona').entries()]
+    .sort((a,b) => b[1] - a[1] || a[0].localeCompare(b[0])));
 
   // Counts iniciales por cultivo (tabs + legend)
   const nGir = allFeatures.filter(f=>f.properties.cultivo==='girasol').length;
@@ -1097,6 +1222,57 @@ function initMap(){
   });
 }
 
+function populateMultiselect(name, entries){
+  // entries = [[value, count], ...]
+  const ms = document.querySelector(`.ms[data-ms="${name}"]`);
+  if(!ms) return;
+  const menu = ms.querySelector('.ms-menu');
+  const items = entries.map(([v, n]) => `
+    <label class="ms-item" data-value="${escapeHtml(v)}">
+      <input type="checkbox" value="${escapeHtml(v)}">
+      <span class="ms-name">${escapeHtml(v.toUpperCase ? v.toUpperCase() : v)}</span>
+      <span class="ms-count">${n}</span>
+    </label>
+  `).join('');
+  menu.innerHTML = `
+    <div class="ms-section-head">${FILTER_LABELS[name].all.toUpperCase()} · ${entries.length} OPCIONES</div>
+    ${items}
+    <div class="ms-divider"></div>
+    <button class="ms-clear" type="button">LIMPIAR SELECCIÓN</button>
+  `;
+}
+
+function updateMultiselectLabel(name){
+  const ms = document.querySelector(`.ms[data-ms="${name}"]`);
+  if(!ms) return;
+  const trigger = ms.querySelector('.ms-trigger');
+  const labelEl = trigger.querySelector('.ms-label');
+  const set = filters[name];
+  const meta = FILTER_LABELS[name];
+  if(set.size === 0){
+    labelEl.textContent = meta.all.toUpperCase();
+    trigger.classList.remove('has-selection');
+    // remove badge if exists
+    const oldBadge = trigger.querySelector('.ms-pill');
+    if(oldBadge) oldBadge.remove();
+  } else if(set.size === 1){
+    labelEl.textContent = [...set][0].toUpperCase();
+    trigger.classList.add('has-selection');
+    const oldBadge = trigger.querySelector('.ms-pill');
+    if(oldBadge) oldBadge.remove();
+  } else {
+    labelEl.textContent = `${meta.plural.toUpperCase()}`;
+    trigger.classList.add('has-selection');
+    let badge = trigger.querySelector('.ms-pill');
+    if(!badge){
+      badge = document.createElement('span');
+      badge.className = 'ms-pill';
+      trigger.insertBefore(badge, trigger.querySelector('.ms-caret'));
+    }
+    badge.textContent = set.size;
+  }
+}
+
 function bindFilters(){
   document.querySelectorAll('.tab-pill[data-cultivo]').forEach(btn=>{
     btn.addEventListener('click',()=>{
@@ -1106,38 +1282,86 @@ function bindFilters(){
       applyFilter();
     });
   });
-  document.getElementById('sel-campania').addEventListener('change', e=>{
-    filters.campania = e.target.value;
-    const crumb = document.getElementById('crumb-camp');
-    crumb.textContent = filters.campania === '*' ? 'TODAS LAS CAMPAÑAS' : `CAMPAÑA ${filters.campania}`;
-    applyFilter();
+
+  // Multiselects: cada uno
+  document.querySelectorAll('.ms').forEach(ms => {
+    const name = ms.dataset.ms;
+    const trigger = ms.querySelector('.ms-trigger');
+    const menu = ms.querySelector('.ms-menu');
+
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // Cerrar otros
+      document.querySelectorAll('.ms.open').forEach(other => {
+        if(other !== ms) other.classList.remove('open');
+      });
+      ms.classList.toggle('open');
+    });
+
+    // Click en checkbox/label
+    menu.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const item = e.target.closest('.ms-item');
+      const clearBtn = e.target.closest('.ms-clear');
+      if(clearBtn){
+        filters[name].clear();
+        menu.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+        updateMultiselectLabel(name);
+        applyFilter();
+        return;
+      }
+      if(item){
+        const cb = item.querySelector('input[type=checkbox]');
+        // Si el click viene del checkbox mismo, el browser ya lo cambió.
+        // Si viene de otro lado del label, dejamos que el browser lo cambie.
+        // Sync nuestro set:
+        const val = item.dataset.value;
+        // pequeña espera para que el input quede en su estado nuevo
+        requestAnimationFrame(() => {
+          if(cb.checked) filters[name].add(val);
+          else filters[name].delete(val);
+          updateMultiselectLabel(name);
+          applyFilter();
+        });
+      }
+    });
   });
-  document.getElementById('sel-red').addEventListener('change', e=>{
-    filters.red = e.target.value;
-    applyFilter();
+
+  // Click fuera cierra todos los menús
+  document.addEventListener('click', (e) => {
+    if(!e.target.closest('.ms')){
+      document.querySelectorAll('.ms.open').forEach(ms => ms.classList.remove('open'));
+    }
   });
-  document.getElementById('sel-empresa').addEventListener('change', e=>{
-    filters.empresa = e.target.value;
-    applyFilter();
-  });
-  document.getElementById('sel-zona').addEventListener('change', e=>{
-    filters.zona = e.target.value;
-    applyFilter();
+  // ESC cierra
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape'){
+      document.querySelectorAll('.ms.open').forEach(ms => ms.classList.remove('open'));
+    }
   });
 }
 
 function applyFilter(){
-  const filtered = allFeatures.filter(f=>{
+  const filtered = allFeatures.filter(f => {
     const p = f.properties;
-    if(filters.cultivo!=='*' && p.cultivo!==filters.cultivo) return false;
-    if(filters.campania!=='*' && p.campania!==filters.campania) return false;
-    if(filters.red!=='*' && p.red!==filters.red) return false;
-    if(filters.empresa!=='*' && !(p.empresas||[]).includes(filters.empresa)) return false;
-    if(filters.zona!=='*' && p.zona!==filters.zona) return false;
+    if(filters.cultivo !== '*' && p.cultivo !== filters.cultivo) return false;
+    if(filters.campania.size > 0 && !filters.campania.has(p.campania)) return false;
+    if(filters.red.size > 0 && !filters.red.has(p.red)) return false;
+    if(filters.empresa.size > 0){
+      const empresas = p.empresas || [];
+      if(!empresas.some(e => filters.empresa.has(e))) return false;
+    }
+    if(filters.zona.size > 0 && !filters.zona.has(p.zona)) return false;
     return true;
   });
   map.getSource('ensayos').setData({type:'FeatureCollection', features:filtered});
   updateCounter(filtered);
+
+  // Actualizar crumb del header
+  const crumb = document.getElementById('crumb-camp');
+  if(filters.campania.size === 0) crumb.textContent = 'TODAS LAS CAMPAÑAS';
+  else if(filters.campania.size === 1) crumb.textContent = `CAMPAÑA ${[...filters.campania][0]}`;
+  else crumb.textContent = `${filters.campania.size} CAMPAÑAS`;
 }
 
 function updateCounter(features){
