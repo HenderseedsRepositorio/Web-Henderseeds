@@ -25,9 +25,11 @@
   --ink-mute:#9c947f;
   --line:#d8d0b8;
   --line-soft:#e5dec7;
-  /* cultivo accents */
-  --maize:#5a7a3a;
-  --sunflower:#d4a02a;
+  /* cultivo accents — Power BI palette del cliente */
+  --maize:#e89b5c;       /* naranja amber para maíz */
+  --maize-soft:#fbeadc;
+  --sunflower:#9b7cb9;   /* violeta medio para girasol */
+  --sunflower-soft:#ebe1f3;
   /* Nidera highlight (terra cotta) */
   --nidera:#b85c2a;
   --nidera-soft:#fcf1e3;
@@ -155,7 +157,7 @@ select.chip{appearance:none;padding-right:1.6rem;background-image:url("data:imag
 }
 .ms-trigger .ms-caret{color:var(--ink-mute);margin-left:.15rem;font-size:.7rem}
 .ms-menu{
-  position:absolute;top:calc(100% + 4px);right:0;z-index:30;
+  position:absolute;top:calc(100% + 4px);right:0;z-index:50;
   background:var(--bg-panel);
   border:1px solid var(--ink);border-radius:0;
   min-width:220px;max-width:280px;
@@ -164,6 +166,9 @@ select.chip{appearance:none;padding-right:1.6rem;background-image:url("data:imag
   padding:.25rem 0;
   display:none;
 }
+/* MapLibre zoom controls usan z-index ~1, pero nuestro dropdown debe
+   superarlos en cualquier caso. */
+.maplibregl-ctrl-top-right{z-index:5!important}
 .ms.open .ms-menu{display:block}
 .ms-menu .ms-section-head{
   font-family:var(--mono);font-size:.58rem;
@@ -386,30 +391,47 @@ aside.open{transform:translateX(0)}
   border-bottom-color:var(--nidera-mid);
 }
 .rb-head{
-  display:flex;align-items:baseline;gap:.65rem;
+  display:grid;
+  grid-template-columns:24px 1fr auto;
+  align-items:start;gap:.5rem;
   margin-bottom:.5rem;
   font-family:var(--mono);
 }
 .rb-pos{
   color:var(--ink-mute);font-variant-numeric:tabular-nums;
-  font-size:.7rem;font-weight:600;letter-spacing:.04em;
-  flex-shrink:0;width:24px;
+  font-size:.72rem;font-weight:600;letter-spacing:.04em;
+  padding-top:.15rem;
+}
+.rb-meta{
+  min-width:0;display:flex;flex-direction:column;gap:.15rem;
 }
 .rb-name{
-  font-family:var(--mono);font-size:.8rem;font-weight:600;color:var(--ink);
-  letter-spacing:0;line-height:1.2;flex:1;min-width:0;
+  font-family:var(--mono);font-size:.85rem;font-weight:600;color:var(--ink);
+  letter-spacing:0;line-height:1.2;
   word-break:break-word;
 }
-.rb-name .star{color:var(--nidera);margin-left:.3rem;font-size:.85rem;font-weight:700}
+.rb-name .star{color:var(--nidera);margin-left:.3rem;font-size:.9rem;font-weight:700}
 .rank-big-row.nidera .rb-name{color:var(--nidera)}
 .rb-emp{
-  font-family:var(--mono);font-size:.65rem;color:var(--ink-mute);
-  letter-spacing:.04em;flex-shrink:0;
+  font-family:var(--mono);font-size:.78rem;color:var(--ink);
+  font-weight:600;letter-spacing:.02em;
+  text-transform:none;
+  /* Resalto la marca como label tipo pill */
+  display:inline-block;
+  padding:1px 6px;
+  background:var(--bg-soft);
+  border-radius:2px;
+  align-self:flex-start;
+}
+.rank-big-row.nidera .rb-emp{
+  background:var(--nidera);color:#fff;
 }
 .rb-rinde{
   font-family:var(--mono);font-variant-numeric:tabular-nums;
-  font-size:1.05rem;font-weight:600;color:var(--ink);
-  letter-spacing:-0.015em;flex-shrink:0;
+  font-size:1.15rem;font-weight:600;color:var(--ink);
+  letter-spacing:-0.015em;
+  text-align:right;line-height:1.1;
+  padding-top:.05rem;
 }
 .rank-big-row.nidera .rb-rinde{color:var(--nidera);font-weight:700}
 .rb-rinde .suffix{
@@ -778,8 +800,8 @@ aside.open{transform:translateX(0)}
   padding:6px 12px;border:1px solid #d8d0b8;color:#6e6857;
   background:transparent;
 }
-.share-template .st-meta .chip.maiz{color:#5a7a3a;border-color:#5a7a3a}
-.share-template .st-meta .chip.girasol{color:#d4a02a;border-color:#d4a02a}
+.share-template .st-meta .chip.maiz{color:#e89b5c;border-color:#e89b5c}
+.share-template .st-meta .chip.girasol{color:#9b7cb9;border-color:#9b7cb9}
 
 .share-template .st-stats{
   margin-top:34px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;
@@ -989,8 +1011,8 @@ aside.open{transform:translateX(0)}
   <div class="filters" id="filters">
     <div class="tabs-group">
       <button class="tab-pill active" data-cultivo="*">TODOS <span class="count" id="cnt-all">0</span></button>
-      <button class="tab-pill" data-cultivo="girasol"><span class="dot" style="background:#d4a02a"></span>GIRASOL <span class="count" id="cnt-gir">0</span></button>
-      <button class="tab-pill" data-cultivo="maiz"><span class="dot" style="background:#5a7a3a"></span>MAÍZ <span class="count" id="cnt-mai">0</span></button>
+      <button class="tab-pill" data-cultivo="girasol"><span class="dot" style="background:#9b7cb9"></span>GIRASOL <span class="count" id="cnt-gir">0</span></button>
+      <button class="tab-pill" data-cultivo="maiz"><span class="dot" style="background:#e89b5c"></span>MAÍZ <span class="count" id="cnt-mai">0</span></button>
     </div>
     <div class="ms" data-ms="campania" style="margin-left:.5rem">
       <button class="ms-trigger" type="button">
@@ -1031,8 +1053,8 @@ aside.open{transform:translateX(0)}
     <span id="visible-cultivares"><b>0</b> CULTIVARES</span>
   </div>
   <div class="legend">
-    <div class="row"><span class="dot" style="background:#d4a02a"></span><span class="lbl">GIRASOL</span><span class="count" id="leg-gir"></span></div>
-    <div class="row"><span class="dot" style="background:#5a7a3a"></span><span class="lbl">MAÍZ</span><span class="count" id="leg-mai"></span></div>
+    <div class="row"><span class="dot" style="background:#9b7cb9"></span><span class="lbl">GIRASOL</span><span class="count" id="leg-gir"></span></div>
+    <div class="row"><span class="dot" style="background:#e89b5c"></span><span class="lbl">MAÍZ</span><span class="count" id="leg-mai"></span></div>
     <div class="note">El tamaño del punto = nº de cultivares</div>
   </div>
   <aside id="aside">
@@ -1155,8 +1177,8 @@ aside.open{transform:translateX(0)}
 
 <script>
 const COLOR = {
-  girasol: '#d4a02a',  // sunflower mostaza editorial
-  maiz: '#5a7a3a',     // verde maíz oliva editorial
+  girasol: '#9b7cb9',  // violeta (paleta Power BI cliente)
+  maiz: '#e89b5c',     // naranja amber (paleta Power BI cliente)
   nidera: '#b85c2a',   // terra cotta (halo cuando hay top Nidera)
 };
 const fmtAR = n => new Intl.NumberFormat('es-AR', {maximumFractionDigits:0}).format(Math.round(n));
@@ -1294,7 +1316,9 @@ function initMap(){
     attributionControl: {compact: true},
   });
 
-  map.addControl(new maplibregl.NavigationControl({showCompass:false}), 'top-right');
+  // Controles zoom a la izquierda del mapa para que nunca se solapen con
+  // los dropdown multiselect del header (que abren hacia top-right).
+  map.addControl(new maplibregl.NavigationControl({showCompass:false}), 'top-left');
 
   map.on('load', () => {
     // Capa source con todos los puntos
@@ -1640,9 +1664,11 @@ function openAside(f){
       <div class="rank-big-row${nidera?' nidera':''}">
         <div class="rb-head">
           <span class="rb-pos">${String(i+1).padStart(2,'0')}</span>
-          <span class="rb-name">${escapeHtml(c.cultivar)}${nidera?'<span class="star">★</span>':''}</span>
-          <span class="rb-emp">${escapeHtml(c.empresa || '—')}</span>
-          <span class="rb-rinde">${fmtAR(c.rinde_kg_ha)}<span class="suffix">kg/ha</span></span>
+          <div class="rb-meta">
+            <span class="rb-name">${escapeHtml(c.cultivar)}${nidera?'<span class="star">★</span>':''}</span>
+            <span class="rb-emp">${escapeHtml(c.empresa || '—')}</span>
+          </div>
+          <span class="rb-rinde">${fmtAR(c.rinde_kg_ha)}<span class="suffix"> kg/ha</span></span>
         </div>
         <div class="rb-bar"><i style="width:${(pct*100).toFixed(0)}%"></i></div>
         <div class="rb-foot">
@@ -1968,8 +1994,8 @@ const PDF_COLORS = {
   lineSoft:   [229, 222, 199],
   bg:         [244, 240, 230],
   surface:    [251, 249, 243],
-  maize:      [90, 122, 58],
-  sunflower:  [212, 160, 42],
+  maize:      [232, 155, 92],   /* #e89b5c naranja amber */
+  sunflower:  [155, 124, 185],  /* #9b7cb9 violeta */
   nidera:     [184, 92, 42],
   niderasoft: [252, 241, 227],
 };
