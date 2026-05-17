@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Mapa interactivo de ensayos comparativos de cultivares de girasol y maíz en Argentina — Henderseeds SRL.">
-<title>Mapa de Ensayos · Henderseeds</title>
+<title>Mapa de Ensayos · Henderseeds — PREVIEW v7</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -218,26 +218,11 @@ select.chip{appearance:none;padding-right:1.6rem;background-image:url("data:imag
 }
 .ms-menu .ms-clear:hover{background:var(--nidera-soft)}
 
-/* ═══ LAYOUT ═══ */
-.main{flex:1; display:flex; min-height:0; position:relative}
-#map{flex:1; position:relative; background:#EAEFF5}
-.maplibregl-canvas{outline:none}
-
-/* override maplibre attribution */
-.maplibregl-ctrl-attrib{
-  background:rgba(255,255,255,.92)!important;
-  color:var(--ink-dim)!important;
-  font-family:var(--mono);font-size:.65rem;
-  box-shadow:var(--shadow-sm);
-}
-.maplibregl-ctrl-attrib a{color:var(--ink-dim)!important}
-
-/* ═══ LAYOUT ADAPTATIVO — Editorial ═══
+/* ═══ LAYOUT ADAPTATIVO ═══
    Estado 1 (sin ensayo): mapa 100% ancho, aside oculto.
-   Estado 2 (con ensayo): mapa 42% / aside 58% (estilo PPT REMO densa).
-   Cuando se abre un ensayo, .main toma la clase .detail. */
+   Estado 2 (con ensayo): mapa 35% / aside 65% (estilo PPT REMO densa). */
 .main{flex:1; display:flex; min-height:0; position:relative; transition:all .25s ease}
-#map{flex:1; position:relative; transition:flex .25s ease}
+#map{flex:1; position:relative; background:#EAEFF5; transition:flex .25s ease}
 .main.detail #map{
   flex:0 0 42%;
   min-width:320px;
@@ -255,8 +240,22 @@ select.chip{appearance:none;padding-right:1.6rem;background-image:url("data:imag
 }
 .back-to-map:hover{background:var(--ink);color:var(--bg-panel)}
 .main.detail .back-to-map{display:inline-block}
+.maplibregl-canvas{outline:none}
 
-/* ═══ SIDEBAR PANEL — Editorial ═══ */
+/* override maplibre attribution */
+.maplibregl-ctrl-attrib{
+  background:rgba(255,255,255,.92)!important;
+  color:var(--ink-dim)!important;
+  font-family:var(--mono);font-size:.65rem;
+  box-shadow:var(--shadow-sm);
+}
+.maplibregl-ctrl-attrib a{color:var(--ink-dim)!important}
+
+/* ═══ SIDEBAR PANEL — Editorial Adaptativo PREVIEW ═══
+   Antes: slide-in absolute desde la derecha (ancho fijo 440px).
+   Ahora: parte del flex layout, columna a la derecha. Crece a 65%
+   cuando hay ensayo seleccionado, ocupando el espacio del mapa que se
+   reduce. Estilo PPT REMO densa. */
 aside{
   display:none;
   flex:1;
@@ -300,16 +299,51 @@ aside{
 .meta-chip.maiz::before{content:"";display:inline-block;width:5px;height:5px;border-radius:999px;background:var(--maize);margin-right:5px;vertical-align:1px}
 .meta-chip.girasol{color:var(--sunflower);border-color:var(--sunflower)}
 .meta-chip.girasol::before{content:"";display:inline-block;width:5px;height:5px;border-radius:999px;background:var(--sunflower);margin-right:5px;vertical-align:1px}
+.meta-chip.red{
+  color:var(--ink);border-color:var(--ink);
+  font-weight:600;background:var(--bg-soft);
+}
+.meta-chip.red::before{
+  content:"FUENTE";display:inline-block;
+  font-size:.5rem;color:var(--ink-mute);letter-spacing:.1em;
+  margin-right:6px;font-weight:500;
+}
 
 .aside-head .close{
   position:absolute;top:1.1rem;right:1.1rem;
-  width:26px;height:26px;border-radius:3px;
+  width:28px;height:28px;border-radius:3px;
   border:1px solid var(--line);background:var(--bg-panel);
   color:var(--ink-dim);cursor:pointer;font-size:1rem;
   display:flex;align-items:center;justify-content:center;
   transition:all .15s;
 }
 .aside-head .close:hover{border-color:var(--ink);color:var(--ink)}
+
+/* Navegación previo/siguiente entre ensayos visibles */
+.aside-nav{
+  position:absolute;top:1.1rem;right:3.5rem;
+  display:flex;gap:.3rem;
+}
+.aside-nav button{
+  width:28px;height:28px;border:1px solid var(--line);
+  background:var(--bg-panel);color:var(--ink-dim);
+  font-family:var(--mono);font-size:.85rem;font-weight:600;
+  cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;justify-content:center;
+}
+.aside-nav button:hover:not(:disabled){
+  background:var(--ink);color:var(--bg-panel);border-color:var(--ink);
+}
+.aside-nav button:disabled{
+  opacity:.35;cursor:not-allowed;
+}
+.aside-nav .nav-counter{
+  display:inline-flex;align-items:center;
+  padding:0 .55rem;
+  font-family:var(--mono);font-size:.62rem;
+  color:var(--ink-mute);letter-spacing:.04em;
+  font-variant-numeric:tabular-nums;
+}
 
 /* ═══ HERO METRIC — protagonista del panel ═══ */
 .hero{
@@ -400,7 +434,112 @@ aside{
 /* Ranking editorial: 4 columnas (#, cultivar+empresa, kg/ha, delta-bar+delta)
    La columna "sitios" se quitó — siempre tenía '—' o humedad inconsistente.
    Si en el futuro tenemos humedad confiable, agregamos columna opcional. */
-/* ═══ RANKING con barras horizontales grandes (Opción A) ═══ */
+/* ═══ TABLA DENSA estilo PPT REMO (PREVIEW v7) ═══
+   Tabla compacta con barras inline heatmap (verde -> amarillo).
+   Todas las filas visibles (no top 6 + toggle), promedio al final. */
+.rk-table{
+  margin-top:.5rem;
+  font-family:var(--mono);
+  width:100%;
+  border-collapse:collapse;
+}
+.rk-summary{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));
+  gap:.6rem;
+  padding:.7rem 0 .9rem;
+  border-bottom:1.5px solid var(--ink);
+  margin-bottom:.4rem;
+  font-family:var(--mono);font-size:.66rem;color:var(--ink-mute);
+  letter-spacing:.04em;
+}
+.rk-summary .item{display:flex;flex-direction:column;gap:.15rem}
+.rk-summary .l{
+  font-size:.55rem;color:var(--ink-mute);letter-spacing:.1em;
+  text-transform:uppercase;
+}
+.rk-summary .v{
+  font-family:var(--mono);font-size:.85rem;color:var(--ink);
+  font-weight:600;font-variant-numeric:tabular-nums;
+}
+.rk-thead{
+  display:grid;
+  grid-template-columns:28px 1.5fr 90px minmax(120px,1fr) 70px 60px;
+  gap:.5rem;
+  padding:.45rem 0;
+  border-bottom:1.5px solid var(--ink);
+  font-size:.62rem;letter-spacing:.1em;
+  text-transform:uppercase;font-weight:600;color:var(--ink);
+}
+.rk-thead .r{text-align:right}
+.rk-thead .c{text-align:center}
+.rk-row{
+  display:grid;
+  grid-template-columns:28px 1.5fr 90px minmax(120px,1fr) 70px 60px;
+  gap:.5rem;
+  padding:.45rem 0;
+  border-bottom:1px solid var(--line-soft);
+  align-items:center;
+  font-size:.74rem;
+}
+.rk-row:hover{background:rgba(0,0,0,.02)}
+.rk-row.nidera{background:var(--nidera-soft)}
+.rk-row .pos{
+  color:var(--ink-mute);font-variant-numeric:tabular-nums;
+  font-size:.7rem;font-weight:600;letter-spacing:.04em;
+}
+.rk-row .name{
+  font-size:.78rem;font-weight:600;color:var(--ink);
+  letter-spacing:0;word-break:break-word;line-height:1.2;
+}
+.rk-row.nidera .name{color:var(--nidera)}
+.rk-row .name .star{color:var(--nidera);margin-left:.25rem}
+.rk-row .emp{
+  font-size:.65rem;color:var(--ink);font-weight:600;
+  letter-spacing:.02em;
+  padding:2px 6px;background:var(--bg-soft);
+  border-radius:2px;display:inline-block;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  max-width:100%;
+}
+.rk-row.nidera .emp{background:var(--nidera);color:#fff}
+/* Barra inline heatmap — verde top -> amarillo bottom */
+.rk-bar-wrap{
+  position:relative;height:18px;
+  background:#f4f0e6;
+  border:1px solid var(--line-soft);
+  overflow:hidden;
+}
+.rk-bar{
+  position:absolute;left:0;top:0;bottom:0;
+  /* width seteado inline */
+}
+.rk-bar-val{
+  position:absolute;right:5px;top:50%;transform:translateY(-50%);
+  font-family:var(--mono);font-size:.66rem;color:var(--ink);
+  font-weight:600;font-variant-numeric:tabular-nums;
+  text-shadow:0 0 2px rgba(255,255,255,.6);
+}
+.rk-row .rinde{
+  text-align:right;font-variant-numeric:tabular-nums;
+  font-size:.85rem;font-weight:600;color:var(--ink);
+  letter-spacing:-0.01em;
+}
+.rk-row.nidera .rinde{color:var(--nidera);font-weight:700}
+.rk-row .idx{
+  text-align:right;font-variant-numeric:tabular-nums;
+  color:var(--ink-dim);font-size:.7rem;font-weight:500;
+}
+.rk-row .idx.up{color:var(--good);font-weight:600}
+.rk-row .idx.down{color:var(--ink-mute)}
+.rk-row.is-promedio{
+  background:var(--bg-soft);font-weight:600;
+  border-top:1.5px solid var(--ink);
+  margin-top:.4rem;
+}
+.rk-row.is-promedio .name{font-style:italic;color:var(--ink)}
+.rk-row.is-promedio .emp{display:none}
+
+/* === Legacy rank-big (mantenido para no romper) === */
 .rank-big{margin-top:.5rem}
 .rank-big-row{
   padding:.85rem 0;
@@ -1005,7 +1144,6 @@ aside{
 .map-corner-title .l1{color:var(--ink);font-size:.66rem}
 .counter .sep{margin:0 .35rem;color:var(--border-strong)}
 
-
 /* ═══ MOBILE ═══ */
 @media(max-width:768px){
   header{gap:.7rem;padding:.7rem .85rem}
@@ -1083,66 +1221,38 @@ aside{
   </div>
   <aside id="aside">
     <div class="aside-head">
+      <div class="aside-nav">
+        <button id="a-prev" type="button" aria-label="Ensayo anterior" title="Ensayo anterior (←)">‹</button>
+        <span class="nav-counter" id="a-nav-counter">—</span>
+        <button id="a-next" type="button" aria-label="Ensayo siguiente" title="Ensayo siguiente (→)">›</button>
+      </div>
       <button class="close" onclick="closeAside()" aria-label="Cerrar">×</button>
       <h1 class="loc" id="a-loc">—</h1>
       <span class="coords" id="a-coords"></span>
       <div class="meta-chips" id="a-meta-chips"></div>
     </div>
-    <!-- HERO METRIC — el dato hero del ensayo (rinde top + cultivar líder) -->
-    <div class="hero" id="a-hero">
-      <div class="hero-label">RINDE TOP DEL ENSAYO</div>
-      <div class="hero-value">
-        <span id="a-hero-rinde">—</span>
-        <span class="suffix">kg/ha</span>
-      </div>
-      <div class="hero-sub">
-        <span class="hero-cult" id="a-hero-cult">—</span>
-        <span class="hero-emp" id="a-hero-emp"></span>
-      </div>
-      <div class="hero-stats" id="a-hero-stats"></div>
-    </div>
+    <!-- HERO METRIC removido en preview v8: ir directo a la tabla. -->
+    <div class="hero" id="a-hero" style="display:none"></div>
 
     <div class="aside-body">
-      <!-- RANKING como protagonista (justo después del hero) -->
+      <!-- RANKING estilo PPT REMO (tabla densa con heatmap) -->
       <div class="aside-section" style="padding-bottom:1rem">
         <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.3rem">
           <h4 style="margin-bottom:0">RANKING POR RINDE</h4>
           <span style="font-family:var(--mono);font-size:.6rem;color:var(--ink-mute);letter-spacing:.06em">★ NIDERA · RED.IN</span>
         </div>
-        <div class="rank-big" id="a-rows"></div>
-        <button class="rank-toggle" id="a-rank-toggle" type="button" hidden>VER TODOS LOS CULTIVARES (<span id="a-rank-rest">0</span>)</button>
-      </div>
-
-      <!-- TALKING POINTS antes de los acordeones -->
-      <div class="aside-section" id="a-tp-wrap">
-        <h4 style="margin-bottom:.5rem">
-          <span style="color:var(--nidera)">✎</span> ARMÁ TU MENSAJE PARA EL PRODUCTOR
-        </h4>
-        <div class="tp-card">
-          <div class="tp-header">
-            <span class="lbl">WHATSAPP · COPIAR Y PEGAR</span>
-            <span class="tone-label" id="tp-tone-label">informal</span>
-          </div>
-          <div class="tp-tabs" id="tp-tabs">
-            <button class="tp-tab active" data-tp-angle="resumen">RESUMEN</button>
-            <button class="tp-tab" data-tp-angle="confiabilidad">CONFIABILIDAD ★</button>
-            <button class="tp-tab" data-tp-angle="vscompetencia">vs COMPETENCIA</button>
-            <button class="tp-tab" data-tp-angle="economico">DIFERENCIAL $</button>
-          </div>
-          <div class="tp-msg" id="tp-msg"></div>
-          <div class="tp-tones" id="tp-tones">
-            <button class="tp-tone active" data-tp-tone="informal">INFORMAL</button>
-            <button class="tp-tone" data-tp-tone="formal">FORMAL</button>
-            <button class="tp-tone" data-tp-tone="corto">CORTO</button>
-          </div>
-          <div class="tp-footer">
-            <span class="sub" id="tp-sub"></span>
-            <div class="tp-actions">
-              <button class="tp-btn" id="tp-copy">⎘ COPIAR</button>
-              <button class="tp-btn primary" id="tp-wa">↗ WHATSAPP</button>
-            </div>
-          </div>
+        <!-- Summary estadístico estilo REMO (N, prom, max, CV) -->
+        <div class="rk-summary" id="a-summary"></div>
+        <!-- Header de columnas -->
+        <div class="rk-thead">
+          <div>#</div>
+          <div>HÍBRIDO</div>
+          <div class="c">EMPRESA</div>
+          <div class="c">RINDE</div>
+          <div class="r">KG/HA</div>
+          <div class="r">ÍND</div>
         </div>
+        <div id="a-rows"></div>
       </div>
 
       <!-- DATOS / FECHAS / MANEJO en acordeones colapsables -->
@@ -1170,9 +1280,9 @@ aside{
       <!-- CTAs finales -->
       <div class="aside-section" style="border-bottom:0;padding-top:1.2rem;padding-bottom:0">
         <div class="cta-row">
-          <a class="btn" id="a-excel" target="_blank" rel="noopener">↓ INFORME</a>
-          <button class="btn" id="a-share" type="button">↗ COMPARTIR PDF</button>
-          <a class="btn primary" href="https://wa.me/5492314509060?text=Quiero%20cotizar%20genética%20para%20mi%20campo" target="_blank" rel="noopener">WHATSAPP</a>
+          <a class="btn" id="a-excel" target="_blank" rel="noopener">↓ INFORME FUENTE</a>
+          <button class="btn" id="a-share" type="button">↓ DESCARGAR PDF</button>
+          <button class="btn primary" id="a-wa" type="button">↗ ENVIAR POR WHATSAPP</button>
         </div>
       </div>
     </div>
@@ -1215,7 +1325,7 @@ function isNideraCultivar(c){
   return (c && c.empresa || '').trim().toLowerCase() === 'nidera';
 }
 
-let map, allFeatures = [];
+let map, allFeatures = [], visibleFeatures = [], currentEnsayoId = null;
 // filters.cultivo: string ('*' o 'maiz' o 'girasol').
 // filters.campania/red/empresa/zona: Set<string> de valores seleccionados.
 // Set vacío = "todo" (no filtra). Set con N valores = "solo esos N".
@@ -1237,6 +1347,7 @@ async function init(){
   const resp = await fetch('data/ensayos.geojson');
   const gj = await resp.json();
   allFeatures = gj.features;
+  visibleFeatures = allFeatures.slice();  // cache inicial para navegación
 
   // Populate selects de filtros
   const empresas = new Set();
@@ -1281,8 +1392,7 @@ async function init(){
     .sort((a,b) => b[1] - a[1] || a[0].localeCompare(b[0])));
 
   // Pre-selección por defecto: últimas 3 campañas (más recientes).
-  // El usuario espera ver lo nuevo primero; las viejas siguen disponibles destildando.
-  // sortCamp() ya devolvió las campañas en orden desc, así que tomamos las primeras 3.
+  // sortCamp ya las devuelve desc, así que tomamos las 3 primeras.
   const campaniasOrden = [...countBy('campania').entries()]
     .map(e => e[0])
     .sort(sortCamp);
@@ -1307,24 +1417,19 @@ async function init(){
 
   initMap();
   bindFilters();
-  bindTalkingPoints();
   bindShare();
 
-  // Toggle "ver todos los cultivares"
-  document.getElementById('a-rank-toggle').addEventListener('click', (e) => {
-    const btn = e.currentTarget;
-    const rest = document.getElementById('a-rows-rest');
-    if(!rest) return;
-    const expanded = btn.dataset.expanded === 'true';
-    if(expanded){
-      rest.hidden = true;
-      btn.dataset.expanded = 'false';
-      btn.innerHTML = `VER TODOS LOS CULTIVARES (<span>${rest.children.length}</span>)`;
-    } else {
-      rest.hidden = false;
-      btn.dataset.expanded = 'true';
-      btn.innerHTML = 'OCULTAR ↑';
-    }
+  // (rank-toggle no existe en preview — tabla densa muestra todos los cultivares)
+
+  // Navegación previo/siguiente entre ensayos visibles
+  document.getElementById('a-prev').addEventListener('click', () => navEnsayo(-1));
+  document.getElementById('a-next').addEventListener('click', () => navEnsayo(+1));
+  document.addEventListener('keydown', (e) => {
+    // Solo navegar cuando el panel está abierto y no estamos en un input
+    if(!document.getElementById('aside').classList.contains('open')) return;
+    if(e.target.matches('input, textarea, select')) return;
+    if(e.key === 'ArrowLeft') { e.preventDefault(); navEnsayo(-1); }
+    if(e.key === 'ArrowRight') { e.preventDefault(); navEnsayo(+1); }
   });
 }
 
@@ -1390,49 +1495,114 @@ function initMap(){
     map.addLayer({id:'lbls', type:'raster', source:'carto-labels'});
 
     // Halo Nidera (cuando el top del ensayo es Nidera) — anillo terra cotta
+    // Más discreto: anillo fino apenas más grande que el dot, opacidad media.
     map.addLayer({
       id:'ensayos-nidera-ring',
       type:'circle',
       source:'ensayos',
       filter:['==',['get','top_is_nidera'], true],
       paint:{
-        'circle-radius':['interpolate',['linear'],['get','n_cultivares'],10,14,40,22],
+        // Anillo apenas más grande que el dot real (no destacado fuerte)
+        'circle-radius':[
+          '+', 9,
+          ['*', 1.0, ['sqrt',['max',1,['get','n_cultivares']]]]
+        ],
         'circle-color':'transparent',
         'circle-stroke-color': COLOR.nidera,
-        'circle-stroke-width':2,
-        'circle-stroke-opacity':0.55,
+        'circle-stroke-width':1.5,
+        'circle-stroke-opacity':0.4,
       },
     });
 
-    // Dot (sin halo difuso, estética editorial limpia)
+    // Hit-area invisible: layer transparente más grande para facilitar el click.
+    // El usuario no la ve pero captura los clicks aunque el cursor no esté
+    // perfectamente sobre el dot.
+    map.addLayer({
+      id:'ensayos-hit',
+      type:'circle',
+      source:'ensayos',
+      paint:{
+        'circle-radius': 16,
+        'circle-color': '#000',
+        'circle-opacity': 0,  // 100% transparente
+      },
+    });
+
+    // Dot visible: ahora más grande que antes (r = 5 + sqrt(n)*1.0)
     map.addLayer({
       id:'ensayos-dot',
       type:'circle',
       source:'ensayos',
       paint:{
-        // Tamaño según fórmula editorial: r = 3 + sqrt(n) * 0.7
+        // Tamaño base más grande para que sea fácil de clickear
         'circle-radius':[
-          '+', 3,
-          ['*', 0.7, ['sqrt',['max',1,['get','n_cultivares']]]]
+          '+', 5,
+          ['*', 1.0, ['sqrt',['max',1,['get','n_cultivares']]]]
         ],
         'circle-color':['match',['get','cultivo'],'girasol',COLOR.girasol,'maiz',COLOR.maiz,'#9c947f'],
-        'circle-stroke-width':1.5,
+        'circle-stroke-width':2,
         'circle-stroke-color':'#fbf9f3',
       },
     });
 
+    // Hover state: agranda el pin al pasar el mouse
+    map.addLayer({
+      id:'ensayos-hover',
+      type:'circle',
+      source:'ensayos',
+      filter:['==','ensayo_id',''],   // empty selector — se cambia en hover
+      paint:{
+        'circle-radius':[
+          '+', 9,
+          ['*', 1.2, ['sqrt',['max',1,['get','n_cultivares']]]]
+        ],
+        'circle-color':'transparent',
+        'circle-stroke-color':'#1a1a18',
+        'circle-stroke-width':2,
+      },
+    });
+
+    // Layer activo: marca el ensayo seleccionado actualmente (anillo grueso)
+    map.addLayer({
+      id:'ensayos-active',
+      type:'circle',
+      source:'ensayos',
+      filter:['==','ensayo_id',''],   // empty — se setea en openAside
+      paint:{
+        'circle-radius':[
+          '+', 11,
+          ['*', 1.4, ['sqrt',['max',1,['get','n_cultivares']]]]
+        ],
+        'circle-color':'transparent',
+        'circle-stroke-color':'#1a1a18',
+        'circle-stroke-width':3,
+      },
+    });
+
+    // Hit-area activa también para hover/click
+    map.on('mouseenter','ensayos-hit', e => {
+      map.getCanvas().style.cursor='pointer';
+      const eid = e.features[0]?.properties?.ensayo_id;
+      if(eid) map.setFilter('ensayos-hover',['==','ensayo_id', eid]);
+    });
+    map.on('mouseleave','ensayos-hit',()=>{
+      map.getCanvas().style.cursor='';
+      map.setFilter('ensayos-hover',['==','ensayo_id','']);
+    });
     map.on('mouseenter','ensayos-dot',()=>map.getCanvas().style.cursor='pointer');
     map.on('mouseleave','ensayos-dot',()=>map.getCanvas().style.cursor='');
 
-    map.on('click','ensayos-dot', e => {
+    // Click handler: escuchamos la hit-area invisible (más grande)
+    const handleEnsayoClick = e => {
       const f = e.features[0];
-      // MapLibre no preserva el id string del GeoJSON en eventos click;
-      // matchear por ensayo_id en properties
       const eid = f.properties.ensayo_id;
       const full = allFeatures.find(x => x.properties.ensayo_id === eid);
       if(full) openAside(full);
-    });
+    };
+    map.on('click','ensayos-hit', handleEnsayoClick);
+    map.on('click','ensayos-dot', handleEnsayoClick);
 
+    updateCounter();
     // Aplicar filtro inicial (las últimas 3 campañas vienen pre-seleccionadas
     // desde init()). Si no hay filtros activos, applyFilter() es no-op visual.
     applyFilter();
@@ -1571,8 +1741,11 @@ function applyFilter(){
     if(filters.zona.size > 0 && !filters.zona.has(p.zona)) return false;
     return true;
   });
+  // Cachear los visibles para navegación previo/siguiente
+  visibleFeatures = filtered;
   map.getSource('ensayos').setData({type:'FeatureCollection', features:filtered});
   updateCounter(filtered);
+  updateNavCounter();
 
   // Actualizar crumb del header
   const crumb = document.getElementById('crumb-camp');
@@ -1603,34 +1776,17 @@ function openAside(f){
   document.getElementById('a-coords').textContent =
     `${lat.toFixed(2)}° / ${lon.toFixed(2)}°`;
 
-  // Meta chips: zona · provincia · cultivo · campaña
+  // Meta chips: zona · provincia · cultivo · campaña · red
   const chips = [];
   chips.push(`<span class="meta-chip">${escapeHtml(p.zona.toUpperCase())}</span>`);
   if(p.provincia) chips.push(`<span class="meta-chip">${escapeHtml(p.provincia.toUpperCase())}</span>`);
   chips.push(`<span class="meta-chip ${p.cultivo}">${escapeHtml(p.cultivo.toUpperCase())}</span>`);
   chips.push(`<span class="meta-chip">${escapeHtml(p.campania)}</span>`);
+  if(p.red) chips.push(`<span class="meta-chip red">${escapeHtml(p.red.toUpperCase())}</span>`);
   document.getElementById('a-meta-chips').innerHTML = chips.join('');
 
-  // ─── HERO METRIC ───
-  const cultivares = p.cultivares || [];
-  const top = cultivares[0] || {};
-  const topIsNidera = isNideraCultivar(top);
-  const hero = document.getElementById('a-hero');
-  hero.classList.toggle('is-nidera', topIsNidera);
-  document.getElementById('a-hero-rinde').textContent = fmtAR(top.rinde_kg_ha || p.rinde_max_kg_ha);
-  document.getElementById('a-hero-cult').innerHTML =
-    escapeHtml(top.cultivar || '—') + (topIsNidera ? '<span class="star">★</span>' : '');
-  document.getElementById('a-hero-emp').textContent = top.empresa || '';
-
-  // Hero stats: n cultivares · n empresas · delta vs promedio
-  const deltaVsAvg = (top.rinde_kg_ha || p.rinde_max_kg_ha) - p.rinde_avg_kg_ha;
-  document.getElementById('a-hero-stats').innerHTML = `
-    <span><b>${fmtAR(p.n_cultivares)}</b> cultivares</span>
-    <span class="stat-sep">·</span>
-    <span><b>${fmtAR(p.n_empresas)}</b> empresas</span>
-    <span class="stat-sep">·</span>
-    <span class="delta-up"><b>+${fmtAR(deltaVsAvg)} kg/ha</b> vs promedio</span>
-  `;
+  // Hero metric removido en preview v8 — la tabla densa es protagonista.
+  // (Sumario estadístico arriba de la tabla cubre el rol de KPIs.)
 
   // Datos del ensayo (kv-grid editorial)
   const kvRows = [];
@@ -1689,54 +1845,79 @@ function openAside(f){
     elMw.style.display = 'none';  // ocultar acordeón completo si sin manejo
   }
 
-  // ─── RANKING con barras grandes (Opción A) ───
+  // ─── TABLA DENSA estilo PPT REMO (PREVIEW v7) ───
+  const cultivaresList = (p.cultivares || []).slice();
   const maxRinde = p.rinde_max_kg_ha;
-  const TOP_N = 6;  // primeros 6 con barra grande, el resto detrás de toggle
+  const minRinde = p.rinde_min_kg_ha || maxRinde;
+  const avgRinde = p.rinde_avg_kg_ha;
+
+  // Summary stats (estilo REMO header)
+  const cv = (() => {
+    if(!cultivaresList.length) return null;
+    const mean = avgRinde;
+    const variance = cultivaresList.reduce((s,c) => s + Math.pow(c.rinde_kg_ha-mean,2), 0) / cultivaresList.length;
+    const sd = Math.sqrt(variance);
+    return mean > 0 ? (sd/mean*100).toFixed(1) : null;
+  })();
+  const summaryHtml = [
+    `<div class="item"><span class="l">N</span><span class="v">${fmtAR(p.n_cultivares)}</span></div>`,
+    `<div class="item"><span class="l">PROMEDIO</span><span class="v">${fmtAR(avgRinde)}</span></div>`,
+    `<div class="item"><span class="l">MÁXIMO</span><span class="v">${fmtAR(maxRinde)}</span></div>`,
+    `<div class="item"><span class="l">MÍNIMO</span><span class="v">${fmtAR(minRinde)}</span></div>`,
+    cv ? `<div class="item"><span class="l">CV %</span><span class="v">${cv}</span></div>` : '',
+  ].join('');
+  document.getElementById('a-summary').innerHTML = summaryHtml;
+
+  // Heatmap color verde→amarillo según percentil del rinde
+  // Top (>= max): verde fuerte; mid: verde-amarillo; bottom (= min): amarillo
+  function heatmapColor(rinde, nidera){
+    if(nidera) return '#b85c2a';  // siempre terra cotta para Nidera
+    if(maxRinde === minRinde) return '#a0c478';  // edge case sin variación
+    const t = (rinde - minRinde) / (maxRinde - minRinde);
+    // interpolar entre amarillo (#f3d34a) y verde (#7eb958)
+    const interp = (a, b) => Math.round(a + (b-a) * t);
+    const r = interp(243, 126);  // f3 → 7e
+    const g = interp(211, 185);  // d3 → b9
+    const b = interp(74, 88);    // 4a → 58
+    return `rgb(${r},${g},${b})`;
+  }
+
   const renderRow = (c, i) => {
     const nidera = isNideraCultivar(c);
-    const pct = Math.max(0.05, c.rinde_kg_ha / maxRinde);
-    const deltaTop = c.rinde_kg_ha - maxRinde;
-    const deltaAvg = c.rinde_kg_ha - p.rinde_avg_kg_ha;
-    let deltaCls = 'zero', deltaTxt = '— igual al top';
-    if(deltaTop < 0) {
-      deltaCls = '';
-      deltaTxt = `${fmtAR(deltaTop)} vs #1`;
-    }
+    const pct = Math.max(0.04, c.rinde_kg_ha / maxRinde);
+    const indice = avgRinde > 0 ? Math.round((c.rinde_kg_ha/avgRinde)*100) : 100;
+    const idxCls = indice >= 105 ? 'up' : indice < 95 ? 'down' : '';
+    const bgColor = heatmapColor(c.rinde_kg_ha, nidera);
     return `
-      <div class="rank-big-row${nidera?' nidera':''}">
-        <div class="rb-head">
-          <span class="rb-pos">${String(i+1).padStart(2,'0')}</span>
-          <div class="rb-meta">
-            <span class="rb-name">${escapeHtml(c.cultivar)}${nidera?'<span class="star">★</span>':''}</span>
-            <span class="rb-emp">${escapeHtml(c.empresa || '—')}</span>
-          </div>
-          <span class="rb-rinde">${fmtAR(c.rinde_kg_ha)}<span class="suffix"> kg/ha</span></span>
+      <div class="rk-row${nidera?' nidera':''}">
+        <div class="pos">${String(i+1).padStart(2,'0')}</div>
+        <div class="name">${escapeHtml(c.cultivar)}${nidera?'<span class="star">★</span>':''}</div>
+        <div><span class="emp" title="${escapeHtml(c.empresa||'—')}">${escapeHtml(c.empresa || '—')}</span></div>
+        <div class="rk-bar-wrap">
+          <span class="rk-bar" style="width:${(pct*100).toFixed(1)}%;background:${bgColor}"></span>
+          <span class="rk-bar-val">${fmtAR(c.rinde_kg_ha)}</span>
         </div>
-        <div class="rb-bar"><i style="width:${(pct*100).toFixed(0)}%"></i></div>
-        <div class="rb-foot">
-          <span class="delta ${deltaCls}">${deltaTxt}</span>
-          <span class="delta">${deltaAvg >= 0 ? '+' : ''}${fmtAR(deltaAvg)} vs promedio</span>
-        </div>
+        <div class="rinde">${fmtAR(c.rinde_kg_ha)}</div>
+        <div class="idx ${idxCls}">${indice}</div>
       </div>
     `;
   };
-  const visibleTop = (p.cultivares || []).slice(0, TOP_N).map(renderRow).join('');
-  const restCount = Math.max(0, (p.cultivares || []).length - TOP_N);
-  const restRows = (p.cultivares || []).slice(TOP_N).map(renderRow).join('');
-  document.getElementById('a-rows').innerHTML =
-    visibleTop +
-    (restCount > 0 ? `<div id="a-rows-rest" hidden>${restRows}</div>` : '');
-
-  const toggleBtn = document.getElementById('a-rank-toggle');
-  const restCountEl = document.getElementById('a-rank-rest');
-  if(restCount > 0){
-    toggleBtn.hidden = false;
-    toggleBtn.textContent = '';  // reset
-    toggleBtn.innerHTML = `VER TODOS LOS CULTIVARES (<span id="a-rank-rest">${restCount}</span>)`;
-    toggleBtn.dataset.expanded = 'false';
-  } else {
-    toggleBtn.hidden = true;
-  }
+  const rowsHtml = cultivaresList.map(renderRow).join('');
+  // Fila promedio al final
+  const promedioRow = `
+    <div class="rk-row is-promedio">
+      <div class="pos">—</div>
+      <div class="name">Promedio del ensayo</div>
+      <div></div>
+      <div class="rk-bar-wrap">
+        <span class="rk-bar" style="width:${((avgRinde/maxRinde)*100).toFixed(1)}%;background:#c5c0a8"></span>
+        <span class="rk-bar-val">${fmtAR(avgRinde)}</span>
+      </div>
+      <div class="rinde">${fmtAR(avgRinde)}</div>
+      <div class="idx">100</div>
+    </div>
+  `;
+  document.getElementById('a-rows').innerHTML = rowsHtml + promedioRow;
 
   // Auto-abrir acordeón DATOS si productor o campo (info útil para vendedor)
   // pero cerrado por default si solo hay datos básicos
@@ -1751,27 +1932,70 @@ function openAside(f){
   if(p.url_fuente){ excelBtn.href = p.url_fuente; excelBtn.style.display=''; }
   else { excelBtn.style.display='none'; }
 
-  // Talking points + Share — vincular al ensayo activo
-  tpState.ensayo = f;
+  // Share PDF — vincular al ensayo activo
   shareState.ensayo = f;
-  renderTpMessage();
 
   document.getElementById('aside').classList.add('open');
+  // Layout adaptativo: mapa shrink + aside expande
   document.querySelector('.main').classList.add('detail');
-  // Resize del mapa después del transition (cambió de 100% a 42% ancho)
-  if(window.map && typeof window.map.resize === 'function'){
-    setTimeout(() => window.map.resize(), 260);
+
+  // Marcar el ensayo activo en el mapa con un anillo grueso
+  currentEnsayoId = p.ensayo_id;
+  map.setFilter('ensayos-active',['==','ensayo_id', p.ensayo_id]);
+
+  // Actualizar contador navegación
+  updateNavCounter();
+
+  // Esperar a la transición de CSS y luego resize del mapa
+  setTimeout(() => {
+    map.resize();
+    map.flyTo({center: f.geometry.coordinates, zoom: Math.max(map.getZoom(), 7), speed:0.8});
+  }, 280);
+}
+
+function updateNavCounter(){
+  const counter = document.getElementById('a-nav-counter');
+  const prevBtn = document.getElementById('a-prev');
+  const nextBtn = document.getElementById('a-next');
+  if(!counter) return;
+  if(!currentEnsayoId || !visibleFeatures.length){
+    counter.textContent = '—';
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+    return;
   }
-  map.flyTo({center: f.geometry.coordinates, zoom: Math.max(map.getZoom(), 7), speed:0.8});
+  const idx = visibleFeatures.findIndex(f => f.properties.ensayo_id === currentEnsayoId);
+  if(idx < 0){
+    counter.textContent = '—';
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+    return;
+  }
+  counter.textContent = `${idx + 1} / ${visibleFeatures.length}`;
+  prevBtn.disabled = idx === 0;
+  nextBtn.disabled = idx === visibleFeatures.length - 1;
+}
+
+function navEnsayo(delta){
+  if(!visibleFeatures.length || !currentEnsayoId) return;
+  const idx = visibleFeatures.findIndex(f => f.properties.ensayo_id === currentEnsayoId);
+  const next = idx + delta;
+  if(next < 0 || next >= visibleFeatures.length) return;
+  openAside(visibleFeatures[next]);
 }
 
 function closeAside(){
   document.getElementById('aside').classList.remove('open');
   document.querySelector('.main').classList.remove('detail');
-  // Resize del mapa después de la transición (el viewport cambia)
-  if(window.map && typeof window.map.resize === 'function'){
-    setTimeout(() => window.map.resize(), 260);
+  // Limpiar marca activa en mapa
+  currentEnsayoId = null;
+  if(map && map.getLayer('ensayos-active')) {
+    map.setFilter('ensayos-active',['==','ensayo_id','']);
   }
+  setTimeout(() => {
+    map.resize();
+    map.flyTo({center:[-61.8,-36.5], zoom:5.4, speed:.7});
+  }, 280);
 }
 
 function fmtN(n){
@@ -1779,248 +2003,7 @@ function fmtN(n){
   return new Intl.NumberFormat('es-AR',{maximumFractionDigits:0}).format(Math.round(n));
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-//  TALKING POINTS — feature edge para el vendedor
-//  4 ángulos × 3 tonos = 12 mensajes pre-armados con variables del ensayo
-// ═══════════════════════════════════════════════════════════════════════════
-
-const CONTEXT_DEFAULTS = {
-  precioTnUSD: 160,         // precio referencia USD/tn
-  hectareasEjemplo: 100,    // para cuenta económica
-  productorDefault: 'productor',
-  mapaUrl: 'mapa.henderseeds.com',
-};
-
-// Estado del talking-points en el panel activo
-let tpState = { angle:'resumen', tone:'informal', ensayo:null };
-
-// Construye un dataset listo para interpolar a partir del feature
-function buildTpData(f){
-  const p = f.properties;
-  const cult = p.cultivares || [];
-  const top = cult[0] || {};
-  const second = cult[1] || {};
-  // Diferencia top vs mediana (para diferencial $)
-  const mid = cult.length ? cult[Math.floor(cult.length/2)].rinde_kg_ha : 0;
-  const difKg = Math.round((top.rinde_kg_ha || 0) - mid);
-  const difTn = difKg / 1000;
-  const difUsdHa = Math.round(difTn * CONTEXT_DEFAULTS.precioTnUSD);
-  const totalUsd = difUsdHa * CONTEXT_DEFAULTS.hectareasEjemplo;
-  // Top 3 cultivares para mostrar
-  const top3names = cult.slice(0,3).map(c => `${c.cultivar} (${c.empresa||'—'})`);
-  return {
-    productor: p.productor && p.productor.split(/[\s,]/)[0] || CONTEXT_DEFAULTS.productorDefault,
-    localidad: p.localidad,
-    campania: p.campania,
-    red: p.red,
-    zona: p.zona,
-    nCultivares: p.n_cultivares,
-    rindMax: p.rinde_max_kg_ha,
-    rindAvg: p.rinde_avg_kg_ha,
-    topCultivar: top.cultivar || '—',
-    topEmpresa: top.empresa || '—',
-    topRinde: top.rinde_kg_ha || 0,
-    secondCultivar: second.cultivar,
-    secondEmpresa: second.empresa,
-    secondRinde: second.rinde_kg_ha,
-    deltaSecond: (top.rinde_kg_ha || 0) - (second.rinde_kg_ha || 0),
-    difKgHa: difKg,
-    difUsdHa,
-    totalUsd,
-    top3names,
-    cultivo: p.cultivo,
-    mapaUrl: CONTEXT_DEFAULTS.mapaUrl,
-  };
-}
-
-// Genera array de segments según ángulo + tono + data
-function generateTalkingPoint(angle, tone, d){
-  // Helpers de format
-  const N = n => fmtAR(n);
-  const FN = (txt) => ({ t: txt, v: 'name' });
-  const NUM = (txt) => ({ t: txt, v: 'num' });
-  const LOC = (txt) => ({ t: txt, v: 'loc' });
-  const SRC = (txt) => ({ t: txt, v: 'src' });
-  const T = (txt) => ({ t: txt });
-
-  if(angle === 'resumen'){
-    if(tone === 'informal') return [
-      T('Hola '), FN(d.productor), T(', te paso el ranking del ensayo de '),
-      LOC(`${d.localidad} ${d.campania}`), T(' — '),
-      NUM(`${N(d.nCultivares)} cultivares`),
-      T(` de ${d.cultivo}, red `), SRC(d.red), T('. El top fue '),
-      FN(d.topCultivar), T(' ('), FN(d.topEmpresa), T(') con '),
-      NUM(`${N(d.topRinde)} kg/ha`), T('. Promedio del ensayo: '),
-      NUM(`${N(d.rindAvg)} kg`), T('. El detalle completo te lo paso por mapa: '),
-      SRC(d.mapaUrl), T('.'),
-    ];
-    if(tone === 'formal') return [
-      T('Estimado '), FN(d.productor), T(', le comparto los resultados del ensayo comparativo de '),
-      LOC(d.localidad), T(', campaña '), NUM(d.campania), T(', '),
-      NUM(`${N(d.nCultivares)} cultivares`), T(` de ${d.cultivo} evaluados bajo la red `),
-      SRC(d.red), T('. El rinde máximo fue '),
-      NUM(`${N(d.topRinde)} kg/ha`), T(', correspondiente a '),
-      FN(d.topCultivar), T(' ('), FN(d.topEmpresa), T('). Promedio del ensayo '),
-      NUM(`${N(d.rindAvg)} kg/ha`), T('. Quedo a disposición.'),
-    ];
-    return [ // corto
-      LOC(`${d.localidad} ${d.campania}`), T(', '),
-      NUM(`${N(d.nCultivares)} cult. ${d.cultivo}`), T('. Top: '),
-      FN(`${d.topCultivar} (${d.topEmpresa})`), T(' · '),
-      NUM(`${N(d.topRinde)} kg/ha`), T('. Prom: '), NUM(`${N(d.rindAvg)} kg`),
-      T(`. Fuente `), SRC(d.red), T('. → '), SRC(d.mapaUrl),
-    ];
-  }
-
-  if(angle === 'confiabilidad'){
-    // Usa el top cultivar del ensayo (no requiere data multi-sitio, simplifica)
-    const lead = (d.topRinde - d.rindAvg);
-    if(tone === 'informal') return [
-      T('Hola '), FN(d.productor), T(', mirá este número: '),
-      FN(d.topCultivar), T(' ('), FN(d.topEmpresa), T(') fue '),
-      NUM('#1'), T(' en '), LOC(`${d.localidad} ${d.campania}`), T(' con '),
-      NUM(`${N(d.topRinde)} kg/ha`), T(', '), NUM(`+${N(lead)} kg/ha`),
-      T(' arriba del promedio del ensayo. En tu zona ('),
-      LOC(d.zona), T(`) es de los híbridos que más rinden cuando el ambiente acompaña. ¿Te paso la ficha?`),
-    ];
-    if(tone === 'formal') return [
-      T('Estimado '), FN(d.productor), T(', quería destacar el desempeño de '),
-      FN(d.topCultivar), T(' ('), FN(d.topEmpresa), T(') en el ensayo de '),
-      LOC(d.localidad), T(', campaña '), NUM(d.campania), T(': primer lugar con '),
-      NUM(`${N(d.topRinde)} kg/ha`), T(', '), NUM(`${N(lead)} kg/ha`),
-      T(' por encima del promedio. Para la zona de '), LOC(d.zona),
-      T(' es de los híbridos más sólidos. Quedo a disposición.'),
-    ];
-    return [ // corto
-      FN(d.topCultivar), T(': '), NUM('#1 ' + d.localidad), T(' '),
-      NUM(d.campania), T(' · '), NUM(`${N(d.topRinde)} kg/ha`),
-      T(' ('), NUM(`+${N(lead)}`), T(' vs promedio).'),
-    ];
-  }
-
-  if(angle === 'vscompetencia'){
-    if(!d.secondCultivar) {
-      return [ T('Datos insuficientes en este ensayo para comparar competencia (necesita 2+ cultivares).') ];
-    }
-    if(tone === 'informal') return [
-      T('Hola '), FN(d.productor), T(', sobre la diferencia entre los dos top del ensayo de '),
-      LOC(`${d.localidad} ${d.campania}`), T(': '),
-      FN(d.topCultivar), T(' ('), FN(d.topEmpresa), T(') quedó #1 con '),
-      NUM(`${N(d.topRinde)} kg/ha`), T(', '),
-      NUM(`+${N(d.deltaSecond)} kg/ha`), T(' por encima de '),
-      FN(`${d.secondCultivar} (${d.secondEmpresa})`), T(' que rindió '),
-      NUM(`${N(d.secondRinde)} kg/ha`), T(`. Si querés que te pase los dos lado a lado en el comparador, decime.`),
-    ];
-    if(tone === 'formal') return [
-      T('Estimado '), FN(d.productor), T(', respecto a la comparación entre los principales del ensayo '),
-      LOC(`${d.localidad} ${d.campania}`), T(': '),
-      FN(d.topCultivar), T(' ('), FN(d.topEmpresa), T(') ocupó la primera posición con '),
-      NUM(`${N(d.topRinde)} kg/ha`), T(', '), NUM(`${N(d.deltaSecond)} kg/ha`),
-      T(' por encima de '), FN(`${d.secondCultivar}`), T(' ('),
-      FN(d.secondEmpresa), T(') con '), NUM(`${N(d.secondRinde)} kg/ha`), T('.'),
-    ];
-    return [ // corto
-      FN(`${d.topCultivar} (${d.topEmpresa})`), T(' #1: '),
-      NUM(`${N(d.topRinde)} kg/ha`), T(' · '),
-      FN(`${d.secondCultivar} (${d.secondEmpresa})`), T(' #2: '),
-      NUM(`${N(d.secondRinde)} kg/ha`), T(' (Δ '),
-      NUM(`${N(d.deltaSecond)} kg`), T(').'),
-    ];
-  }
-
-  if(angle === 'economico'){
-    const ha = CONTEXT_DEFAULTS.hectareasEjemplo;
-    if(d.difKgHa <= 0) {
-      return [ T('No hay diferencia significativa entre top y mediana de este ensayo.') ];
-    }
-    if(tone === 'informal') return [
-      T('Hola '), FN(d.productor), T(', cuenta rápida del ensayo de '),
-      LOC(d.localidad), T(': si en vez del híbrido del medio del ranking sembrás uno del top, son '),
-      NUM(`${N(d.difKgHa)} kg/ha`), T(' de diferencia. A '),
-      NUM(`USD ${CONTEXT_DEFAULTS.precioTnUSD}/tn`), T(' son '),
-      NUM(`USD ${N(d.difUsdHa)}/ha`), T('. En '),
-      NUM(`${ha} ha`), T(' son '),
-      NUM(`USD ${N(d.totalUsd)}`), T(' por elegir bien. El top incluye '),
-      ...d.top3names.slice(0,3).flatMap((n,i) => i===0 ? [FN(n)] : [T(', '), FN(n)]),
-      T('.'),
-    ];
-    if(tone === 'formal') return [
-      T('Estimado '), FN(d.productor), T(', a modo de referencia económica: el diferencial entre la mediana del ensayo '),
-      LOC(`${d.localidad} ${d.campania}`), T(' y el top es de '),
-      NUM(`${N(d.difKgHa)} kg/ha`), T('. Al precio actual de '),
-      NUM(`USD ${CONTEXT_DEFAULTS.precioTnUSD}/tn`), T(', representa '),
-      NUM(`USD ${N(d.difUsdHa)}/ha`), T(' adicionales ('),
-      NUM(`USD ${N(d.totalUsd)} en ${ha} ha`), T(').'),
-    ];
-    return [
-      LOC(`${d.localidad} ${d.campania}`), T(': top vs mediana = '),
-      NUM(`+${N(d.difKgHa)} kg/ha`), T('. A USD '),
-      NUM(`${CONTEXT_DEFAULTS.precioTnUSD}/tn`), T(' = '),
-      NUM(`+USD ${N(d.difUsdHa)}/ha`), T('. '),
-      NUM(`${ha} ha = USD ${N(d.totalUsd)}`), T('.'),
-    ];
-  }
-
-  return [ T('—') ];
-}
-
-const TP_META = {
-  resumen:       { label:'Resumen',       sub:'Dato duro · neutral · para abrir conversación' },
-  confiabilidad: { label:'Confiabilidad', sub:'Top del ensayo + delta sobre promedio · enfoque sólido' },
-  vscompetencia: { label:'vs Competencia',sub:'Comparación entre top y segundo del ensayo' },
-  economico:     { label:'Diferencial $', sub:'Cuenta rápida USD/ha · cuando el productor mide en plata' },
-};
-
-function segmentsToPlainText(segs){
-  return segs.map(s => s.t).join('');
-}
-
-function renderTpMessage(){
-  if(!tpState.ensayo) return;
-  const d = buildTpData(tpState.ensayo);
-  const segs = generateTalkingPoint(tpState.angle, tpState.tone, d);
-  const html = segs.map(s => {
-    const safe = escapeHtml(s.t);
-    if(!s.v) return safe;
-    return `<span class="v-${s.v}">${safe}</span>`;
-  }).join('');
-  document.getElementById('tp-msg').innerHTML = html;
-  document.getElementById('tp-msg').dataset.plain = segmentsToPlainText(segs);
-  document.getElementById('tp-sub').textContent = TP_META[tpState.angle].sub;
-  document.getElementById('tp-tone-label').textContent = tpState.tone;
-}
-
-function bindTalkingPoints(){
-  document.querySelectorAll('.tp-tab').forEach(b => {
-    b.addEventListener('click', () => {
-      document.querySelectorAll('.tp-tab').forEach(x => x.classList.remove('active'));
-      b.classList.add('active');
-      tpState.angle = b.dataset.tpAngle;
-      renderTpMessage();
-    });
-  });
-  document.querySelectorAll('.tp-tone').forEach(b => {
-    b.addEventListener('click', () => {
-      document.querySelectorAll('.tp-tone').forEach(x => x.classList.remove('active'));
-      b.classList.add('active');
-      tpState.tone = b.dataset.tpTone;
-      renderTpMessage();
-    });
-  });
-  document.getElementById('tp-copy').addEventListener('click', async () => {
-    const plain = document.getElementById('tp-msg').dataset.plain || '';
-    try {
-      await navigator.clipboard.writeText(plain);
-      showToast('Copiado al portapapeles');
-    } catch(e) {
-      showToast('No se pudo copiar — copialo manualmente');
-    }
-  });
-  document.getElementById('tp-wa').addEventListener('click', () => {
-    const plain = document.getElementById('tp-msg').dataset.plain || '';
-    window.open('https://wa.me/?text=' + encodeURIComponent(plain), '_blank', 'noopener');
-  });
-}
+// (Talking Points removidos — no se utilizan)
 
 function showToast(msg){
   const t = document.getElementById('toast');
@@ -2075,29 +2058,39 @@ function generateEnsayoPDF(f){
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const W = 210, H = 297;
-  const M = 15; // margin
+  const M = 14;
   let y = M;
 
-  // Header: HENDERSEEDS + breadcrumb editorial
-  pdfText(doc, 'HENDERSEEDS', M, y + 4, {
-    color: PDF_COLORS.ink, size: 11, font: ['helvetica','bold']
+  // ─── HEADER editorial ───
+  // Brand HENDERSEEDS bold + tagline + fecha generación
+  pdfFillRect(doc, 0, 0, W, 22, PDF_COLORS.bg);
+  pdfText(doc, 'HENDERSEEDS', M, M + 2, {
+    color: PDF_COLORS.ink, size: 14, font: ['helvetica','bold']
   });
-  pdfText(doc, '~/mapa-ensayos', W - M, y + 4, {
-    color: PDF_COLORS.inkMute, size: 9, font: ['courier'], align: 'right'
+  pdfText(doc, 'MAPA DE ENSAYOS COMPARATIVOS · ARGENTINA', M, M + 7, {
+    color: PDF_COLORS.inkMute, size: 7, font: ['courier']
   });
-  y += 7;
+  // Esquina derecha: fecha generación + sitio
+  const now = new Date();
+  const fechaStr = `${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()}`;
+  pdfText(doc, fechaStr, W - M, M + 2, {
+    color: PDF_COLORS.inkMute, size: 8, font: ['courier'], align: 'right'
+  });
+  pdfText(doc, 'henderseeds.com/mapa-ensayos', W - M, M + 7, {
+    color: PDF_COLORS.ink, size: 8, font: ['courier','bold'], align: 'right'
+  });
+  y = 28;
   pdfHLine(doc, M, y, W - M, PDF_COLORS.ink, 0.8);
   y += 8;
 
-  // Eyebrow + Title (localidad serif)
+  // ─── TÍTULO LOCALIDAD (serif grande) ───
   pdfText(doc, 'ENSAYO COMPARATIVO', M, y, {
     color: PDF_COLORS.inkMute, size: 8, font: ['courier']
   });
-  y += 9;
+  y += 10;
   pdfText(doc, p.localidad || '—', M, y, {
-    color: PDF_COLORS.ink, size: 26, font: ['times','normal']
+    color: PDF_COLORS.ink, size: 30, font: ['times','normal']
   });
-  // Coordenadas a la derecha del título (en mono, mismo baseline)
   if(f.geometry && f.geometry.coordinates) {
     const [lon, lat] = f.geometry.coordinates;
     pdfText(doc, `${lat.toFixed(2)}° / ${lon.toFixed(2)}°`, W - M, y, {
@@ -2106,80 +2099,84 @@ function generateEnsayoPDF(f){
   }
   y += 6;
 
-  // Meta chips inline (zona · provincia · cultivo · campaña)
+  // ─── META CHIPS ───
   const chipsText = [
     (p.zona || '').toUpperCase(),
     (p.provincia || '').toUpperCase(),
     (p.cultivo || '').toUpperCase(),
     p.campania || '',
+    p.red ? 'FUENTE ' + p.red.toUpperCase() : null,
   ].filter(Boolean).join('   ·   ');
   pdfText(doc, chipsText, M, y, {
     color: PDF_COLORS.inkDim, size: 8, font: ['courier']
   });
-  y += 8;
-
-  // Big stats: 3 columnas
-  const colW = (W - 2 * M) / 3;
-  const statsY0 = y;
-  pdfHLine(doc, M, y, W - M);
-  y += 6;
-
-  const stats = [
-    { l: 'CULTIVARES', v: fmtAR(p.n_cultivares), suffix: '' },
-    { l: 'RINDE MÁX', v: fmtAR(p.rinde_max_kg_ha), suffix: ' kg/ha', accent: true },
-    { l: 'PROMEDIO', v: fmtAR(p.rinde_avg_kg_ha), suffix: ' kg/ha' },
-  ];
-  stats.forEach((s, i) => {
-    const x = M + i * colW;
-    pdfText(doc, s.l, x, y, {
-      color: PDF_COLORS.inkMute, size: 7, font: ['courier']
-    });
-    pdfText(doc, s.v, x, y + 7, {
-      color: s.accent ? PDF_COLORS.nidera : PDF_COLORS.ink,
-      size: 18, font: ['times','normal']
-    });
-    if(s.suffix) {
-      pdfText(doc, s.suffix, x + doc.getTextWidth(s.v) + 1, y + 7, {
-        color: PDF_COLORS.inkMute, size: 7, font: ['courier']
-      });
-    }
-  });
-  y += 13;
-  pdfHLine(doc, M, y, W - M);
   y += 9;
 
-  // Datos del ensayo (kv-grid mono)
+  // ─── SUMMARY estadístico (estilo PPT REMO) ───
+  pdfHLine(doc, M, y, W - M, PDF_COLORS.ink, 0.5);
+  y += 6;
+  const cultivares = (p.cultivares || []).slice();
+  const avgRinde = p.rinde_avg_kg_ha;
+  const maxRinde = p.rinde_max_kg_ha;
+  const minRinde = p.rinde_min_kg_ha || maxRinde;
+  let cv = null;
+  if(cultivares.length){
+    const variance = cultivares.reduce((s,c) => s + Math.pow(c.rinde_kg_ha-avgRinde,2), 0) / cultivares.length;
+    cv = avgRinde > 0 ? (Math.sqrt(variance)/avgRinde*100).toFixed(1) : null;
+  }
+  const sumStats = [
+    { l: 'N',         v: fmtAR(p.n_cultivares) },
+    { l: 'PROMEDIO',  v: fmtAR(avgRinde) },
+    { l: 'MÁXIMO',    v: fmtAR(maxRinde), accent: true },
+    { l: 'MÍNIMO',    v: fmtAR(minRinde) },
+    { l: 'EMPRESAS',  v: fmtAR(p.n_empresas) },
+    cv ? { l: 'CV %', v: cv } : null,
+  ].filter(Boolean);
+  const sumColW = (W - 2*M) / sumStats.length;
+  sumStats.forEach((s, i) => {
+    const x = M + i * sumColW;
+    pdfText(doc, s.l, x, y, {
+      color: PDF_COLORS.inkMute, size: 6.5, font: ['courier']
+    });
+    pdfText(doc, s.v, x, y + 5.5, {
+      color: s.accent ? PDF_COLORS.nidera : PDF_COLORS.ink,
+      size: 13, font: ['times','normal']
+    });
+  });
+  y += 11;
+  pdfHLine(doc, M, y, W - M, PDF_COLORS.ink, 0.5);
+  y += 7;
+
+  // ─── DATOS DEL ENSAYO (compactos en 2 columnas) ───
   pdfText(doc, 'DATOS DEL ENSAYO', M, y, {
     color: PDF_COLORS.ink, size: 8, font: ['courier','bold']
   });
-  y += 6;
-
-  const kvRows = [];
-  if(p.productor) kvRows.push(['Productor', p.productor]);
-  if(p.campo) kvRows.push(['Campo', p.campo]);
-  if(p.fuente_responsable) kvRows.push(['Responsable', p.fuente_responsable]);
-  if(p.fuente_email) kvRows.push(['Contacto', p.fuente_email]);
-  kvRows.push(['Red', p.red || '—']);
-  if(p.licencia) kvRows.push(['Licencia', p.licencia]);
-  if(p.fecha_siembra) kvRows.push(['Siembra', p.fecha_siembra]);
-  if(p.fecha_cosecha) kvRows.push(['Cosecha', p.fecha_cosecha]);
-  if(p.precipitaciones_mm) kvRows.push(['Lluvia ciclo', p.precipitaciones_mm + ' mm']);
-
-  doc.setFontSize(8.5);
-  doc.setFont('courier', 'normal');
-  kvRows.forEach(([k, v]) => {
-    pdfText(doc, k + ':', M, y, {
-      color: PDF_COLORS.inkMute, size: 8, font: ['courier']
+  y += 5;
+  const kvPairs = [];
+  if(p.productor) kvPairs.push(['Productor', p.productor]);
+  if(p.campo) kvPairs.push(['Campo', p.campo]);
+  if(p.fuente_responsable) kvPairs.push(['Responsable', p.fuente_responsable]);
+  if(p.fecha_siembra) kvPairs.push(['Siembra', p.fecha_siembra]);
+  if(p.fecha_cosecha) kvPairs.push(['Cosecha', p.fecha_cosecha]);
+  if(p.precipitaciones_mm) kvPairs.push(['Lluvia ciclo', p.precipitaciones_mm + ' mm']);
+  // Layout 2-col
+  const halfW = (W - 2*M) / 2;
+  kvPairs.forEach((pair, i) => {
+    const col = i % 2;
+    const row = Math.floor(i / 2);
+    const x = M + col * halfW;
+    const lineY = y + row * 4.5;
+    pdfText(doc, pair[0] + ':', x, lineY, {
+      color: PDF_COLORS.inkMute, size: 7.5, font: ['courier']
     });
-    const vText = doc.splitTextToSize(String(v), W - M - M - 30);
-    pdfText(doc, vText, M + 30, y, {
-      color: PDF_COLORS.ink, size: 8, font: ['courier']
+    const v = doc.splitTextToSize(String(pair[1]), halfW - 22);
+    pdfText(doc, v[0], x + 22, lineY, {
+      color: PDF_COLORS.ink, size: 7.5, font: ['courier']
     });
-    y += 5 * vText.length;
   });
-  y += 4;
+  y += Math.ceil(kvPairs.length / 2) * 4.5 + 4;
 
-  // Manejo (si hay)
+  // Manejo agronómico si hay
   const manejoLines = [];
   if(p.manejo_herbicida) manejoLines.push(['Herbicidas', p.manejo_herbicida]);
   if(p.manejo_fertilizacion) manejoLines.push(['Fertilización', p.manejo_fertilizacion]);
@@ -2188,86 +2185,141 @@ function generateEnsayoPDF(f){
     pdfText(doc, 'MANEJO AGRONÓMICO', M, y, {
       color: PDF_COLORS.ink, size: 8, font: ['courier','bold']
     });
-    y += 6;
-    manejoLines.forEach(([k, v]) => {
-      pdfText(doc, k + ':', M, y, {color: PDF_COLORS.inkMute, size: 8, font: ['courier']});
-      const vText = doc.splitTextToSize(String(v), W - M - M - 30);
-      pdfText(doc, vText, M + 30, y, {color: PDF_COLORS.ink, size: 8, font: ['courier']});
-      y += 5 * vText.length;
-    });
     y += 5;
+    manejoLines.forEach(([k, v]) => {
+      pdfText(doc, k + ':', M, y, {color: PDF_COLORS.inkMute, size: 7.5, font: ['courier']});
+      const vText = doc.splitTextToSize(String(v), W - 2*M - 28);
+      pdfText(doc, vText, M + 28, y, {color: PDF_COLORS.ink, size: 7.5, font: ['courier']});
+      y += 4.5 * vText.length;
+    });
+    y += 3;
   }
 
-  // Ranking title
-  pdfHLine(doc, M, y, W - M, PDF_COLORS.line, 0.5);
+  // ─── RANKING POR RINDE estilo PPT REMO con barras heatmap ───
+  pdfHLine(doc, M, y, W - M, PDF_COLORS.ink, 0.5);
   y += 6;
   pdfText(doc, 'RANKING POR RINDE', M, y, {
-    color: PDF_COLORS.ink, size: 9, font: ['courier','bold']
+    color: PDF_COLORS.ink, size: 10, font: ['courier','bold']
   });
   pdfText(doc, '* NIDERA · RED.IN', W - M, y, {
     color: PDF_COLORS.nidera, size: 7, font: ['courier'], align: 'right'
   });
-  y += 5;
+  y += 4;
 
-  // Ranking header
-  const rkColPos = M + 2;          // #
-  const rkColName = M + 12;        // cultivar
-  const rkColCompany = M + 12;     // empresa (segunda línea)
-  const rkColRinde = W - M - 30;   // kg/ha
-  const rkColDelta = W - M - 2;    // vs #1 (derecha)
-  pdfFillRect(doc, M, y - 3, W - 2*M, 5, PDF_COLORS.bg);
-  pdfText(doc, '#', rkColPos, y, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier']});
-  pdfText(doc, 'CULTIVAR · EMPRESA', rkColName, y, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier']});
-  pdfText(doc, 'KG/HA', rkColRinde, y, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier'], align: 'right'});
-  pdfText(doc, 'vs #1', rkColDelta, y, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier'], align: 'right'});
-  y += 5;
+  // Layout de columnas: #, HÍBRIDO, EMPRESA, BARRA (con kg/ha inline), KG/HA, IND
+  const colPos    = M + 1;       // #
+  const colName   = M + 8;       // híbrido
+  const colEmp    = M + 70;      // empresa
+  const colBarL   = M + 96;      // inicio de barra
+  const colBarR   = W - M - 26;  // fin barra (kg/ha y idx van a la derecha)
+  const colRinde  = W - M - 14;  // kg/ha derecha
+  const colIdx    = W - M;       // idx derecha
+  const barFullW  = colBarR - colBarL;
 
-  // Ranking rows
-  const maxRinde = p.rinde_max_kg_ha;
-  const cultivares = (p.cultivares || []).slice(0, 12);
+  // Header columnas
+  pdfFillRect(doc, M, y, W - 2*M, 5, PDF_COLORS.bg);
+  const colY = y + 3.3;
+  pdfText(doc, '#', colPos, colY, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier','bold']});
+  pdfText(doc, 'HÍBRIDO', colName, colY, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier','bold']});
+  pdfText(doc, 'EMPRESA', colEmp, colY, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier','bold']});
+  pdfText(doc, 'RINDE', colBarL + barFullW/2, colY, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier','bold'], align: 'center'});
+  pdfText(doc, 'KG/HA', colRinde, colY, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier','bold'], align: 'right'});
+  pdfText(doc, 'ÍND', colIdx, colY, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier','bold'], align: 'right'});
+  y += 6;
+
+  // Heatmap color helper
+  function heatmap(rinde, nidera){
+    if(nidera) return PDF_COLORS.nidera;
+    if(maxRinde === minRinde) return [126, 185, 88];
+    const t = (rinde - minRinde) / (maxRinde - minRinde);
+    return [
+      Math.round(243 + (126-243)*t),
+      Math.round(211 + (185-211)*t),
+      Math.round(74 + (88-74)*t),
+    ];
+  }
+
+  const rowH = 5.5;
   cultivares.forEach((c, i) => {
+    if(y > H - 30) return;  // dejar espacio footer
     const nidera = isNideraCultivar(c);
-    const rowH = 7;
     if(nidera) {
-      pdfFillRect(doc, M, y - 4.5, W - 2*M, rowH, PDF_COLORS.niderasoft);
+      pdfFillRect(doc, M, y, W - 2*M, rowH, PDF_COLORS.niderasoft);
     }
-    pdfText(doc, String(i+1).padStart(2, '0'), rkColPos, y, {
-      color: PDF_COLORS.inkMute, size: 8, font: ['courier']
+    const rowY = y + 3.8;
+    // Pos
+    pdfText(doc, String(i+1).padStart(2,'0'), colPos, rowY, {
+      color: PDF_COLORS.inkMute, size: 7.5, font: ['courier']
     });
-    const nameStr = c.cultivar + (nidera ? ' *' : '');
-    pdfText(doc, nameStr, rkColName, y, {
-      color: nidera ? PDF_COLORS.nidera : PDF_COLORS.ink, size: 8.5, font: ['courier', nidera?'bold':'normal']
+    // Cultivar
+    let cultivarName = c.cultivar;
+    if(cultivarName.length > 24) cultivarName = cultivarName.slice(0, 23) + '…';
+    pdfText(doc, cultivarName + (nidera ? ' *' : ''), colName, rowY, {
+      color: nidera ? PDF_COLORS.nidera : PDF_COLORS.ink,
+      size: 8, font: ['courier', nidera?'bold':'normal']
     });
-    pdfText(doc, c.empresa || '—', rkColName, y + 3.2, {
-      color: PDF_COLORS.inkMute, size: 7, font: ['courier']
+    // Empresa
+    let empName = c.empresa || '—';
+    if(empName.length > 14) empName = empName.slice(0, 13) + '…';
+    pdfText(doc, empName, colEmp, rowY, {
+      color: nidera ? PDF_COLORS.nidera : PDF_COLORS.inkDim,
+      size: 7, font: ['courier']
     });
-    pdfText(doc, fmtAR(c.rinde_kg_ha), rkColRinde, y, {
-      color: nidera ? PDF_COLORS.nidera : PDF_COLORS.ink, size: 8.5,
-      font: ['courier', nidera?'bold':'normal'], align: 'right'
+    // Barra heatmap
+    const pct = Math.max(0.04, c.rinde_kg_ha / maxRinde);
+    const barW = barFullW * pct;
+    // background sutil
+    pdfFillRect(doc, colBarL, y + 1, barFullW, rowH - 2, PDF_COLORS.lineSoft);
+    pdfFillRect(doc, colBarL, y + 1, barW, rowH - 2, heatmap(c.rinde_kg_ha, nidera));
+    // Rinde
+    pdfText(doc, fmtAR(c.rinde_kg_ha), colRinde, rowY, {
+      color: nidera ? PDF_COLORS.nidera : PDF_COLORS.ink,
+      size: 8, font: ['courier', nidera?'bold':'normal'], align: 'right'
     });
-    const delta = c.rinde_kg_ha - maxRinde;
-    pdfText(doc, delta === 0 ? '—' : (delta>0?'+':'') + fmtAR(delta), rkColDelta, y, {
-      color: PDF_COLORS.inkMute, size: 7.5, font: ['courier'], align: 'right'
+    // Índice
+    const idx = avgRinde > 0 ? Math.round((c.rinde_kg_ha/avgRinde)*100) : 100;
+    pdfText(doc, String(idx), colIdx, rowY, {
+      color: PDF_COLORS.inkDim, size: 7.5, font: ['courier'], align: 'right'
     });
-    pdfHLine(doc, M, y + 2.5, W - M, PDF_COLORS.lineSoft, 0.2);
+    pdfHLine(doc, M, y + rowH, W - M, PDF_COLORS.lineSoft, 0.15);
     y += rowH;
-    if(y > H - 35) return;  // dejar espacio para footer
   });
 
-  // Footer fijo abajo: atribución + URL
-  const footerY = H - 18;
-  pdfHLine(doc, M, footerY, W - M, PDF_COLORS.line, 0.5);
+  // Fila Promedio
+  if(y < H - 30){
+    pdfFillRect(doc, M, y, W - 2*M, rowH, PDF_COLORS.bg);
+    pdfText(doc, '—', colPos, y + 3.8, {color: PDF_COLORS.inkMute, size: 7.5, font: ['courier']});
+    pdfText(doc, 'Promedio del ensayo', colName, y + 3.8, {
+      color: PDF_COLORS.ink, size: 8, font: ['courier','bold']
+    });
+    const pctAvg = avgRinde / maxRinde;
+    pdfFillRect(doc, colBarL, y + 1, barFullW * pctAvg, rowH - 2, [197, 192, 168]);
+    pdfText(doc, fmtAR(avgRinde), colRinde, y + 3.8, {
+      color: PDF_COLORS.ink, size: 8, font: ['courier','bold'], align: 'right'
+    });
+    pdfText(doc, '100', colIdx, y + 3.8, {
+      color: PDF_COLORS.ink, size: 7.5, font: ['courier','bold'], align: 'right'
+    });
+    y += rowH + 3;
+  }
+
+  // ─── FOOTER ───
+  const footerY = H - 16;
+  pdfHLine(doc, M, footerY, W - M, PDF_COLORS.ink, 0.5);
   pdfText(doc,
-    `Fuente: ${p.red || '—'} · ${p.campania || ''}${p.licencia ? '. ' + p.licencia.substring(0, 60) : ''}`,
-    M, footerY + 5, { color: PDF_COLORS.inkDim, size: 7, font: ['courier'] }
+    `Fuente: ${p.red || '—'} · Campaña ${p.campania || ''}.`,
+    M, footerY + 4, { color: PDF_COLORS.ink, size: 7.5, font: ['courier','bold'] }
   );
-  pdfText(doc, 'henderseeds.com/mapa-ensayos', M, footerY + 10, {
-    color: PDF_COLORS.ink, size: 8, font: ['courier','bold']
-  });
-  const now = new Date();
-  pdfText(doc,
-    `Generado ${now.toISOString().slice(0,10)} ${now.toTimeString().slice(0,5)}`,
-    W - M, footerY + 10, { color: PDF_COLORS.inkMute, size: 7, font: ['courier'], align: 'right' }
+  if(p.licencia){
+    pdfText(doc, p.licencia.substring(0, 80),
+      M, footerY + 8, { color: PDF_COLORS.inkMute, size: 6.5, font: ['courier'] }
+    );
+  }
+  pdfText(doc, 'Henderseeds SRL · Distribuidor RED.IN Nidera',
+    W - M, footerY + 4, { color: PDF_COLORS.ink, size: 7.5, font: ['courier','bold'], align: 'right' }
+  );
+  pdfText(doc, `henderseeds.com/mapa-ensayos · Generado ${fechaStr}`,
+    W - M, footerY + 8, { color: PDF_COLORS.inkMute, size: 6.5, font: ['courier'], align: 'right' }
   );
 
   return doc;
@@ -2321,8 +2373,50 @@ function closeShareModal(){
 }
 
 function bindShare(){
+  // DESCARGAR PDF (abre modal con preview)
   document.getElementById('a-share').addEventListener('click', openShareModal);
 
+  // ENVIAR POR WHATSAPP — genera PDF y lo comparte directo (sin modal)
+  document.getElementById('a-wa').addEventListener('click', async () => {
+    if(!shareState.ensayo) return;
+    showToast('Generando PDF...');
+    try {
+      const r = await generatePdfArtifacts();
+      if(!r) return;
+
+      // Web Share API con archivo (mobile + Chrome 89+ + Safari macOS)
+      if(navigator.canShare && navigator.canShare({ files: [r.file] })) {
+        try {
+          const p = shareState.ensayo.properties;
+          await navigator.share({
+            files: [r.file],
+            title: 'Ensayo ' + p.localidad + ' ' + p.campania,
+            text: `Ensayo comparativo ${p.localidad} ${p.campania} — Mapa Henderseeds`,
+          });
+          showToast('Compartido');
+          return;
+        } catch(e) {
+          if(e.name === 'AbortError') return;  // user canceló
+          // sigue al fallback
+        }
+      }
+
+      // Fallback desktop: descarga el PDF + abre WhatsApp Web con texto
+      const a = document.createElement('a');
+      a.href = r.url;
+      a.download = r.filename;
+      a.click();
+      const p = shareState.ensayo.properties;
+      const txt = `Ensayo ${p.localidad} ${p.campania} — ${fmtAR(p.n_cultivares)} cultivares · Rinde máximo ${fmtAR(p.rinde_max_kg_ha)} kg/ha. Te paso el PDF adjunto. Mapa completo: henderseeds.com/mapa-ensayos`;
+      window.open('https://wa.me/?text=' + encodeURIComponent(txt), '_blank', 'noopener');
+      showToast('PDF descargado · adjuntalo al chat de WhatsApp');
+    } catch(e) {
+      console.error('Share PDF error', e);
+      showToast('No se pudo generar el PDF');
+    }
+  });
+
+  // Modal DESCARGAR PDF
   document.getElementById('share-download').addEventListener('click', () => {
     if(!shareState.pdfBlob) return;
     const a = document.createElement('a');
@@ -2333,32 +2427,21 @@ function bindShare(){
   });
 
   document.getElementById('share-native').addEventListener('click', async () => {
-    if(!shareState.pdfFile) {
-      showToast('Generá el PDF primero');
-      return;
-    }
-    // Web Share API con archivo (funciona en mobile y desktop modernos)
+    if(!shareState.pdfFile) return;
     if(navigator.canShare && navigator.canShare({ files: [shareState.pdfFile] })) {
       try {
+        const p = shareState.ensayo.properties;
         await navigator.share({
           files: [shareState.pdfFile],
-          title: 'Ensayo ' + shareState.ensayo.properties.localidad,
-          text: `Ensayo comparativo ${shareState.ensayo.properties.localidad} ${shareState.ensayo.properties.campania} — Mapa Henderseeds`,
+          title: 'Ensayo ' + p.localidad,
+          text: `Ensayo ${p.localidad} ${p.campania} — Mapa Henderseeds`,
         });
         showToast('Compartido');
       } catch(e) {
         if(e.name !== 'AbortError') showToast('No se pudo compartir');
       }
     } else {
-      // Fallback: descargar + abrir WhatsApp con texto corto
-      const a = document.createElement('a');
-      a.href = shareState.pdfUrl;
-      a.download = shareState.pdfFilename;
-      a.click();
-      const p = shareState.ensayo.properties;
-      const txt = `Ensayo ${p.localidad} ${p.campania} — ${fmtAR(p.n_cultivares)} cultivares · Rinde máx ${fmtAR(p.rinde_max_kg_ha)} kg/ha. Te paso el PDF adjunto. Mapa completo: henderseeds.com/mapa-ensayos`;
-      window.open('https://wa.me/?text=' + encodeURIComponent(txt), '_blank', 'noopener');
-      showToast('PDF descargado · adjuntalo al chat');
+      showToast('Tu navegador no soporta compartir archivos — usá Descargar');
     }
   });
 
