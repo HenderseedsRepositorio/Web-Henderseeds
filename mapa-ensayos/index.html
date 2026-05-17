@@ -1303,6 +1303,22 @@ async function init(){
   populateMultiselect('zona', [...countBy('zona').entries()]
     .sort((a,b) => b[1] - a[1] || a[0].localeCompare(b[0])));
 
+  // Pre-selección por defecto: últimas 3 campañas (más recientes).
+  // El usuario espera ver lo nuevo primero; las viejas siguen disponibles destildando.
+  // sortCamp() ya devolvió las campañas en orden desc, así que tomamos las primeras 3.
+  const campaniasOrden = [...countBy('campania').entries()]
+    .map(e => e[0])
+    .sort(sortCamp);
+  const defaultCamp = campaniasOrden.slice(0, 3);
+  defaultCamp.forEach(v => filters.campania.add(v));
+  const msCamp = document.querySelector('.ms[data-ms="campania"] .ms-menu');
+  if(msCamp){
+    msCamp.querySelectorAll('input[type=checkbox]').forEach(cb => {
+      if(filters.campania.has(cb.value)) cb.checked = true;
+    });
+  }
+  updateMultiselectLabel('campania');
+
   // Counts iniciales por cultivo (tabs + legend)
   const nGir = allFeatures.filter(f=>f.properties.cultivo==='girasol').length;
   const nMai = allFeatures.filter(f=>f.properties.cultivo==='maiz').length;
@@ -1520,7 +1536,9 @@ function initMap(){
       if(full) openAside(full);
     });
 
-    updateCounter();
+    // Aplicar filtro inicial (las últimas 3 campañas vienen pre-seleccionadas
+    // desde init()). Si no hay filtros activos, applyFilter() es no-op visual.
+    applyFilter();
   });
 }
 
