@@ -224,8 +224,8 @@ select.chip{appearance:none;padding-right:1.6rem;background-image:url("data:imag
 .main{flex:1; display:flex; min-height:0; position:relative; transition:all .25s ease}
 #map{flex:1; position:relative; background:#EAEFF5; transition:flex .25s ease}
 .main.detail #map{
-  flex:0 0 35%;
-  min-width:280px;
+  flex:0 0 42%;
+  min-width:320px;
   border-right:1px solid var(--line);
 }
 .back-to-map{
@@ -302,13 +302,39 @@ aside{
 
 .aside-head .close{
   position:absolute;top:1.1rem;right:1.1rem;
-  width:26px;height:26px;border-radius:3px;
+  width:28px;height:28px;border-radius:3px;
   border:1px solid var(--line);background:var(--bg-panel);
   color:var(--ink-dim);cursor:pointer;font-size:1rem;
   display:flex;align-items:center;justify-content:center;
   transition:all .15s;
 }
 .aside-head .close:hover{border-color:var(--ink);color:var(--ink)}
+
+/* Navegación previo/siguiente entre ensayos visibles */
+.aside-nav{
+  position:absolute;top:1.1rem;right:3.5rem;
+  display:flex;gap:.3rem;
+}
+.aside-nav button{
+  width:28px;height:28px;border:1px solid var(--line);
+  background:var(--bg-panel);color:var(--ink-dim);
+  font-family:var(--mono);font-size:.85rem;font-weight:600;
+  cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;justify-content:center;
+}
+.aside-nav button:hover:not(:disabled){
+  background:var(--ink);color:var(--bg-panel);border-color:var(--ink);
+}
+.aside-nav button:disabled{
+  opacity:.35;cursor:not-allowed;
+}
+.aside-nav .nav-counter{
+  display:inline-flex;align-items:center;
+  padding:0 .55rem;
+  font-family:var(--mono);font-size:.62rem;
+  color:var(--ink-mute);letter-spacing:.04em;
+  font-variant-numeric:tabular-nums;
+}
 
 /* ═══ HERO METRIC — protagonista del panel ═══ */
 .hero{
@@ -1186,24 +1212,18 @@ aside{
   </div>
   <aside id="aside">
     <div class="aside-head">
+      <div class="aside-nav">
+        <button id="a-prev" type="button" aria-label="Ensayo anterior" title="Ensayo anterior (←)">‹</button>
+        <span class="nav-counter" id="a-nav-counter">—</span>
+        <button id="a-next" type="button" aria-label="Ensayo siguiente" title="Ensayo siguiente (→)">›</button>
+      </div>
       <button class="close" onclick="closeAside()" aria-label="Cerrar">×</button>
       <h1 class="loc" id="a-loc">—</h1>
       <span class="coords" id="a-coords"></span>
       <div class="meta-chips" id="a-meta-chips"></div>
     </div>
-    <!-- HERO METRIC — el dato hero del ensayo (rinde top + cultivar líder) -->
-    <div class="hero" id="a-hero">
-      <div class="hero-label">RINDE TOP DEL ENSAYO</div>
-      <div class="hero-value">
-        <span id="a-hero-rinde">—</span>
-        <span class="suffix">kg/ha</span>
-      </div>
-      <div class="hero-sub">
-        <span class="hero-cult" id="a-hero-cult">—</span>
-        <span class="hero-emp" id="a-hero-emp"></span>
-      </div>
-      <div class="hero-stats" id="a-hero-stats"></div>
-    </div>
+    <!-- HERO METRIC removido en preview v8: ir directo a la tabla. -->
+    <div class="hero" id="a-hero" style="display:none"></div>
 
     <div class="aside-body">
       <!-- RANKING estilo PPT REMO (tabla densa con heatmap) -->
@@ -1328,7 +1348,7 @@ function isNideraCultivar(c){
   return (c && c.empresa || '').trim().toLowerCase() === 'nidera';
 }
 
-let map, allFeatures = [];
+let map, allFeatures = [], visibleFeatures = [], currentEnsayoId = null;
 // filters.cultivo: string ('*' o 'maiz' o 'girasol').
 // filters.campania/red/empresa/zona: Set<string> de valores seleccionados.
 // Set vacío = "todo" (no filtra). Set con N valores = "solo esos N".
@@ -1350,6 +1370,7 @@ async function init(){
   const resp = await fetch('data/ensayos.geojson');
   const gj = await resp.json();
   allFeatures = gj.features;
+  visibleFeatures = allFeatures.slice();  // cache inicial para navegación
 
   // Populate selects de filtros
   const empresas = new Set();
@@ -1408,6 +1429,17 @@ async function init(){
   bindShare();
 
   // (rank-toggle no existe en preview — tabla densa muestra todos los cultivares)
+
+  // Navegación previo/siguiente entre ensayos visibles
+  document.getElementById('a-prev').addEventListener('click', () => navEnsayo(-1));
+  document.getElementById('a-next').addEventListener('click', () => navEnsayo(+1));
+  document.addEventListener('keydown', (e) => {
+    // Solo navegar cuando el panel está abierto y no estamos en un input
+    if(!document.getElementById('aside').classList.contains('open')) return;
+    if(e.target.matches('input, textarea, select')) return;
+    if(e.key === 'ArrowLeft') { e.preventDefault(); navEnsayo(-1); }
+    if(e.key === 'ArrowRight') { e.preventDefault(); navEnsayo(+1); }
+  });
 }
 
 function initMap(){
@@ -1478,42 +1510,101 @@ function initMap(){
       source:'ensayos',
       filter:['==',['get','top_is_nidera'], true],
       paint:{
-        'circle-radius':['interpolate',['linear'],['get','n_cultivares'],10,14,40,22],
+        'circle-radius':['interpolate',['linear'],['get','n_cultivares'],10,18,40,28],
         'circle-color':'transparent',
         'circle-stroke-color': COLOR.nidera,
-        'circle-stroke-width':2,
-        'circle-stroke-opacity':0.55,
+        'circle-stroke-width':2.5,
+        'circle-stroke-opacity':0.6,
       },
     });
 
-    // Dot (sin halo difuso, estética editorial limpia)
+    // Hit-area invisible: layer transparente más grande para facilitar el click.
+    // El usuario no la ve pero captura los clicks aunque el cursor no esté
+    // perfectamente sobre el dot.
+    map.addLayer({
+      id:'ensayos-hit',
+      type:'circle',
+      source:'ensayos',
+      paint:{
+        'circle-radius': 16,
+        'circle-color': '#000',
+        'circle-opacity': 0,  // 100% transparente
+      },
+    });
+
+    // Dot visible: ahora más grande que antes (r = 5 + sqrt(n)*1.0)
     map.addLayer({
       id:'ensayos-dot',
       type:'circle',
       source:'ensayos',
       paint:{
-        // Tamaño según fórmula editorial: r = 3 + sqrt(n) * 0.7
+        // Tamaño base más grande para que sea fácil de clickear
         'circle-radius':[
-          '+', 3,
-          ['*', 0.7, ['sqrt',['max',1,['get','n_cultivares']]]]
+          '+', 5,
+          ['*', 1.0, ['sqrt',['max',1,['get','n_cultivares']]]]
         ],
         'circle-color':['match',['get','cultivo'],'girasol',COLOR.girasol,'maiz',COLOR.maiz,'#9c947f'],
-        'circle-stroke-width':1.5,
+        'circle-stroke-width':2,
         'circle-stroke-color':'#fbf9f3',
       },
     });
 
+    // Hover state: agranda el pin al pasar el mouse
+    map.addLayer({
+      id:'ensayos-hover',
+      type:'circle',
+      source:'ensayos',
+      filter:['==','ensayo_id',''],   // empty selector — se cambia en hover
+      paint:{
+        'circle-radius':[
+          '+', 9,
+          ['*', 1.2, ['sqrt',['max',1,['get','n_cultivares']]]]
+        ],
+        'circle-color':'transparent',
+        'circle-stroke-color':'#1a1a18',
+        'circle-stroke-width':2,
+      },
+    });
+
+    // Layer activo: marca el ensayo seleccionado actualmente (anillo grueso)
+    map.addLayer({
+      id:'ensayos-active',
+      type:'circle',
+      source:'ensayos',
+      filter:['==','ensayo_id',''],   // empty — se setea en openAside
+      paint:{
+        'circle-radius':[
+          '+', 11,
+          ['*', 1.4, ['sqrt',['max',1,['get','n_cultivares']]]]
+        ],
+        'circle-color':'transparent',
+        'circle-stroke-color':'#1a1a18',
+        'circle-stroke-width':3,
+      },
+    });
+
+    // Hit-area activa también para hover/click
+    map.on('mouseenter','ensayos-hit', e => {
+      map.getCanvas().style.cursor='pointer';
+      const eid = e.features[0]?.properties?.ensayo_id;
+      if(eid) map.setFilter('ensayos-hover',['==','ensayo_id', eid]);
+    });
+    map.on('mouseleave','ensayos-hit',()=>{
+      map.getCanvas().style.cursor='';
+      map.setFilter('ensayos-hover',['==','ensayo_id','']);
+    });
     map.on('mouseenter','ensayos-dot',()=>map.getCanvas().style.cursor='pointer');
     map.on('mouseleave','ensayos-dot',()=>map.getCanvas().style.cursor='');
 
-    map.on('click','ensayos-dot', e => {
+    // Click handler: escuchamos la hit-area invisible (más grande)
+    const handleEnsayoClick = e => {
       const f = e.features[0];
-      // MapLibre no preserva el id string del GeoJSON en eventos click;
-      // matchear por ensayo_id en properties
       const eid = f.properties.ensayo_id;
       const full = allFeatures.find(x => x.properties.ensayo_id === eid);
       if(full) openAside(full);
-    });
+    };
+    map.on('click','ensayos-hit', handleEnsayoClick);
+    map.on('click','ensayos-dot', handleEnsayoClick);
 
     updateCounter();
   });
@@ -1651,8 +1742,11 @@ function applyFilter(){
     if(filters.zona.size > 0 && !filters.zona.has(p.zona)) return false;
     return true;
   });
+  // Cachear los visibles para navegación previo/siguiente
+  visibleFeatures = filtered;
   map.getSource('ensayos').setData({type:'FeatureCollection', features:filtered});
   updateCounter(filtered);
+  updateNavCounter();
 
   // Actualizar crumb del header
   const crumb = document.getElementById('crumb-camp');
@@ -1691,26 +1785,8 @@ function openAside(f){
   chips.push(`<span class="meta-chip">${escapeHtml(p.campania)}</span>`);
   document.getElementById('a-meta-chips').innerHTML = chips.join('');
 
-  // ─── HERO METRIC ───
-  const cultivares = p.cultivares || [];
-  const top = cultivares[0] || {};
-  const topIsNidera = isNideraCultivar(top);
-  const hero = document.getElementById('a-hero');
-  hero.classList.toggle('is-nidera', topIsNidera);
-  document.getElementById('a-hero-rinde').textContent = fmtAR(top.rinde_kg_ha || p.rinde_max_kg_ha);
-  document.getElementById('a-hero-cult').innerHTML =
-    escapeHtml(top.cultivar || '—') + (topIsNidera ? '<span class="star">★</span>' : '');
-  document.getElementById('a-hero-emp').textContent = top.empresa || '';
-
-  // Hero stats: n cultivares · n empresas · delta vs promedio
-  const deltaVsAvg = (top.rinde_kg_ha || p.rinde_max_kg_ha) - p.rinde_avg_kg_ha;
-  document.getElementById('a-hero-stats').innerHTML = `
-    <span><b>${fmtAR(p.n_cultivares)}</b> cultivares</span>
-    <span class="stat-sep">·</span>
-    <span><b>${fmtAR(p.n_empresas)}</b> empresas</span>
-    <span class="stat-sep">·</span>
-    <span class="delta-up"><b>+${fmtAR(deltaVsAvg)} kg/ha</b> vs promedio</span>
-  `;
+  // Hero metric removido en preview v8 — la tabla densa es protagonista.
+  // (Sumario estadístico arriba de la tabla cubre el rol de KPIs.)
 
   // Datos del ensayo (kv-grid editorial)
   const kvRows = [];
@@ -1864,6 +1940,14 @@ function openAside(f){
   document.getElementById('aside').classList.add('open');
   // Layout adaptativo: mapa shrink + aside expande
   document.querySelector('.main').classList.add('detail');
+
+  // Marcar el ensayo activo en el mapa con un anillo grueso
+  currentEnsayoId = p.ensayo_id;
+  map.setFilter('ensayos-active',['==','ensayo_id', p.ensayo_id]);
+
+  // Actualizar contador navegación
+  updateNavCounter();
+
   // Esperar a la transición de CSS y luego resize del mapa
   setTimeout(() => {
     map.resize();
@@ -1871,10 +1955,45 @@ function openAside(f){
   }, 280);
 }
 
+function updateNavCounter(){
+  const counter = document.getElementById('a-nav-counter');
+  const prevBtn = document.getElementById('a-prev');
+  const nextBtn = document.getElementById('a-next');
+  if(!counter) return;
+  if(!currentEnsayoId || !visibleFeatures.length){
+    counter.textContent = '—';
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+    return;
+  }
+  const idx = visibleFeatures.findIndex(f => f.properties.ensayo_id === currentEnsayoId);
+  if(idx < 0){
+    counter.textContent = '—';
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+    return;
+  }
+  counter.textContent = `${idx + 1} / ${visibleFeatures.length}`;
+  prevBtn.disabled = idx === 0;
+  nextBtn.disabled = idx === visibleFeatures.length - 1;
+}
+
+function navEnsayo(delta){
+  if(!visibleFeatures.length || !currentEnsayoId) return;
+  const idx = visibleFeatures.findIndex(f => f.properties.ensayo_id === currentEnsayoId);
+  const next = idx + delta;
+  if(next < 0 || next >= visibleFeatures.length) return;
+  openAside(visibleFeatures[next]);
+}
+
 function closeAside(){
   document.getElementById('aside').classList.remove('open');
-  // Restaurar layout: mapa fullwidth
   document.querySelector('.main').classList.remove('detail');
+  // Limpiar marca activa en mapa
+  currentEnsayoId = null;
+  if(map && map.getLayer('ensayos-active')) {
+    map.setFilter('ensayos-active',['==','ensayo_id','']);
+  }
   setTimeout(() => {
     map.resize();
     map.flyTo({center:[-61.8,-36.5], zoom:5.4, speed:.7});
