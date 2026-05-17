@@ -157,15 +157,21 @@ aside{
   box-shadow:-8px 0 24px rgba(40,30,15,.06);
 }
 aside.open{transform:translateX(0)}
+/* Cuando hay un panel abierto, ocultamos el counter del mapa para que
+   no se solape con el título largo del panel ('Chascomús' u otros). */
+.main:has(aside.open) .counter{display:none}
 .aside-head{
   padding:1.4rem 1.5rem 1rem;
   border-bottom:1px solid var(--line-soft);
   position:relative;
 }
 .aside-head .loc{
-  font-family:var(--serif);font-size:1.9rem;font-weight:500;
+  font-family:var(--serif);font-weight:500;
+  font-size:clamp(1.35rem, 4.5vw, 1.85rem);
   letter-spacing:-0.01em;line-height:1.1;color:var(--ink);
   display:inline-block;
+  word-break:break-word;hyphens:auto;
+  max-width:100%;
 }
 .aside-head .coords{
   font-family:var(--mono);font-size:.65rem;color:var(--ink-mute);
@@ -248,50 +254,63 @@ aside.open{transform:translateX(0)}
 .kv-grid .v a{color:var(--nidera);text-decoration:underline;text-decoration-style:dotted}
 .kv-grid .v .hint{color:var(--ink-mute);font-size:.62rem;margin-left:.3rem}
 
-/* Ranking editorial: 5 columnas (#, cultivar+empresa, kg/ha, delta-bar, sitios) */
+/* Ranking editorial: 4 columnas (#, cultivar+empresa, kg/ha, delta-bar+delta)
+   La columna "sitios" se quitó — siempre tenía '—' o humedad inconsistente.
+   Si en el futuro tenemos humedad confiable, agregamos columna opcional. */
 .rank-head{
-  display:grid;grid-template-columns:24px 1fr 64px 70px 36px;
-  gap:8px;padding-bottom:.4rem;
+  display:grid;grid-template-columns:26px 1fr 90px 86px;
+  gap:10px;padding-bottom:.45rem;
   border-bottom:1px solid var(--line-soft);
-  font-family:var(--mono);font-size:.6rem;color:var(--ink-mute);
-  letter-spacing:.06em;text-transform:uppercase;
+  font-family:var(--mono);font-size:.62rem;color:var(--ink-mute);
+  letter-spacing:.08em;text-transform:uppercase;
 }
 .rank-head .r{text-align:right}
 .rank-row{
-  display:grid;grid-template-columns:24px 1fr 64px 70px 36px;
-  gap:8px;padding:.55rem 0;
+  display:grid;grid-template-columns:26px 1fr 90px 86px;
+  gap:10px;padding:.7rem 0;
   border-bottom:1px solid var(--line-soft);
-  font-family:var(--mono);font-size:.74rem;
+  font-family:var(--mono);
   align-items:center;
 }
 .rank-row.nidera{
   background:var(--nidera-soft);
   margin:0 -1.5rem;padding-left:1.5rem;padding-right:1.5rem;
 }
-.rank-row .pos{color:var(--ink-mute);font-variant-numeric:tabular-nums}
-.rank-row .name{font-weight:500;color:var(--ink);font-size:.74rem;line-height:1.2}
-.rank-row .name .star{color:var(--nidera);margin-left:.2rem}
-.rank-row .company{color:var(--ink-mute);font-size:.66rem;margin-top:.1rem}
+.rank-row .pos{
+  color:var(--ink-mute);font-variant-numeric:tabular-nums;
+  font-size:.72rem;letter-spacing:.02em;
+}
+.rank-row .name{font-weight:500;color:var(--ink);font-size:.76rem;line-height:1.25}
+.rank-row .name .star{color:var(--nidera);margin-left:.25rem;font-weight:700}
+.rank-row .company{
+  color:var(--ink-mute);font-size:.65rem;
+  margin-top:.15rem;letter-spacing:.02em;
+}
 .rank-row .rinde{
   text-align:right;font-variant-numeric:tabular-nums;color:var(--ink);
+  font-size:.92rem;font-weight:600;letter-spacing:-0.01em;
+  line-height:1.1;
 }
-.rank-row.nidera .rinde{color:var(--nidera);font-weight:600}
-.rank-row .delta{display:flex;flex-direction:column;gap:.15rem;align-items:flex-end}
+.rank-row .rinde .suffix{
+  font-size:.58rem;color:var(--ink-mute);font-weight:400;
+  letter-spacing:.04em;margin-left:.15rem;display:inline-block;
+}
+.rank-row.nidera .rinde{color:var(--nidera)}
+.rank-row .delta{
+  display:flex;flex-direction:column;gap:.2rem;align-items:flex-end;
+}
 .rank-row .delta-bar{
-  width:56px;height:3px;background:var(--line-soft);border-radius:0;overflow:hidden;
+  width:72px;height:4px;background:var(--line-soft);overflow:hidden;
 }
 .rank-row .delta-bar > i{
-  display:block;height:100%;background:var(--maize);
+  display:block;height:100%;background:var(--maize);opacity:.7;
 }
-.rank-row.nidera .delta-bar > i{background:var(--nidera)}
+.rank-row.nidera .delta-bar > i{background:var(--nidera);opacity:1}
 .rank-row .delta-val{
-  font-size:.6rem;color:var(--ink-mute);font-variant-numeric:tabular-nums;
+  font-size:.66rem;color:var(--ink-dim);font-variant-numeric:tabular-nums;
+  letter-spacing:-0.005em;
 }
-.rank-row .sites{
-  display:flex;justify-content:flex-end;align-items:center;gap:4px;
-  color:var(--ink-mute);font-variant-numeric:tabular-nums;font-size:.66rem;
-}
-.rank-row .spark{width:32px;height:12px}
+.rank-row.nidera .delta-val{color:var(--ink-dim)}
 
 /* ═══ MANEJO AGRONOMICO — Editorial ═══ */
 .manejo-grid{
@@ -825,7 +844,6 @@ aside.open{transform:translateX(0)}
           <div>CULTIVAR · EMPRESA</div>
           <div class="r">KG/HA</div>
           <div class="r">vs #1</div>
-          <div class="r">SITIOS</div>
         </div>
         <div id="a-rows"></div>
       </div>
@@ -901,8 +919,15 @@ const COLOR = {
   maiz: '#5a7a3a',     // verde maíz oliva editorial
   nidera: '#b85c2a',   // terra cotta (halo cuando hay top Nidera)
 };
-const NIDERA_RX = /\b(NS|NK|NSS|AX)\s?\d/i;
 const fmtAR = n => new Intl.NumberFormat('es-AR', {maximumFractionDigits:0}).format(Math.round(n));
+
+// Detección de Nidera: SOLO por empresa, no por prefijo del cultivar.
+// Antes usábamos un regex sobre el cultivar (NS/NK/NSS/AX) pero eso era
+// incorrecto: Syngenta también vende híbridos NS/NK (legacy de la marca).
+// El único criterio confiable es que la EMPRESA del ensayo sea "Nidera".
+function isNideraCultivar(c){
+  return (c && c.empresa || '').trim().toLowerCase() === 'nidera';
+}
 
 let map, allFeatures = [], filters = {cultivo:'*', campania:'*', red:'*', empresa:'*', zona:'*'};
 
@@ -1123,10 +1148,6 @@ function updateCounter(features){
   document.getElementById('visible-cultivares').innerHTML = `<b>${n_cult}</b> cultivares`;
 }
 
-function isNideraCultivar(c){
-  return (c.empresa || '').toLowerCase() === 'nidera' || NIDERA_RX.test(c.cultivar || '');
-}
-
 function escapeHtml(s){
   if(s == null) return '';
   return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -1228,12 +1249,11 @@ function openAside(f){
           <div class="name">${escapeHtml(c.cultivar)}${nidera?'<span class="star">★</span>':''}</div>
           <div class="company">${escapeHtml(c.empresa || '—')}</div>
         </div>
-        <div class="rinde">${fmtAR(c.rinde_kg_ha)}</div>
+        <div class="rinde">${fmtAR(c.rinde_kg_ha)}<span class="suffix">kg/ha</span></div>
         <div class="delta">
           <span class="delta-bar"><i style="width:${(pct*100).toFixed(0)}%"></i></span>
           <span class="delta-val">${delta === 0 ? '—' : (delta>0?'+':'') + fmtAR(delta)}</span>
         </div>
-        <div class="sites">${c.humedad_pct ? c.humedad_pct.toFixed(1) + '%' : '—'}</div>
       </div>
     `;
   }).join('');
