@@ -299,6 +299,15 @@ aside{
 .meta-chip.maiz::before{content:"";display:inline-block;width:5px;height:5px;border-radius:999px;background:var(--maize);margin-right:5px;vertical-align:1px}
 .meta-chip.girasol{color:var(--sunflower);border-color:var(--sunflower)}
 .meta-chip.girasol::before{content:"";display:inline-block;width:5px;height:5px;border-radius:999px;background:var(--sunflower);margin-right:5px;vertical-align:1px}
+.meta-chip.red{
+  color:var(--ink);border-color:var(--ink);
+  font-weight:600;background:var(--bg-soft);
+}
+.meta-chip.red::before{
+  content:"FUENTE";display:inline-block;
+  font-size:.5rem;color:var(--ink-mute);letter-spacing:.1em;
+  margin-right:6px;font-weight:500;
+}
 
 .aside-head .close{
   position:absolute;top:1.1rem;right:1.1rem;
@@ -1504,17 +1513,22 @@ function initMap(){
     map.addLayer({id:'lbls', type:'raster', source:'carto-labels'});
 
     // Halo Nidera (cuando el top del ensayo es Nidera) — anillo terra cotta
+    // Más discreto: anillo fino apenas más grande que el dot, opacidad media.
     map.addLayer({
       id:'ensayos-nidera-ring',
       type:'circle',
       source:'ensayos',
       filter:['==',['get','top_is_nidera'], true],
       paint:{
-        'circle-radius':['interpolate',['linear'],['get','n_cultivares'],10,18,40,28],
+        // Anillo apenas más grande que el dot real (no destacado fuerte)
+        'circle-radius':[
+          '+', 9,
+          ['*', 1.0, ['sqrt',['max',1,['get','n_cultivares']]]]
+        ],
         'circle-color':'transparent',
         'circle-stroke-color': COLOR.nidera,
-        'circle-stroke-width':2.5,
-        'circle-stroke-opacity':0.6,
+        'circle-stroke-width':1.5,
+        'circle-stroke-opacity':0.4,
       },
     });
 
@@ -1777,12 +1791,13 @@ function openAside(f){
   document.getElementById('a-coords').textContent =
     `${lat.toFixed(2)}° / ${lon.toFixed(2)}°`;
 
-  // Meta chips: zona · provincia · cultivo · campaña
+  // Meta chips: zona · provincia · cultivo · campaña · red
   const chips = [];
   chips.push(`<span class="meta-chip">${escapeHtml(p.zona.toUpperCase())}</span>`);
   if(p.provincia) chips.push(`<span class="meta-chip">${escapeHtml(p.provincia.toUpperCase())}</span>`);
   chips.push(`<span class="meta-chip ${p.cultivo}">${escapeHtml(p.cultivo.toUpperCase())}</span>`);
   chips.push(`<span class="meta-chip">${escapeHtml(p.campania)}</span>`);
+  if(p.red) chips.push(`<span class="meta-chip red">${escapeHtml(p.red.toUpperCase())}</span>`);
   document.getElementById('a-meta-chips').innerHTML = chips.join('');
 
   // Hero metric removido en preview v8 — la tabla densa es protagonista.
