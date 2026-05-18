@@ -34,6 +34,8 @@
   --nidera:#b85c2a;
   --nidera-soft:#fcf1e3;
   --nidera-mid:#e8c7a8;
+  /* señal índice sobre promedio (ranking) */
+  --good:#5a9e3a;
   /* compat aliases */
   --border:var(--line);
   --border-strong:var(--ink-mute);
@@ -69,10 +71,16 @@ header{
   border-bottom:1px solid var(--line);
   z-index:2;
 }
-/* Brand: logo + nombre mono */
-.brand{display:flex;align-items:center;gap:.6rem}
-.brand svg{width:14px;height:14px;color:var(--ink)}
-.brand .name{font-family:var(--mono);font-weight:600;font-size:.81rem;letter-spacing:.04em;color:var(--ink)}
+/* Brand: logo Henderseeds (PNG ratio 246×98 ≈ 2.5:1) */
+.brand{display:flex;align-items:center;text-decoration:none;flex-shrink:0}
+.brand-logo{
+  height:44px;width:auto;display:block;
+  object-fit:contain;
+  image-rendering:-webkit-optimize-contrast;
+  transition:opacity .15s;
+}
+.brand:hover .brand-logo{opacity:.75}
+@media (max-width: 640px){ .brand-logo{height:34px} }
 
 /* Breadcrumb estilo terminal */
 .crumb{
@@ -502,6 +510,12 @@ aside{
   max-width:100%;
 }
 .rk-row.nidera .emp{background:var(--nidera);color:#fff}
+.rk-row .emp.emp-verificar{
+  background:transparent;color:var(--ink-mute);
+  font-style:italic;font-weight:400;
+  border:1px dashed var(--line);
+  text-transform:none;letter-spacing:0;
+}
 /* Barra inline heatmap — verde top -> amarillo bottom */
 .rk-bar-wrap{
   position:relative;height:18px;
@@ -1044,8 +1058,19 @@ aside{
   .aside-body{padding:.9rem 1.1rem}
   .aside-meta{padding:.85rem 1.1rem;gap:.8rem}
   .kpi .v{font-size:1.25rem}
-  .map-corner-title{display:none}
-  .counter{top:.6rem;right:.7rem;font-size:.58rem;padding:.4rem .6rem}
+  /* Hero compacto en mobile — solo título + stats, sin co-branding ni hint */
+  .map-corner-title{
+    top:.55rem !important;left:.55rem !important;right:.55rem;bottom:auto;
+    max-width:none !important;width:auto;
+    padding:.55rem .8rem .6rem !important;
+    border-left-width:2px;
+  }
+  .map-corner-title .l1{font-size:.5rem;letter-spacing:.14em}
+  .map-corner-title .l2{font-size:.95rem;margin:.12rem 0 .3rem}
+  .map-corner-title .l3{font-size:.6rem;margin-bottom:0}
+  .map-corner-title .l4,
+  .map-corner-title .l5{display:none}  /* en mobile, ahorrar pantalla */
+  .counter{top:auto !important;bottom:5.5rem;right:.7rem;font-size:.58rem;padding:.4rem .6rem}
   .legend{bottom:1rem;left:.85rem;font-size:.56rem}
   /* drag handle visual */
   .aside-head::before{
@@ -1135,13 +1160,65 @@ aside{
 .counter b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
 .counter .sep{color:var(--line);margin:0 .4rem}
 
-/* Map corner title */
-.map-corner-title{
-  position:absolute;top:1.5rem;left:2rem;z-index:1;
-  font-family:var(--mono);font-size:.62rem;color:var(--ink-mute);
-  letter-spacing:.1em;text-transform:uppercase;line-height:1.5;
+/* Label HTML del círculo terracota — Marker MapLibre */
+.zona-core-label{
+  text-align:center;pointer-events:none;
+  font-family:var(--mono);
+  margin-top:25px;
 }
-.map-corner-title .l1{color:var(--ink);font-size:.66rem}
+.zona-core-label .zl-title{
+  font-size:.66rem;font-weight:700;
+  color:var(--nidera);letter-spacing:.14em;
+  text-shadow:
+    -1px -1px 0 #fbf9f3, 1px -1px 0 #fbf9f3,
+    -1px 1px 0 #fbf9f3, 1px 1px 0 #fbf9f3,
+    0 0 4px rgba(251,249,243,.9);
+}
+.zona-core-label .zl-sub{
+  font-size:.56rem;color:var(--ink-dim);
+  letter-spacing:.05em;margin-top:2px;
+  text-shadow:
+    -1px -1px 0 #fbf9f3, 1px -1px 0 #fbf9f3,
+    -1px 1px 0 #fbf9f3, 1px 1px 0 #fbf9f3;
+}
+
+/* Map corner title — hero compacto con co-branding */
+.map-corner-title{
+  position:absolute;top:1.2rem;left:1.2rem;z-index:1;
+  font-family:var(--mono);
+  background:rgba(251,249,243,.88);
+  -webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);
+  padding:.85rem 1.05rem .8rem;
+  border-left:3px solid var(--nidera);
+  border-radius:0 4px 4px 0;
+  max-width:320px;
+  box-shadow:var(--shadow-sm);
+  transition:opacity .25s;
+}
+.map-corner-title .l1{
+  color:var(--ink-mute);font-size:.58rem;letter-spacing:.16em;
+  text-transform:uppercase;font-weight:600;
+}
+.map-corner-title .l2{
+  font-family:var(--serif);font-size:1.2rem;color:var(--ink);
+  font-weight:500;letter-spacing:-.005em;line-height:1.1;
+  margin:.18rem 0 .5rem;
+}
+.map-corner-title .l3{
+  font-size:.66rem;color:var(--ink-dim);letter-spacing:.04em;
+  font-variant-numeric:tabular-nums;margin-bottom:.35rem;
+}
+.map-corner-title .l4{
+  font-size:.58rem;color:var(--ink-dim);letter-spacing:.06em;
+  text-transform:uppercase;font-weight:600;margin-bottom:.55rem;
+}
+.map-corner-title .l5{
+  font-size:.62rem;color:var(--ink-mute);font-style:italic;
+  letter-spacing:.02em;text-transform:none;
+  border-top:1px solid var(--line-soft);padding-top:.45rem;
+}
+/* Cuando se abre un ensayo, ocultar el hero para que no compita con el panel */
+.main.detail .map-corner-title{opacity:0;pointer-events:none}
 .counter .sep{margin:0 .35rem;color:var(--border-strong)}
 
 /* ═══ MOBILE ═══ */
@@ -1153,17 +1230,67 @@ aside{
   .legend{font-size:.65rem;padding:.5rem .65rem}
   .counter{font-size:.65rem;padding:.4rem .65rem;top:.7rem;right:.7rem}
 }
+
+/* ═══ MOBILE SMALL — reestructura ranking + aside-head ═══ */
+@media(max-width:640px){
+  /* Ranking: 2 filas por cultivar (name+rinde arriba, emp+barra abajo) */
+  .rk-thead{display:none}
+  .rk-row{
+    grid-template-columns:24px minmax(0,1fr) auto;
+    grid-template-areas:
+      "pos name  rinde"
+      ".   emp   bar  ";
+    column-gap:8px;row-gap:3px;
+    padding:.6rem .25rem;
+    align-items:center;
+  }
+  .rk-row > .pos        {grid-area:pos;align-self:start;padding-top:1px}
+  .rk-row > .name       {
+    grid-area:name;
+    overflow-wrap:anywhere;word-break:normal;
+    min-width:0;font-size:.78rem;line-height:1.18;
+  }
+  .rk-row > .emp-cell   {grid-area:emp;min-width:0;overflow:hidden}
+  .rk-row > .rk-bar-wrap{grid-area:bar;min-width:120px;height:14px}
+  .rk-row > .rinde      {
+    grid-area:rinde;text-align:right;
+    font-size:.82rem;font-weight:700;white-space:nowrap;
+  }
+  .rk-row > .idx        {display:none}  /* índice oculto en mobile chico */
+  .rk-row .rk-bar-val   {font-size:.56rem;right:4px}
+  .rk-row.is-promedio{
+    grid-template-areas:
+      "pos name  rinde"
+      ".   .     .    ";
+  }
+  .rk-row.is-promedio .emp,
+  .rk-row.is-promedio .rk-bar-wrap{display:none}
+
+  /* Aside-head: sacar nav+close del absolute para que no choquen con título largo */
+  .aside-head{
+    padding:1.6rem 1rem .75rem;
+    display:grid;
+    grid-template-columns:1fr auto auto;
+    grid-template-areas:
+      "nav   nav   close"
+      "loc   loc   loc  "
+      "chips chips chips";
+    column-gap:.4rem;row-gap:.55rem;
+  }
+  .aside-head .aside-nav{position:static;grid-area:nav;align-self:center}
+  .aside-head .close    {position:static;grid-area:close;align-self:center;justify-self:end}
+  .aside-head .loc      {grid-area:loc;font-size:1.3rem;margin-top:.1rem}
+  .aside-head .coords   {display:block;margin-left:0;margin-top:.15rem;font-size:.62rem}
+  .aside-head .meta-chips{grid-area:chips;margin-top:0}
+}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="brand">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">
-      <path d="M4 12 L8 4 L12 12 L16 4 L20 12 L16 20 L12 12 L8 20 Z" />
-    </svg>
-    <span class="name">HENDERSEEDS</span>
-  </div>
+  <a class="brand" href="/" aria-label="Henderseeds — home">
+    <img src="../assets/logos/henderseeds-dark.png" alt="Henderseeds" class="brand-logo">
+  </a>
   <div class="crumb">
     <span class="path">~/mapa-ensayos</span>
     <span class="sep">·</span>
@@ -1207,7 +1334,10 @@ aside{
   <button class="back-to-map" onclick="closeAside()" type="button">← MAPA COMPLETO</button>
   <div class="map-corner-title">
     <div class="l1">ENSAYOS COMPARATIVOS</div>
-    <div>MAÍZ + GIRASOL · ARGENTINA</div>
+    <div class="l2">Maíz + Girasol · Argentina</div>
+    <div class="l3" id="hero-stats">— ensayos · — fuentes · — campañas</div>
+    <div class="l4">Henderseeds SRL · Distribuidor exclusivo <span style="color:var(--nidera)">RED.IN Nidera</span></div>
+    <div class="l5">→ Tocá cualquier punto para ver el ranking del ensayo</div>
   </div>
   <div class="counter">
     <span id="visible-count"><b>0</b> ENSAYOS</span>
@@ -1317,12 +1447,62 @@ const COLOR = {
 };
 const fmtAR = n => new Intl.NumberFormat('es-AR', {maximumFractionDigits:0}).format(Math.round(n));
 
-// Detección de Nidera: SOLO por empresa, no por prefijo del cultivar.
-// Antes usábamos un regex sobre el cultivar (NS/NK/NSS/AX) pero eso era
-// incorrecto: Syngenta también vende híbridos NS/NK (legacy de la marca).
-// El único criterio confiable es que la EMPRESA del ensayo sea "Nidera".
+// Detección de Nidera por PREFIJO del nombre del híbrido (catálogo Nidera AR):
+//   NS, AX, AXN, NUSOL  → Nidera (maíz NS/AX, girasol NUSOL)
+// NK NO entra (es Syngenta — Northrup King). El intento previo de usar el
+// campo `empresa` del geojson dejaba 282 falsos positivos (filas NK marcadas
+// Nidera) + 215 falsos negativos (NUSOL marcadas "Nufarm", NS marcadas
+// "Syngenta"). El campo viene corrupto desde varios scrapers.
+// Normalización: trim + reemplazo NBSP + uppercase, para tolerar
+// "Ns 1113 CL" y variantes de mayúsculas.
+// Inferir empresa por PREFIJO del nombre del híbrido (el campo c.empresa del
+// geojson viene corrupto en varias filas: NK marcados "Nidera", NS marcados
+// "Syngenta", NUSOL marcados "Nufarm", etc). Esta función es la fuente de
+// verdad para el render del ranking. Si no matchea ningún prefijo conocido,
+// cae al campo del geojson (probablemente bien para los menos comunes).
+const EMPRESA_PREFIJOS = [
+  [/^(NS|AX)([\s\d]|$)|^NIDERA\s/i, 'Nidera'],
+  [/^NUSOL\s?\d/i, 'Nufarm'],
+  [/^NK\s?\d/i,        'Syngenta'],
+  [/^SYN\s?\d/i,       'Syngenta'],
+  [/^SPS\s?\d/i,       'SPS'],
+  [/^(DK|DEKALB)\s?\d/i, 'Dekalb (Bayer)'],
+  [/^DM\s?\d/i,        'Don Mario'],
+  [/^BRV\s?\d/i,       'Brevant'],
+  [/^P\s?\d{3,}/i,     'Pioneer'],
+  [/^LG\s?\d/i,        'Lidea'],
+  [/^KWS\s?\d/i,       'KWS'],
+  [/^ACA\s?\d/i,       'ACA'],
+  [/^(SRM|SURSEM)\s?\d/i, 'Sursem'],
+  [/^ADV\s?\d/i,       'Advanta'],
+  [/^ARGENSUN\s?\d/i,  'Argensun'],
+  [/^BUCK\s?\d/i,      'Buck'],
+  [/^MS\s?\d/i,        'MS Tecnoseed'],
+  [/^RAGT\s?\d/i,      'RAGT'],
+  [/^FORRATEC\s?\d/i,  'Forratec'],
+  [/^ILLINOIS\s?\d/i,  'Illinois'],
+  [/^BASF\s?\d/i,      'BASF'],
+  [/^QS\s?\d/i,        'Qseeds'],
+  [/^LT\s?\d/i,        'La Tijereta'],
+  [/^EBC\s/i,          'Baya Casal'],
+  [/^HS\s?\d/i,        'Hersems'],
+  [/^LID\s?\d/i,       'Lidea'],
+];
+function inferEmpresa(c){
+  const h = ((c && c.cultivar) || '').replace(/ /g, ' ').trim();
+  if(h){
+    for(const [re, name] of EMPRESA_PREFIJOS){
+      if(re.test(h)) return name;
+    }
+  }
+  return (c && c.empresa) || '—';
+}
+
 function isNideraCultivar(c){
-  return (c && c.empresa || '').trim().toLowerCase() === 'nidera';
+  const h = ((c && c.cultivar) || '').replace(/ /g, ' ').trim().toUpperCase();
+  if(!h) return false;
+  if(h.startsWith("NIDERA ")) return true;
+  return /^(NS|AX)([\s\d]|$)/.test(h);
 }
 
 let map, allFeatures = [], visibleFeatures = [], currentEnsayoId = null;
@@ -1415,6 +1595,14 @@ async function init(){
   document.getElementById('leg-gir').textContent = nGir;
   document.getElementById('leg-mai').textContent = nMai;
 
+  // Stats del hero (map-corner-title)
+  const camps = new Set(allFeatures.map(f => f.properties.campania).filter(Boolean));
+  const reds  = new Set(allFeatures.map(f => f.properties.red).filter(Boolean));
+  const heroStats = document.getElementById('hero-stats');
+  if(heroStats){
+    heroStats.textContent = `${allFeatures.length} ensayos · ${reds.size} fuentes · ${camps.size} campañas`;
+  }
+
   initMap();
   bindFilters();
   bindShare();
@@ -1455,8 +1643,8 @@ function initMap(){
         {id:'bg', type:'raster', source:'carto-light'},
       ],
     },
-    center: [-61.8, -36.5],
-    zoom: 5.4,
+    center: [-62.3, -35.4],   // centrado pampa húmeda — donde está el 95% de los datos
+    zoom: 5.9,                 // zoom-in para que zona core (BA + sur Cba + La Pampa + Santa Fe) tome la pantalla
     minZoom: 3, maxZoom: 14,
     attributionControl: {compact: true},
   });
@@ -1490,6 +1678,18 @@ function initMap(){
         'circle-stroke-opacity':0.35,
       },
     });
+
+    // Label sobre el círculo terracota — HTML Marker (los symbol layers requieren
+    // glyphs URL en el style, no lo tenemos. Marker es más confiable + estilizable).
+    const zonaLabelEl = document.createElement('div');
+    zonaLabelEl.className = 'zona-core-label';
+    zonaLabelEl.innerHTML = `
+      <div class="zl-title">ZONA HENDERSEEDS</div>
+      <div class="zl-sub">Henderson · Bolívar · Daireaux</div>
+    `;
+    new maplibregl.Marker({element: zonaLabelEl, anchor: 'top'})
+      .setLngLat([-61.8, -36.55])
+      .addTo(map);
 
     // Labels arriba
     map.addLayer({id:'lbls', type:'raster', source:'carto-labels'});
@@ -1868,13 +2068,12 @@ function openAside(f){
   ].join('');
   document.getElementById('a-summary').innerHTML = summaryHtml;
 
-  // Heatmap color verde→amarillo según percentil del rinde
-  // Top (>= max): verde fuerte; mid: verde-amarillo; bottom (= min): amarillo
-  function heatmapColor(rinde, nidera){
-    if(nidera) return '#b85c2a';  // siempre terra cotta para Nidera
-    if(maxRinde === minRinde) return '#a0c478';  // edge case sin variación
+  // Heatmap color amarillo→verde según percentil del rinde.
+  // SOLO por rinde — Nidera NO se diferencia en la barra (queda por ★ y fondo de fila).
+  // Top (>= max): verde fuerte; mid: verde-amarillo; bottom (= min): amarillo.
+  function heatmapColor(rinde, _nideraIgnored){
+    if(maxRinde === minRinde) return '#a0c478';
     const t = (rinde - minRinde) / (maxRinde - minRinde);
-    // interpolar entre amarillo (#f3d34a) y verde (#7eb958)
     const interp = (a, b) => Math.round(a + (b-a) * t);
     const r = interp(243, 126);  // f3 → 7e
     const g = interp(211, 185);  // d3 → b9
@@ -1892,7 +2091,7 @@ function openAside(f){
       <div class="rk-row${nidera?' nidera':''}">
         <div class="pos">${String(i+1).padStart(2,'0')}</div>
         <div class="name">${escapeHtml(c.cultivar)}${nidera?'<span class="star">★</span>':''}</div>
-        <div><span class="emp" title="${escapeHtml(c.empresa||'—')}">${escapeHtml(c.empresa || '—')}</span></div>
+        <div class="emp-cell">${(()=>{const e=inferEmpresa(c);return e&&e!=='—'?`<span class="emp" title="${escapeHtml(e)}">${escapeHtml(e)}</span>`:`<span class="emp emp-verificar" title="empresa sin confirmar contra fuente">(verificar)</span>`;})()}</div>
         <div class="rk-bar-wrap">
           <span class="rk-bar" style="width:${(pct*100).toFixed(1)}%;background:${bgColor}"></span>
           <span class="rk-bar-val">${fmtAR(c.rinde_kg_ha)}</span>
@@ -1929,8 +2128,13 @@ function openAside(f){
   document.getElementById('a-manejo-wrap').open = false;
 
   const excelBtn = document.getElementById('a-excel');
-  if(p.url_fuente){ excelBtn.href = p.url_fuente; excelBtn.style.display=''; }
-  else { excelBtn.style.display='none'; }
+  if(p.url_fuente && /^https?:\/\//i.test(p.url_fuente)){
+    excelBtn.href = p.url_fuente;
+    excelBtn.style.display = '';
+  } else {
+    excelBtn.removeAttribute('href');
+    excelBtn.style.display = 'none';
+  }
 
   // Share PDF — vincular al ensayo activo
   shareState.ensayo = f;
@@ -1946,10 +2150,13 @@ function openAside(f){
   // Actualizar contador navegación
   updateNavCounter();
 
-  // Esperar a la transición de CSS y luego resize del mapa
-  setTimeout(() => {
+  // Esperar a la transición de CSS y luego resize del mapa.
+  // clearTimeout previo: si el usuario navega rápido entre ensayos o abre/cierra,
+  // evita que un flyTo viejo sobrescriba la cámara del nuevo ensayo (race condition).
+  if(window._asideFlyTimer) clearTimeout(window._asideFlyTimer);
+  window._asideFlyTimer = setTimeout(() => {
     map.resize();
-    map.flyTo({center: f.geometry.coordinates, zoom: Math.max(map.getZoom(), 7), speed:0.8});
+    map.flyTo({center: f.geometry.coordinates, zoom: Math.max(map.getZoom(), 7.5), speed:0.9});
   }, 280);
 }
 
@@ -1992,15 +2199,11 @@ function closeAside(){
   if(map && map.getLayer('ensayos-active')) {
     map.setFilter('ensayos-active',['==','ensayo_id','']);
   }
-  setTimeout(() => {
+  if(window._asideFlyTimer) clearTimeout(window._asideFlyTimer);
+  window._asideFlyTimer = setTimeout(() => {
     map.resize();
-    map.flyTo({center:[-61.8,-36.5], zoom:5.4, speed:.7});
+    map.flyTo({center:[-62.3,-35.4], zoom:5.9, speed:.7});
   }, 280);
-}
-
-function fmtN(n){
-  if(n==null||isNaN(n)) return '—';
-  return new Intl.NumberFormat('es-AR',{maximumFractionDigits:0}).format(Math.round(n));
 }
 
 // (Talking Points removidos — no se utilizan)
@@ -2227,9 +2430,8 @@ function generateEnsayoPDF(f){
   pdfText(doc, 'ÍND', colIdx, colY, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier','bold'], align: 'right'});
   y += 6;
 
-  // Heatmap color helper
-  function heatmap(rinde, nidera){
-    if(nidera) return PDF_COLORS.nidera;
+  // Heatmap color helper (PDF) — solo por rinde, Nidera no se diferencia en la barra
+  function heatmap(rinde, _nideraIgnored){
     if(maxRinde === minRinde) return [126, 185, 88];
     const t = (rinde - minRinde) / (maxRinde - minRinde);
     return [
@@ -2240,8 +2442,21 @@ function generateEnsayoPDF(f){
   }
 
   const rowH = 5.5;
-  cultivares.forEach((c, i) => {
-    if(y > H - 30) return;  // dejar espacio footer
+  for(let i = 0; i < cultivares.length; i++){
+    const c = cultivares[i];
+    if(y > H - 20){  // no entra: nueva página + repetir header de columnas
+      doc.addPage();
+      y = M;
+      pdfFillRect(doc, M, y, W - 2*M, 5, PDF_COLORS.bg);
+      const colYn = y + 3.3;
+      pdfText(doc, '#', colPos, colYn, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier','bold']});
+      pdfText(doc, 'HÍBRIDO', colName, colYn, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier','bold']});
+      pdfText(doc, 'EMPRESA', colEmp, colYn, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier','bold']});
+      pdfText(doc, 'RINDE', colBarL + barFullW/2, colYn, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier','bold'], align: 'center'});
+      pdfText(doc, 'KG/HA', colRinde, colYn, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier','bold'], align: 'right'});
+      pdfText(doc, 'ÍND', colIdx, colYn, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier','bold'], align: 'right'});
+      y += 6;
+    }
     const nidera = isNideraCultivar(c);
     if(nidera) {
       pdfFillRect(doc, M, y, W - 2*M, rowH, PDF_COLORS.niderasoft);
@@ -2259,7 +2474,7 @@ function generateEnsayoPDF(f){
       size: 8, font: ['courier', nidera?'bold':'normal']
     });
     // Empresa
-    let empName = c.empresa || '—';
+    let empName = inferEmpresa(c);
     if(empName.length > 14) empName = empName.slice(0, 13) + '…';
     pdfText(doc, empName, colEmp, rowY, {
       color: nidera ? PDF_COLORS.nidera : PDF_COLORS.inkDim,
@@ -2283,10 +2498,14 @@ function generateEnsayoPDF(f){
     });
     pdfHLine(doc, M, y + rowH, W - M, PDF_COLORS.lineSoft, 0.15);
     y += rowH;
-  });
+  }
 
-  // Fila Promedio
-  if(y < H - 30){
+  // Fila Promedio — si no entra junto al footer, salta a página nueva
+  if(y > H - 30){
+    doc.addPage();
+    y = M;
+  }
+  {
     pdfFillRect(doc, M, y, W - 2*M, rowH, PDF_COLORS.bg);
     pdfText(doc, '—', colPos, y + 3.8, {color: PDF_COLORS.inkMute, size: 7.5, font: ['courier']});
     pdfText(doc, 'Promedio del ensayo', colName, y + 3.8, {
@@ -2452,7 +2671,7 @@ function bindShare(){
 
 init().catch(err=>{
   console.error(err);
-  document.getElementById('map').innerHTML = `<div style="padding:2rem;color:#E8B547;font-family:var(--mono)">[ERR] No se pudo cargar el dataset: ${err.message}</div>`;
+  document.getElementById('map').innerHTML = `<div style="padding:2rem;color:#E8B547;font-family:var(--mono)">[ERR] No se pudo cargar el dataset: ${escapeHtml(err.message || String(err))}</div>`;
 });
 </script>
 </body>
