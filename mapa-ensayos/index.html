@@ -2635,13 +2635,54 @@ function bindShare(){
     }
   });
 
-  // Modal DESCARGAR PDF
-  document.getElementById('share-download').addEventListener('click', () => {
+  // Modal DESCARGAR PDF — mobile-first
+  // iOS Safari ignora el attr `download` del <a>, y muchos Android Chrome
+  // no disparan la descarga desde un click sintético dentro de un modal.
+  // Estrategia: si el SO soporta Web Share API con files (mobile moderno),
+  // usar el share sheet nativo (productor elige "Guardar en Archivos" o
+  // manda por WhatsApp directo). Si no, fallback al <a download> clásico
+  // que sí funciona en desktop.
+  document.getElementById('share-download').addEventListener('click', async () => {
     if(!shareState.pdfBlob) return;
+    const isMobile = /android|iphone|ipad|ipod|mobile|tablet/i.test(navigator.userAgent);
+
+    // Camino A — mobile + share files disponible
+    if(isMobile && shareState.pdfFile && navigator.canShare &&
+       navigator.canShare({ files: [shareState.pdfFile] })){
+      try {
+        const p = shareState.ensayo.properties;
+        await navigator.share({
+          files: [shareState.pdfFile],
+          title: 'Ensayo ' + p.localidad,
+          text: `Ensayo ${p.localidad} ${p.campania} — Mapa Henderseeds`,
+        });
+        showToast('Listo');
+        return;
+      } catch(e) {
+        if(e.name === 'AbortError') return;  // user cerró el share sheet
+        // si falló por otra razón, intentar fallback abajo
+      }
+    }
+
+    // Camino B — mobile sin share API: abrir en nueva pestaña para que el
+    // browser muestre el PDF y el user use "Compartir" o "Guardar" del browser.
+    if(isMobile){
+      const win = window.open(shareState.pdfUrl, '_blank', 'noopener');
+      if(win){
+        showToast('PDF abierto · tocá el menú del browser para guardar');
+      } else {
+        showToast('Bloqueado por el browser · permití pop-ups y reintentá');
+      }
+      return;
+    }
+
+    // Camino C — desktop: descarga clásica con <a download>
     const a = document.createElement('a');
     a.href = shareState.pdfUrl;
     a.download = shareState.pdfFilename;
+    document.body.appendChild(a);
     a.click();
+    a.remove();
     showToast('PDF descargado');
   });
 
