@@ -1258,6 +1258,13 @@ table.cx-rank tr.nid td{background:var(--nidera-soft)}
 #gate .gerr{color:#dc2626;font-family:'DM Sans',sans-serif;font-size:.74rem;margin-top:10px;min-height:1.1em}
 #gate .gfoot{margin-top:16px;font-family:'DM Mono',monospace;font-size:.6rem;color:#94a3b8}
 
+/* Botón Compartir simple en el header del ensayo + chip de ciudad */
+.share-top{margin-top:.7rem;width:100%;display:flex;align-items:center;justify-content:center;gap:.45rem;
+  padding:.6rem;border:none;border-radius:10px;background:var(--nidera);color:#fff;
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;cursor:pointer;transition:background .15s}
+.share-top:hover{background:var(--accent-dim)}
+.meta-chip.city{background:var(--nidera-soft);color:var(--nidera);border-color:var(--nidera-mid);font-weight:600}
+
 /* ═══════════════ Optimización MOBILE del detalle de ensayo ═══════════════ */
 @media(max-width:768px){
   /* El botón flotante "← MAPA COMPLETO" (z-index 6) tapaba el nombre de la
@@ -1395,6 +1402,7 @@ table.cx-rank tr.nid td{background:var(--nidera-soft)}
       <h1 class="loc" id="a-loc">—</h1>
       <span class="coords" id="a-coords"></span>
       <div class="meta-chips" id="a-meta-chips"></div>
+      <button class="share-top" id="a-share-top" type="button">↗ Compartir ensayo</button>
     </div>
     <!-- HERO METRIC removido en preview v8: ir directo a la tabla. -->
     <div class="hero" id="a-hero" style="display:none"></div>
@@ -1519,7 +1527,7 @@ function isNideraCultivar(c){
   return (c && c.empresa || '').trim().toLowerCase() === 'nidera';
 }
 
-let map, allFeatures = [], visibleFeatures = [], currentEnsayoId = null;
+let map, allFeatures = [], visibleFeatures = [], currentEnsayoId = null, curFeature = null;
 // filters.cultivo: string ('*' o 'maiz' o 'girasol').
 // filters.campania/red/empresa/zona: Set<string> de valores seleccionados.
 // Set vacío = "todo" (no filtra). Set con N valores = "solo esos N".
@@ -1973,8 +1981,12 @@ function openAside(f){
   document.getElementById('a-coords').textContent =
     `${lat.toFixed(2)}° / ${lon.toFixed(2)}°`;
 
-  // Meta chips: zona · provincia · cultivo · campaña · red
+  // Recordar el ensayo actual (para el botón Compartir simple del header)
+  curFeature = f;
+
+  // Meta chips: 📍ciudad · zona · provincia · cultivo · campaña · red
   const chips = [];
+  chips.push(`<span class="meta-chip city">📍 ${escapeHtml(String(p.localidad||'—').toUpperCase())}</span>`);
   chips.push(`<span class="meta-chip">${escapeHtml(p.zona.toUpperCase())}</span>`);
   if(p.provincia) chips.push(`<span class="meta-chip">${escapeHtml(p.provincia.toUpperCase())}</span>`);
   chips.push(`<span class="meta-chip ${p.cultivo}">${escapeHtml(p.cultivo.toUpperCase())}</span>`);
@@ -2586,7 +2598,31 @@ function closeShareModal(){
   }
 }
 
+// Compartir SIMPLE (sin PDF): share nativo del celular / WhatsApp, con la ciudad.
+function shareEnsayoSimple(f){
+  if(!f) return;
+  const p = f.properties;
+  const cults = (p.cultivares||[]).slice()
+    .filter(c => c.rinde_kg_ha != null)
+    .sort((a,b)=> b.rinde_kg_ha - a.rinde_kg_ha);
+  const top = cults.slice(0,3)
+    .map((c,i)=>`${i+1}. ${c.cultivar}${c.is_nidera?' ★':''} — ${fmtAR(c.rinde_kg_ha)} kg/ha`).join('\n');
+  const nid = cults.find(c=>c.is_nidera);
+  const nidLine = nid ? `\n★ Nidera: ${nid.cultivar} — ${fmtAR(nid.rinde_kg_ha)} kg/ha (puesto ${cults.indexOf(nid)+1}/${cults.length})` : '';
+  const cultivo = (p.cultivo||'').charAt(0).toUpperCase()+(p.cultivo||'').slice(1);
+  const txt = `*Ensayo ${p.localidad}* — ${cultivo} ${p.campania}\n${p.zona} · ${p.red} · ${cults.length} híbridos\n\nTop 3 por rinde:\n${top}${nidLine}\n\nFuente: ${p.red}. Henderseeds · RED.IN Nidera.`;
+  if(navigator.share){
+    navigator.share({title:`Ensayo ${p.localidad} ${p.campania}`, text: txt}).catch(()=>{});
+  } else {
+    window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank','noopener');
+  }
+}
+
 function bindShare(){
+  // COMPARTIR (simple, arriba del detalle) — share nativo / WhatsApp, sin PDF
+  const stop = document.getElementById('a-share-top');
+  if(stop) stop.addEventListener('click', ()=>shareEnsayoSimple(curFeature));
+
   // DESCARGAR PDF (abre modal con preview)
   document.getElementById('a-share').addEventListener('click', openShareModal);
 
