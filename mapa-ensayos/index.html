@@ -1843,6 +1843,28 @@ function updateMultiselectLabel(name){
   }
 }
 
+// Posiciona el menú del multiselect como FIXED al abrirlo. Con position:absolute
+// el canvas WebGL del mapa lo tapaba (quirk de compositing); fixed lo saca a la
+// capa raíz, por encima del mapa. Se reposiciona al trigger y se ajusta a pantalla.
+function positionMsMenu(ms){
+  const trg = ms.querySelector('.ms-trigger');
+  const menu = ms.querySelector('.ms-menu');
+  if(!trg || !menu) return;
+  const r = trg.getBoundingClientRect();
+  menu.style.position = 'fixed';
+  menu.style.zIndex = '600';
+  menu.style.top = Math.round(r.bottom + 4) + 'px';
+  const mw = menu.offsetWidth || 220;
+  let left = Math.min(r.right - mw, window.innerWidth - mw - 8);
+  menu.style.left = Math.round(Math.max(8, left)) + 'px';
+  menu.style.right = 'auto';
+  menu.style.maxHeight = Math.max(160, window.innerHeight - r.bottom - 16) + 'px';
+}
+// Cerrar menús abiertos al cambiar tamaño/orientación (evita que queden mal ubicados)
+window.addEventListener('resize', () => {
+  document.querySelectorAll('.ms.open').forEach(ms => ms.classList.remove('open'));
+});
+
 function bindFilters(){
   document.querySelectorAll('.tab-pill[data-cultivo]').forEach(btn=>{
     btn.addEventListener('click',()=>{
@@ -1866,6 +1888,7 @@ function bindFilters(){
         if(other !== ms) other.classList.remove('open');
       });
       ms.classList.toggle('open');
+      if(ms.classList.contains('open')) positionMsMenu(ms);
     });
 
     // Click en checkbox/label
