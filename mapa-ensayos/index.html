@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
@@ -16,42 +16,44 @@
 
 <style>
 :root{
-  /* Editorial agrotech palette (Claude Design Direction A) */
-  --bg:#f4f0e6;
-  --bg-panel:#fbf9f3;
-  --bg-soft:#ebe6d4;
-  --ink:#1a1a18;
-  --ink-dim:#6e6857;
-  --ink-mute:#9c947f;
-  --line:#d8d0b8;
-  --line-soft:#e5dec7;
-  /* cultivo accents — Power BI palette del cliente */
-  --maize:#e89b5c;       /* naranja amber para maíz */
-  --maize-soft:#fbeadc;
-  --sunflower:#9b7cb9;   /* violeta medio para girasol */
-  --sunflower-soft:#ebe1f3;
-  /* Nidera highlight (terra cotta) */
-  --nidera:#b85c2a;
-  --nidera-soft:#fcf1e3;
-  --nidera-mid:#e8c7a8;
-  /* señal índice sobre promedio (ranking) */
-  --good:#5a9e3a;
+  /* === Sistema Henderseeds — tema LIGHT (navy + naranja) === */
+  --bg:#eef2f8;          /* página: azul-gris claro (como cotizadores) */
+  --bg-panel:#ffffff;    /* cards blancas */
+  --bg-soft:#e7edf6;     /* fills sutiles */
+  --ink:#0d2238;         /* texto navy */
+  --ink-dim:#56657d;     /* secundario slate */
+  --ink-mute:#94a3b8;    /* muted */
+  --line:#dde5ef;        /* bordes */
+  --line-soft:#eaf0f7;
+  /* navy de marca (estructura, estados activos, botones primarios) */
+  --navy:#0d2d5e;
+  --navy-dark:#091e3e;
+  --navy-sky:#2d6fc4;
+  /* cultivo accents */
+  --maize:#e8821a;       /* naranja maíz */
+  --maize-soft:#fcecd9;
+  --sunflower:#7d6bb0;   /* violeta girasol */
+  --sunflower-soft:#ece6f6;
+  /* acento/destacado Henderseeds (naranja del sitio) — featured/Nidera */
+  --nidera:#e07b18;
+  --nidera-soft:#fdf0df;
+  --nidera-mid:#f4cfa3;
+  --orange:#F5A623;      /* naranja brillante (sparklines, micro-acentos) */
+  /* señal índice sobre promedio */
+  --good:#4e9a2f;
   /* compat aliases */
   --border:var(--line);
   --border-strong:var(--ink-mute);
   --accent:var(--nidera);
-  --accent-dim:#9a4a20;
+  --accent-dim:#b85f0a;
   --accent-soft:var(--nidera-soft);
-  --shadow-sm:0 1px 2px rgba(40,30,15,.04);
-  --shadow-md:0 6px 18px rgba(40,30,15,.08);
-  --shadow-lg:0 20px 60px rgba(26,26,24,.18);
-  --serif:'IBM Plex Serif',Georgia,serif;
-  --sans:'IBM Plex Sans',system-ui,sans-serif;
-  --mono:'IBM Plex Mono',ui-monospace,monospace;
-  /* legacy aliases for existing CSS */
+  --shadow-sm:0 1px 2px rgba(13,33,66,.05);
+  --shadow-md:0 6px 18px rgba(13,33,66,.09);
+  --shadow-lg:0 20px 60px rgba(9,30,62,.20);
+  --serif:'Space Grotesk',system-ui,sans-serif;   /* display/títulos */
+  --sans:'DM Sans',system-ui,sans-serif;           /* body */
+  --mono:'DM Mono',ui-monospace,monospace;         /* números/labels */
   --arch:var(--serif);
-  --navy:var(--ink);
-  --navy-dark:var(--ink);
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -71,16 +73,10 @@ header{
   border-bottom:1px solid var(--line);
   z-index:2;
 }
-/* Brand: logo Henderseeds (PNG ratio 246×98 ≈ 2.5:1) */
-.brand{display:flex;align-items:center;text-decoration:none;flex-shrink:0}
-.brand-logo{
-  height:44px;width:auto;display:block;
-  object-fit:contain;
-  image-rendering:-webkit-optimize-contrast;
-  transition:opacity .15s;
-}
-.brand:hover .brand-logo{opacity:.75}
-@media (max-width: 640px){ .brand-logo{height:34px} }
+/* Brand: logo + nombre mono */
+.brand{display:flex;align-items:center;gap:.6rem}
+.brand svg{width:14px;height:14px;color:var(--ink)}
+.brand .name{font-family:var(--mono);font-weight:600;font-size:.81rem;letter-spacing:.04em;color:var(--ink)}
 
 /* Breadcrumb estilo terminal */
 .crumb{
@@ -510,12 +506,6 @@ aside{
   max-width:100%;
 }
 .rk-row.nidera .emp{background:var(--nidera);color:#fff}
-.rk-row .emp.emp-verificar{
-  background:transparent;color:var(--ink-mute);
-  font-style:italic;font-weight:400;
-  border:1px dashed var(--line);
-  text-transform:none;letter-spacing:0;
-}
 /* Barra inline heatmap — verde top -> amarillo bottom */
 .rk-bar-wrap{
   position:relative;height:18px;
@@ -1058,19 +1048,8 @@ aside{
   .aside-body{padding:.9rem 1.1rem}
   .aside-meta{padding:.85rem 1.1rem;gap:.8rem}
   .kpi .v{font-size:1.25rem}
-  /* Hero compacto en mobile — solo título + stats, sin co-branding ni hint */
-  .map-corner-title{
-    top:.55rem !important;left:.55rem !important;right:.55rem;bottom:auto;
-    max-width:none !important;width:auto;
-    padding:.55rem .8rem .6rem !important;
-    border-left-width:2px;
-  }
-  .map-corner-title .l1{font-size:.5rem;letter-spacing:.14em}
-  .map-corner-title .l2{font-size:.95rem;margin:.12rem 0 .3rem}
-  .map-corner-title .l3{font-size:.6rem;margin-bottom:0}
-  .map-corner-title .l4,
-  .map-corner-title .l5{display:none}  /* en mobile, ahorrar pantalla */
-  .counter{top:auto !important;bottom:5.5rem;right:.7rem;font-size:.58rem;padding:.4rem .6rem}
+  .map-corner-title{display:none}
+  .counter{top:.6rem;right:.7rem;font-size:.58rem;padding:.4rem .6rem}
   .legend{bottom:1rem;left:.85rem;font-size:.56rem}
   /* drag handle visual */
   .aside-head::before{
@@ -1160,65 +1139,13 @@ aside{
 .counter b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
 .counter .sep{color:var(--line);margin:0 .4rem}
 
-/* Label HTML del círculo terracota — Marker MapLibre */
-.zona-core-label{
-  text-align:center;pointer-events:none;
-  font-family:var(--mono);
-  margin-top:25px;
-}
-.zona-core-label .zl-title{
-  font-size:.66rem;font-weight:700;
-  color:var(--nidera);letter-spacing:.14em;
-  text-shadow:
-    -1px -1px 0 #fbf9f3, 1px -1px 0 #fbf9f3,
-    -1px 1px 0 #fbf9f3, 1px 1px 0 #fbf9f3,
-    0 0 4px rgba(251,249,243,.9);
-}
-.zona-core-label .zl-sub{
-  font-size:.56rem;color:var(--ink-dim);
-  letter-spacing:.05em;margin-top:2px;
-  text-shadow:
-    -1px -1px 0 #fbf9f3, 1px -1px 0 #fbf9f3,
-    -1px 1px 0 #fbf9f3, 1px 1px 0 #fbf9f3;
-}
-
-/* Map corner title — hero compacto con co-branding */
+/* Map corner title */
 .map-corner-title{
-  position:absolute;top:1.2rem;left:1.2rem;z-index:1;
-  font-family:var(--mono);
-  background:rgba(251,249,243,.88);
-  -webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);
-  padding:.85rem 1.05rem .8rem;
-  border-left:3px solid var(--nidera);
-  border-radius:0 4px 4px 0;
-  max-width:320px;
-  box-shadow:var(--shadow-sm);
-  transition:opacity .25s;
+  position:absolute;top:1.5rem;left:2rem;z-index:1;
+  font-family:var(--mono);font-size:.62rem;color:var(--ink-mute);
+  letter-spacing:.1em;text-transform:uppercase;line-height:1.5;
 }
-.map-corner-title .l1{
-  color:var(--ink-mute);font-size:.58rem;letter-spacing:.16em;
-  text-transform:uppercase;font-weight:600;
-}
-.map-corner-title .l2{
-  font-family:var(--serif);font-size:1.2rem;color:var(--ink);
-  font-weight:500;letter-spacing:-.005em;line-height:1.1;
-  margin:.18rem 0 .5rem;
-}
-.map-corner-title .l3{
-  font-size:.66rem;color:var(--ink-dim);letter-spacing:.04em;
-  font-variant-numeric:tabular-nums;margin-bottom:.35rem;
-}
-.map-corner-title .l4{
-  font-size:.58rem;color:var(--ink-dim);letter-spacing:.06em;
-  text-transform:uppercase;font-weight:600;margin-bottom:.55rem;
-}
-.map-corner-title .l5{
-  font-size:.62rem;color:var(--ink-mute);font-style:italic;
-  letter-spacing:.02em;text-transform:none;
-  border-top:1px solid var(--line-soft);padding-top:.45rem;
-}
-/* Cuando se abre un ensayo, ocultar el hero para que no compita con el panel */
-.main.detail .map-corner-title{opacity:0;pointer-events:none}
+.map-corner-title .l1{color:var(--ink);font-size:.66rem}
 .counter .sep{margin:0 .35rem;color:var(--border-strong)}
 
 /* ═══ MOBILE ═══ */
@@ -1231,66 +1158,149 @@ aside{
   .counter{font-size:.65rem;padding:.4rem .65rem;top:.7rem;right:.7rem}
 }
 
-/* ═══ MOBILE SMALL — reestructura ranking + aside-head ═══ */
-@media(max-width:640px){
-  /* Ranking: 2 filas por cultivar (name+rinde arriba, emp+barra abajo) */
-  .rk-thead{display:none}
-  .rk-row{
-    grid-template-columns:24px minmax(0,1fr) auto;
-    grid-template-areas:
-      "pos name  rinde"
-      ".   emp   bar  ";
-    column-gap:8px;row-gap:3px;
-    padding:.6rem .25rem;
-    align-items:center;
-  }
-  .rk-row > .pos        {grid-area:pos;align-self:start;padding-top:1px}
-  .rk-row > .name       {
-    grid-area:name;
-    overflow-wrap:anywhere;word-break:normal;
-    min-width:0;font-size:.78rem;line-height:1.18;
-  }
-  .rk-row > .emp-cell   {grid-area:emp;min-width:0;overflow:hidden}
-  .rk-row > .rk-bar-wrap{grid-area:bar;min-width:120px;height:14px}
-  .rk-row > .rinde      {
-    grid-area:rinde;text-align:right;
-    font-size:.82rem;font-weight:700;white-space:nowrap;
-  }
-  .rk-row > .idx        {display:none}  /* índice oculto en mobile chico */
-  .rk-row .rk-bar-val   {font-size:.56rem;right:4px}
-  .rk-row.is-promedio{
-    grid-template-areas:
-      "pos name  rinde"
-      ".   .     .    ";
-  }
-  .rk-row.is-promedio .emp,
-  .rk-row.is-promedio .rk-bar-wrap{display:none}
+/* ═══════════════ COMPARADOR + RANKING (vistas fusionadas) ═══════════════ */
+.brand-logo{height:26px;width:auto;display:block}
+@media(max-width:768px){.brand-logo{height:22px}}
+.appnav{display:flex;gap:.2rem;margin-left:.4rem}
+.appnav-btn{font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;
+  padding:.42rem .7rem;border:1px solid transparent;border-radius:7px;background:none;color:var(--ink-mute);cursor:pointer;white-space:nowrap}
+.appnav-btn:hover{color:var(--ink);background:var(--bg-soft)}
+.appnav-btn.active{color:#fff;background:var(--nidera);border-color:var(--nidera)}
+#view-cmp,#view-rank{flex:1;min-height:0;overflow-y:auto;background:var(--bg);display:none}
+.cx-bar{display:none;flex-wrap:wrap;gap:.5rem 1rem;align-items:center;padding:.6rem 1rem;background:var(--bg-panel);border-bottom:1px solid var(--line)}
+.cx-bar.on{display:flex}
+.cx-fl{display:flex;align-items:center;gap:.4rem}
+.cx-fl .lab{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mute)}
+.cx-chip{font-family:var(--mono);font-size:.66rem;padding:.18rem .55rem;border:1px solid var(--line);background:var(--bg-panel);border-radius:99px;color:var(--ink-dim);cursor:pointer}
+.cx-chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.cx-chip.cul.on{background:var(--nidera);border-color:var(--nidera)}
+#view-cmp select,#view-rank select,#view-cmp input,#view-rank input{font-family:var(--mono);font-size:.66rem;padding:.25rem .45rem;border:1px solid var(--line);border-radius:6px;background:var(--bg-panel);color:var(--ink)}
+.cx-wrap{max-width:1140px;margin:0 auto;padding:1.1rem}
+.cx-note{font-size:.66rem;color:var(--ink-mute);font-family:var(--mono)}
+.cx-pickers{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.7rem}
+.cx-slot{border:1px dashed var(--line);border-radius:9px;background:var(--bg-panel);min-height:74px;padding:.7rem .8rem;position:relative}
+.cx-slot.filled{border-style:solid}
+.cx-slot.nid{border-color:var(--nidera);background:var(--nidera-soft)}
+.cx-slot .ph{color:var(--ink-mute);font-size:.74rem}
+.cx-slot .cn{font-family:var(--serif);font-size:1.05rem;font-weight:600;padding-right:1.1rem;line-height:1.15}
+.cx-slot .cm{font-family:var(--mono);font-size:.6rem;color:var(--ink-dim);margin-top:.15rem}
+.cx-slot .x{position:absolute;top:.4rem;right:.5rem;border:none;background:none;color:var(--ink-mute);font-size:.95rem;cursor:pointer;line-height:1}
+.cx-slot .dot{display:inline-block;width:8px;height:8px;border-radius:99px;margin-right:.4rem;vertical-align:middle}
+.cx-search{position:relative;margin-bottom:.4rem}
+.cx-search input{width:100%;padding:.5rem .6rem !important;font-size:.8rem !important}
+.cx-results{position:absolute;z-index:30;left:0;right:0;top:2.3rem;background:var(--bg-panel);border:1px solid var(--line);border-radius:7px;max-height:280px;overflow:auto;box-shadow:var(--shadow-md);display:none}
+.cx-results div{padding:.42rem .6rem;font-size:.72rem;border-bottom:1px solid var(--line-soft);display:flex;justify-content:space-between;gap:.5rem;cursor:pointer}
+.cx-results div:hover{background:var(--nidera-soft)}
+.cx-results .rn{font-family:var(--mono);font-size:.6rem;color:var(--ink-dim)}
+.cx-modebar{display:flex;align-items:center;gap:.9rem;margin:.3rem 0 .9rem;flex-wrap:wrap;font-size:.72rem;color:var(--ink-dim)}
+.cx-modebar label{display:flex;align-items:center;gap:.35rem;cursor:pointer}
+.cx-panel{background:var(--bg-panel);border:1px solid var(--line);border-radius:11px;padding:.9rem 1.1rem;margin-bottom:1rem}
+.cx-panel h3{font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);margin:0 0 .7rem;font-weight:600}
+table.cx-cmp{width:100%;border-collapse:collapse}
+table.cx-cmp th,table.cx-cmp td{text-align:right;padding:.45rem .55rem;font-variant-numeric:tabular-nums}
+table.cx-cmp th{font-family:var(--mono);font-size:.58rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-mute);font-weight:500;border-bottom:1px solid var(--line)}
+table.cx-cmp td.lbl,table.cx-cmp th.lbl{text-align:left;font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-dim)}
+table.cx-cmp td{border-bottom:1px solid var(--line-soft);font-size:.82rem}
+table.cx-cmp td .big{font-family:var(--serif);font-size:1.2rem;font-weight:600}
+.cx-cellnid{background:var(--nidera-soft)}
+.cx-sub{font-family:var(--mono);font-size:.58rem;color:var(--ink-mute)}
+.cx-charts{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.cx-legend{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:.5rem;font-size:.66rem;color:var(--ink-dim)}
+.cx-legend i{display:inline-block;width:10px;height:3px;border-radius:2px;margin-right:.3rem;vertical-align:middle}
+.cx-insight{font-size:.78rem;line-height:1.55;color:var(--ink);background:var(--bg-soft);border-left:3px solid var(--nidera);padding:.6rem .85rem;border-radius:0 6px 6px 0;margin-top:.8rem}
+.cx-insight b{color:var(--nidera)}
+table.cx-rank{width:100%;border-collapse:collapse;background:var(--bg-panel);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+table.cx-rank th,table.cx-rank td{padding:.4rem .65rem;text-align:right;font-variant-numeric:tabular-nums;font-size:.76rem}
+table.cx-rank th{font-family:var(--mono);font-size:.58rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-mute);border-bottom:1px solid var(--line);cursor:pointer;background:var(--bg-soft);position:sticky;top:0}
+table.cx-rank td.l,table.cx-rank th.l{text-align:left}
+table.cx-rank tr.nid td{background:var(--nidera-soft)}
+.cx-btn{font-family:var(--mono);font-size:.64rem;letter-spacing:.04em;padding:.35rem .7rem;border:1px solid var(--line);background:var(--bg-panel);border-radius:6px;color:var(--ink);cursor:pointer}
+.cx-btn.pri{background:var(--nidera);color:#fff;border-color:var(--nidera)}
+.cx-results .nm{font-weight:500;color:var(--ink)}
+.cx-results div[data-add].nid{background:var(--nidera-soft)}
+.cx-rgroup{position:sticky;top:0;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:.5rem;padding:.34rem .6rem;background:var(--bg-soft);font-family:var(--mono);font-size:.56rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-dim);border-bottom:1px solid var(--line);font-weight:600}
+.cx-rgroup.nid{color:var(--nidera);background:var(--nidera-soft)}
+.cx-rgroup span{background:var(--bg-panel);border-radius:99px;padding:0 .42rem;font-size:.54rem;color:var(--ink-mute)}
+.cx-rmore{padding:.3rem .6rem;font-family:var(--mono);font-size:.56rem;color:var(--ink-mute);font-style:italic}
+.rr-tag{font-family:var(--mono);font-weight:600;padding:.05rem .32rem;border-radius:4px;font-size:.92em;white-space:nowrap}
+.rr-tag.pos{color:#3f6e1a;background:#eaf3da}
+.rr-tag.neg{color:#9a4a20;background:#f6e7dc}
+.rr-tag.mid{color:var(--ink-dim);background:var(--bg-soft)}
+.cx-cdot{display:inline-block;width:9px;height:9px;border-radius:99px;margin-right:.4rem;vertical-align:middle;box-shadow:0 0 0 2px var(--bg-panel)}
+.cx-cmp thead th{padding-bottom:.5rem;border-bottom-width:2px}
+.cx-panel{box-shadow:var(--shadow-sm)}
+.cx-legend i{height:4px;width:18px;border-radius:2px}
+.cx-legend span{display:inline-flex;align-items:center;font-family:var(--mono);font-size:.62rem}
+.cx-slot{transition:border-color .15s,box-shadow .15s}
+.cx-slot.filled{border-left:3px solid var(--slot,var(--line))}
+.cx-slot.filled:hover{box-shadow:var(--shadow-sm)}
+.appnav-btn{transition:background .12s,color .12s}
+@media(max-width:1040px){.cx-pickers{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:820px){.cx-charts{grid-template-columns:1fr}}
+@media(max-width:560px){.cx-pickers{grid-template-columns:1fr}}
 
-  /* Aside-head: sacar nav+close del absolute para que no choquen con título largo */
-  .aside-head{
-    padding:1.6rem 1rem .75rem;
-    display:grid;
-    grid-template-columns:1fr auto auto;
-    grid-template-areas:
-      "nav   nav   close"
-      "loc   loc   loc  "
-      "chips chips chips";
-    column-gap:.4rem;row-gap:.55rem;
-  }
-  .aside-head .aside-nav{position:static;grid-area:nav;align-self:center}
-  .aside-head .close    {position:static;grid-area:close;align-self:center;justify-self:end}
-  .aside-head .loc      {grid-area:loc;font-size:1.3rem;margin-top:.1rem}
-  .aside-head .coords   {display:block;margin-left:0;margin-top:.15rem;font-size:.62rem}
-  .aside-head .meta-chips{grid-area:chips;margin-top:0}
-}
+/* ═══════════════ Gate de acceso (clave privada, 1 vez · localStorage) ═══════════════ */
+#gate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(160deg,#0d2d5e 0%,#1a4a8a 55%,#2d6fc4 100%);padding:20px}
+#gate.hidden{display:none}
+#gate .gcard{background:#fff;border-radius:20px;padding:34px 28px 26px;max-width:360px;width:100%;
+  text-align:center;box-shadow:0 18px 50px rgba(0,0,0,.30);animation:gup .35s ease both}
+@keyframes gup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+#gate img{height:42px;width:auto;margin-bottom:16px}
+#gate h1{font-family:'Space Grotesk',sans-serif;font-size:1.25rem;color:#0d2d5e;margin:0 0 3px;letter-spacing:-.01em}
+#gate .gsub{font-family:'DM Sans',sans-serif;font-size:.78rem;color:#64748b;margin:0 0 22px}
+#gate input{width:100%;padding:13px 14px;border:1.5px solid #e2e8f0;border-radius:12px;
+  font-family:'DM Mono',monospace;font-size:1rem;text-align:center;letter-spacing:.12em;color:#0d2d5e;background:#fff}
+#gate input:focus{outline:none;border-color:#e07b18;box-shadow:0 0 0 3px rgba(224,123,24,.16)}
+#gate button{width:100%;margin-top:12px;padding:13px;border:none;border-radius:12px;background:#e07b18;
+  color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.95rem;cursor:pointer;transition:background .15s}
+#gate button:hover{background:#c8690f}
+#gate .gerr{color:#dc2626;font-family:'DM Sans',sans-serif;font-size:.74rem;margin-top:10px;min-height:1.1em}
+#gate .gfoot{margin-top:16px;font-family:'DM Mono',monospace;font-size:.6rem;color:#94a3b8}
 </style>
 </head>
 <body>
 
+<!-- ═══ Gate de acceso privado (clave única, recordada en este dispositivo) ═══ -->
+<div id="gate">
+  <div class="gcard">
+    <img src="logo-henderseeds.png" alt="HenderSeeds">
+    <h1>Redes de Ensayos</h1>
+    <div class="gsub">Acceso privado · Henderseeds</div>
+    <form id="gate-form" autocomplete="on">
+      <input id="gate-pass" type="password" placeholder="Clave de acceso" autocomplete="current-password" aria-label="Clave de acceso">
+      <button type="submit">Ingresar</button>
+      <div class="gerr" id="gate-err"></div>
+    </form>
+    <div class="gfoot">Se recuerda en este dispositivo</div>
+  </div>
+</div>
+<script>
+(function(){
+  // Gate liviano (soft): conveniencia, no seguridad real. La clave vive abajo.
+  var KEY='redes_ensayos_auth_v1';
+  var PASS='1113';   // ← CLAVE DE ACCESO
+  var gate=document.getElementById('gate');
+  if(localStorage.getItem(KEY)==='ok'){ gate.classList.add('hidden'); return; }
+  var f=document.getElementById('gate-form'), inp=document.getElementById('gate-pass'), err=document.getElementById('gate-err');
+  setTimeout(function(){ try{inp.focus();}catch(e){} }, 100);
+  f.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(inp.value.trim().toUpperCase()===PASS){ localStorage.setItem(KEY,'ok'); gate.classList.add('hidden'); }
+    else { err.textContent='Clave incorrecta'; inp.value=''; inp.focus(); }
+  });
+})();
+</script>
+
 <header>
-  <a class="brand" href="/" aria-label="Henderseeds — home">
-    <img src="../assets/logos/henderseeds-dark.png" alt="Henderseeds" class="brand-logo">
-  </a>
+  <div class="brand">
+    <img src="logo-henderseeds.png" alt="HenderSeeds" class="brand-logo">
+  </div>
+  <nav class="appnav" id="appnav">
+    <button class="appnav-btn active" data-view="map">◎ Mapa</button>
+    <button class="appnav-btn" data-view="cmp">⚖ Comparador</button>
+    <button class="appnav-btn" data-view="rank">▦ Ranking</button>
+  </nav>
   <div class="crumb">
     <span class="path">~/mapa-ensayos</span>
     <span class="sep">·</span>
@@ -1329,15 +1339,21 @@ aside{
   </div>
 </header>
 
-<div class="main">
+<!-- Barra de filtros compartida (visible solo en Comparador / Ranking) -->
+<div class="cx-bar" id="cx-bar">
+  <div class="cx-fl"><span class="lab">Cultivo</span><span id="cx-fcultivo"></span></div>
+  <div class="cx-fl"><span class="lab">Campaña</span><span id="cx-fcamp"></span></div>
+  <div class="cx-fl"><span class="lab">Zona</span><select id="cx-fzona" multiple size="1" style="max-width:150px"></select></div>
+  <div class="cx-fl"><span class="lab">Red</span><span id="cx-fred"></span></div>
+  <div class="cx-fl" style="margin-left:auto"><span class="cx-note" id="cx-filtnote"></span></div>
+</div>
+
+<div class="main appview" id="view-map">
   <div id="map"></div>
   <button class="back-to-map" onclick="closeAside()" type="button">← MAPA COMPLETO</button>
   <div class="map-corner-title">
     <div class="l1">ENSAYOS COMPARATIVOS</div>
-    <div class="l2">Maíz + Girasol · Argentina</div>
-    <div class="l3" id="hero-stats">— ensayos · — fuentes · — campañas</div>
-    <div class="l4">Henderseeds SRL · Distribuidor exclusivo <span style="color:var(--nidera)">RED.IN Nidera</span></div>
-    <div class="l5">→ Tocá cualquier punto para ver el ranking del ensayo</div>
+    <div>MAÍZ + GIRASOL · ARGENTINA</div>
   </div>
   <div class="counter">
     <span id="visible-count"><b>0</b> ENSAYOS</span>
@@ -1420,6 +1436,35 @@ aside{
   <div class="toast" id="toast"></div>
 </div>
 
+<!-- ═══ VISTA COMPARADOR ═══ -->
+<div class="appview" id="view-cmp">
+  <div class="cx-wrap">
+    <div class="cx-pickers" id="cx-pickers"></div>
+    <div class="cx-search">
+      <input type="text" id="cx-cult-search" placeholder="Buscá un híbrido para agregar (máx 4)…" autocomplete="off">
+      <div class="cx-results" id="cx-results"></div>
+    </div>
+    <div class="cx-modebar">
+      <span class="cx-fl"><span class="lab" style="font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mute)">Modo</span></span>
+      <label><input type="radio" name="cxmode" value="all" checked> Todos los ambientes de cada híbrido</label>
+      <label><input type="radio" name="cxmode" value="apar"> Solo ambientes comunes (a la par)</label>
+      <span class="cx-note" id="cx-modenote"></span>
+    </div>
+    <div id="cx-body"></div>
+  </div>
+</div>
+
+<!-- ═══ VISTA RANKING ═══ -->
+<div class="appview" id="view-rank">
+  <div class="cx-wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem">
+      <span class="cx-note" id="cx-ranknote"></span>
+      <button class="cx-btn" id="cx-expcsv">⬇ Exportar CSV</button>
+    </div>
+    <div style="overflow:auto"><table class="cx-rank" id="cx-ranktable"></table></div>
+  </div>
+</div>
+
 <!-- ═══ MODAL COMPARTIR PDF ═══ -->
 <div class="modal-backdrop" id="share-modal">
   <div class="modal" style="position:relative;max-width:780px">
@@ -1447,62 +1492,12 @@ const COLOR = {
 };
 const fmtAR = n => new Intl.NumberFormat('es-AR', {maximumFractionDigits:0}).format(Math.round(n));
 
-// Detección de Nidera por PREFIJO del nombre del híbrido (catálogo Nidera AR):
-//   NS, AX, AXN, NUSOL  → Nidera (maíz NS/AX, girasol NUSOL)
-// NK NO entra (es Syngenta — Northrup King). El intento previo de usar el
-// campo `empresa` del geojson dejaba 282 falsos positivos (filas NK marcadas
-// Nidera) + 215 falsos negativos (NUSOL marcadas "Nufarm", NS marcadas
-// "Syngenta"). El campo viene corrupto desde varios scrapers.
-// Normalización: trim + reemplazo NBSP + uppercase, para tolerar
-// "Ns 1113 CL" y variantes de mayúsculas.
-// Inferir empresa por PREFIJO del nombre del híbrido (el campo c.empresa del
-// geojson viene corrupto en varias filas: NK marcados "Nidera", NS marcados
-// "Syngenta", NUSOL marcados "Nufarm", etc). Esta función es la fuente de
-// verdad para el render del ranking. Si no matchea ningún prefijo conocido,
-// cae al campo del geojson (probablemente bien para los menos comunes).
-const EMPRESA_PREFIJOS = [
-  [/^(NS|AX)([\s\d]|$)|^NIDERA\s/i, 'Nidera'],
-  [/^NUSOL\s?\d/i, 'Nufarm'],
-  [/^NK\s?\d/i,        'Syngenta'],
-  [/^SYN\s?\d/i,       'Syngenta'],
-  [/^SPS\s?\d/i,       'SPS'],
-  [/^(DK|DEKALB)\s?\d/i, 'Dekalb (Bayer)'],
-  [/^DM\s?\d/i,        'Don Mario'],
-  [/^BRV\s?\d/i,       'Brevant'],
-  [/^P\s?\d{3,}/i,     'Pioneer'],
-  [/^LG\s?\d/i,        'Lidea'],
-  [/^KWS\s?\d/i,       'KWS'],
-  [/^ACA\s?\d/i,       'ACA'],
-  [/^(SRM|SURSEM)\s?\d/i, 'Sursem'],
-  [/^ADV\s?\d/i,       'Advanta'],
-  [/^ARGENSUN\s?\d/i,  'Argensun'],
-  [/^BUCK\s?\d/i,      'Buck'],
-  [/^MS\s?\d/i,        'MS Tecnoseed'],
-  [/^RAGT\s?\d/i,      'RAGT'],
-  [/^FORRATEC\s?\d/i,  'Forratec'],
-  [/^ILLINOIS\s?\d/i,  'Illinois'],
-  [/^BASF\s?\d/i,      'BASF'],
-  [/^QS\s?\d/i,        'Qseeds'],
-  [/^LT\s?\d/i,        'La Tijereta'],
-  [/^EBC\s/i,          'Baya Casal'],
-  [/^HS\s?\d/i,        'Hersems'],
-  [/^LID\s?\d/i,       'Lidea'],
-];
-function inferEmpresa(c){
-  const h = ((c && c.cultivar) || '').replace(/ /g, ' ').trim();
-  if(h){
-    for(const [re, name] of EMPRESA_PREFIJOS){
-      if(re.test(h)) return name;
-    }
-  }
-  return (c && c.empresa) || '—';
-}
-
+// Detección de Nidera: SOLO por empresa, no por prefijo del cultivar.
+// Antes usábamos un regex sobre el cultivar (NS/NK/NSS/AX) pero eso era
+// incorrecto: Syngenta también vende híbridos NS/NK (legacy de la marca).
+// El único criterio confiable es que la EMPRESA del ensayo sea "Nidera".
 function isNideraCultivar(c){
-  const h = ((c && c.cultivar) || '').replace(/ /g, ' ').trim().toUpperCase();
-  if(!h) return false;
-  if(h.startsWith("NIDERA ")) return true;
-  return /^(NS|AX)([\s\d]|$)/.test(h);
+  return (c && c.empresa || '').trim().toLowerCase() === 'nidera';
 }
 
 let map, allFeatures = [], visibleFeatures = [], currentEnsayoId = null;
@@ -1524,7 +1519,7 @@ const FILTER_LABELS = {
 };
 
 async function init(){
-  const resp = await fetch('data/ensayos.geojson');
+  const resp = await fetch('data/ensayos.geojson', {cache:'no-cache'});
   const gj = await resp.json();
   allFeatures = gj.features;
   visibleFeatures = allFeatures.slice();  // cache inicial para navegación
@@ -1571,37 +1566,10 @@ async function init(){
   populateMultiselect('zona', [...countBy('zona').entries()]
     .sort((a,b) => b[1] - a[1] || a[0].localeCompare(b[0])));
 
-  // Pre-selección por defecto: últimas 3 campañas (más recientes).
-  // sortCamp ya las devuelve desc, así que tomamos las 3 primeras.
-  const campaniasOrden = [...countBy('campania').entries()]
-    .map(e => e[0])
-    .sort(sortCamp);
-  const defaultCamp = campaniasOrden.slice(0, 3);
-  defaultCamp.forEach(v => filters.campania.add(v));
-  const msCamp = document.querySelector('.ms[data-ms="campania"] .ms-menu');
-  if(msCamp){
-    msCamp.querySelectorAll('input[type=checkbox]').forEach(cb => {
-      if(filters.campania.has(cb.value)) cb.checked = true;
-    });
-  }
+  // Sin pre-selección de campañas: abre mostrando TODAS las 245 (coherente con
+  // la pestaña Comparador, que también usa todas las campañas por defecto).
   updateMultiselectLabel('campania');
-
-  // Counts iniciales por cultivo (tabs + legend)
-  const nGir = allFeatures.filter(f=>f.properties.cultivo==='girasol').length;
-  const nMai = allFeatures.filter(f=>f.properties.cultivo==='maiz').length;
-  document.getElementById('cnt-all').textContent = allFeatures.length;
-  document.getElementById('cnt-gir').textContent = nGir;
-  document.getElementById('cnt-mai').textContent = nMai;
-  document.getElementById('leg-gir').textContent = nGir;
-  document.getElementById('leg-mai').textContent = nMai;
-
-  // Stats del hero (map-corner-title)
-  const camps = new Set(allFeatures.map(f => f.properties.campania).filter(Boolean));
-  const reds  = new Set(allFeatures.map(f => f.properties.red).filter(Boolean));
-  const heroStats = document.getElementById('hero-stats');
-  if(heroStats){
-    heroStats.textContent = `${allFeatures.length} ensayos · ${reds.size} fuentes · ${camps.size} campañas`;
-  }
+  updateCultivoCounts();
 
   initMap();
   bindFilters();
@@ -1643,8 +1611,8 @@ function initMap(){
         {id:'bg', type:'raster', source:'carto-light'},
       ],
     },
-    center: [-62.3, -35.4],   // centrado pampa húmeda — donde está el 95% de los datos
-    zoom: 5.9,                 // zoom-in para que zona core (BA + sur Cba + La Pampa + Santa Fe) tome la pantalla
+    center: [-61.8, -36.5],
+    zoom: 5.4,
     minZoom: 3, maxZoom: 14,
     attributionControl: {compact: true},
   });
@@ -1678,18 +1646,6 @@ function initMap(){
         'circle-stroke-opacity':0.35,
       },
     });
-
-    // Label sobre el círculo terracota — HTML Marker (los symbol layers requieren
-    // glyphs URL en el style, no lo tenemos. Marker es más confiable + estilizable).
-    const zonaLabelEl = document.createElement('div');
-    zonaLabelEl.className = 'zona-core-label';
-    zonaLabelEl.innerHTML = `
-      <div class="zl-title">ZONA HENDERSEEDS</div>
-      <div class="zl-sub">Henderson · Bolívar · Daireaux</div>
-    `;
-    new maplibregl.Marker({element: zonaLabelEl, anchor: 'top'})
-      .setLngLat([-61.8, -36.55])
-      .addTo(map);
 
     // Labels arriba
     map.addLayer({id:'lbls', type:'raster', source:'carto-labels'});
@@ -1945,6 +1901,7 @@ function applyFilter(){
   visibleFeatures = filtered;
   map.getSource('ensayos').setData({type:'FeatureCollection', features:filtered});
   updateCounter(filtered);
+  updateCultivoCounts();
   updateNavCounter();
 
   // Actualizar crumb del header
@@ -1960,6 +1917,27 @@ function updateCounter(features){
   const n_cult = features.reduce((a,f)=>a+(f.properties.n_cultivares||0),0);
   document.getElementById('visible-count').innerHTML = `<b>${n_ens}</b> ensayo${n_ens===1?'':'s'}`;
   document.getElementById('visible-cultivares').innerHTML = `<b>${n_cult}</b> cultivares`;
+}
+
+// Conteos de los tabs de cultivo (TODOS/GIRASOL/MAÍZ) + leyenda: reflejan los
+// filtros activos EXCEPTO cultivo, así TODOS = GIRASOL + MAÍZ y coincide con el
+// contador de ensayos visibles (antes mostraban el total global → 245 vs 158).
+function updateCultivoCounts(){
+  const base = allFeatures.filter(f => {
+    const p = f.properties;
+    if(filters.campania.size > 0 && !filters.campania.has(p.campania)) return false;
+    if(filters.red.size > 0 && !filters.red.has(p.red)) return false;
+    if(filters.empresa.size > 0){ const es = p.empresas || []; if(!es.some(e => filters.empresa.has(e))) return false; }
+    if(filters.zona.size > 0 && !filters.zona.has(p.zona)) return false;
+    return true;
+  });
+  const nGir = base.filter(f => f.properties.cultivo === 'girasol').length;
+  const nMai = base.filter(f => f.properties.cultivo === 'maiz').length;
+  document.getElementById('cnt-all').textContent = base.length;
+  document.getElementById('cnt-gir').textContent = nGir;
+  document.getElementById('cnt-mai').textContent = nMai;
+  document.getElementById('leg-gir').textContent = nGir;
+  document.getElementById('leg-mai').textContent = nMai;
 }
 
 function escapeHtml(s){
@@ -2068,12 +2046,13 @@ function openAside(f){
   ].join('');
   document.getElementById('a-summary').innerHTML = summaryHtml;
 
-  // Heatmap color amarillo→verde según percentil del rinde.
-  // SOLO por rinde — Nidera NO se diferencia en la barra (queda por ★ y fondo de fila).
-  // Top (>= max): verde fuerte; mid: verde-amarillo; bottom (= min): amarillo.
-  function heatmapColor(rinde, _nideraIgnored){
-    if(maxRinde === minRinde) return '#a0c478';
+  // Heatmap color verde→amarillo según percentil del rinde
+  // Top (>= max): verde fuerte; mid: verde-amarillo; bottom (= min): amarillo
+  function heatmapColor(rinde, nidera){
+    if(nidera) return '#b85c2a';  // siempre terra cotta para Nidera
+    if(maxRinde === minRinde) return '#a0c478';  // edge case sin variación
     const t = (rinde - minRinde) / (maxRinde - minRinde);
+    // interpolar entre amarillo (#f3d34a) y verde (#7eb958)
     const interp = (a, b) => Math.round(a + (b-a) * t);
     const r = interp(243, 126);  // f3 → 7e
     const g = interp(211, 185);  // d3 → b9
@@ -2091,7 +2070,7 @@ function openAside(f){
       <div class="rk-row${nidera?' nidera':''}">
         <div class="pos">${String(i+1).padStart(2,'0')}</div>
         <div class="name">${escapeHtml(c.cultivar)}${nidera?'<span class="star">★</span>':''}</div>
-        <div class="emp-cell">${(()=>{const e=inferEmpresa(c);return e&&e!=='—'?`<span class="emp" title="${escapeHtml(e)}">${escapeHtml(e)}</span>`:`<span class="emp emp-verificar" title="empresa sin confirmar contra fuente">(verificar)</span>`;})()}</div>
+        <div><span class="emp" title="${escapeHtml(c.empresa||'—')}">${escapeHtml(c.empresa || '—')}</span></div>
         <div class="rk-bar-wrap">
           <span class="rk-bar" style="width:${(pct*100).toFixed(1)}%;background:${bgColor}"></span>
           <span class="rk-bar-val">${fmtAR(c.rinde_kg_ha)}</span>
@@ -2150,13 +2129,10 @@ function openAside(f){
   // Actualizar contador navegación
   updateNavCounter();
 
-  // Esperar a la transición de CSS y luego resize del mapa.
-  // clearTimeout previo: si el usuario navega rápido entre ensayos o abre/cierra,
-  // evita que un flyTo viejo sobrescriba la cámara del nuevo ensayo (race condition).
-  if(window._asideFlyTimer) clearTimeout(window._asideFlyTimer);
-  window._asideFlyTimer = setTimeout(() => {
+  // Esperar a la transición de CSS y luego resize del mapa
+  setTimeout(() => {
     map.resize();
-    map.flyTo({center: f.geometry.coordinates, zoom: Math.max(map.getZoom(), 7.5), speed:0.9});
+    map.flyTo({center: f.geometry.coordinates, zoom: Math.max(map.getZoom(), 7), speed:0.8});
   }, 280);
 }
 
@@ -2199,10 +2175,9 @@ function closeAside(){
   if(map && map.getLayer('ensayos-active')) {
     map.setFilter('ensayos-active',['==','ensayo_id','']);
   }
-  if(window._asideFlyTimer) clearTimeout(window._asideFlyTimer);
-  window._asideFlyTimer = setTimeout(() => {
+  setTimeout(() => {
     map.resize();
-    map.flyTo({center:[-62.3,-35.4], zoom:5.9, speed:.7});
+    map.flyTo({center:[-61.8,-36.5], zoom:5.4, speed:.7});
   }, 280);
 }
 
@@ -2430,8 +2405,9 @@ function generateEnsayoPDF(f){
   pdfText(doc, 'ÍND', colIdx, colY, {color: PDF_COLORS.inkMute, size: 6.5, font: ['courier','bold'], align: 'right'});
   y += 6;
 
-  // Heatmap color helper (PDF) — solo por rinde, Nidera no se diferencia en la barra
-  function heatmap(rinde, _nideraIgnored){
+  // Heatmap color helper
+  function heatmap(rinde, nidera){
+    if(nidera) return PDF_COLORS.nidera;
     if(maxRinde === minRinde) return [126, 185, 88];
     const t = (rinde - minRinde) / (maxRinde - minRinde);
     return [
@@ -2474,7 +2450,7 @@ function generateEnsayoPDF(f){
       size: 8, font: ['courier', nidera?'bold':'normal']
     });
     // Empresa
-    let empName = inferEmpresa(c);
+    let empName = c.empresa || '—';
     if(empName.length > 14) empName = empName.slice(0, 13) + '…';
     pdfText(doc, empName, colEmp, rowY, {
       color: nidera ? PDF_COLORS.nidera : PDF_COLORS.inkDim,
@@ -2635,54 +2611,13 @@ function bindShare(){
     }
   });
 
-  // Modal DESCARGAR PDF — mobile-first
-  // iOS Safari ignora el attr `download` del <a>, y muchos Android Chrome
-  // no disparan la descarga desde un click sintético dentro de un modal.
-  // Estrategia: si el SO soporta Web Share API con files (mobile moderno),
-  // usar el share sheet nativo (productor elige "Guardar en Archivos" o
-  // manda por WhatsApp directo). Si no, fallback al <a download> clásico
-  // que sí funciona en desktop.
-  document.getElementById('share-download').addEventListener('click', async () => {
+  // Modal DESCARGAR PDF
+  document.getElementById('share-download').addEventListener('click', () => {
     if(!shareState.pdfBlob) return;
-    const isMobile = /android|iphone|ipad|ipod|mobile|tablet/i.test(navigator.userAgent);
-
-    // Camino A — mobile + share files disponible
-    if(isMobile && shareState.pdfFile && navigator.canShare &&
-       navigator.canShare({ files: [shareState.pdfFile] })){
-      try {
-        const p = shareState.ensayo.properties;
-        await navigator.share({
-          files: [shareState.pdfFile],
-          title: 'Ensayo ' + p.localidad,
-          text: `Ensayo ${p.localidad} ${p.campania} — Mapa Henderseeds`,
-        });
-        showToast('Listo');
-        return;
-      } catch(e) {
-        if(e.name === 'AbortError') return;  // user cerró el share sheet
-        // si falló por otra razón, intentar fallback abajo
-      }
-    }
-
-    // Camino B — mobile sin share API: abrir en nueva pestaña para que el
-    // browser muestre el PDF y el user use "Compartir" o "Guardar" del browser.
-    if(isMobile){
-      const win = window.open(shareState.pdfUrl, '_blank', 'noopener');
-      if(win){
-        showToast('PDF abierto · tocá el menú del browser para guardar');
-      } else {
-        showToast('Bloqueado por el browser · permití pop-ups y reintentá');
-      }
-      return;
-    }
-
-    // Camino C — desktop: descarga clásica con <a download>
     const a = document.createElement('a');
     a.href = shareState.pdfUrl;
     a.download = shareState.pdfFilename;
-    document.body.appendChild(a);
     a.click();
-    a.remove();
     showToast('PDF descargado');
   });
 
@@ -2714,6 +2649,244 @@ init().catch(err=>{
   console.error(err);
   document.getElementById('map').innerHTML = `<div style="padding:2rem;color:#E8B547;font-family:var(--mono)">[ERR] No se pudo cargar el dataset: ${escapeHtml(err.message || String(err))}</div>`;
 });
+</script>
+
+<!-- ═══════════ MÓDULO COMPARADOR + RANKING (analítica IA/RR, aislado) ═══════════ -->
+<script>
+(function(){
+  'use strict';
+  const PAL=['#0072B2','#E69F00','#009E73','#CC79A7']; // azul / naranja / verde / púrpura (Okabe-Ito, distinguibles y accesibles)
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+  const fmt=(n,d=0)=>n==null||isNaN(n)?'—':Number(n).toLocaleString('es-AR',{minimumFractionDigits:d,maximumFractionDigits:d});
+  const F={cultivo:'maiz',camps:new Set(),zonas:new Set(),redes:new Set()};
+  let BUN=null, REG=[], picks=[], loaded=false, view='map';
+
+  // ---- nav / view switching ----
+  $$('#appnav .appnav-btn').forEach(b=>b.onclick=()=>setView(b.dataset.view));
+  function setView(v){
+    view=v;
+    $$('#appnav .appnav-btn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
+    $('#view-map').style.display = v==='map'?'flex':'none';
+    $('#view-cmp').style.display = v==='cmp'?'block':'none';
+    $('#view-rank').style.display= v==='rank'?'block':'none';
+    $('#cx-bar').classList.toggle('on', v!=='map');
+    const mf=$('#filters'); if(mf) mf.style.display = v==='map'?'':'none';
+    if(v==='map'){ try{ if(typeof map!=='undefined'&&map&&map.resize) setTimeout(()=>map.resize(),60);}catch(e){} return; }
+    ensureLoaded();
+  }
+
+  function ensureLoaded(){
+    if(loaded){renderAll();return;}
+    $('#cx-body').innerHTML='<div class="cx-panel"><div class="cx-note">Cargando analítica…</div></div>';
+    fetch('data/bundle.json',{cache:'no-cache'}).then(r=>r.json()).then(b=>{
+      BUN=b; const cols=b.columns;
+      REG=b.registros.map(row=>{const o={};cols.forEach((c,i)=>o[c]=row[i]);return o;});
+      loaded=true;
+      F.camps=new Set(campsFor('maiz'));
+      picks=topNidera('maiz',2);
+      renderAll();
+    }).catch(e=>{$('#cx-body').innerHTML='<div class="cx-panel"><div class="cx-note">No se pudo cargar bundle.json: '+e+'</div></div>';});
+  }
+
+  function topNidera(cul,k){return aggAll().filter(a=>a.cultivo===cul&&a.is_nidera&&a.n_amb>=4).sort((x,y)=>y.prom_rr-x.prom_rr).slice(0,k).map(a=>a.key);}
+  function campsFor(c){return [...new Set(REG.filter(r=>r.cultivo===c).map(r=>r.campania))].sort();}
+  function optsFor(f){return [...new Set(REG.filter(r=>r.cultivo===F.cultivo).map(r=>r[f]).filter(Boolean))].sort();}
+  function filtered(){return REG.filter(r=>r.cultivo===F.cultivo&&(F.camps.size===0||F.camps.has(r.campania))&&(F.zonas.size===0||F.zonas.has(r.zona))&&(F.redes.size===0||F.redes.has(r.red))&&r.rinde_kg_ha!=null);}
+
+  // ---- aggregation ----
+  function aggregate(rows){
+    const by={}; rows.forEach(r=>{(by[r.cultivar_key]=by[r.cultivar_key]||[]).push(r);});
+    return Object.entries(by).map(([key,rs])=>{
+      const ambs={}; rs.forEach(r=>{(ambs[r.ambiente_id]=ambs[r.ambiente_id]||[]).push(r);});
+      const ambList=Object.entries(ambs).map(([id,a])=>({id,rinde:mean(a.map(x=>x.rinde_kg_ha)),ia:a[0].ia}));
+      const fw=linreg(ambList.map(a=>a.ia),ambList.map(a=>a.rinde));
+      return {key,cultivar:mode(rs.map(r=>r.cultivar)),empresa:rs[0].empresa,is_nidera:rs[0].is_nidera,cultivo:rs[0].cultivo,
+        prom_rinde:mean(rs.map(r=>r.rinde_kg_ha)),prom_ia:mean(rs.map(r=>r.ia)),prom_rr:mean(rs.map(r=>r.rr)),
+        n:rs.length,n_amb:Object.keys(ambs).length,fw_slope:fw.b,fw_b0:fw.b0,rows:rs,ambList};
+    });
+  }
+  function aggAll(){return aggregate(filtered());}
+
+  // ---- render orchestration ----
+  function renderAll(){renderFilters();renderPickers();renderCmp();renderRank();renderNote();}
+  function renderNote(){const f=filtered();$('#cx-filtnote').textContent=`${f.length} obs · ${new Set(f.map(r=>r.ambiente_id)).size} ambientes · ${new Set(f.map(r=>r.cultivar_key)).size} híbridos`;}
+
+  function renderFilters(){
+    $('#cx-fcultivo').innerHTML=['maiz','girasol'].map(c=>`<button class="cx-chip cul ${c===F.cultivo?'on':''}" data-cul="${c}">${c==='maiz'?'🌽 maíz':'🌻 girasol'}</button>`).join('');
+    $$('#cx-fcultivo .cx-chip').forEach(b=>b.onclick=()=>{F.cultivo=b.dataset.cul;F.camps=new Set(campsFor(F.cultivo));F.zonas.clear();F.redes.clear();picks=topNidera(F.cultivo,2);renderAll();});
+    const camps=campsFor(F.cultivo);
+    $('#cx-fcamp').innerHTML=camps.map(c=>`<button class="cx-chip ${F.camps.has(c)?'on':''}" data-camp="${c}">${c}</button>`).join('');
+    $$('#cx-fcamp .cx-chip').forEach(b=>b.onclick=()=>{const c=b.dataset.camp;F.camps.has(c)?F.camps.delete(c):F.camps.add(c);if(F.camps.size===0)camps.forEach(x=>F.camps.add(x));renderAll();});
+    const zonas=optsFor('zona');
+    $('#cx-fzona').innerHTML=zonas.map(z=>`<option value="${z}" ${F.zonas.size===0||F.zonas.has(z)?'selected':''}>${z}</option>`).join('');
+    $('#cx-fzona').onchange=e=>{F.zonas=new Set([...e.target.selectedOptions].map(o=>o.value));if(F.zonas.size===zonas.length)F.zonas.clear();renderAll();};
+    const redes=optsFor('red');
+    $('#cx-fred').innerHTML=redes.map(r=>`<button class="cx-chip ${F.redes.size===0||F.redes.has(r)?'on':''}" data-red="${r}">${r}</button>`).join('');
+    $$('#cx-fred .cx-chip').forEach(b=>b.onclick=()=>{const r=b.dataset.red;if(F.redes.size===0)redes.forEach(x=>F.redes.add(x));F.redes.has(r)?F.redes.delete(r):F.redes.add(r);if(F.redes.size===redes.length)F.redes.clear();renderAll();});
+  }
+
+  function renderPickers(){
+    const amap=Object.fromEntries(aggAll().map(a=>[a.key,a]));
+    $('#cx-pickers').innerHTML=[0,1,2,3].map(i=>{
+      const k=picks[i],a=k?amap[k]:null;
+      if(!a) return `<div class="cx-slot"><span class="ph">+ slot ${i+1} vacío</span></div>`;
+      const col=PAL[i];
+      return `<div class="cx-slot filled ${a.is_nidera?'nid':''}" style="--slot:${col}"><button class="x" data-rm="${a.key}">✕</button>
+        <div class="cn"><span class="dot" style="background:${col}"></span>${a.is_nidera?'★ ':''}${a.cultivar}</div>
+        <div class="cm">${a.empresa||'sin marca'} · ${a.is_nidera?'NIDERA · ':''}${a.n_amb} amb · n=${a.n}</div></div>`;
+    }).join('');
+    $$('#cx-pickers .x').forEach(b=>b.onclick=()=>{picks=picks.filter(k=>k!==b.dataset.rm);renderAll();});
+  }
+
+  const si=$('#cx-cult-search'), rbox=$('#cx-results');
+  function rrTag(v){const c=v>=103?'pos':v<=97?'neg':'mid';return `<span class="rr-tag ${c}">${fmt(v,0)}%</span>`;}
+  function renderResults(){
+    const q=si.value.trim().toLowerCase();
+    let list=aggAll().filter(a=>!picks.includes(a.key));
+    if(q) list=list.filter(a=>a.cultivar.toLowerCase().includes(q)||(a.empresa||'').toLowerCase().includes(q));
+    if(picks.length>=4){rbox.innerHTML='<div class="rn" style="padding:.6rem">Máximo 4 híbridos. Quitá uno para agregar otro.</div>';rbox.style.display='block';return;}
+    // agrupar por marca, Nidera primero, luego por nº de híbridos (marcas grandes arriba)
+    const groups={}; list.forEach(a=>{const e=a.empresa||'(sin marca)';(groups[e]=groups[e]||[]).push(a);});
+    const order=Object.keys(groups).sort((x,y)=>{
+      if(x==='Nidera')return -1; if(y==='Nidera')return 1;
+      const dl=groups[y].length-groups[x].length; return dl||x.localeCompare(y,'es');
+    });
+    const CAP=q?999:8;
+    let html='';
+    order.forEach(e=>{
+      const items=groups[e].sort((a,b)=>b.prom_rr-a.prom_rr), nid=e==='Nidera';
+      html+=`<div class="cx-rgroup ${nid?'nid':''}">${nid?'★ ':''}${e}<span>${items.length}</span></div>`;
+      html+=items.slice(0,CAP).map(a=>`<div data-add="${a.key}" class="${a.is_nidera?'nid':''}"><span class="nm">${a.cultivar}</span><span class="rn">${a.n_amb} amb · ${rrTag(a.prom_rr)}</span></div>`).join('');
+      if(items.length>CAP) html+=`<div class="cx-rmore">+${items.length-CAP} más — escribí para filtrar</div>`;
+    });
+    rbox.innerHTML=html||'<div class="rn" style="padding:.6rem">sin resultados en el filtro actual</div>';
+    rbox.style.display='block';
+  }
+  si.addEventListener('focus',renderResults);
+  si.addEventListener('input',renderResults);
+  rbox.addEventListener('click',e=>{const d=e.target.closest('[data-add]');if(!d)return;
+    if(picks.length<4&&!picks.includes(d.dataset.add))picks.push(d.dataset.add);
+    si.value='';rbox.style.display='none';renderAll();});
+  document.addEventListener('click',e=>{if(!e.target.closest('.cx-search'))rbox.style.display='none';});
+  $$('input[name=cxmode]').forEach(r=>r.onchange=renderCmp);
+
+  function renderCmp(){
+    const mode=document.querySelector('input[name=cxmode]:checked')?.value||'all';
+    const amap=Object.fromEntries(aggAll().map(a=>[a.key,a]));
+    let sel=picks.map(k=>amap[k]).filter(Boolean);
+    $('#cx-modenote').textContent='';
+    if(!sel.length){$('#cx-body').innerHTML='<div class="cx-panel"><div class="cx-note">Agregá hasta 4 híbridos. Por defecto cargamos los Nidera mejor rankeados.</div></div>';return;}
+    if(mode==='apar'&&sel.length>=2){
+      const sets=sel.map(a=>new Set(a.ambList.map(x=>x.id)));
+      const common=[...sets[0]].filter(id=>sets.every(s=>s.has(id))),cs=new Set(common);
+      sel=sel.map(a=>{const ambList=a.ambList.filter(x=>cs.has(x.id)),rows=a.rows.filter(r=>cs.has(r.ambiente_id)),fw=linreg(ambList.map(x=>x.ia),ambList.map(x=>x.rinde));
+        return {...a,ambList,rows,prom_rinde:mean(rows.map(r=>r.rinde_kg_ha)),prom_ia:mean(rows.map(r=>r.ia)),prom_rr:mean(rows.map(r=>r.rr)),n:rows.length,n_amb:ambList.length,fw_slope:fw.b,fw_b0:fw.b0};});
+      $('#cx-modenote').textContent=common.length?`${common.length} ambientes en común`:'⚠ no comparten ambientes — no comparables a la par';
+    }
+    const cols=sel.map((a,i)=>({a,col:PAL[i]}));
+    const row=(l,vals)=>`<tr><td class="lbl">${l}</td>${vals.map((v,i)=>`<td class="${sel[i].is_nidera?'cx-cellnid':''}">${v}</td>`).join('')}</tr>`;
+    const table=`<table class="cx-cmp"><thead><tr><th class="lbl">Métrica</th>${sel.map((a,i)=>`<th><span class="cx-cdot" style="background:${PAL[i]}"></span>${a.is_nidera?'★ ':''}${a.cultivar}</th>`).join('')}</tr></thead><tbody>
+      ${row('Rinde promedio',sel.map(a=>`<span class="big">${fmt(a.prom_rinde)}</span> <span class="cx-sub">kg/ha</span>`))}
+      ${row('Rend. relativo (RR)',sel.map(a=>`<span class="big" style="color:${a.prom_rr>=103?'#3f6e1a':a.prom_rr<=97?'#9a4a20':'inherit'}">${fmt(a.prom_rr,0)}%</span>`))}
+      ${row('Índice ambiental',sel.map(a=>`${fmt(a.prom_ia)} <span class="cx-sub">kg/ha</span>`))}
+      ${row('Pendiente F-W',sel.map(a=>a.fw_slope==null?'—':`${fmt(a.fw_slope,2)} <span class="cx-sub">${a.fw_slope>1.05?'ofensivo':a.fw_slope<0.95?'defensivo':'estable'}</span>`))}
+      ${row('Ambientes',sel.map(a=>`${a.n_amb}`))}
+      ${row('Observaciones (n)',sel.map(a=>`${a.n}`))}
+    </tbody></table>`;
+    $('#cx-body').innerHTML=`<div class="cx-panel"><h3>Resumen general</h3>${table}<div class="cx-insight">${insight(sel,mode)}</div></div>
+      <div class="cx-charts">
+        <div class="cx-panel"><h3>Respuesta al ambiente · rinde vs índice ambiental</h3><div id="cx-ia"></div>
+          <div class="cx-legend">${cols.map(c=>`<span><i style="background:${c.col}"></i>${c.a.cultivar}</span>`).join('')}</div>
+          <div class="cx-note" style="margin-top:.4rem">Pendiente &gt;1 = explota ambientes buenos · &lt;1 = sostiene en flojos. Punteada = 1:1.</div></div>
+        <div class="cx-panel"><h3>Consistencia · RR por calidad de ambiente</h3><div id="cx-box"></div>
+          <div class="cx-note" style="margin-top:.4rem">RR en ambientes flojos / medios / buenos (terciles de IA).</div></div>
+      </div>`;
+    drawIA('cx-ia',sel,cols); drawBox('cx-box',sel,cols);
+  }
+  function insight(sel,mode){
+    const best=[...sel].sort((a,b)=>b.prom_rr-a.prom_rr)[0], nid=sel.filter(a=>a.is_nidera).sort((a,b)=>b.prom_rr-a.prom_rr)[0];
+    let s=`<b>${best.cultivar}</b> lidera con ${fmt(best.prom_rr,0)}% del promedio de la red (${best.n_amb} ambientes). `;
+    if(nid&&nid!==best) s+=`El mejor Nidera, <b>${nid.cultivar}</b>, rinde ${fmt(nid.prom_rr,0)}% (${fmt(nid.prom_rinde)} kg/ha). `;
+    else if(nid===best) s+=`Y es Nidera. `;
+    const off=sel.filter(a=>a.fw_slope>1.05).map(a=>a.cultivar), def=sel.filter(a=>a.fw_slope!=null&&a.fw_slope<0.95).map(a=>a.cultivar);
+    if(off.length) s+=`Ofensivo: ${off.join(', ')}. `; if(def.length) s+=`Defensivo/estable: ${def.join(', ')}. `;
+    return s;
+  }
+
+  function drawIA(id,sel,cols){
+    const W=440,H=290,P={l:52,r:14,t:14,b:38};
+    const ai=[],ar=[]; sel.forEach(a=>a.ambList.forEach(p=>{ai.push(p.ia);ar.push(p.rinde);}));
+    if(!ai.length){$('#'+id).innerHTML='<div class="cx-note">sin datos</div>';return;}
+    const xmin=Math.min(...ai),xmax=Math.max(...ai),ymin=Math.min(...ar,xmin),ymax=Math.max(...ar,xmax);
+    const sx=v=>P.l+(v-xmin)/(xmax-xmin||1)*(W-P.l-P.r), sy=v=>H-P.b-(v-ymin)/(ymax-ymin||1)*(H-P.t-P.b);
+    let s=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">`;
+    s+=`<line x1="${P.l}" y1="${H-P.b}" x2="${W-P.r}" y2="${H-P.b}" stroke="#cdc4ad"/><line x1="${P.l}" y1="${P.t}" x2="${P.l}" y2="${H-P.b}" stroke="#cdc4ad"/>`;
+    const lo=Math.max(xmin,ymin),hi=Math.min(xmax,ymax);
+    if(hi>lo) s+=`<line x1="${sx(lo)}" y1="${sy(lo)}" x2="${sx(hi)}" y2="${sy(hi)}" stroke="#b9ad8e" stroke-dasharray="3,3"/>`;
+    for(let k=0;k<=3;k++){const xv=xmin+(xmax-xmin)*k/3,yv=ymin+(ymax-ymin)*k/3;
+      s+=`<text x="${sx(xv)}" y="${H-P.b+14}" font-size="9" fill="#9c947f" font-family="IBM Plex Mono" text-anchor="middle">${fmt(xv)}</text>`;
+      s+=`<text x="${P.l-6}" y="${sy(yv)+3}" font-size="9" fill="#9c947f" font-family="IBM Plex Mono" text-anchor="end">${fmt(yv)}</text>`;}
+    s+=`<text x="${W/2}" y="${H-4}" font-size="9" fill="#6e6857" font-family="IBM Plex Mono" text-anchor="middle">índice ambiental (kg/ha)</text>`;
+    sel.forEach((a,i)=>{const col=cols[i].col;
+      a.ambList.forEach(p=>{s+=`<circle cx="${sx(p.ia)}" cy="${sy(p.rinde)}" r="2.3" fill="${col}" opacity="0.38"/>`;});
+      if(a.fw_slope!=null){const y1=a.fw_b0+a.fw_slope*xmin,y2=a.fw_b0+a.fw_slope*xmax;
+        s+=`<line x1="${sx(xmin)}" y1="${sy(y1)}" x2="${sx(xmax)}" y2="${sy(y2)}" stroke="#fff" stroke-width="4.2" stroke-linecap="round" opacity="0.7"/>`;
+        s+=`<line x1="${sx(xmin)}" y1="${sy(y1)}" x2="${sx(xmax)}" y2="${sy(y2)}" stroke="${col}" stroke-width="2.6" stroke-linecap="round"/>`;}});
+    $('#'+id).innerHTML=s+'</svg>';
+  }
+  function drawBox(id,sel,cols){
+    const W=440,H=290,P={l:42,r:14,t:14,b:40};
+    const ias=filtered().map(r=>r.ia).filter(x=>x!=null).sort((a,b)=>a-b);
+    if(ias.length<3){$('#'+id).innerHTML='<div class="cx-note">sin datos</div>';return;}
+    const q=p=>ias[Math.floor((ias.length-1)*p)],t1=q(.333),t2=q(.667);
+    const bk=[['flojo',-Infinity,t1],['medio',t1,t2],['bueno',t2,Infinity]];
+    const gW=(W-P.l-P.r)/3,bw=gW/(sel.length+1),ymin=60,ymax=140;
+    const sy=v=>H-P.b-(Math.max(ymin,Math.min(ymax,v))-ymin)/(ymax-ymin)*(H-P.t-P.b);
+    let s=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">`;
+    s+=`<line x1="${P.l}" y1="${sy(100)}" x2="${W-P.r}" y2="${sy(100)}" stroke="#cdb98a" stroke-dasharray="4,3"/>`;
+    s+=`<text x="${W-P.r}" y="${sy(100)-3}" font-size="8" fill="#b08a2e" font-family="IBM Plex Mono" text-anchor="end">100% media</text>`;
+    [60,80,100,120,140].forEach(v=>s+=`<text x="${P.l-5}" y="${sy(v)+3}" font-size="9" fill="#9c947f" font-family="IBM Plex Mono" text-anchor="end">${v}</text>`);
+    bk.forEach((b,bi)=>{const gx=P.l+bi*gW;
+      s+=`<text x="${gx+gW/2}" y="${H-P.b+16}" font-size="9" fill="#6e6857" font-family="IBM Plex Mono" text-anchor="middle">amb. ${b[0]}</text>`;
+      sel.forEach((a,si)=>{const col=cols[si].col, vals=a.rows.filter(r=>r.ia>=b[1]&&r.ia<b[2]).map(r=>r.rr).sort((x,y)=>x-y);
+        if(!vals.length)return; const x=gx+bw*(si+1),qq=p=>vals[Math.floor((vals.length-1)*p)];
+        const q1=qq(.25),md=qq(.5),q3=qq(.75),loo=vals[0],hii=vals[vals.length-1];
+        s+=`<line x1="${x}" y1="${sy(loo)}" x2="${x}" y2="${sy(hii)}" stroke="${col}" stroke-width="1"/>`;
+        s+=`<rect x="${x-bw*.34}" y="${sy(q3)}" width="${bw*.68}" height="${Math.max(1,sy(q1)-sy(q3))}" fill="${col}" opacity="0.28" stroke="${col}"/>`;
+        s+=`<line x1="${x-bw*.34}" y1="${sy(md)}" x2="${x+bw*.34}" y2="${sy(md)}" stroke="${col}" stroke-width="2"/>`;
+        if(vals.length<=2)s+=`<circle cx="${x}" cy="${sy(md)}" r="2" fill="${col}"/>`;});});
+    $('#'+id).innerHTML=s+'</svg>';
+  }
+
+  // ---- ranking ----
+  let rs={k:'prom_rr',dir:-1};
+  function renderRank(){
+    const agg=aggAll().sort((a,b)=>{const av=a[rs.k],bv=b[rs.k];if(av===bv)return 0;const d=av>bv?1:-1;return rs.dir<0?-d:d;});
+    $('#cx-ranknote').textContent=`${agg.length} híbridos · ${F.cultivo} · ordená por columna · fila verde = Nidera`;
+    const mx=Math.max(...agg.map(a=>a.prom_rr),1);
+    const cols=[['cultivar','Híbrido','l'],['empresa','Marca','l'],['prom_rinde','Rinde'],['prom_rr','RR %'],['prom_ia','IA'],['fw_slope','Pend.'],['n_amb','Amb.'],['n','n']];
+    $('#cx-ranktable').innerHTML=`<thead><tr>${cols.map(c=>`<th class="${c[2]||''}" data-k="${c[0]}">${c[1]}</th>`).join('')}<th></th></tr></thead><tbody>
+      ${agg.map(a=>`<tr class="${a.is_nidera?'nid':''}"><td class="l">${a.is_nidera?'★ ':''}${a.cultivar}</td><td class="l">${a.empresa||'—'}</td>
+        <td>${fmt(a.prom_rinde)}</td><td>${rrTag(a.prom_rr)}</td><td>${fmt(a.prom_ia)}</td>
+        <td>${a.fw_slope==null?'—':fmt(a.fw_slope,2)}</td><td>${a.n_amb}</td><td>${a.n}</td>
+        <td style="width:80px"><div style="background:var(--line-soft);border-radius:3px;height:8px"><div style="width:${Math.max(3,a.prom_rr/mx*100)}%;height:8px;border-radius:3px;background:${a.is_nidera?'var(--nidera)':'#9c947f'}"></div></div></td></tr>`).join('')}</tbody>`;
+    $$('#cx-ranktable th[data-k]').forEach(th=>th.onclick=()=>{const k=th.dataset.k;rs.dir=(rs.k===k)?-rs.dir:(k==='cultivar'||k==='empresa'?1:-1);rs.k=k;renderRank();});
+  }
+  $('#cx-expcsv').onclick=()=>{
+    const agg=aggAll().sort((a,b)=>b.prom_rr-a.prom_rr), q=s=>`"${(s||'').toString().replace(/"/g,'""')}"`;
+    const head=['cultivar','empresa','es_nidera','prom_rinde_kgha','prom_rr_pct','prom_ia','fw_slope','n_ambientes','n_obs','cultivo'];
+    const lines=[head.join(',')].concat(agg.map(a=>[q(a.cultivar),q(a.empresa),a.is_nidera,Math.round(a.prom_rinde),a.prom_rr.toFixed(1),Math.round(a.prom_ia),a.fw_slope==null?'':a.fw_slope.toFixed(3),a.n_amb,a.n,a.cultivo].join(',')));
+    const bl=new Blob([lines.join('\n')],{type:'text/csv'}),u=URL.createObjectURL(bl),an=document.createElement('a');
+    an.href=u;an.download='ranking_'+F.cultivo+'.csv';an.click();setTimeout(()=>URL.revokeObjectURL(u),2000);
+  };
+
+  // ---- math ----
+  function mean(a){a=a.filter(x=>x!=null&&!isNaN(x));return a.length?a.reduce((s,x)=>s+x,0)/a.length:null;}
+  function mode(a){const c={};let best=a[0],bc=0;a.forEach(x=>{c[x]=(c[x]||0)+1;if(c[x]>bc){bc=c[x];best=x;}});return best;}
+  function linreg(xs,ys){const x=[],y=[];for(let i=0;i<xs.length;i++)if(xs[i]!=null&&ys[i]!=null&&!isNaN(xs[i])&&!isNaN(ys[i])){x.push(xs[i]);y.push(ys[i]);}
+    const n=x.length;if(n<4||new Set(x).size<2)return{b:null,b0:null};const mx=mean(x),my=mean(y);let sxy=0,sxx=0;
+    for(let i=0;i<n;i++){sxy+=(x[i]-mx)*(y[i]-my);sxx+=(x[i]-mx)**2;}const b=sxy/sxx;return{b,b0:my-b*mx};}
+})();
 </script>
 </body>
 </html>
