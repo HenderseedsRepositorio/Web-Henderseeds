@@ -1257,6 +1257,25 @@ table.cx-rank tr.nid td{background:var(--nidera-soft)}
 #gate button:hover{background:#c8690f}
 #gate .gerr{color:#dc2626;font-family:'DM Sans',sans-serif;font-size:.74rem;margin-top:10px;min-height:1.1em}
 #gate .gfoot{margin-top:16px;font-family:'DM Mono',monospace;font-size:.6rem;color:#94a3b8}
+
+/* ═══════════════ Optimización MOBILE del detalle de ensayo ═══════════════ */
+@media(max-width:768px){
+  /* El botón flotante "← MAPA COMPLETO" (z-index 6) tapaba el nombre de la
+     localidad. En mobile el aside es pantalla completa y la × ya cierra. */
+  .main.detail .back-to-map{display:none}
+  .aside-head{padding-top:.9rem}
+  .aside-head .loc{font-size:1.55rem;line-height:1.08;padding-right:2.4rem;display:block}
+  .aside-head .coords{display:block;margin-top:1px}
+  /* Ranking: grid compacto que ENTRA en el celular. Se ocultan EMPRESA (col 3)
+     y el KG/HA repetido (col 5, ya está el valor en la barra). Quedan:
+     #  ·  HÍBRIDO  ·  RINDE(barra+valor)  ·  ÍND */
+  .rk-thead,.rk-row{grid-template-columns:22px minmax(0,1fr) minmax(74px,1.15fr) 38px;column-gap:7px}
+  .rk-thead>div:nth-child(3),.rk-thead>div:nth-child(5),
+  .rk-row>div:nth-child(3),.rk-row>div:nth-child(5){display:none}
+  .rk-row .name{white-space:normal;font-size:.82rem;line-height:1.18;word-break:break-word}
+  .rk-row .idx{font-size:.8rem}
+  .rk-summary{grid-template-columns:repeat(3,1fr);gap:.4rem}
+}
 </style>
 </head>
 <body>
@@ -2861,8 +2880,9 @@ init().catch(err=>{
   // ---- ranking ----
   let rs={k:'prom_rr',dir:-1};
   function renderRank(){
-    const agg=aggAll().sort((a,b)=>{const av=a[rs.k],bv=b[rs.k];if(av===bv)return 0;const d=av>bv?1:-1;return rs.dir<0?-d:d;});
-    $('#cx-ranknote').textContent=`${agg.length} híbridos · ${F.cultivo} · ordená por columna · fila verde = Nidera`;
+    const MIN_N=12; // ranking solo con híbridos de muestra suficiente (n≥12 obs)
+    const agg=aggAll().filter(a=>a.n>=MIN_N).sort((a,b)=>{const av=a[rs.k],bv=b[rs.k];if(av===bv)return 0;const d=av>bv?1:-1;return rs.dir<0?-d:d;});
+    $('#cx-ranknote').textContent=`${agg.length} híbridos (n≥${MIN_N}) · ${F.cultivo} · ordená por columna · fila verde = Nidera`;
     const mx=Math.max(...agg.map(a=>a.prom_rr),1);
     const cols=[['cultivar','Híbrido','l'],['empresa','Marca','l'],['prom_rinde','Rinde'],['prom_rr','RR %'],['prom_ia','IA'],['fw_slope','Pend.'],['n_amb','Amb.'],['n','n']];
     $('#cx-ranktable').innerHTML=`<thead><tr>${cols.map(c=>`<th class="${c[2]||''}" data-k="${c[0]}">${c[1]}</th>`).join('')}<th></th></tr></thead><tbody>
