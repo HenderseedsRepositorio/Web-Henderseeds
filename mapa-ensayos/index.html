@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Mapa interactivo de ensayos comparativos de cultivares de girasol y maíz en Argentina — Henderseeds SRL.">
-<title>Mapa de Ensayos · Henderseeds — PREVIEW v7</title>
+<title>Redes de Ensayos · Henderseeds</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2091,12 +2091,22 @@ function openAside(f){
     const sd = Math.sqrt(variance);
     return mean > 0 ? (sd/mean*100).toFixed(1) : null;
   })();
+  // Promedios de densidad y humedad del ensayo (solo sobre cultivares con dato).
+  // En un ECR comparativo la densidad de siembra es del ensayo; humedad de cosecha promedia bien.
+  const avgOf = (key) => {
+    const vals = cultivaresList.map(c => c[key]).filter(v => v != null && v !== '' && !isNaN(v)).map(Number);
+    return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
+  };
+  const densProm = avgOf('densidad_pl_ha');
+  const humProm = avgOf('humedad_pct');
   const summaryHtml = [
     `<div class="item"><span class="l">N</span><span class="v">${fmtAR(p.n_cultivares)}</span></div>`,
     `<div class="item"><span class="l">PROMEDIO</span><span class="v">${fmtAR(avgRinde)}</span></div>`,
     `<div class="item"><span class="l">MÁXIMO</span><span class="v">${fmtAR(maxRinde)}</span></div>`,
     `<div class="item"><span class="l">MÍNIMO</span><span class="v">${fmtAR(minRinde)}</span></div>`,
     cv ? `<div class="item"><span class="l">CV %</span><span class="v">${cv}</span></div>` : '',
+    densProm ? `<div class="item"><span class="l">DENS pl/ha</span><span class="v">${fmtAR(Math.round(densProm))}</span></div>` : '',
+    humProm ? `<div class="item"><span class="l">HUMEDAD %</span><span class="v">${humProm.toFixed(1)}</span></div>` : '',
   ].join('');
   document.getElementById('a-summary').innerHTML = summaryHtml;
 
