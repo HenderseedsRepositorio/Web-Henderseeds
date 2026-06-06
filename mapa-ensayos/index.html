@@ -2099,12 +2099,16 @@ function openAside(f){
   };
   const densProm = avgOf('densidad_pl_ha');
   const humProm = avgOf('humedad_pct');
+  // Aceite (% materia grasa): dato clave del girasol (define bonificación de precio).
+  // Solo lo trae ASAGIR; se muestra en girasol y solo donde haya dato.
+  const aceiteProm = (p.cultivo === 'girasol') ? avgOf('aceite_pct') : null;
   const summaryHtml = [
     `<div class="item"><span class="l">N</span><span class="v">${fmtAR(p.n_cultivares)}</span></div>`,
     `<div class="item"><span class="l">PROMEDIO</span><span class="v">${fmtAR(avgRinde)}</span></div>`,
     `<div class="item"><span class="l">MÁXIMO</span><span class="v">${fmtAR(maxRinde)}</span></div>`,
     `<div class="item"><span class="l">MÍNIMO</span><span class="v">${fmtAR(minRinde)}</span></div>`,
     cv ? `<div class="item"><span class="l">CV %</span><span class="v">${cv}</span></div>` : '',
+    aceiteProm ? `<div class="item"><span class="l">ACEITE %</span><span class="v">${aceiteProm.toFixed(1)}</span></div>` : '',
     densProm ? `<div class="item"><span class="l">DENS pl/ha</span><span class="v">${fmtAR(Math.round(densProm))}</span></div>` : '',
     humProm ? `<div class="item"><span class="l">HUMEDAD %</span><span class="v">${humProm.toFixed(1)}</span></div>` : '',
   ].join('');
