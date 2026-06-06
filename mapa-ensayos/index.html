@@ -1305,7 +1305,7 @@ table.cx-rank tr.nid td{background:var(--nidera-soft)}
 (function(){
   // Gate liviano (soft): conveniencia, no seguridad real. La clave vive abajo.
   var KEY='redes_ensayos_auth_v1';
-  var PASS='1113';   // ← CLAVE DE ACCESO
+  var PASS='NIDERA26';   // ← CLAVE DE ACCESO ("Nidera26", case-insensitive: el input se compara en mayúsculas)
   var gate=document.getElementById('gate');
   if(localStorage.getItem(KEY)==='ok'){ gate.classList.add('hidden'); return; }
   var f=document.getElementById('gate-form'), inp=document.getElementById('gate-pass'), err=document.getElementById('gate-err');
