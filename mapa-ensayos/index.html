@@ -535,6 +535,14 @@ aside{
 }
 .rk-row .idx.up{color:var(--good);font-weight:600}
 .rk-row .idx.down{color:var(--ink-mute)}
+/* Columna ACEITE (% materia grasa) — solo en girasol con dato; suma 1 columna */
+.rk-thead.with-aceite,.rk-row.with-aceite{
+  grid-template-columns:28px 1.5fr 90px minmax(120px,1fr) 70px 58px 60px;
+}
+.rk-row .ac{
+  text-align:right;font-variant-numeric:tabular-nums;
+  font-size:.74rem;font-weight:600;color:var(--ink);
+}
 .rk-row.is-promedio{
   background:var(--bg-soft);font-weight:600;
   border-top:1.5px solid var(--ink);
@@ -1277,6 +1285,7 @@ table.cx-rank tr.nid td{background:var(--nidera-soft)}
      y el KG/HA repetido (col 5, ya está el valor en la barra). Quedan:
      #  ·  HÍBRIDO  ·  RINDE(barra+valor)  ·  ÍND */
   .rk-thead,.rk-row{grid-template-columns:22px minmax(0,1fr) minmax(74px,1.15fr) 38px;column-gap:7px}
+  .rk-thead.with-aceite,.rk-row.with-aceite{grid-template-columns:22px minmax(0,1fr) minmax(58px,1fr) 40px 32px}
   .rk-thead>div:nth-child(3),.rk-thead>div:nth-child(5),
   .rk-row>div:nth-child(3),.rk-row>div:nth-child(5){display:none}
   .rk-row .name{white-space:normal;font-size:.82rem;line-height:1.18;word-break:break-word}
@@ -1416,8 +1425,8 @@ table.cx-rank tr.nid td{background:var(--nidera-soft)}
         </div>
         <!-- Summary estadístico estilo REMO (N, prom, max, CV) -->
         <div class="rk-summary" id="a-summary"></div>
-        <!-- Header de columnas -->
-        <div class="rk-thead">
+        <!-- Header de columnas (se reconstruye en openAside para sumar ACEITE en girasol) -->
+        <div class="rk-thead" id="a-thead">
           <div>#</div>
           <div>HÍBRIDO</div>
           <div class="c">EMPRESA</div>
@@ -2102,17 +2111,27 @@ function openAside(f){
   // Aceite (% materia grasa): dato clave del girasol (define bonificación de precio).
   // Solo lo trae ASAGIR; se muestra en girasol y solo donde haya dato.
   const aceiteProm = (p.cultivo === 'girasol') ? avgOf('aceite_pct') : null;
+  // Si el ensayo (girasol) trae aceite por hibrido, se agrega una COLUMNA en la
+  // tabla (no en el resumen, para no duplicar el dato).
+  const hasAceite = aceiteProm != null;
   const summaryHtml = [
     `<div class="item"><span class="l">N</span><span class="v">${fmtAR(p.n_cultivares)}</span></div>`,
     `<div class="item"><span class="l">PROMEDIO</span><span class="v">${fmtAR(avgRinde)}</span></div>`,
     `<div class="item"><span class="l">MÁXIMO</span><span class="v">${fmtAR(maxRinde)}</span></div>`,
     `<div class="item"><span class="l">MÍNIMO</span><span class="v">${fmtAR(minRinde)}</span></div>`,
     cv ? `<div class="item"><span class="l">CV %</span><span class="v">${cv}</span></div>` : '',
-    aceiteProm ? `<div class="item"><span class="l">ACEITE %</span><span class="v">${aceiteProm.toFixed(1)}</span></div>` : '',
     densProm ? `<div class="item"><span class="l">DENS pl/ha</span><span class="v">${fmtAR(Math.round(densProm))}</span></div>` : '',
     humProm ? `<div class="item"><span class="l">HUMEDAD %</span><span class="v">${humProm.toFixed(1)}</span></div>` : '',
   ].join('');
   document.getElementById('a-summary').innerHTML = summaryHtml;
+
+  // Header de la tabla: suma columna ACEITE solo si el ensayo (girasol) la tiene
+  const thead = document.getElementById('a-thead');
+  thead.className = 'rk-thead' + (hasAceite ? ' with-aceite' : '');
+  thead.innerHTML = '<div>#</div><div>HÍBRIDO</div><div class="c">EMPRESA</div>'
+    + '<div class="c">RINDE</div><div class="r">KG/HA</div>'
+    + (hasAceite ? '<div class="r">ACEITE</div>' : '')
+    + '<div class="r">ÍND</div>';
 
   // Heatmap color verde→amarillo según percentil del rinde
   // Top (>= max): verde fuerte; mid: verde-amarillo; bottom (= min): amarillo
@@ -2135,7 +2154,7 @@ function openAside(f){
     const idxCls = indice >= 105 ? 'up' : indice < 95 ? 'down' : '';
     const bgColor = heatmapColor(c.rinde_kg_ha, nidera);
     return `
-      <div class="rk-row${nidera?' nidera':''}">
+      <div class="rk-row${nidera?' nidera':''}${hasAceite?' with-aceite':''}">
         <div class="pos">${String(i+1).padStart(2,'0')}</div>
         <div class="name">${escapeHtml(c.cultivar)}${nidera?'<span class="star">★</span>':''}</div>
         <div><span class="emp" title="${escapeHtml(c.empresa||'—')}">${escapeHtml(c.empresa || '—')}</span></div>
@@ -2144,6 +2163,7 @@ function openAside(f){
           <span class="rk-bar-val">${fmtAR(c.rinde_kg_ha)}</span>
         </div>
         <div class="rinde">${fmtAR(c.rinde_kg_ha)}</div>
+        ${hasAceite ? `<div class="ac">${c.aceite_pct != null ? c.aceite_pct.toFixed(1) : '—'}</div>` : ''}
         <div class="idx ${idxCls}">${indice}</div>
       </div>
     `;
@@ -2151,7 +2171,7 @@ function openAside(f){
   const rowsHtml = cultivaresList.map(renderRow).join('');
   // Fila promedio al final
   const promedioRow = `
-    <div class="rk-row is-promedio">
+    <div class="rk-row is-promedio${hasAceite?' with-aceite':''}">
       <div class="pos">—</div>
       <div class="name">Promedio del ensayo</div>
       <div></div>
@@ -2160,6 +2180,7 @@ function openAside(f){
         <span class="rk-bar-val">${fmtAR(avgRinde)}</span>
       </div>
       <div class="rinde">${fmtAR(avgRinde)}</div>
+      ${hasAceite ? `<div class="ac">${aceiteProm != null ? aceiteProm.toFixed(1) : '—'}</div>` : ''}
       <div class="idx">100</div>
     </div>
   `;
