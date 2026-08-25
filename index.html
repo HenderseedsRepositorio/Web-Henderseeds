@@ -756,7 +756,7 @@ body.light-mode .btc-val { color: #15181E; }
 
 <!-- ══════ LOADER ══════ -->
 <div class="loader" id="loader">
-  <img src="assets/logos/henderseeds.png" alt="Henderseeds" class="loader-logo">
+  <img src="assets/logos/henderseeds.png" alt="Henderseeds" class="loader-logo brand-logo-img">
 </div>
 
 <!-- ══════ TOPBAR ══════ -->
@@ -764,7 +764,7 @@ body.light-mode .btc-val { color: #15181E; }
   <div class="container topbar-inner">
     <div style="display:flex;align-items:center;gap:20px">
       <a href="#inicio" class="brand" aria-label="Henderseeds inicio">
-        <img src="assets/logos/henderseeds.png" alt="Henderseeds">
+        <img src="assets/logos/henderseeds.png" alt="Henderseeds" class="brand-logo-img">
       </a>
       <div class="status-chips">
         <span class="status-chip">
@@ -1125,7 +1125,7 @@ body.light-mode .btc-val { color: #15181E; }
     </div>
     <div class="foot-top">
       <div class="foot-brand">
-        <img src="assets/logos/henderseeds.png" alt="Henderseeds">
+        <img src="assets/logos/henderseeds.png" alt="Henderseeds" class="brand-logo-img">
         <p>Distribuidor exclusivo RED.IN Nidera Semillas.<br>Desde 2023.</p>
         <div class="foot-zone">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -1437,6 +1437,9 @@ function toggleTheme() {
   document.body.dataset.mode = isLight ? 'light' : 'dark';
   document.querySelectorAll('.sun-icon').forEach(el => el.style.display = isLight ? 'none' : 'block');
   document.querySelectorAll('.moon-icon').forEach(el => el.style.display = isLight ? 'block' : 'none');
+  document.querySelectorAll('.brand-logo-img').forEach(img => {
+    img.src = isLight ? 'assets/logos/henderseeds-navy.png' : 'assets/logos/henderseeds.png';
+  });
   if(typeof gtag === 'function') gtag('event','theme_toggle',{to:isLight?'light':'dark', event_category:'ui'});
 }
 if(localStorage.getItem('theme') === 'light') toggleTheme();
