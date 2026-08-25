@@ -308,9 +308,8 @@ section{padding:80px 0;position:relative}
 
 /* ══════ HERRAMIENTAS (tools grid) ══════ */
 .tools-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px
+  display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:36px
 }
-@media(max-width:980px){.tools-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){.tools-grid{grid-template-columns:1fr}}
 .tool-card{
   display:flex;flex-direction:column;gap:14px;
@@ -935,7 +934,7 @@ body.light-mode .btc-val { color: #15181E; }
   <div class="container">
     <div class="sec-label reveal"><span class="k">&gt; 03</span>HERRAMIENTAS</div>
     <h2 class="sec-title reveal">Decisiones <span class="c">concretas</span>,<br>antes de sembrar y antes de financiarte.</h2>
-    <p class="sec-desc reveal">Tres calculadoras gratis para el productor. Margen por cultivo, cuánto fertilizante aplicar según tu análisis de suelo, y si conviene financiarte en pesos o en dólares.</p>
+    <p class="sec-desc reveal">Cuatro herramientas gratis para el productor. Margen por cultivo, plan nutricional completo, cuánto fertilizante aplicar según tu análisis de suelo, y si conviene financiarte en pesos o en dólares.</p>
 
     <div class="tools-grid reveal">
       <a href="https://margen.henderseeds.com?utm_source=henderseeds&amp;utm_medium=tools_section&amp;utm_campaign=site"
@@ -954,11 +953,26 @@ body.light-mode .btc-val { color: #15181E; }
         </div>
       </a>
 
+      <a href="plan-nutricional.html"
+         class="tool-card"
+         onclick="gtag('event','calc_link_click',{source:'tools_section',tool:'plan_nutricional'})">
+        <div class="tool-head">
+          <span class="tool-tag">02 · Plan nutricional</span>
+          <span class="tool-arrow">→</span>
+        </div>
+        <h3 class="tool-title">Plan por cultivo</h3>
+        <p class="tool-desc">Elegí cultivo y rinde objetivo, cargá tu análisis de suelo y te armamos el plan completo: nitrógeno, fósforo y zinc, con producto y dosis.</p>
+        <div class="tool-meta">
+          <span class="tool-chip">N · P · Zn · maíz</span>
+          <span class="tool-cta">Abrir herramienta</span>
+        </div>
+      </a>
+
       <a href="fertilizantes.html"
          class="tool-card"
          onclick="gtag('event','calc_link_click',{source:'tools_section',tool:'fertilizantes'})">
         <div class="tool-head">
-          <span class="tool-tag">02 · Fertilizantes</span>
+          <span class="tool-tag">03 · Fertilizantes</span>
           <span class="tool-arrow">→</span>
         </div>
         <h3 class="tool-title">Fósforo y Nitrógeno</h3>
@@ -974,7 +988,7 @@ body.light-mode .btc-val { color: #15181E; }
          class="tool-card"
          onclick="gtag('event','calc_link_click',{source:'tools_section',tool:'pesos_vs_usd'})">
         <div class="tool-head">
-          <span class="tool-tag">03 · Finanzas</span>
+          <span class="tool-tag">04 · Finanzas</span>
           <span class="tool-arrow">→</span>
         </div>
         <h3 class="tool-title">Pesos vs dólares</h3>
@@ -1142,6 +1156,7 @@ body.light-mode .btc-val { color: #15181E; }
       <div>
         <h5>// CALCULADORAS</h5>
         <a href="https://margen.henderseeds.com?utm_source=henderseeds&amp;utm_medium=footer&amp;utm_campaign=site" target="_blank" rel="noopener" onclick="gtag('event','calc_link_click',{source:'footer',tool:'margen'})">Márgenes ↗</a>
+        <a href="plan-nutricional.html" onclick="gtag('event','calc_link_click',{source:'footer',tool:'plan_nutricional'})">Plan nutricional</a>
         <a href="fertilizantes.html" onclick="gtag('event','calc_link_click',{source:'footer',tool:'fertilizantes'})">Fertilizantes</a>
         <a href="https://13-finanzas-suite.vercel.app/finanzas?utm_source=henderseeds&amp;utm_medium=footer&amp;utm_campaign=site" target="_blank" rel="noopener" onclick="gtag('event','calc_link_click',{source:'footer',tool:'pesos_vs_usd'})">Pesos vs USD ↗</a>
       </div>
