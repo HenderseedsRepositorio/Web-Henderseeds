@@ -111,7 +111,7 @@ input[type=number]{-moz-appearance:textfield}
 
 /* ══════ TOPBAR ══════ */
 .topbar{position:sticky;top:0;z-index:100;background:color-mix(in oklab, var(--bg) 88%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
-.topbar-inner{max-width:620px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:13px 20px;justify-content:space-between}
+.topbar-inner{max-width:620px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:11px 20px;justify-content:space-between}
 .brand{display:flex;align-items:center;gap:10px}
 .brand img{height:26px;display:block}
 .topbar-right{display:flex;align-items:center;gap:14px}
@@ -122,15 +122,15 @@ input[type=number]{-moz-appearance:textfield}
 .theme-toggle svg{width:17px;height:17px}
 
 /* ══════ HEADER ══════ */
-.page-head{padding:20px 0 4px}
+.page-head{padding:12px 0 2px}
 .eyebrow{font-family:var(--title-font);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
-.page-head h1{font-family:var(--title-font);font-weight:700;font-size:clamp(23px,5.5vw,30px);letter-spacing:-.02em;line-height:1.08;color:var(--num);margin-top:7px;text-wrap:pretty}
-.page-head p{color:var(--ink-dim);font-size:14px;max-width:520px;margin-top:9px;line-height:1.5}
+.page-head h1{font-family:var(--title-font);font-weight:700;font-size:clamp(23px,5.5vw,30px);letter-spacing:-.02em;line-height:1.08;color:var(--num);margin-top:6px;text-wrap:pretty}
+.page-head p{color:var(--ink-dim);font-size:14px;max-width:520px;margin-top:6px;line-height:1.5}
 
 /* ══════ TABS ══════ */
-.tab-nav{display:flex;gap:8px;margin:16px 0 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tab-nav{display:flex;gap:8px;margin:10px 0 10px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .tab-nav::-webkit-scrollbar{display:none}
-.tab-btn{flex:0 0 auto;padding:10px 15px;border-radius:11px;font-family:var(--title-font);font-weight:600;font-size:14px;white-space:nowrap;background:var(--panel);border:1px solid var(--border);color:var(--ink-dim);transition:.15s}
+.tab-btn{flex:0 0 auto;padding:8px 14px;border-radius:11px;font-family:var(--title-font);font-weight:600;font-size:14px;white-space:nowrap;background:var(--panel);border:1px solid var(--border);color:var(--ink-dim);transition:.15s}
 .tab-btn:hover:not(:disabled){color:var(--ink);border-color:var(--border-strong)}
 .tab-btn.active{background:var(--primary);color:var(--primary-ink);border-color:var(--primary)}
 .tab-btn:disabled{opacity:.55;cursor:default;border-style:dashed;font-size:12.5px}
@@ -139,17 +139,17 @@ input[type=number]{-moz-appearance:textfield}
 
 /* ══════ FORM ══════ */
 .form-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
-.field{margin-bottom:14px}
+.field{margin-bottom:12px}
 .field label{display:block;font-family:var(--title-font);font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:7px}
 .inp{position:relative}
-.field input,.field select{width:100%;height:50px;border:1px solid var(--border);border-radius:12px;background:var(--panel);color:var(--ink);font-family:var(--body-font);font-weight:600;font-size:17px;padding:0 14px;outline:none;transition:border-color .15s,box-shadow .15s}
+.field input,.field select{width:100%;height:46px;border:1px solid var(--border);border-radius:12px;background:var(--panel);color:var(--ink);font-family:var(--body-font);font-weight:600;font-size:17px;padding:0 14px;outline:none;transition:border-color .15s,box-shadow .15s}
 .field input{padding-right:48px}
 .field input:focus,.field select:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--focus-ring)}
 .field .unit{position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--ink-dim);font-weight:600;pointer-events:none}
 .field select{appearance:none;-webkit-appearance:none;padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238A8578' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;cursor:pointer}
 
 /* ══════ PPM STEPPER (Fósforo) ══════ */
-.stepper-row{display:flex;align-items:stretch;height:50px;border:1px solid var(--border);border-radius:12px;background:var(--panel);overflow:hidden;transition:border-color .15s,box-shadow .15s}
+.stepper-row{display:flex;align-items:stretch;height:46px;border:1px solid var(--border);border-radius:12px;background:var(--panel);overflow:hidden;transition:border-color .15s,box-shadow .15s}
 .stepper-row:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px var(--focus-ring)}
 .stepper-row input{flex:1 1 0;min-width:0;width:auto;height:100%;border:0;border-radius:0;background:transparent;padding:0 2px;text-align:center;font-size:16px}
 .stepper-row input:focus{border-color:transparent;box-shadow:none}
@@ -164,15 +164,15 @@ input[type=number]{-moz-appearance:textfield}
 .btn-calc:active{transform:translateY(0)}
 .btn-calc svg{width:14px;height:14px}
 
-.btn-share{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;height:44px;margin-top:16px;border-radius:11px;background:var(--whatsapp);color:#fff;font-family:var(--title-font);font-weight:700;font-size:13.5px;letter-spacing:.02em;transition:transform .15s,opacity .15s}
+.btn-share{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;height:44px;margin-top:12px;border-radius:11px;background:var(--whatsapp);color:#fff;font-family:var(--title-font);font-weight:700;font-size:13.5px;letter-spacing:.02em;transition:transform .15s,opacity .15s}
 .btn-share:hover{opacity:.92;transform:translateY(-1px)}
 .btn-share svg{width:15px;height:15px;flex:0 0 auto}
 
 .form-msg{display:none;font-size:13px;color:var(--err);font-weight:500;line-height:1.4;background:var(--err-bg);border:1px solid var(--err-bd);border-radius:11px;padding:11px 13px;margin-bottom:12px}
 
 /* ══════ INFO CARD (nutrientes) — colapsable, NO empuja el botón ══════ */
-.info-card{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:14px 0}
-.info-card summary{display:flex;align-items:center;gap:8px;padding:12px 14px;cursor:pointer;list-style:none}
+.info-card{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:8px 0 10px}
+.info-card summary{display:flex;align-items:center;gap:8px;padding:9px 14px;cursor:pointer;list-style:none}
 .info-card summary::-webkit-details-marker{display:none}
 .info-card .ic-name{font-family:var(--title-font);font-weight:700;font-size:13px;color:var(--ink)}
 .info-card .ic-grade{font-family:var(--title-font);font-size:11px;color:var(--accent);font-weight:600}
@@ -181,13 +181,13 @@ input[type=number]{-moz-appearance:textfield}
 .info-card .ic-note{padding:0 14px 13px;font-size:13px;color:var(--ink-dim);line-height:1.5;margin:0}
 
 /* ══════ RESULT ══════ */
-.result{margin-top:18px}
-.result-card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-lg);padding:19px;box-shadow:0 12px 32px -20px rgba(13,45,94,.45)}
+.result{margin-top:12px}
+.result-card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;box-shadow:0 12px 32px -20px rgba(13,45,94,.45)}
 .result-card .rl{font-family:var(--title-font);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim)}
-.rnum{display:flex;align-items:baseline;gap:9px;margin-top:8px}
+.rnum{display:flex;align-items:baseline;gap:9px;margin-top:6px}
 .rnum .val{font-family:var(--title-font);font-weight:700;font-size:clamp(40px,11vw,50px);line-height:.95;color:var(--num);letter-spacing:-.02em}
 .rnum .ru{font-size:16px;color:var(--ink-dim);font-weight:600}
-.rbolsas{font-size:14px;color:var(--accent);font-weight:700;margin-top:6px}
+.rbolsas{font-size:14px;color:var(--accent);font-weight:700;margin-top:4px}
 
 .scale{margin-top:20px}
 .scale-track{position:relative;height:9px;border-radius:99px;background:var(--track)}
@@ -264,7 +264,7 @@ footer{border-top:1px solid var(--border);padding:26px 0 40px;margin-top:10px}
   <div class="tab-panel" id="tab-fosforo">
     <div class="form-row">
       <div class="field">
-        <label for="pActual">Fósforo actual (ppm)</label>
+        <label for="pActual">P actual (ppm)</label>
         <div class="inp stepper-row">
           <button type="button" class="step-btn step-minus" onclick="stepPpm('pActual',-0.1)" aria-label="Restar 0,1 ppm">−</button>
           <input type="number" id="pActual" inputmode="decimal" step="0.1" min="0" placeholder="12" value="12" oninput="debouncedCalcFosforo()">
@@ -272,7 +272,7 @@ footer{border-top:1px solid var(--border);padding:26px 0 40px;margin-top:10px}
         </div>
       </div>
       <div class="field">
-        <label for="pObjetivo">Fósforo objetivo (ppm)</label>
+        <label for="pObjetivo">P objetivo (ppm)</label>
         <div class="inp stepper-row">
           <button type="button" class="step-btn step-minus" onclick="stepPpm('pObjetivo',-0.1)" aria-label="Restar 0,1 ppm">−</button>
           <input type="number" id="pObjetivo" inputmode="decimal" step="0.1" min="0" placeholder="20" value="20" oninput="debouncedCalcFosforo()">
