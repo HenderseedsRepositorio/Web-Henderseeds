@@ -236,7 +236,7 @@ footer{border-top:1px solid var(--border);padding:26px 0 40px;margin-top:10px}
 <nav class="topbar">
   <div class="topbar-inner">
     <a href="index.html" class="brand" aria-label="Henderseeds inicio">
-      <img src="assets/logos/henderseeds.png" alt="Henderseeds">
+      <img src="assets/logos/henderseeds-navy.png" alt="Henderseeds" id="brandLogo">
     </a>
     <div class="topbar-right">
       <a href="index.html#tools" class="back-link">← Volver al sitio</a>
@@ -710,6 +710,7 @@ function toggleTheme(){
   document.body.dataset.mode = isDark ? 'dark' : 'light';
   document.querySelectorAll('.sun-icon').forEach(el => el.style.display = isDark ? 'block' : 'none');
   document.querySelectorAll('.moon-icon').forEach(el => el.style.display = isDark ? 'none' : 'block');
+  $('brandLogo').src = isDark ? 'assets/logos/henderseeds.png' : 'assets/logos/henderseeds-navy.png';
   const tc = document.querySelector('meta[name="theme-color"]');
   if(tc) tc.setAttribute('content', isDark ? '#0A0F1B' : '#F4F1E9');
 }
