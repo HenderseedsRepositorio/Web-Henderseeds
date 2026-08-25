@@ -137,12 +137,6 @@ input[type=number]{-moz-appearance:textfield}
 
 .tab-panel{margin-bottom:34px}
 
-/* ══════ ZONE TOGGLE ══════ */
-.zone-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
-.zone-btn{padding:9px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--panel);font-family:var(--title-font);font-weight:700;font-size:13px;color:var(--ink);text-align:center;transition:.15s}
-.zone-btn:hover{border-color:var(--border-strong)}
-.zone-btn.active{border-color:var(--primary);color:var(--primary);background:color-mix(in oklab, var(--primary) 8%, var(--panel))}
-
 /* ══════ FORM ══════ */
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .field{margin-bottom:14px}
@@ -214,12 +208,6 @@ input[type=number]{-moz-appearance:textfield}
 .micro-table tr:last-child td{border-bottom:0}
 .micro-table td:last-child{font-family:var(--title-font);font-weight:700;color:var(--num);text-align:right;white-space:nowrap}
 
-/* ══════ SOON PANEL ══════ */
-.soon-panel{padding:44px 24px;text-align:center;color:var(--ink-dim);background:var(--panel);border:1px dashed var(--border-strong);border-radius:var(--radius-lg)}
-.soon-panel .ic{color:var(--accent);margin-bottom:12px;display:flex;justify-content:center}
-.soon-panel h3{font-family:var(--title-font);color:var(--ink);font-size:19px;margin-bottom:8px}
-.soon-panel p{font-size:14px;max-width:400px;margin:0 auto}
-
 /* ══════ DISCLAIMER ══════ */
 .disclaimer{font-size:11.5px;color:var(--ink-dim);line-height:1.5;margin-top:16px}
 .disclaimer strong{color:var(--ink)}
@@ -252,41 +240,36 @@ footer{border-top:1px solid var(--border);padding:26px 0 40px;margin-top:10px}
   <div class="page-head">
     <div class="eyebrow">Herramientas · Fertilizantes</div>
     <h1>¿Cuánto tengo que aplicar?</h1>
-    <p>Cargá tu análisis de suelo y el objetivo de rinde — te devuelvo los kg/ha de producto a aplicar. Factores validados para Henderson y la zona.</p>
+    <p>Cargá tus datos y obtené los kg/ha a aplicar.</p>
   </div>
 
   <div class="tab-nav">
     <button class="tab-btn active" id="btn-fosforo" onclick="showFertTab('fosforo', this)">Fósforo</button>
     <button class="tab-btn" id="btn-nitrogeno" onclick="showFertTab('nitrogeno', this)">Nitrógeno</button>
     <button class="tab-btn" id="btn-microgranulados" onclick="showFertTab('microgranulados', this)">Microgranulados</button>
-    <button class="tab-btn" disabled title="Próximamente">Compactación · pronto</button>
   </div>
 
   <!-- ══════ TAB 1: FÓSFORO ══════ -->
   <div class="tab-panel" id="tab-fosforo">
-    <div class="zone-toggle" role="radiogroup" aria-label="Zona del lote">
-      <button class="zone-btn active" id="zone-pa" onclick="setZone('pampa_arenosa', this)" type="button">Pampa Arenosa</button>
-      <button class="zone-btn" id="zone-zn" onclick="setZone('zona_nucleo', this)" type="button">Zona Núcleo</button>
-    </div>
     <div class="form-row">
       <div class="field">
         <label for="pActual">Fósforo actual</label>
         <div class="inp">
-          <input type="number" id="pActual" inputmode="decimal" step="0.1" min="0" placeholder="12">
+          <input type="number" id="pActual" inputmode="decimal" step="0.1" min="0" placeholder="12" oninput="debouncedCalcFosforo()">
           <span class="unit">ppm</span>
         </div>
       </div>
       <div class="field">
         <label for="pObjetivo">Fósforo objetivo</label>
         <div class="inp">
-          <input type="number" id="pObjetivo" inputmode="decimal" step="0.1" min="0" placeholder="20">
+          <input type="number" id="pObjetivo" inputmode="decimal" step="0.1" min="0" placeholder="20" oninput="debouncedCalcFosforo()">
           <span class="unit">ppm</span>
         </div>
       </div>
     </div>
     <div class="field">
       <label for="pFert">Fertilizante</label>
-      <select id="pFert" onchange="updateFertInfo()">
+      <select id="pFert" onchange="updateFertInfo(); autoCalcFosforo()">
         <option value="map">MAP · 11-52-0</option>
         <option value="dap">DAP · 18-46-0</option>
         <option value="spt">Superfosfato Triple · 0-46-0</option>
@@ -439,20 +422,6 @@ footer{border-top:1px solid var(--border);padding:26px 0 40px;margin-top:10px}
     <p class="disclaimer"><strong>Dosis por cultivo, no por análisis de suelo.</strong> A diferencia de Fósforo y Nitrógeno, esta dosis no sale de tu ppm de suelo — es la recomendación fija del fabricante según cultivo (Tropfen, ficha técnica Nutrition Micro, 2025). El fabricante no publica el % exacto de N-P-S-Zn del producto; no lo inventamos acá. Confirmá la dosis puntual de tu lote con tu ingeniero agrónomo.</p>
   </div>
 
-  <!--
-    TAB 4 — Compactación de suelo. Placeholder estructural para escalar.
-    Cuando se implemente: sacar el `disabled` del botón #04 en .tab-nav,
-    crear un <div class="tab-panel" id="tab-compactacion" hidden> con su
-    propio formulario (ej. resistencia a la penetración vs. umbral crítico
-    por textura), y sumar sus constantes junto a FERT_FACTORS en el <script>.
-  -->
-  <div class="tab-panel" id="tab-compactacion" hidden>
-    <div class="soon-panel">
-      <div class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M4 20V10l8-6 8 6v10"/><path d="M9 20v-6h6v6"/></svg></div>
-      <h3>Compactación de suelo</h3>
-      <p>Próximamente: diagnóstico de piso de arado y recomendación de descompactación.</p>
-    </div>
-  </div>
 </div>
 
 <footer>
@@ -543,32 +512,20 @@ const SITE_URL = 'https://henderseeds.com/fertilizantes.html';
 function fmtNum(n){ const r = Math.round(n * 10) / 10; return Number.isInteger(r) ? String(r) : String(r).replace('.', ','); }
 function showMsg(el, t){ el.textContent = t; el.style.display = 'block'; }
 function clearMsg(el){ el.textContent = ''; el.style.display = 'none'; }
+function debounce(fn, wait){
+  let t;
+  return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
+}
 
 // Último resultado calculado por pestaña — lo usan shareFosforo()/shareNitrogeno()
 // para armar el texto de WhatsApp sin volver a parsear el DOM.
 let lastP = null;
 let lastN = null;
-let pZone = 'pampa_arenosa';
-
-function setZone(zone, btn){
-  pZone = zone;
-  document.querySelectorAll('.zone-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  $('pResultPanel').hidden = true; // el resultado viejo ya no vale para la zona nueva
-  clearMsg($('pMsg'));
-  updateZoneDisclaimer();
-  if(typeof gtag === 'function') gtag('event', 'fert_zone_change', { zone: zone });
-}
-
-function updateZoneDisclaimer(){
-  if(pZone === 'zona_nucleo'){
-    $('pDiscTitle').textContent = 'Factores estimados para zona núcleo — menos precisos que Pampa Arenosa.';
-    $('pDiscBody').textContent = 'Para suelos más arcillosos (mayor fijación de P) usamos una estimación derivada del mismo informe (García/Ciampitti/Rubio/Picone, CREA Oeste 2009), sin la validación estequiométrica exacta que sí tienen los factores de Pampa Arenosa.';
-  } else {
-    $('pDiscTitle').textContent = 'Factores validados para tu zona.';
-    $('pDiscBody').textContent = 'Las equivalencias (ej. 15 kg de MAP por ppm) están calibradas para suelos franco-arenosos de la Pampa Arenosa —Henderson, Bolívar, Daireaux— con método Bray-1, 0-20 cm y densidad aparente 1,2 t/m³ (fuente: García/Ciampitti/Rubio/Picone, CREA Oeste 2009; Fertilab).';
-  }
-}
+// Zona fija en Pampa Arenosa (Henderson/Bolívar/Daireaux, la zona real de
+// cobertura) — se sacó el toggle de la UI para no distraer con una opción de
+// bajo uso. Los factores de zona núcleo quedan en FERT_FACTORS por si hace
+// falta reactivarlos para algún cliente puntual fuera de zona.
+const pZone = 'pampa_arenosa';
 
 function updateFertInfo(){
   const info = FERT_INFO[$('pFert').value];
@@ -637,15 +594,31 @@ function calcFosforo(){
   if(typeof gtag === 'function') gtag('event', 'fert_calc_used', { tool: 'fosforo', fertilizante: $('pFert').value, zone: pZone });
 }
 
+// Auto-cálculo mientras se tipea: silencioso si los campos todavía están
+// incompletos (no molesta con el error de "completá los dos valores" a
+// mitad de tipeo), pero sí corre la validación completa (ej. objetivo <
+// actual) una vez que hay dos números. Debounce de 500ms desde calcFosforo()
+// directo para no recalcular en cada tecla.
+function autoCalcFosforo(){
+  const actual = parseFloat($('pActual').value);
+  const objetivo = parseFloat($('pObjetivo').value);
+  if(isNaN(actual) || isNaN(objetivo)){
+    clearMsg($('pMsg'));
+    $('pResultPanel').hidden = true;
+    return;
+  }
+  calcFosforo();
+}
+const debouncedCalcFosforo = debounce(autoCalcFosforo, 500);
+
 function shareFosforo(){
   if(!lastP) return;
-  const { actual, objetivo, deficit, kgHa, fertLabel, zone } = lastP;
-  const zoneLbl = zone === 'zona_nucleo' ? 'Zona Núcleo, factor estimado' : 'Pampa Arenosa';
+  const { actual, objetivo, deficit, kgHa, fertLabel } = lastP;
   const text = kgHa > 0
-    ? `Fósforo (${zoneLbl}): suelo en ${fmtNum(actual)} ppm, objetivo ${fmtNum(objetivo)} ppm (déficit ${fmtNum(deficit)} ppm).\n`
+    ? `Fósforo (Pampa Arenosa): suelo en ${fmtNum(actual)} ppm, objetivo ${fmtNum(objetivo)} ppm (déficit ${fmtNum(deficit)} ppm).\n`
       + `Aplicar: ${Math.round(kgHa)} kg/ha de ${fertLabel} (≈ ${fmtNum(kgHa / BOLSA_KG)} bolsas de ${BOLSA_KG} kg).\n\n`
       + `Calculadora de fertilizantes de Henderseeds: ${SITE_URL}`
-    : `Fósforo (${zoneLbl}): suelo en ${fmtNum(actual)} ppm, ya cubre el objetivo de ${fmtNum(objetivo)} ppm. Sin déficit.\n\n`
+    : `Fósforo (Pampa Arenosa): suelo en ${fmtNum(actual)} ppm, ya cubre el objetivo de ${fmtNum(objetivo)} ppm. Sin déficit.\n\n`
       + `Calculadora de fertilizantes de Henderseeds: ${SITE_URL}`;
   window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
   if(typeof gtag === 'function') gtag('event', 'whatsapp_click', { event_category: 'share', tool: 'fosforo' });
