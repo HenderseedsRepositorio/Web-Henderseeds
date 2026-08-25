@@ -200,6 +200,14 @@ input[type=number]{-moz-appearance:textfield}
 .rchip .cv{font-family:var(--title-font);font-weight:700;font-size:18px;color:var(--ink);margin-top:3px}
 .rchip .cv small{font-size:12px;color:var(--ink-dim);font-weight:500}
 
+/* ══════ MICROGRANULADOS — tabla estática de dosis por cultivo ══════ */
+.micro-table-wrap{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:14px}
+.micro-table{width:100%;border-collapse:collapse;font-size:14px}
+.micro-table th{text-align:left;font-family:var(--title-font);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim);padding:11px 16px;border-bottom:1px solid var(--border)}
+.micro-table td{padding:10px 16px;border-bottom:1px solid var(--border);color:var(--ink)}
+.micro-table tr:last-child td{border-bottom:0}
+.micro-table td:last-child{font-family:var(--title-font);font-weight:700;color:var(--num);text-align:right;white-space:nowrap}
+
 /* ══════ SOON PANEL ══════ */
 .soon-panel{padding:44px 24px;text-align:center;color:var(--ink-dim);background:var(--panel);border:1px dashed var(--border-strong);border-radius:var(--radius-lg)}
 .soon-panel .ic{color:var(--accent);margin-bottom:12px;display:flex;justify-content:center}
@@ -244,6 +252,7 @@ footer{border-top:1px solid var(--border);padding:26px 0 40px;margin-top:10px}
   <div class="tab-nav">
     <button class="tab-btn active" id="btn-fosforo" onclick="showFertTab('fosforo', this)">Fósforo</button>
     <button class="tab-btn" id="btn-nitrogeno" onclick="showFertTab('nitrogeno', this)">Nitrógeno</button>
+    <button class="tab-btn" id="btn-microgranulados" onclick="showFertTab('microgranulados', this)">Microgranulados</button>
     <button class="tab-btn" disabled title="Próximamente">Compactación · pronto</button>
   </div>
 
@@ -375,9 +384,54 @@ footer{border-top:1px solid var(--border);padding:26px 0 40px;margin-top:10px}
     <p class="disclaimer"><strong>Requerimiento validado — no es la dosis final.</strong> Los 22 kg N/ton son el requerimiento fisiológico del maíz (estándar INTA / Fertilizar AC; rango 20-25) y la urea es 46% N. Pero esta cuenta es un piso orientativo: no descuenta el N que aporta la mineralización del suelo ni las pérdidas por volatilización (15-40% si la urea queda en superficie sin lluvia), ni ajusta por la eficiencia de uso real (40-70%). Para la dosis fina, restá el N disponible a la siembra y consultá a tu ingeniero agrónomo.</p>
   </div>
 
+  <!-- ══════ TAB 3: MICROGRANULADOS (arranque junto a la semilla) ══════ -->
   <!--
-    TAB 3 — Compactación de suelo. Placeholder estructural para escalar.
-    Cuando se implemente: sacar el `disabled` del botón #03 en .tab-nav,
+    A diferencia de Fósforo/Nitrógeno, ESTO NO ES UN CÁLCULO: es una tabla
+    estática cultivo → dosis, tal como la publica el fabricante. No hay
+    fórmula porque el producto no corrige un déficit de ppm de suelo — se
+    aplica a tasa fija junto a la semilla. Fuente: Tropfen, ficha técnica
+    "Nutrition Micro" (tropfen.com.ar, FICHA-TECNICA-NUTRITION-MICRO.pdf, 2025).
+    El fabricante NO publica el % exacto de N-P-S-Zn en esa ficha — no se
+    inventa acá; si en el futuro se consigue el dato (ej. pidiéndoselo a
+    Tropfen), recién ahí se podría sumar como opción real al selector de
+    Fósforo, con su propio factor validado.
+  -->
+  <div class="tab-panel" id="tab-microgranulados" hidden>
+    <p style="color:var(--ink-dim);font-size:13.5px;line-height:1.5;margin-bottom:16px">No corrige un déficit de suelo: es una dosis fija de arranque (N-P-S-Zn) aplicada junto a la semilla, según el cultivo.</p>
+
+    <div class="micro-table-wrap">
+      <table class="micro-table">
+        <thead><tr><th>Cultivo</th><th>Dosis</th></tr></thead>
+        <tbody>
+          <tr><td>Soja</td><td>25 a 35 kg/ha</td></tr>
+          <tr><td>Maíz</td><td>25 a 35 kg/ha</td></tr>
+          <tr><td>Trigo – Cebada</td><td>30 a 45 kg/ha</td></tr>
+          <tr><td>Girasol</td><td>25 a 35 kg/ha</td></tr>
+          <tr><td>Algodón</td><td>30 a 50 kg/ha</td></tr>
+          <tr><td>Cebolla – Ajo</td><td>25 a 45 kg/ha</td></tr>
+          <tr><td>Legumbres</td><td>30 a 45 kg/ha</td></tr>
+          <tr><td>Colza</td><td>25 a 40 kg/ha</td></tr>
+          <tr><td>Forrajeras</td><td>25 a 40 kg/ha</td></tr>
+          <tr><td>Papa</td><td>35 a 70 kg/ha</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <details class="info-card">
+      <summary>
+        <span class="ic-name">Nutrition Micro</span>
+        <span class="ic-grade">N-P-S-Zn · microgranulado</span>
+        <svg class="ic-chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </summary>
+      <p class="ic-note">Formulación microgranulada en mezcla química que aporta Nitrógeno, Fósforo, Azufre y Zinc de forma localizada junto a la semilla — mejora el enraizamiento y la implantación temprana. Presentación: bolsa de 25 kg, pallet de 1050 kg (42 bolsas) o big bag.</p>
+    </details>
+
+    <p class="disclaimer"><strong>Dosis por cultivo, no por análisis de suelo.</strong> A diferencia de Fósforo y Nitrógeno, esta dosis no sale de tu ppm de suelo — es la recomendación fija del fabricante según cultivo (Tropfen, ficha técnica Nutrition Micro, 2025). El fabricante no publica el % exacto de N-P-S-Zn del producto; no lo inventamos acá. Confirmá la dosis puntual de tu lote con tu ingeniero agrónomo.</p>
+  </div>
+
+  <!--
+    TAB 4 — Compactación de suelo. Placeholder estructural para escalar.
+    Cuando se implemente: sacar el `disabled` del botón #04 en .tab-nav,
     crear un <div class="tab-panel" id="tab-compactacion" hidden> con su
     propio formulario (ej. resistencia a la penetración vs. umbral crítico
     por textura), y sumar sus constantes junto a FERT_FACTORS en el <script>.
