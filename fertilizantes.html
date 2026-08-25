@@ -137,6 +137,12 @@ input[type=number]{-moz-appearance:textfield}
 
 .tab-panel{margin-bottom:34px}
 
+/* ══════ ZONE TOGGLE ══════ */
+.zone-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.zone-btn{padding:9px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--panel);font-family:var(--title-font);font-weight:700;font-size:13px;color:var(--ink);text-align:center;transition:.15s}
+.zone-btn:hover{border-color:var(--border-strong)}
+.zone-btn.active{border-color:var(--primary);color:var(--primary);background:color-mix(in oklab, var(--primary) 8%, var(--panel))}
+
 /* ══════ FORM ══════ */
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .field{margin-bottom:14px}
@@ -258,6 +264,10 @@ footer{border-top:1px solid var(--border);padding:26px 0 40px;margin-top:10px}
 
   <!-- ══════ TAB 1: FÓSFORO ══════ -->
   <div class="tab-panel" id="tab-fosforo">
+    <div class="zone-toggle" role="radiogroup" aria-label="Zona del lote">
+      <button class="zone-btn active" id="zone-pa" onclick="setZone('pampa_arenosa', this)" type="button">Pampa Arenosa</button>
+      <button class="zone-btn" id="zone-zn" onclick="setZone('zona_nucleo', this)" type="button">Zona Núcleo</button>
+    </div>
     <div class="form-row">
       <div class="field">
         <label for="pActual">Fósforo actual</label>
@@ -328,7 +338,7 @@ footer{border-top:1px solid var(--border);padding:26px 0 40px;margin-top:10px}
       </div>
     </div>
 
-    <p class="disclaimer"><strong>Factores validados para la zona.</strong> Las equivalencias (ej. 15 kg de MAP por ppm) están calibradas para suelos franco-arenosos de la Pampa Arenosa —Henderson, Bolívar, Daireaux— con método Bray-1, 0-20 cm y densidad aparente 1,2 t/m³ (fuente: García/Ciampitti/Rubio/Picone, CREA Oeste 2009; Fertilab). En suelos más arcillosos (zona núcleo) el fósforo se fija más y hacen falta dosis mayores. Evitá más de 30-50 kg/ha de N amoniacal (MAP/DAP) en la línea de siembra por riesgo de fitotoxicidad. No reemplaza tu análisis de suelo ni la recomendación de tu ingeniero agrónomo.</p>
+    <p class="disclaimer"><strong id="pDiscTitle">Factores validados para tu zona.</strong> <span id="pDiscBody">Las equivalencias (ej. 15 kg de MAP por ppm) están calibradas para suelos franco-arenosos de la Pampa Arenosa —Henderson, Bolívar, Daireaux— con método Bray-1, 0-20 cm y densidad aparente 1,2 t/m³ (fuente: García/Ciampitti/Rubio/Picone, CREA Oeste 2009; Fertilab).</span> Evitá más de 30-50 kg/ha de N amoniacal (MAP/DAP) en la línea de siembra por riesgo de fitotoxicidad. No reemplaza tu análisis de suelo ni la recomendación de tu ingeniero agrónomo.</p>
   </div>
 
   <!-- ══════ TAB 2: NITRÓGENO (MAÍZ) ══════ -->
@@ -456,21 +466,36 @@ footer{border-top:1px solid var(--border);padding:26px 0 40px;margin-top:10px}
 
 <script>
 // ═══ CONFIG — factores agronómicos (ajustar acá si cambian) ═══
-// Kg de producto comercial por cada ppm de déficit de P (Bray-1, 0-20cm).
-// VALIDADO 2026-08 contra fuente técnica: para elevar 1 ppm de P-Bray hacen
-// falta ~3,42 kg de P elemental/ha en suelos franco-arenosos de la Pampa
-// Arenosa (Da 1,2 t/m³, 0-20cm). Con eso los 4 factores fijos dan exactos
-// (desvío <0,6% vs. el teórico). Fuente: García, Ciampitti, Rubio & Picone,
-// "Fósforo en cultivos extensivos" (CREA Oeste, 2009); corroborado por
-// Fertilab y Rubio et al. (Fertilizar AC, PICT 2002).
-// OJO: calibrado para el oeste bonaerense. En suelos arcillosos (zona núcleo)
-// la fijación de P sube y el factor real es mayor (MAP real ~20-22) → esta
-// calc SUB-DOSIFICA ahí. Ver disclaimer de la pestaña.
+// Kg de producto comercial por cada ppm de déficit de P (Bray-1, 0-20cm), por zona.
+//
+// PAMPA ARENOSA (Henderson/Bolívar/Daireaux) — VALIDADO 2026-08 contra fuente
+// técnica: para elevar 1 ppm de P-Bray hacen falta ~3,42 kg de P elemental/ha
+// en suelos franco-arenosos (Da 1,2 t/m³, 0-20cm). Con eso los 4 factores dan
+// exactos (desvío <0,6% vs. el teórico). Fuente: García, Ciampitti, Rubio &
+// Picone, "Fósforo en cultivos extensivos" (CREA Oeste, 2009); corroborado
+// por Fertilab y Rubio et al. (Fertilizar AC, PICT 2002).
+//
+// ZONA NÚCLEO (más arcilla, mayor fijación de P) — ESTIMADO, no tiene la
+// misma validación estequiométrica fina. El mismo informe dice que ahí el
+// requerimiento sube a 4,13-5+ kg P elemental/ppm (vs 3,42) y da el callout
+// explícito "el factor MAP sube a 20-22 kg". Usamos 4,77 kg P elemental/ppm
+// como punto medio consistente con ese callout, aplicado con la misma
+// estequiometría a los otros 3 — cae dentro de los rangos que el propio
+// informe documenta para cada uno. Mismo origen (García/Ciampitti/Rubio/
+// Picone, CREA Oeste 2009), sección zona núcleo/centro-sur bonaerense.
 const FERT_FACTORS = {
-  map: { label: 'MAP 11-52-0', factor: 15 },  // 52% P₂O₅ → 22,70% P; teórico 15,06 kg/ppm
-  dap: { label: 'DAP 18-46-0', factor: 17 },  // 46% P₂O₅ → 20,05% P; teórico 17,05 kg/ppm
-  spt: { label: 'Superfosfato Triple 0-46-0', factor: 17 }, // 0-46-0 → ídem DAP (17,05)
-  sps: { label: 'Superfosfato Simple 0-20-0', factor: 39 }  // 20% P₂O₅ → 8,72% P; teórico 39,22
+  pampa_arenosa: {
+    map: { label: 'MAP 11-52-0', factor: 15 },  // 52% P₂O₅ → 22,70% P; teórico 15,06 kg/ppm
+    dap: { label: 'DAP 18-46-0', factor: 17 },  // 46% P₂O₅ → 20,05% P; teórico 17,05 kg/ppm
+    spt: { label: 'Superfosfato Triple 0-46-0', factor: 17 }, // 0-46-0 → ídem DAP (17,05)
+    sps: { label: 'Superfosfato Simple 0-20-0', factor: 39 }  // 20% P₂O₅ → 8,72% P; teórico 39,22
+  },
+  zona_nucleo: {
+    map: { label: 'MAP 11-52-0', factor: 21 },
+    dap: { label: 'DAP 18-46-0', factor: 24 },
+    spt: { label: 'Superfosfato Triple 0-46-0', factor: 24 },
+    sps: { label: 'Superfosfato Simple 0-20-0', factor: 55 }
+  }
 };
 // kg de N por tonelada de rinde objetivo de maíz. VALIDADO: estándar fisiológico
 // consolidado (INTA, Fertilizar AC; Ciampitti & García) — rango 20-25 kg N/t grano,
@@ -523,6 +548,27 @@ function clearMsg(el){ el.textContent = ''; el.style.display = 'none'; }
 // para armar el texto de WhatsApp sin volver a parsear el DOM.
 let lastP = null;
 let lastN = null;
+let pZone = 'pampa_arenosa';
+
+function setZone(zone, btn){
+  pZone = zone;
+  document.querySelectorAll('.zone-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  $('pResultPanel').hidden = true; // el resultado viejo ya no vale para la zona nueva
+  clearMsg($('pMsg'));
+  updateZoneDisclaimer();
+  if(typeof gtag === 'function') gtag('event', 'fert_zone_change', { zone: zone });
+}
+
+function updateZoneDisclaimer(){
+  if(pZone === 'zona_nucleo'){
+    $('pDiscTitle').textContent = 'Factores estimados para zona núcleo — menos precisos que Pampa Arenosa.';
+    $('pDiscBody').textContent = 'Para suelos más arcillosos (mayor fijación de P) usamos una estimación derivada del mismo informe (García/Ciampitti/Rubio/Picone, CREA Oeste 2009), sin la validación estequiométrica exacta que sí tienen los factores de Pampa Arenosa.';
+  } else {
+    $('pDiscTitle').textContent = 'Factores validados para tu zona.';
+    $('pDiscBody').textContent = 'Las equivalencias (ej. 15 kg de MAP por ppm) están calibradas para suelos franco-arenosos de la Pampa Arenosa —Henderson, Bolívar, Daireaux— con método Bray-1, 0-20 cm y densidad aparente 1,2 t/m³ (fuente: García/Ciampitti/Rubio/Picone, CREA Oeste 2009; Fertilab).';
+  }
+}
 
 function updateFertInfo(){
   const info = FERT_INFO[$('pFert').value];
@@ -545,7 +591,7 @@ function showFertTab(tab, btn){
 function calcFosforo(){
   const actual = parseFloat($('pActual').value);
   const objetivo = parseFloat($('pObjetivo').value);
-  const fert = FERT_FACTORS[$('pFert').value];
+  const fert = FERT_FACTORS[pZone][$('pFert').value];
   const msgEl = $('pMsg'), panel = $('pResultPanel');
 
   clearMsg(msgEl);
@@ -587,18 +633,19 @@ function calcFosforo(){
   }
 
   panel.hidden = false;
-  lastP = { actual, objetivo, deficit, kgHa, fertLabel: fert.label };
-  if(typeof gtag === 'function') gtag('event', 'fert_calc_used', { tool: 'fosforo', fertilizante: $('pFert').value });
+  lastP = { actual, objetivo, deficit, kgHa, fertLabel: fert.label, zone: pZone };
+  if(typeof gtag === 'function') gtag('event', 'fert_calc_used', { tool: 'fosforo', fertilizante: $('pFert').value, zone: pZone });
 }
 
 function shareFosforo(){
   if(!lastP) return;
-  const { actual, objetivo, deficit, kgHa, fertLabel } = lastP;
+  const { actual, objetivo, deficit, kgHa, fertLabel, zone } = lastP;
+  const zoneLbl = zone === 'zona_nucleo' ? 'Zona Núcleo, factor estimado' : 'Pampa Arenosa';
   const text = kgHa > 0
-    ? `Fósforo: suelo en ${fmtNum(actual)} ppm, objetivo ${fmtNum(objetivo)} ppm (déficit ${fmtNum(deficit)} ppm).\n`
+    ? `Fósforo (${zoneLbl}): suelo en ${fmtNum(actual)} ppm, objetivo ${fmtNum(objetivo)} ppm (déficit ${fmtNum(deficit)} ppm).\n`
       + `Aplicar: ${Math.round(kgHa)} kg/ha de ${fertLabel} (≈ ${fmtNum(kgHa / BOLSA_KG)} bolsas de ${BOLSA_KG} kg).\n\n`
       + `Calculadora de fertilizantes de Henderseeds: ${SITE_URL}`
-    : `Fósforo: suelo en ${fmtNum(actual)} ppm, ya cubre el objetivo de ${fmtNum(objetivo)} ppm. Sin déficit.\n\n`
+    : `Fósforo (${zoneLbl}): suelo en ${fmtNum(actual)} ppm, ya cubre el objetivo de ${fmtNum(objetivo)} ppm. Sin déficit.\n\n`
       + `Calculadora de fertilizantes de Henderseeds: ${SITE_URL}`;
   window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
   if(typeof gtag === 'function') gtag('event', 'whatsapp_click', { event_category: 'share', tool: 'fosforo' });
