@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Nutricional por Cultivo · Henderseeds</title>
+<meta name="description" content="Elegí tu cultivo, cargá el rinde objetivo y tu análisis de suelo. Te devolvemos el plan completo de nitrógeno, fósforo y zinc. Gratis, de Henderseeds.">
+<meta name="robots" content="noindex,follow">
+<meta name="theme-color" content="#F4F1E9">
+<meta property="og:title" content="Plan Nutricional por Cultivo">
+<meta property="og:description" content="Rinde objetivo + análisis de suelo → plan completo de N, P y Zn. Gratis, de Henderseeds.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://henderseeds.com/plan-nutricional.html">
+<meta property="og:image" content="https://henderseeds.com/assets/og-fertilizantes.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Plan Nutricional por Cultivo de Henderseeds">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="HenderSeeds">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Plan Nutricional por Cultivo · Henderseeds">
+<meta name="twitter:description" content="Rinde objetivo + análisis de suelo → plan completo de N, P y Zn. Gratis.">
+<meta name="twitter:image" content="https://henderseeds.com/assets/og-fertilizantes.jpg">
+<link rel="icon" href="/favicon.ico?v=5" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/logos/favicon-32.png?v=5">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/logos/favicon-192.png?v=5">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/logos/favicon-180.png?v=5">
+<link rel="canonical" href="https://henderseeds.com/plan-nutricional.html">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GGC7FRWF6G"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-GGC7FRWF6G');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+/* ═══ TOKENS — CLARO "de campo" = default ═══ */
+:root{
+  --title-font:'Space Grotesk',sans-serif;
+  --body-font:'DM Sans',system-ui,sans-serif;
+  --bg:#F4F1E9;
+  --panel:#FFFFFF;
+  --panel-2:#FBF9F3;
+  --ink:#1A1712;
+  --ink-dim:#6B6152;
+  --navy:#0D2D5E;
+  --accent:#E8850C;
+  --primary:#0D2D5E;
+  --primary-ink:#FFFFFF;
+  --primary-shadow:rgba(13,45,94,.5);
+  --num:#0D2D5E;
+  --track:#ECE5D6;
+  --border:rgba(13,45,94,.12);
+  --border-strong:rgba(13,45,94,.20);
+  --grid-line:rgba(13,45,94,.045);
+  --focus-ring:rgba(13,45,94,.14);
+  --err:#C0392B;
+  --err-bg:rgba(217,74,52,.07);
+  --err-bd:rgba(217,74,52,.28);
+  --ok:#2E7D46;
+  --ok-bg:rgba(46,125,70,.08);
+  --ok-bd:rgba(46,125,70,.30);
+  --warn:#C56A00;
+  --warn-bg:rgba(232,133,12,.09);
+  --warn-bd:rgba(232,133,12,.32);
+  --whatsapp:#25D366;
+  --radius-lg:18px;
+}
+/* ═══ TOKENS — OSCURO "refinado" = toggle ═══ */
+body.dark-mode{
+  --bg:#0A0F1B;
+  --panel:#131C30;
+  --panel-2:rgba(255,255,255,.04);
+  --ink:#E8EEF7;
+  --ink-dim:#8FA0BE;
+  --navy:#0D2D5E;
+  --accent:#F5A623;
+  --primary:#F5A623;
+  --primary-ink:#0A0A0A;
+  --primary-shadow:rgba(245,166,35,.45);
+  --num:#F5A623;
+  --track:rgba(255,255,255,.08);
+  --border:rgba(255,255,255,.10);
+  --border-strong:rgba(255,255,255,.18);
+  --grid-line:rgba(245,166,35,.045);
+  --focus-ring:rgba(245,166,35,.22);
+  --err:#e85c5c;
+  --err-bg:rgba(232,92,92,.10);
+  --err-bd:rgba(232,92,92,.35);
+  --ok:#3FB765;
+  --ok-bg:rgba(63,183,101,.12);
+  --ok-bd:rgba(63,183,101,.35);
+  --warn:#F5A623;
+  --warn-bg:rgba(245,166,35,.12);
+  --warn-bd:rgba(245,166,35,.35);
+}
+
+body{
+  font-family:var(--body-font);color:var(--ink);line-height:1.55;
+  -webkit-font-smoothing:antialiased;min-height:100vh;
+  background-color:var(--bg);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size:42px 42px;background-position:-1px -1px;
+  transition:background-color .2s,color .2s
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+button{font:inherit;cursor:pointer;border:0;background:0;color:inherit}
+:focus-visible{outline:2px solid var(--primary);outline-offset:2px;border-radius:6px}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]{-moz-appearance:textfield}
+
+.container{max-width:620px;margin:0 auto;padding:0 20px}
+
+/* ══════ TOPBAR ══════ */
+.topbar{position:sticky;top:0;z-index:100;background:color-mix(in oklab, var(--bg) 88%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.topbar-inner{max-width:620px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:11px 20px;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px}
+.brand img{height:26px;display:block}
+.topbar-right{display:flex;align-items:center;gap:14px}
+.back-link{font-size:13px;color:var(--ink-dim);font-weight:500;display:flex;align-items:center;gap:6px}
+.back-link:hover{color:var(--accent)}
+.theme-toggle{width:36px;height:36px;border-radius:10px;border:1px solid var(--border);display:inline-grid;place-items:center;color:var(--ink-dim);background:transparent;transition:.2s;flex-shrink:0}
+.theme-toggle:hover{color:var(--accent);border-color:var(--border-strong)}
+.theme-toggle svg{width:17px;height:17px}
+
+/* ══════ HEADER ══════ */
+.page-head{padding:12px 0 2px}
+.eyebrow{font-family:var(--title-font);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.page-head h1{font-family:var(--title-font);font-weight:700;font-size:clamp(23px,5.5vw,30px);letter-spacing:-.02em;line-height:1.08;color:var(--num);margin-top:6px;text-wrap:pretty}
+.page-head p{color:var(--ink-dim);font-size:14px;max-width:520px;margin-top:6px;line-height:1.5}
+
+/* ══════ CROP SELECTOR ══════ */
+.crop-nav{display:flex;gap:8px;margin:14px 0 4px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.crop-nav::-webkit-scrollbar{display:none}
+.crop-btn{flex:0 0 auto;padding:8px 16px;border-radius:11px;font-family:var(--title-font);font-weight:600;font-size:14px;white-space:nowrap;background:var(--panel);border:1px solid var(--border);color:var(--ink-dim);transition:.15s}
+.crop-btn:hover:not(:disabled){color:var(--ink);border-color:var(--border-strong)}
+.crop-btn.active{background:var(--primary);color:var(--primary-ink);border-color:var(--primary)}
+.crop-btn:disabled{opacity:.55;cursor:default;border-style:dashed;font-size:12.5px}
+
+/* ══════ FORM ══════ */
+.form-card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 16px 6px;margin:12px 0 8px}
+.form-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.field{margin-bottom:12px}
+.field label{display:block;font-family:var(--title-font);font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:7px}
+.inp{position:relative}
+.field input,.field select{width:100%;height:46px;border:1px solid var(--border);border-radius:12px;background:var(--panel);color:var(--ink);font-family:var(--body-font);font-weight:600;font-size:17px;padding:0 14px;outline:none;transition:border-color .15s,box-shadow .15s}
+.field input{padding-right:52px}
+.field input:focus,.field select:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--focus-ring)}
+.field .unit{position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:12.5px;color:var(--ink-dim);font-weight:600;pointer-events:none}
+.field select{appearance:none;-webkit-appearance:none;padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238A8578' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;cursor:pointer}
+.form-sub{font-family:var(--title-font);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:2px 0 10px;display:flex;align-items:center;gap:8px}
+.form-sub::after{content:"";flex:1;height:1px;background:var(--border)}
+
+.form-msg{display:none;font-size:13px;color:var(--err);font-weight:500;line-height:1.4;background:var(--err-bg);border:1px solid var(--err-bd);border-radius:11px;padding:11px 13px;margin:0 0 12px}
+
+/* ══════ PLAN (result) ══════ */
+.plan-title{font-family:var(--title-font);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim);margin:20px 0 12px;display:flex;align-items:center;gap:10px}
+.plan-title::before,.plan-title::after{content:"";flex:1;height:1px;background:var(--border)}
+.plan-title::before{max-width:22px}
+
+.ncard{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-lg);padding:15px 16px;box-shadow:0 12px 32px -22px rgba(13,45,94,.45);margin-bottom:12px}
+.ncard-head{display:flex;align-items:center;gap:10px;margin-bottom:2px}
+.ncard-ico{width:30px;height:30px;border-radius:9px;flex:0 0 auto;display:grid;place-items:center;font-family:var(--title-font);font-weight:700;font-size:13px}
+.ncard-ico.n{background:rgba(13,45,94,.10);color:var(--navy)}
+.ncard-ico.p{background:rgba(13,45,94,.10);color:var(--navy)}
+.ncard-ico.zn{background:var(--warn-bg);color:var(--warn)}
+body.dark-mode .ncard-ico.n,body.dark-mode .ncard-ico.p{background:rgba(255,255,255,.08);color:var(--ink)}
+.ncard-tt{font-family:var(--title-font);font-weight:700;font-size:14px;color:var(--ink);line-height:1.2}
+.ncard-tt small{display:block;font-size:11px;font-weight:600;color:var(--ink-dim);letter-spacing:.02em;margin-top:1px}
+.rnum{display:flex;align-items:baseline;gap:9px;margin-top:10px}
+.rnum .val{font-family:var(--title-font);font-weight:700;font-size:clamp(32px,9vw,42px);line-height:.95;color:var(--num);letter-spacing:-.02em}
+.rnum .ru{font-size:14px;color:var(--ink-dim);font-weight:600}
+.rbolsas{font-size:13px;color:var(--accent);font-weight:700;margin-top:4px}
+.rnote{font-size:12.5px;color:var(--ink-dim);line-height:1.45;margin-top:4px}
+
+.rchips{display:flex;gap:8px;margin-top:14px}
+.rchip{flex:1;background:var(--panel-2);border:1px solid var(--border);border-radius:11px;padding:9px 11px;text-align:center}
+.rchip .cl{font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-dim);font-weight:600}
+.rchip .cv{font-family:var(--title-font);font-weight:700;font-size:16px;color:var(--ink);margin-top:3px}
+.rchip .cv small{font-size:11px;color:var(--ink-dim);font-weight:500}
+
+/* estado badges */
+.badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--title-font);font-weight:700;font-size:12px;padding:4px 10px;border-radius:99px;margin-top:10px}
+.badge.def{background:var(--warn-bg);border:1px solid var(--warn-bd);color:var(--warn)}
+.badge.suf{background:var(--ok-bg);border:1px solid var(--ok-bd);color:var(--ok)}
+.badge.cover{background:var(--ok-bg);border:1px solid var(--ok-bd);color:var(--ok)}
+
+.btn-share{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;height:48px;margin-top:6px;border-radius:12px;background:var(--whatsapp);color:#fff;font-family:var(--title-font);font-weight:700;font-size:14px;letter-spacing:.02em;transition:transform .15s,opacity .15s}
+.btn-share:hover{opacity:.92;transform:translateY(-1px)}
+.btn-share svg{width:16px;height:16px;flex:0 0 auto}
+
+/* ══════ DISCLAIMER ══════ */
+.disclaimer{font-size:11.5px;color:var(--ink-dim);line-height:1.5;margin-top:16px}
+.disclaimer strong{color:var(--ink)}
+.disclaimer details{margin-top:8px}
+.disclaimer summary{cursor:pointer;color:var(--accent);font-weight:600;list-style:none}
+.disclaimer summary::-webkit-details-marker{display:none}
+.disclaimer details p{margin-top:6px}
+
+/* ══════ FOOTER ══════ */
+footer{border-top:1px solid var(--border);padding:26px 0 40px;margin-top:20px}
+.foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:12.5px;color:var(--ink-dim)}
+.foot-row a{font-weight:600}
+.foot-row a:hover{color:var(--accent)}
+</style>
+</head>
+<body data-mode="light">
+
+<nav class="topbar">
+  <div class="topbar-inner">
+    <a href="index.html" class="brand" aria-label="Henderseeds inicio">
+      <img src="assets/logos/henderseeds-navy.png" alt="Henderseeds" id="brandLogo">
+    </a>
+    <div class="topbar-right">
+      <a href="index.html#tools" class="back-link">← Volver al sitio</a>
+      <button class="theme-toggle" aria-label="Modo claro/oscuro" onclick="toggleTheme()">
+        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-head">
+    <div class="eyebrow">Herramientas · Plan nutricional</div>
+    <h1>Plan nutricional por cultivo</h1>
+    <p>Elegí tu cultivo, cargá el rinde objetivo y tu análisis de suelo. Te devolvemos el plan completo de nitrógeno, fósforo y zinc.</p>
+  </div>
+
+  <div class="crop-nav">
+    <button class="crop-btn active" id="crop-maiz" onclick="selectCrop('maiz', this)">Maíz</button>
+    <button class="crop-btn" disabled title="Próximamente">Girasol · próximamente</button>
+  </div>
+
+  <div class="form-card">
+    <div class="field">
+      <label for="rinde">Rendimiento objetivo</label>
+      <div class="inp">
+        <input type="number" id="rinde" inputmode="decimal" step="0.1" min="0" placeholder="11" value="11" oninput="debouncedCalc()">
+        <span class="unit">t/ha</span>
+      </div>
+    </div>
+
+    <div class="form-sub">Análisis de suelo</div>
+    <div class="form-row">
+      <div class="field">
+        <label for="pActual">P actual</label>
+        <div class="inp">
+          <input type="number" id="pActual" inputmode="decimal" step="0.1" min="0" placeholder="12" value="12" oninput="debouncedCalc()">
+          <span class="unit">ppm</span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="pObjetivo">P objetivo</label>
+        <div class="inp">
+          <input type="number" id="pObjetivo" inputmode="decimal" step="0.1" min="0" placeholder="13" value="13" oninput="debouncedCalc()">
+          <span class="unit">ppm</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="field">
+        <label for="nDisp">N disponible</label>
+        <div class="inp">
+          <input type="number" id="nDisp" inputmode="decimal" step="1" min="0" placeholder="80" value="80" oninput="debouncedCalc()">
+          <span class="unit">kg/ha</span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="znActual">Zn (DTPA)</label>
+        <div class="inp">
+          <input type="number" id="znActual" inputmode="decimal" step="0.1" min="0" placeholder="0,6" value="0.6" oninput="debouncedCalc()">
+          <span class="unit">ppm</span>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label for="pFert">Fertilizante fosfatado</label>
+      <select id="pFert" onchange="calcPlan()">
+        <option value="map">MAP · 11-52-0</option>
+        <option value="dap">DAP · 18-46-0</option>
+        <option value="spt">Superfosfato Triple · 0-46-0</option>
+        <option value="sps">Superfosfato Simple · 0-20-0</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-msg" id="msg"></div>
+
+  <div id="planPanel" hidden>
+    <div class="plan-title">Tu plan · <span id="planCrop">Maíz</span> a <span id="planRinde">—</span> t/ha</div>
+
+    <!-- NITRÓGENO -->
+    <div class="ncard">
+      <div class="ncard-head">
+        <div class="ncard-ico n">N</div>
+        <div class="ncard-tt">Nitrógeno<small>Urea · 46-0-0</small></div>
+      </div>
+      <div id="nBody"></div>
+    </div>
+
+    <!-- FÓSFORO -->
+    <div class="ncard">
+      <div class="ncard-head">
+        <div class="ncard-ico p">P</div>
+        <div class="ncard-tt">Fósforo<small id="pFertLbl">MAP · 11-52-0</small></div>
+      </div>
+      <div id="pBody"></div>
+    </div>
+
+    <!-- ZINC -->
+    <div class="ncard">
+      <div class="ncard-head">
+        <div class="ncard-ico zn">Zn</div>
+        <div class="ncard-tt">Zinc<small>Sulfato de zinc</small></div>
+      </div>
+      <div id="znBody"></div>
+    </div>
+
+    <button class="btn-share" id="shareBtn" onclick="sharePlan()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Compartir plan por WhatsApp
+    </button>
+  </div>
+
+  <p class="disclaimer"><strong>Requerimientos orientativos, no dosis finales.</strong> El plan usa el requerimiento fisiológico del maíz (22 kg N/t, estándar INTA / Fertilizar AC) y factores de fósforo calibrados para la Pampa Arenosa —Henderson, Bolívar, Daireaux— (Bray-1, 0-20 cm, Da 1,2 t/m³). No reemplaza tu análisis de suelo ni la recomendación de tu ingeniero agrónomo.
+    <details>
+      <summary>Ver los supuestos de cada nutriente</summary>
+      <p><strong>Nitrógeno:</strong> los 22 kg N/t son el requerimiento del cultivo, no la dosis a aplicar: no descuenta el aporte por mineralización ni las pérdidas por volatilización (15-40% si la urea queda en superficie sin lluvia), ni ajusta por eficiencia de uso real (40-70%). La urea es 46% N.</p>
+      <p><strong>Fósforo:</strong> el P objetivo viene precargado en 13 ppm (piso de suficiencia). El umbral de <em>respuesta</em> del maíz en la zona es 15-16 ppm (García et al. 2007; Barraco et al., INTA Gral. Villegas 2016) y el criterio de <em>reposición/mantenimiento</em> sube a 18-20 ppm — si trabajás con ese criterio, subí el objetivo a mano. Evitá más de 30-50 kg/ha de N amoniacal (MAP/DAP) en la línea de siembra por riesgo de fitotoxicidad.</p>
+      <p><strong>Zinc:</strong> se diagnostica por umbral, no por déficit lineal. Con Zn-DTPA por debajo de ~1 ppm hay alta frecuencia de respuesta en maíz (Fertilizar AC), y la corrección típica es 1-2 kg Zn/ha como sulfato de zinc (heptahidratado 22% Zn). Método de extracción DTPA, distinto del Bray-1 del fósforo.</p>
+      <p><strong>Bolsas:</strong> asumimos bolsa de 50 kg para pasar de kg/ha a bolsas; confirmá el formato real de tu proveedor.</p>
+    </details>
+  </p>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="foot-row">
+      <span>© 2026 HENDERSEEDS SRL</span>
+      <a href="index.html#tools">Ver todas las herramientas →</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ═══ CONFIG — factores agronómicos (ajustar acá si cambian) ═══
+// Reusados y validados en fertilizantes.html + FERTILIZANTES-INVESTIGACION.md.
+//
+// N: kg de N por tonelada de rinde objetivo de maíz. Estándar fisiológico
+// consolidado (INTA, Fertilizar AC; Ciampitti & García) — rango 20-25, 22 central.
+// ES EL REQUERIMIENTO DEL CULTIVO, no la dosis (no descuenta mineralización ni EUN).
+const N_PER_TON = 22;
+const UREA_N_PCT = 0.46;   // urea granulada estándar 46-0-0.
+
+// P: kg de producto comercial por cada ppm de déficit de P-Bray (0-20cm, Da 1,2),
+// Pampa Arenosa (Henderson/Bolívar/Daireaux). VALIDADO contra García, Ciampitti,
+// Rubio & Picone (CREA Oeste 2009) — ~3,42 kg P elemental/ha por ppm; desvío <0,6%.
+const P_FACTORS = {
+  map: { label: 'MAP · 11-52-0', factor: 15 },
+  dap: { label: 'DAP · 18-46-0', factor: 17 },
+  spt: { label: 'Superfosfato Triple · 0-46-0', factor: 17 },
+  sps: { label: 'Superfosfato Simple · 0-20-0', factor: 39 }
+};
+
+// Zn: NO se calcula por déficit lineal de ppm (la literatura no lo sostiene) —
+// se diagnostica por UMBRAL y se corrige con dosis fija. Con Zn-DTPA < ~1 ppm hay
+// alta frecuencia de respuesta en maíz (Fertilizar AC: alta respuesta con 0,9-1,3
+// ppm). Corrección típica 1-2 kg Zn/ha (usamos 1,5) como sulfato de zinc.
+// Extracción por DTPA, distinta del Bray-1 del P. Confianza ALTA.
+const ZN_UMBRAL = 1;          // ppm Zn-DTPA, piso de suficiencia.
+const ZN_DOSIS_KG = 1.5;      // kg Zn/ha de corrección.
+const ZN_SULFATO_PCT = 0.22;  // sulfato de zinc heptahidratado = 22% Zn.
+
+// Tamaño de bolsa para traducir kg/ha → bolsas. SUPUESTO (varía por marca/formato:
+// 40 kg, 50 kg, big-bag). Confirmar con Alvaro y fijar el real.
+const BOLSA_KG = 50;
+
+const $ = id => document.getElementById(id);
+const SITE_URL = 'https://henderseeds.com/plan-nutricional.html';
+// Formato AR: coma decimal, sin ",0" para enteros.
+function fmtNum(n){ const r = Math.round(n * 10) / 10; return Number.isInteger(r) ? String(r) : String(r).replace('.', ','); }
+function showMsg(t){ $('msg').textContent = t; $('msg').style.display = 'block'; }
+function clearMsg(){ $('msg').textContent = ''; $('msg').style.display = 'none'; }
+function debounce(fn, wait){ let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), wait); }; }
+
+// Último plan calculado — lo usa sharePlan() sin re-parsear el DOM.
+let lastPlan = null;
+
+// Selector de cultivo. v1: sólo Maíz activo. Girasol queda "próximamente"
+// (botón disabled en el HTML). Soja NO va nunca: fija su N biológicamente.
+function selectCrop(crop, btn){
+  document.querySelectorAll('.crop-nav .crop-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  calcPlan();
+  if(typeof gtag === 'function') gtag('event', 'plan_crop_select', { crop: crop });
+}
+
+// ═══ Cálculo del plan completo ═══
+function calcPlan(){
+  const rinde = parseFloat($('rinde').value);
+  const pAct  = parseFloat($('pActual').value);
+  const pObj  = parseFloat($('pObjetivo').value);
+  const nDisp = parseFloat($('nDisp').value);
+  const znAct = parseFloat($('znActual').value);
+  const fert  = P_FACTORS[$('pFert').value];
+
+  clearMsg();
+
+  // Validación silenciosa: si falta algún dato, ocultar el plan sin gritar error.
+  if([rinde, pAct, pObj, nDisp, znAct].some(v => isNaN(v)) || rinde <= 0 ||
+     [pAct, pObj, nDisp, znAct].some(v => v < 0)){
+    $('planPanel').hidden = true;
+    return;
+  }
+
+  // ── Nitrógeno ──
+  const nReq = rinde * N_PER_TON;
+  const nDef = nReq - nDisp;
+  const urea = nDef > 0 ? nDef / UREA_N_PCT : 0;
+  if(urea > 0){
+    $('nBody').innerHTML =
+      `<div class="rnum"><span class="val">${Math.round(urea)}</span><span class="ru">kg/ha de urea</span></div>`
+      + `<div class="rbolsas">≈ ${fmtNum(urea / BOLSA_KG)} bolsas de ${BOLSA_KG} kg</div>`
+      + `<div class="rchips">`
+      + `<div class="rchip"><div class="cl">Requerido</div><div class="cv">${Math.round(nReq)}</div></div>`
+      + `<div class="rchip"><div class="cl">En suelo</div><div class="cv">${Math.round(nDisp)}</div></div>`
+      + `<div class="rchip"><div class="cl">Déficit</div><div class="cv">${Math.round(nDef)}</div></div>`
+      + `</div>`;
+  } else {
+    $('nBody').innerHTML =
+      `<span class="badge cover">✓ Sin déficit</span>`
+      + `<div class="rnote">El N disponible (${Math.round(nDisp)} kg/ha) cubre el requerido (${Math.round(nReq)} kg/ha) para ${fmtNum(rinde)} t/ha.</div>`;
+  }
+
+  // ── Fósforo ──
+  $('pFertLbl').textContent = fert.label;
+  const pDef = pObj - pAct;
+  const pKg  = pDef > 0 ? pDef * fert.factor : 0;
+  if(pKg > 0){
+    $('pBody').innerHTML =
+      `<div class="rnum"><span class="val">${Math.round(pKg)}</span><span class="ru">kg/ha de ${fert.label.split(' · ')[0]}</span></div>`
+      + `<div class="rbolsas">≈ ${fmtNum(pKg / BOLSA_KG)} bolsas de ${BOLSA_KG} kg</div>`
+      + `<div class="rchips">`
+      + `<div class="rchip"><div class="cl">Actual</div><div class="cv">${fmtNum(pAct)} <small>ppm</small></div></div>`
+      + `<div class="rchip"><div class="cl">Objetivo</div><div class="cv">${fmtNum(pObj)} <small>ppm</small></div></div>`
+      + `<div class="rchip"><div class="cl">Déficit</div><div class="cv">${fmtNum(pDef)} <small>ppm</small></div></div>`
+      + `</div>`;
+  } else {
+    $('pBody').innerHTML =
+      `<span class="badge cover">✓ Sin déficit</span>`
+      + `<div class="rnote">El suelo (${fmtNum(pAct)} ppm) ya cubre el objetivo de ${fmtNum(pObj)} ppm.</div>`;
+  }
+
+  // ── Zinc (umbral + dosis fija) ──
+  if(znAct < ZN_UMBRAL){
+    const sulfato = ZN_DOSIS_KG / ZN_SULFATO_PCT;
+    $('znBody').innerHTML =
+      `<span class="badge def">⚠ Deficiente · ${fmtNum(znAct)} < ${fmtNum(ZN_UMBRAL)} ppm</span>`
+      + `<div class="rnum"><span class="val">${fmtNum(sulfato)}</span><span class="ru">kg/ha de sulfato de zinc</span></div>`
+      + `<div class="rbolsas">= ${fmtNum(ZN_DOSIS_KG)} kg Zn/ha · sulfato heptahidratado (22% Zn)</div>`;
+  } else {
+    $('znBody').innerHTML =
+      `<span class="badge suf">✓ Suficiente · ${fmtNum(znAct)} ≥ ${fmtNum(ZN_UMBRAL)} ppm DTPA</span>`
+      + `<div class="rnote">No requiere corrección de zinc.</div>`;
+  }
+
+  $('planCrop').textContent = 'Maíz';
+  $('planRinde').textContent = fmtNum(rinde);
+  $('planPanel').hidden = false;
+
+  lastPlan = { rinde, pAct, pObj, nReq, nDisp, nDef, urea, fert, pDef, pKg, znAct, ureaBolsas: urea/BOLSA_KG, pBolsas: pKg/BOLSA_KG };
+  if(typeof gtag === 'function') gtag('event', 'plan_calc_used', { crop: 'maiz', fertilizante: $('pFert').value });
+}
+const debouncedCalc = debounce(calcPlan, 500);
+
+function sharePlan(){
+  if(!lastPlan) return;
+  const { rinde, pAct, pObj, nReq, nDisp, nDef, urea, fert, pDef, pKg, znAct } = lastPlan;
+  let t = `*Plan nutricional maíz · ${fmtNum(rinde)} t/ha* (Pampa Arenosa)\n\n`;
+
+  t += urea > 0
+    ? `🔹 *Nitrógeno:* ${Math.round(urea)} kg/ha de urea (≈ ${fmtNum(urea/BOLSA_KG)} bolsas). Requerido ${Math.round(nReq)} · en suelo ${Math.round(nDisp)} · déficit ${Math.round(nDef)} kg/ha.\n`
+    : `🔹 *Nitrógeno:* sin déficit (suelo ${Math.round(nDisp)} ≥ requerido ${Math.round(nReq)} kg/ha).\n`;
+
+  t += pKg > 0
+    ? `🔹 *Fósforo:* ${Math.round(pKg)} kg/ha de ${fert.label.split(' · ')[0]} (≈ ${fmtNum(pKg/BOLSA_KG)} bolsas). Actual ${fmtNum(pAct)} → objetivo ${fmtNum(pObj)} ppm (déficit ${fmtNum(pDef)} ppm).\n`
+    : `🔹 *Fósforo:* sin déficit (suelo ${fmtNum(pAct)} ≥ objetivo ${fmtNum(pObj)} ppm).\n`;
+
+  t += znAct < ZN_UMBRAL
+    ? `🔹 *Zinc:* deficiente (${fmtNum(znAct)} < ${fmtNum(ZN_UMBRAL)} ppm DTPA). Aplicar ${fmtNum(ZN_DOSIS_KG)} kg Zn/ha ≈ ${fmtNum(ZN_DOSIS_KG/ZN_SULFATO_PCT)} kg/ha de sulfato de zinc.\n`
+    : `🔹 *Zinc:* suficiente (${fmtNum(znAct)} ≥ ${fmtNum(ZN_UMBRAL)} ppm DTPA).\n`;
+
+  t += `\nOrientativo, no reemplaza tu análisis ni tu ingeniero agrónomo.\n`;
+  t += `Plan nutricional de Henderseeds: ${SITE_URL}`;
+
+  window.open('https://wa.me/?text=' + encodeURIComponent(t), '_blank');
+  if(typeof gtag === 'function') gtag('event', 'whatsapp_click', { event_category: 'share', tool: 'plan_nutricional' });
+}
+
+// ═══ Theme — claro = default, toggle a oscuro (persistente, igual que el sitio) ═══
+function toggleTheme(){
+  document.body.classList.toggle('dark-mode');
+  const isDark = document.body.classList.contains('dark-mode');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  document.body.dataset.mode = isDark ? 'dark' : 'light';
+  document.querySelectorAll('.sun-icon').forEach(el => el.style.display = isDark ? 'block' : 'none');
+  document.querySelectorAll('.moon-icon').forEach(el => el.style.display = isDark ? 'none' : 'block');
+  $('brandLogo').src = isDark ? 'assets/logos/henderseeds.png' : 'assets/logos/henderseeds-navy.png';
+  const tc = document.querySelector('meta[name="theme-color"]');
+  if(tc) tc.setAttribute('content', isDark ? '#0A0F1B' : '#F4F1E9');
+}
+if(localStorage.getItem('theme') === 'dark') toggleTheme();
+
+// Plan de ejemplo al entrar (defaults cargados en el HTML).
+calcPlan();
+</script>
+</body>
+</html>
