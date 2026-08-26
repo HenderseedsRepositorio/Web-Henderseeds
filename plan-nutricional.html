@@ -278,7 +278,7 @@ footer{border-top:1px solid var(--border);padding:22px 0 40px;margin-top:18px}
   <div class="form-card">
     <div class="form-row">
       <div class="field">
-        <label for="rinde">Rendimiento</label>
+        <label for="rinde">Rinde buscado</label>
         <div class="stepper">
           <button type="button" class="step-btn" onclick="step('rinde',-1,0)">−</button>
           <input type="number" id="rinde" inputmode="decimal" step="1" min="1" value="10" oninput="debouncedCalc()">
@@ -291,6 +291,7 @@ footer{border-top:1px solid var(--border);padding:22px 0 40px;margin-top:18px}
         <select id="pFert" onchange="calcPlan()">
           <option value="map">MAP · 11-52-0</option>
           <option value="dap">DAP · 18-46-0</option>
+          <option value="nps">NPS · 23-23-0+7S</option>
           <option value="spt">Superfosfato Triple · 0-46-0</option>
           <option value="sps">Superfosfato Simple · 0-20-0</option>
         </select>
@@ -392,7 +393,7 @@ footer{border-top:1px solid var(--border);padding:22px 0 40px;margin-top:18px}
     <details>
       <summary>Ver supuestos</summary>
       <p><strong>Nitrógeno:</strong> 22 kg N/t es el requerimiento del cultivo — no descuenta mineralización ni pérdidas por volatilización (15-40% si la urea queda en superficie), ni ajusta por eficiencia real (40-70%). Urea 46% N.</p>
-      <p><strong>Fósforo:</strong> el modelo corrige el déficit de suelo (P actual → P objetivo), no la extracción del cultivo — por eso la dosis no varía con el rinde. El maíz extrae ~2,5 kg P₂O₅/t de grano; cuando no hay déficit de suelo la herramienta no recomienda dosis de mantenimiento por extracción. P objetivo default 18 ppm = criterio de mantenimiento (García 2005; Barraco, INTA Gral. Villegas 2016); umbral de respuesta en la zona 15-16 ppm. Evitar &gt;30-50 kg/ha de N amoniacal (MAP/DAP) en línea de siembra.</p>
+      <p><strong>Fósforo:</strong> el modelo corrige el déficit de suelo (P actual → P objetivo), no la extracción del cultivo — por eso la dosis no varía con el rinde. El maíz extrae ~2,5 kg P₂O₅/t de grano; cuando no hay déficit de suelo la herramienta no recomienda dosis de mantenimiento por extracción. P objetivo default 18 ppm = criterio de mantenimiento (García 2005; Barraco, INTA Gral. Villegas 2016); umbral de respuesta en la zona 15-16 ppm. Evitar &gt;30-50 kg/ha de N amoniacal (MAP/DAP) en línea de siembra. El NPS 23-23-0+7S aporta también 23 kg N por cada 100 kg aplicados — descontar del N requerido al ajustar dosis final.</p>
       <p><strong>Zinc:</strong> umbral DTPA ~1 ppm (Fertilizar AC: alta respuesta con 0,9-1,3 ppm). Corrección = dosis fija 1,5 kg Zn/ha como sulfato heptahidratado (22% Zn) — no déficit lineal.</p>
     </details>
   </p>
@@ -416,6 +417,7 @@ const UREA_N_PCT = 0.46;
 const P_FACTORS = {
   map:{label:'MAP · 11-52-0',factor:15},
   dap:{label:'DAP · 18-46-0',factor:17},
+  nps:{label:'NPS · 23-23-0+7S',factor:34},
   spt:{label:'Superfosfato Triple · 0-46-0',factor:17},
   sps:{label:'Superfosfato Simple · 0-20-0',factor:39}
 };
@@ -740,6 +742,7 @@ function adaptSelectMobile(){
   const opts={
     map:'MAP · 11-52-0',
     dap:'DAP · 18-46-0',
+    nps:'NPS · 23-23-0+7S',
     spt:narrow?'SPT · 0-46-0':'Superfosfato Triple · 0-46-0',
     sps:narrow?'SPS · 0-20-0':'Superfosfato Simple · 0-20-0'
   };

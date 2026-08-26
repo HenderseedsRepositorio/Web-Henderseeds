@@ -14,7 +14,7 @@
 |---|---|---|---|---|
 | Nitrógeno | `N_PER_TON` | 22 kg N/t rinde | ALTA | INTA / Fertilizar AC; Ciampitti & García (reusado) |
 | Nitrógeno | `UREA_N_PCT` | 46% N | ALTA | Estándar industrial 46-0-0 (reusado) |
-| Fósforo | `P_FACTORS` (MAP 15 / DAP 17 / SPT 17 / SPS 39) | kg producto/ppm déficit | ALTA | García, Ciampitti, Rubio & Picone, CREA Oeste 2009 (reusado) |
+| Fósforo | `P_FACTORS` (MAP 15 / DAP 17 / NPS 34 / SPT 17 / SPS 39) | kg producto/ppm déficit | ALTA | García, Ciampitti, Rubio & Picone, CREA Oeste 2009 (reusado); NPS derivado del mismo modelo (P₂O₅=23% → P=10,04%) |
 | Fósforo | P objetivo default | 13 ppm (editable) | MEDIA (ver §2) | decisión de Alvaro; umbral de respuesta zona = 15-16 |
 | Zinc | `ZN_UMBRAL` | 1 ppm Zn-DTPA | ALTA | Fertilizar AC (alta respuesta 0,9-1,3 ppm) |
 | Zinc | `ZN_DOSIS_KG` | 1,5 kg Zn/ha | ALTA | Fertilizar / Profertil / INTA (rango 1-2) |
@@ -52,10 +52,16 @@ Confianza: **ALTA**.
 ## 2. Fósforo — objetivo por cultivo (investigación nueva) + factores reusados
 
 ### 2.1. Factores kg-producto/ppm — REUSADOS
-MAP=15, DAP=17, SPT=17, SPS=39 kg de producto comercial por cada ppm de déficit de
+MAP=15, DAP=17, NPS=34, SPT=17, SPS=39 kg de producto comercial por cada ppm de déficit de
 P-Bray, calibrados para suelos franco-arenosos (Bray-1, 0-20 cm, Da 1,2 t/m³),
 requerimiento ~3,42 kg P elemental/ha por ppm. Validados en el informe de
 fertilizantes contra García/Ciampitti/Rubio/Picone (CREA Oeste 2009). Confianza: ALTA.
+
+**NPS 23-23-0+7S (agregado 2026-08-25):** P₂O₅ = 23% → P elemental = 23% ÷ 2,291 = 10,04%
+→ factor = 3,42 / 0,1004 ≈ 34 kg/ppm. Converge con los demás dentro del mismo modelo de calibración García/CREA.
+Observación clave: el NPS aporta también 23% N por peso — al calcular la dosis de P con NPS,
+el productor debe descontar el N que aporta ese producto del N total requerido (ver disclaimer de la página).
+Por ejemplo: 68 kg/ha de NPS para corregir 2 ppm aportan 68 × 0,23 = 15,6 kg N/ha.
 
 ### 2.2. P objetivo sugerido por cultivo — LO QUE FALTABA
 La calculadora de fertilizantes pide el "P objetivo" a mano porque en la sesión
