@@ -27,6 +27,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -176,9 +178,9 @@ body.dark-mode .nico.n,body.dark-mode .nico.p{background:rgba(255,255,255,.09);c
 .rrow-num{display:flex;align-items:baseline;flex-wrap:wrap;gap:5px}
 .rrow-num .val{font-family:var(--title-font);font-weight:700;font-size:clamp(24px,6.5vw,32px);color:var(--num);line-height:1}
 .rrow-num .ru{font-size:11.5px;color:var(--ink-dim);font-weight:600}
-.rrow-bolsas{font-size:11px;color:var(--accent);font-weight:700;margin-top:1px}
 
 /* fila sin déficit */
+.rrow-sub{font-size:11px;color:var(--accent);font-weight:700;margin-top:1px}
 .rrow-ok{display:flex;align-items:center;gap:7px;padding:3px 0}
 .rrow-ok .ok-ico{font-size:18px;color:var(--ok);line-height:1}
 .rrow-ok .ok-txt{font-size:13px;color:var(--ink-dim);font-weight:600}
@@ -186,8 +188,8 @@ body.dark-mode .nico.n,body.dark-mode .nico.p{background:rgba(255,255,255,.09);c
 .rrow-chev{font-size:16px;color:var(--ink-dim);flex-shrink:0;opacity:.6;padding-left:3px;transition:transform .2s}
 .rrow.open .rrow-chev{transform:rotate(90deg)}
 
-.rrow-detail{display:none;padding:10px 13px 13px;border-top:1px solid var(--border)}
-.rrow.open .rrow-detail{display:block}
+.rrow-detail{overflow:hidden;max-height:0;padding:0 13px;border-top:1px solid transparent;opacity:0;transition:max-height .28s ease,padding .28s ease,opacity .2s ease,border-color .28s ease}
+.rrow.open .rrow-detail{max-height:300px;padding:10px 13px 13px;border-color:var(--border);opacity:1}
 
 /* chips de detalle */
 .rchips{display:flex;gap:7px;margin-top:0}
@@ -197,6 +199,7 @@ body.dark-mode .nico.n,body.dark-mode .nico.p{background:rgba(255,255,255,.09);c
 .rchip .cv small{font-size:10px;color:var(--ink-dim);font-weight:500}
 .rnote{font-size:12px;color:var(--ink-dim);line-height:1.45}
 .badge-zn{display:inline-flex;align-items:center;gap:5px;font-family:var(--title-font);font-weight:700;font-size:11.5px;padding:3px 9px;border-radius:99px;background:var(--warn-bg);border:1px solid var(--warn-bd);color:var(--warn);margin-bottom:7px}
+.range-warn-item{background:var(--warn-bg);border:1px solid var(--warn-bd);border-radius:10px;padding:8px 12px;font-size:12px;color:var(--warn);font-weight:600;margin-bottom:6px;line-height:1.4}
 
 /* ══ FLASH animation ══ */
 @keyframes num-flash{
@@ -209,6 +212,11 @@ body.dark-mode .nico.n,body.dark-mode .nico.p{background:rgba(255,255,255,.09);c
 /* ══════ SHARE ══════ */
 .btn-share{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;height:46px;margin-top:4px;border-radius:12px;background:var(--whatsapp);color:#fff;font-family:var(--title-font);font-weight:700;font-size:14px;letter-spacing:.02em;transition:transform .15s,opacity .15s}
 .btn-share:hover{opacity:.92;transform:translateY(-1px)}
+
+/* ══════ PDF BUTTON ══════ */
+.btn-pdf{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;height:44px;margin-top:8px;border-radius:12px;background:var(--panel);border:1.5px solid var(--border-strong);color:var(--ink);font-family:var(--title-font);font-weight:700;font-size:13.5px;letter-spacing:.02em;transition:.15s}
+.btn-pdf:hover:not(:disabled){border-color:var(--primary);color:var(--primary)}
+.btn-pdf:disabled{opacity:.5;cursor:wait}
 .btn-share svg{width:16px;height:16px;flex:0 0 auto}
 
 /* ══════ DISCLAIMER ══════ */
@@ -322,6 +330,8 @@ footer{border-top:1px solid var(--border);padding:22px 0 40px;margin-top:18px}
     </div>
   </div>
 
+  <div id="rangeWarning"></div>
+
   <!-- ══ RESULTADOS ══ -->
   <div id="planPanel" hidden>
     <div class="plan-hdr">Tu plan · <span id="planCrop">Maíz</span> · <span id="planRinde">—</span> t/ha</div>
@@ -356,6 +366,10 @@ footer{border-top:1px solid var(--border);padding:22px 0 40px;margin-top:18px}
       <div class="rrow-detail" id="znDetail"></div>
     </div>
 
+    <button id="btn-pdf" class="btn-pdf" onclick="exportPDF()">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+      Guardar imagen
+    </button>
     <button class="btn-share" onclick="sharePlan()">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       Compartir por WhatsApp
@@ -368,10 +382,11 @@ footer{border-top:1px solid var(--border);padding:22px 0 40px;margin-top:18px}
       <p><strong>Nitrógeno:</strong> 22 kg N/t es el requerimiento del cultivo — no descuenta mineralización ni pérdidas por volatilización (15-40% si la urea queda en superficie), ni ajusta por eficiencia real (40-70%). Urea 46% N.</p>
       <p><strong>Fósforo:</strong> P objetivo default 18 ppm = criterio de mantenimiento de largo plazo (García 2005; Barraco, INTA Gral. Villegas 2016). El umbral de respuesta en la zona es 15-16 ppm; la reposición sube a 20-25 ppm. Evitar &gt;30-50 kg/ha de N amoniacal (MAP/DAP) en línea de siembra.</p>
       <p><strong>Zinc:</strong> umbral DTPA ~1 ppm (Fertilizar AC: alta respuesta con 0,9-1,3 ppm). Corrección = dosis fija 1,5 kg Zn/ha como sulfato heptahidratado (22% Zn) — no déficit lineal.</p>
-      <p><strong>Bolsas:</strong> asumimos 50 kg/bolsa. Confirmá el formato de tu proveedor.</p>
     </details>
   </p>
 </div>
+
+<div id="pdf-capture" style="position:fixed;left:-9999px;top:0;pointer-events:none;display:none;width:480px;"></div>
 
 <footer>
   <div class="container">
@@ -394,7 +409,6 @@ const P_FACTORS = {
 const ZN_UMBRAL = 1;
 const ZN_DOSIS_KG = 1.5;
 const ZN_SULFATO_PCT = 0.22;
-const BOLSA_KG = 50;
 const SITE_URL = 'https://henderseeds.com/plan-nutricional.html';
 
 const $ = id => document.getElementById(id);
@@ -432,8 +446,15 @@ function calcPlan(){
   const fert =P_FACTORS[$('pFert').value];
 
   if([rinde,pAct,pObj,nDisp,znAct].some(v=>isNaN(v))||rinde<=0||[pAct,pObj,nDisp,znAct].some(v=>v<0)){
-    $('planPanel').hidden=true;return;
+    $('planPanel').hidden=true;$('rangeWarning').innerHTML='';return;
   }
+
+  // ── Avisos de rangos atípicos ──
+  const _warns=[];
+  if(rinde>20)_warns.push('Rendimiento > 20 t/ha — fuera del rango típico de la zona. Revisá el dato.');
+  if(pAct>60)_warns.push('P actual > 60 ppm — valor fuera del rango típico. Revisá el dato.');
+  if(pObj>60)_warns.push('P objetivo > 60 ppm — valor fuera del rango típico. Revisá el dato.');
+  $('rangeWarning').innerHTML=_warns.map(w=>`<div class="range-warn-item">⚠ ${w}</div>`).join('');
 
   // ── Nitrógeno ──
   const nReq=rinde*N_PER_TON;
@@ -441,8 +462,7 @@ function calcPlan(){
   const urea=nDef>0?nDef/UREA_N_PCT:0;
   if(urea>0){
     $('nBody').innerHTML=
-      `<div class="rrow-num"><span class="val flash">${Math.round(urea)}</span><span class="ru">kg/ha · urea</span></div>`
-      +`<div class="rrow-bolsas">≈ ${fmtNum(urea/BOLSA_KG)} bolsas</div>`;
+      `<div class="rrow-num"><span class="val flash">${Math.round(urea)}</span><span class="ru">kg/ha · urea</span></div>`;
     $('nDetail').innerHTML=
       `<div class="rchips">`
       +`<div class="rchip"><div class="cl">Requerido</div><div class="cv">${Math.round(nReq)}<small> kg N</small></div></div>`
@@ -459,8 +479,7 @@ function calcPlan(){
   const pKg =pDef>0?pDef*fert.factor:0;
   if(pKg>0){
     $('pBody').innerHTML=
-      `<div class="rrow-num"><span class="val flash">${Math.round(pKg)}</span><span class="ru">kg/ha · ${fert.label.split(' · ')[0]}</span></div>`
-      +`<div class="rrow-bolsas">≈ ${fmtNum(pKg/BOLSA_KG)} bolsas</div>`;
+      `<div class="rrow-num"><span class="val flash">${Math.round(pKg)}</span><span class="ru">kg/ha · ${fert.label.split(' · ')[0]}</span></div>`;
     $('pDetail').innerHTML=
       `<div class="rchips">`
       +`<div class="rchip"><div class="cl">Actual</div><div class="cv">${fmtNum(pAct)}<small> ppm</small></div></div>`
@@ -477,7 +496,7 @@ function calcPlan(){
     const sulfato=ZN_DOSIS_KG/ZN_SULFATO_PCT;
     $('znBody').innerHTML=
       `<div class="rrow-num"><span class="val flash">${fmtNum(sulfato)}</span><span class="ru">kg/ha · sulfato Zn</span></div>`
-      +`<div class="rrow-bolsas">⚠ deficiente · ${fmtNum(znAct)} < ${fmtNum(ZN_UMBRAL)} ppm</div>`;
+      +`<div class="rrow-sub">⚠ deficiente · ${fmtNum(znAct)} < ${fmtNum(ZN_UMBRAL)} ppm</div>`;
     $('znDetail').innerHTML=
       `<div class="rnote">${fmtNum(ZN_DOSIS_KG)} kg Zn/ha como sulfato de zinc heptahidratado (22% Zn).<br>Umbral de suficiencia DTPA: ${fmtNum(ZN_UMBRAL)} ppm.</div>`;
   } else {
@@ -499,10 +518,10 @@ function sharePlan(){
   const{rinde,pAct,pObj,nReq,nDisp,nDef,urea,fert,pDef,pKg,znAct}=lastPlan;
   let t=`*Plan nutricional maíz · ${fmtNum(rinde)} t/ha* (Pampa Arenosa)\n\n`;
   t+=urea>0
-    ?`🔹 *Nitrógeno:* ${Math.round(urea)} kg/ha de urea (≈ ${fmtNum(urea/BOLSA_KG)} bolsas). Req ${Math.round(nReq)} · suelo ${Math.round(nDisp)} · déficit ${Math.round(nDef)} kg/ha.\n`
+    ?`🔹 *Nitrógeno:* ${Math.round(urea)} kg/ha de urea. Req ${Math.round(nReq)} · suelo ${Math.round(nDisp)} · déficit ${Math.round(nDef)} kg/ha.\n`
     :`🔹 *Nitrógeno:* sin déficit (suelo ${Math.round(nDisp)} ≥ req ${Math.round(nReq)} kg/ha).\n`;
   t+=pKg>0
-    ?`🔹 *Fósforo:* ${Math.round(pKg)} kg/ha de ${fert.label.split(' · ')[0]} (≈ ${fmtNum(pKg/BOLSA_KG)} bolsas). Actual ${fmtNum(pAct)} → objetivo ${fmtNum(pObj)} ppm.\n`
+    ?`🔹 *Fósforo:* ${Math.round(pKg)} kg/ha de ${fert.label.split(' · ')[0]}. Actual ${fmtNum(pAct)} → objetivo ${fmtNum(pObj)} ppm.\n`
     :`🔹 *Fósforo:* sin déficit (${fmtNum(pAct)} ppm ≥ objetivo ${fmtNum(pObj)} ppm).\n`;
   t+=znAct<ZN_UMBRAL
     ?`🔹 *Zinc:* deficiente (${fmtNum(znAct)} < ${fmtNum(ZN_UMBRAL)} ppm DTPA). Aplicar ${fmtNum(ZN_DOSIS_KG)} kg Zn/ha ≈ ${fmtNum(ZN_DOSIS_KG/ZN_SULFATO_PCT)} kg/ha de sulfato de zinc.\n`
@@ -524,6 +543,182 @@ function toggleTheme(){
   if(tc)tc.setAttribute('content',isDark?'#0A0F1B':'#F4F1E9');
 }
 if(localStorage.getItem('theme')==='dark')toggleTheme();
+
+// ══════ IMAGEN EXPORT ══════
+function _tdS(val, opts={}){
+  const base = `padding:10px 12px;font-size:12px;color:#0d2033;border-bottom:1px solid #f1f5f9;vertical-align:middle;`;
+  return `<td style="${base}${opts.style||''}">${val}</td>`;
+}
+
+function buildImgPanel(){
+  if(!lastPlan) return;
+  const p = lastPlan;
+  const today = new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'long',year:'numeric'});
+  const fertShort = p.fert.label.split(' · ')[0];
+  const nOk = p.urea === 0;
+  const pOk = p.pKg === 0;
+  const znOk = p.znAct >= ZN_UMBRAL;
+  const sulfatoKg = ZN_DOSIS_KG / ZN_SULFATO_PCT;
+
+  function diagN(){
+    if(nOk) return `<span style="color:#16a34a;font-weight:700;">✓ Sin déficit</span>`;
+    return `<span style="color:#1e3a5f;">Déficit <strong>${Math.round(p.nDef)} kg N/ha</strong><br><span style="font-size:10px;color:#64748b;">Req ${Math.round(p.nReq)} · suelo ${Math.round(p.nDisp)}</span></span>`;
+  }
+  function diagP(){
+    if(pOk) return `<span style="color:#16a34a;font-weight:700;">✓ Sin déficit</span>`;
+    return `<span style="color:#1e3a5f;">Déficit <strong>${fmtNum(p.pDef)} ppm</strong><br><span style="font-size:10px;color:#64748b;">Actual ${fmtNum(p.pAct)} · objetivo ${fmtNum(p.pObj)}</span></span>`;
+  }
+  function diagZn(){
+    if(znOk) return `<span style="color:#16a34a;font-weight:700;">✓ Suficiente</span>`;
+    return `<span style="color:#c56a00;font-weight:700;">⚠ Deficiente</span><br><span style="font-size:10px;color:#64748b;">${fmtNum(p.znAct)} ppm &lt; umbral 1,0</span>`;
+  }
+  function dosisN(){
+    if(nOk) return `<span style="color:#94a3b8;">—</span>`;
+    return `<strong style="font-size:15px;color:#0d2d5e;">${Math.round(p.urea)}</strong> <span style="font-size:11px;color:#64748b;">kg/ha · urea</span>`;
+  }
+  function dosisP(){
+    if(pOk) return `<span style="color:#94a3b8;">—</span>`;
+    return `<strong style="font-size:15px;color:#0d2d5e;">${Math.round(p.pKg)}</strong> <span style="font-size:11px;color:#64748b;">kg/ha · ${fertShort}</span>`;
+  }
+  function dosisZn(){
+    if(znOk) return `<span style="color:#94a3b8;">—</span>`;
+    return `<strong style="font-size:15px;color:#c56a00;">${fmtNum(sulfatoKg)}</strong> <span style="font-size:11px;color:#64748b;">kg/ha · sulfato Zn</span><br><span style="font-size:11px;color:#64748b;">(${fmtNum(ZN_DOSIS_KG)} kg Zn/ha · 22% Zn)</span>`;
+  }
+
+  document.getElementById('pdf-capture').innerHTML = `
+<div style="font-family:'DM Sans',sans-serif;background:#fff;width:480px;border:1px solid #e2e8f0;">
+
+  <!-- HEADER -->
+  <div style="padding:18px 24px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e2e8f0;">
+    <img src="assets/logos/henderseeds-navy.png" style="height:32px;display:block;" crossorigin="anonymous">
+    <span style="font-size:12px;color:#64748b;">${today}</span>
+  </div>
+
+  <!-- TITLE -->
+  <div style="padding:12px 24px 0;">
+    <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#E8850C;margin-bottom:6px;">Plan Nutricional</div>
+    <div style="font-size:13px;color:#0d2033;font-weight:600;">
+      Cultivo: <strong>Maíz</strong> &nbsp;·&nbsp; Rinde objetivo: <strong>${fmtNum(p.rinde)} t/ha</strong> &nbsp;·&nbsp; Fertilizante P: <strong>${fertShort}</strong>
+    </div>
+  </div>
+
+  <!-- SUELO -->
+  <div style="margin:12px 24px;background:#f8faff;border:1px solid #e2e8f0;border-radius:8px;padding:10px 14px;">
+    <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#1a4a8a;margin-bottom:8px;">Análisis de suelo</div>
+    <table style="width:100%;border-collapse:collapse;">
+      <tr>
+        <td style="font-size:11px;color:#64748b;padding:0 0 4px;">N disponible</td>
+        <td style="font-size:11px;color:#64748b;padding:0 0 4px;">P actual</td>
+        <td style="font-size:11px;color:#64748b;padding:0 0 4px;">P objetivo</td>
+        <td style="font-size:11px;color:#64748b;padding:0 0 4px;">Zn DTPA</td>
+      </tr>
+      <tr>
+        <td style="font-size:14px;font-weight:700;color:#0d2d5e;">${Math.round(p.nDisp)} kg/ha</td>
+        <td style="font-size:14px;font-weight:700;color:#0d2d5e;">${fmtNum(p.pAct)} ppm</td>
+        <td style="font-size:14px;font-weight:700;color:#0d2d5e;">${fmtNum(p.pObj)} ppm</td>
+        <td style="font-size:14px;font-weight:700;color:#0d2d5e;">${fmtNum(p.znAct)} ppm</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- TABLE -->
+  <div style="padding:0 24px 4px;">
+    <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#1a4a8a;margin-bottom:8px;">Recomendación de fertilización</div>
+    <table style="width:100%;border-collapse:collapse;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;">
+      <thead>
+        <tr style="background:#0d2d5e;">
+          <th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff;text-align:left;width:20%;">Nutriente</th>
+          <th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff;text-align:left;width:38%;">Diagnóstico</th>
+          <th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff;text-align:left;width:42%;">Dosis recomendada</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:11px 12px;border-bottom:1px solid #f1f5f9;vertical-align:top;">
+            <span style="display:inline-block;background:rgba(13,45,94,.09);color:#0d2d5e;font-weight:700;font-size:11px;padding:2px 7px;border-radius:5px;font-family:'Space Grotesk',sans-serif;">N</span>
+            <div style="font-size:10px;color:#64748b;margin-top:3px;">Nitrógeno</div>
+          </td>
+          <td style="padding:11px 12px;border-bottom:1px solid #f1f5f9;font-size:12px;vertical-align:top;">${diagN()}</td>
+          <td style="padding:11px 12px;border-bottom:1px solid #f1f5f9;vertical-align:top;">${dosisN()}</td>
+        </tr>
+        <tr>
+          <td style="padding:11px 12px;border-bottom:1px solid #f1f5f9;vertical-align:top;">
+            <span style="display:inline-block;background:rgba(13,45,94,.09);color:#0d2d5e;font-weight:700;font-size:11px;padding:2px 7px;border-radius:5px;font-family:'Space Grotesk',sans-serif;">P</span>
+            <div style="font-size:10px;color:#64748b;margin-top:3px;">Fósforo</div>
+          </td>
+          <td style="padding:11px 12px;border-bottom:1px solid #f1f5f9;font-size:12px;vertical-align:top;">${diagP()}</td>
+          <td style="padding:11px 12px;border-bottom:1px solid #f1f5f9;vertical-align:top;">${dosisP()}</td>
+        </tr>
+        <tr>
+          <td style="padding:11px 12px;vertical-align:top;">
+            <span style="display:inline-block;background:rgba(197,106,0,.12);color:#c56a00;font-weight:700;font-size:11px;padding:2px 7px;border-radius:5px;font-family:'Space Grotesk',sans-serif;">Zn</span>
+            <div style="font-size:10px;color:#64748b;margin-top:3px;">Zinc</div>
+          </td>
+          <td style="padding:11px 12px;font-size:12px;vertical-align:top;">${diagZn()}</td>
+          <td style="padding:11px 12px;vertical-align:top;">${dosisZn()}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="padding:10px 24px 14px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
+    <p style="font-size:9px;color:#94a3b8;line-height:1.5;margin:0;flex:1;"><strong style="color:#64748b;">Orientativo, no dosis final.</strong> Req. fisiológico maíz 22 kg N/t (INTA/Fertilizar AC). Factores P para Pampa Arenosa (Bray-1, 0–20 cm). No reemplaza análisis de suelo ni ingeniero agrónomo.</p>
+    <span style="font-size:9px;color:#94a3b8;white-space:nowrap;padding-top:1px;">henderseeds.com</span>
+  </div>
+
+</div>`;
+}
+
+async function exportPDF(){
+  if(!lastPlan) return;
+  const btn = document.getElementById('btn-pdf');
+  const orig = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10" opacity=".25"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur=".8s" repeatCount="indefinite"/></path></svg> Generando…`;
+  buildImgPanel();
+  const el = document.getElementById('pdf-capture');
+  el.style.display = 'block';
+  await new Promise(r => setTimeout(r, 180));
+  try {
+    const inner = el.firstElementChild;
+    const canvas = await html2canvas(inner, {
+      scale:2, useCORS:true, backgroundColor:'#ffffff',
+      logging:false, windowWidth:480, width:480, height:inner.scrollHeight
+    });
+    el.style.display = 'none';
+    const filename = `plan-nutricional-maiz-${lastPlan.rinde}t.png`;
+    const blob = await new Promise(r => canvas.toBlob(r,'image/png',1.0));
+    const file = new File([blob], filename, {type:'image/png'});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      await navigator.share({files:[file], title:`Plan nutricional maíz · ${fmtNum(lastPlan.rinde)} t/ha`});
+    } else {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; a.click();
+      setTimeout(()=>URL.revokeObjectURL(url), 1000);
+    }
+    if(typeof gtag==='function') gtag('event','img_download',{tool:'plan_nutricional'});
+  } catch(e) {
+    console.error(e);
+    document.getElementById('pdf-capture').style.display = 'none';
+  }
+  btn.disabled = false;
+  btn.innerHTML = orig;
+}
+
+function adaptSelectMobile(){
+  const narrow=window.innerWidth<=600;
+  const opts={
+    map:'MAP · 11-52-0',
+    dap:'DAP · 18-46-0',
+    spt:narrow?'SPT · 0-46-0':'Superfosfato Triple · 0-46-0',
+    sps:narrow?'SPS · 0-20-0':'Superfosfato Simple · 0-20-0'
+  };
+  Array.from($('pFert').options).forEach(o=>{o.textContent=opts[o.value]});
+}
+adaptSelectMobile();
+window.addEventListener('resize',adaptSelectMobile);
 
 calcPlan();
 </script>

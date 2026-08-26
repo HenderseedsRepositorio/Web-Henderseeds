@@ -4,8 +4,9 @@
     {
       "name": "henderseeds-site",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["-y", "serve", "-l", "3456", "."],
-      "port": 3456
+      "runtimeArgs": ["-y", "serve", "."],
+      "port": 3456,
+      "autoPort": true
     }
   ]
 }
