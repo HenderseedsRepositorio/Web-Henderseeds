@@ -121,10 +121,17 @@ input[type=number]{-moz-appearance:textfield}
 .antecesor-lbl{font-family:var(--title-font);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim);white-space:nowrap}
 .antecesor-sel{height:34px;border:1px solid var(--border);border-radius:9px;background:var(--panel);color:var(--ink);font-family:var(--body-font);font-weight:600;font-size:13px;padding:0 26px 0 10px;outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%238A8578' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;cursor:pointer;transition:border-color .15s}
 .antecesor-sel:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--focus-ring)}
-.pfert-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:3px}
-.pfert-card{border:1.5px solid var(--border);border-radius:10px;padding:7px 8px;cursor:pointer;transition:border-color .15s,background .15s;background:var(--surface)}
+.pfert-dropdown{position:relative}
+.pfert-trigger{width:100%;display:flex;align-items:center;justify-content:space-between;height:40px;padding:0 12px;border:1.5px solid var(--border);border-radius:10px;background:var(--surface);cursor:pointer;font-size:13px;color:var(--ink);font-family:inherit;text-align:left;transition:border-color .15s}
+.pfert-trigger:hover,.pfert-trigger.open{border-color:var(--accent);box-shadow:0 0 0 3px var(--focus-ring)}
+.pfert-arrow{font-size:10px;color:var(--ink-dim);transition:transform .2s;flex-shrink:0}
+.pfert-trigger.open .pfert-arrow{transform:rotate(180deg)}
+.pfert-panel{display:none;margin-top:6px;padding:8px;border:1.5px solid var(--border);border-radius:12px;background:var(--surface);box-shadow:var(--shadow-md);z-index:50;position:relative}
+.pfert-panel.open{display:block}
+.pfert-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.pfert-card{border:1.5px solid var(--border);border-radius:10px;padding:7px 8px;cursor:pointer;transition:border-color .15s,background .15s;background:var(--bg)}
 .pfert-card:hover{border-color:var(--accent)}
-.pfert-card.selected{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--surface))}
+.pfert-card.selected{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--bg))}
 .pfert-card-head{display:flex;align-items:baseline;gap:4px;margin-bottom:1px}
 .pfert-abbr{font-family:var(--title-font);font-size:12px;font-weight:700;color:var(--ink)}
 .pfert-formula{font-size:8px;color:var(--ink-dim)}
@@ -309,33 +316,41 @@ footer{border-top:1px solid var(--border);padding:22px 0 40px;margin-top:18px}
           <button type="button" class="step-btn" onclick="step('rinde',1,0)">+</button>
         </div>
       </div>
-      <div class="field" style="grid-column:1/-1">
+      <div class="field">
         <label>Fertilizante P</label>
-        <div class="pfert-cards">
-          <div class="pfert-card selected" data-val="map" onclick="selectPFert(this)">
-            <div class="pfert-card-head"><span class="pfert-abbr">MAP</span><span class="pfert-formula">11-52-0</span></div>
-            <div class="pfert-card-name">Monoamonio Fosfato</div>
-            <div class="pfert-chips"><span class="pfert-chip pfert-chip-n">N 11%</span><span class="pfert-chip pfert-chip-p">P₂O₅ 52%</span></div>
-          </div>
-          <div class="pfert-card" data-val="dap" onclick="selectPFert(this)">
-            <div class="pfert-card-head"><span class="pfert-abbr">DAP</span><span class="pfert-formula">18-46-0</span></div>
-            <div class="pfert-card-name">Diamonio Fosfato</div>
-            <div class="pfert-chips"><span class="pfert-chip pfert-chip-n">N 18%</span><span class="pfert-chip pfert-chip-p">P₂O₅ 46%</span></div>
-          </div>
-          <div class="pfert-card" data-val="nps" onclick="selectPFert(this)">
-            <div class="pfert-card-head"><span class="pfert-abbr">NPS</span><span class="pfert-formula">23-23-0+7S</span></div>
-            <div class="pfert-card-name">N-P-Azufre</div>
-            <div class="pfert-chips"><span class="pfert-chip pfert-chip-n">N 23%</span><span class="pfert-chip pfert-chip-p">P₂O₅ 23%</span><span class="pfert-chip pfert-chip-s">S 7%</span></div>
-          </div>
-          <div class="pfert-card" data-val="spt" onclick="selectPFert(this)">
-            <div class="pfert-card-head"><span class="pfert-abbr">SPT</span><span class="pfert-formula">0-46-0</span></div>
-            <div class="pfert-card-name">Superfosfato Triple</div>
-            <div class="pfert-chips"><span class="pfert-chip pfert-chip-p">P₂O₅ 46%</span></div>
-          </div>
-          <div class="pfert-card" data-val="sps" onclick="selectPFert(this)">
-            <div class="pfert-card-head"><span class="pfert-abbr">SPS</span><span class="pfert-formula">0-20-0+11S</span></div>
-            <div class="pfert-card-name">Superfosfato Simple</div>
-            <div class="pfert-chips"><span class="pfert-chip pfert-chip-p">P₂O₅ 20%</span><span class="pfert-chip pfert-chip-s">S 11%</span></div>
+        <div class="pfert-dropdown">
+          <button type="button" class="pfert-trigger" id="pFertTrigger" onclick="togglePFertDrop()">
+            <span id="pFertLabel">MAP · 11-52-0</span>
+            <span class="pfert-arrow">▾</span>
+          </button>
+          <div class="pfert-panel" id="pFertPanel">
+            <div class="pfert-cards">
+              <div class="pfert-card selected" data-val="map" onclick="selectPFert(this)">
+                <div class="pfert-card-head"><span class="pfert-abbr">MAP</span><span class="pfert-formula">11-52-0</span></div>
+                <div class="pfert-card-name">Monoamonio Fosfato</div>
+                <div class="pfert-chips"><span class="pfert-chip pfert-chip-n">N 11%</span><span class="pfert-chip pfert-chip-p">P₂O₅ 52%</span></div>
+              </div>
+              <div class="pfert-card" data-val="dap" onclick="selectPFert(this)">
+                <div class="pfert-card-head"><span class="pfert-abbr">DAP</span><span class="pfert-formula">18-46-0</span></div>
+                <div class="pfert-card-name">Diamonio Fosfato</div>
+                <div class="pfert-chips"><span class="pfert-chip pfert-chip-n">N 18%</span><span class="pfert-chip pfert-chip-p">P₂O₅ 46%</span></div>
+              </div>
+              <div class="pfert-card" data-val="nps" onclick="selectPFert(this)">
+                <div class="pfert-card-head"><span class="pfert-abbr">NPS</span><span class="pfert-formula">23-23-0+7S</span></div>
+                <div class="pfert-card-name">N-P-Azufre</div>
+                <div class="pfert-chips"><span class="pfert-chip pfert-chip-n">N 23%</span><span class="pfert-chip pfert-chip-p">P₂O₅ 23%</span><span class="pfert-chip pfert-chip-s">S 7%</span></div>
+              </div>
+              <div class="pfert-card" data-val="spt" onclick="selectPFert(this)">
+                <div class="pfert-card-head"><span class="pfert-abbr">SPT</span><span class="pfert-formula">0-46-0</span></div>
+                <div class="pfert-card-name">Superfosfato Triple</div>
+                <div class="pfert-chips"><span class="pfert-chip pfert-chip-p">P₂O₅ 46%</span></div>
+              </div>
+              <div class="pfert-card" data-val="sps" onclick="selectPFert(this)">
+                <div class="pfert-card-head"><span class="pfert-abbr">SPS</span><span class="pfert-formula">0-20-0+11S</span></div>
+                <div class="pfert-card-name">Superfosfato Simple</div>
+                <div class="pfert-chips"><span class="pfert-chip pfert-chip-p">P₂O₅ 20%</span><span class="pfert-chip pfert-chip-s">S 11%</span></div>
+              </div>
+            </div>
           </div>
         </div>
         <input type="hidden" id="pFert" value="map">
@@ -457,12 +472,21 @@ footer{border-top:1px solid var(--border);padding:22px 0 40px;margin-top:18px}
 <script>
 const N_PER_TON = 22;
 const ANTECESOR_N = {soja:90, maiz:60, girasol:60, trigo:70, pradera:110};
+const PFERT_LABEL={map:'MAP · 11-52-0',dap:'DAP · 18-46-0',nps:'NPS · 23-23-0+7S',spt:'SPT · 0-46-0',sps:'SPS · 0-20-0'};
+function togglePFertDrop(){
+  const open=$('pFertPanel').classList.toggle('open');
+  $('pFertTrigger').classList.toggle('open',open);
+}
 function selectPFert(el){
   document.querySelectorAll('.pfert-card').forEach(c=>c.classList.remove('selected'));
   el.classList.add('selected');
   $('pFert').value=el.dataset.val;
+  $('pFertLabel').textContent=PFERT_LABEL[el.dataset.val];
+  $('pFertPanel').classList.remove('open');
+  $('pFertTrigger').classList.remove('open');
   calcPlan();
 }
+document.addEventListener('click',function(e){if(!e.target.closest('.pfert-dropdown')){$('pFertPanel').classList.remove('open');$('pFertTrigger').classList.remove('open');}});
 const UREA_N_PCT = 0.46;
 const P_FACTORS = {
   map:{label:'MAP · 11-52-0',factor:15},
