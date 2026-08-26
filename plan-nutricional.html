@@ -474,13 +474,26 @@ function calcPlan(){
   if(pObj>60)_warns.push('P objetivo > 60 ppm — valor fuera del rango típico. Revisá el dato.');
   $('rangeWarning').innerHTML=_warns.map(w=>`<div class="range-warn-item">⚠ ${w}</div>`).join('');
 
-  // ── Nitrógeno ──
+  // ── Calcular valores ──
   const nReq=rinde*N_PER_TON;
   const nDef=nReq-nDisp;
   const urea=nDef>0?nDef/UREA_N_PCT:0;
+  const pDef=pObj-pAct;
+  const pKg =pDef>0?pDef*fert.factor:0;
+  const znDeficient=znAct<ZN_UMBRAL;
+  const sulfato=ZN_DOSIS_KG/ZN_SULFATO_PCT;
+
+  // ── Flash solo si el valor cambió ──
+  const nVal=urea>0?Math.round(urea):null;
+  const pVal=pKg>0?Math.round(pKg):null;
+  const flashN=lastPlan!==null&&lastPlan._nVal!==nVal;
+  const flashP=lastPlan!==null&&lastPlan._pVal!==pVal;
+  const flashZn=lastPlan!==null&&lastPlan._znDef!==znDeficient;
+
+  // ── Nitrógeno ──
   if(urea>0){
     $('nBody').innerHTML=
-      `<div class="rrow-num"><span class="val flash">${Math.round(urea)}</span><span class="ru">kg/ha · urea</span></div>`;
+      `<div class="rrow-num"><span class="val${flashN?' flash':''}">${Math.round(urea)}</span><span class="ru">kg/ha · urea</span></div>`;
     $('nDetail').innerHTML=
       `<div class="rchips">`
       +`<div class="rchip"><div class="cl">Requerido</div><div class="cv">${Math.round(nReq)}<small> kg N</small></div></div>`
@@ -493,11 +506,9 @@ function calcPlan(){
   }
 
   // ── Fósforo ──
-  const pDef=pObj-pAct;
-  const pKg =pDef>0?pDef*fert.factor:0;
   if(pKg>0){
     $('pBody').innerHTML=
-      `<div class="rrow-num"><span class="val flash">${Math.round(pKg)}</span><span class="ru">kg/ha · ${fert.label.split(' · ')[0]}</span></div>`;
+      `<div class="rrow-num"><span class="val${flashP?' flash':''}">${Math.round(pKg)}</span><span class="ru">kg/ha · ${fert.label.split(' · ')[0]}</span></div>`;
     $('pDetail').innerHTML=
       `<div class="rchips">`
       +`<div class="rchip"><div class="cl">Actual</div><div class="cv">${fmtNum(pAct)}<small> ppm</small></div></div>`
@@ -510,10 +521,9 @@ function calcPlan(){
   }
 
   // ── Zinc ──
-  if(znAct<ZN_UMBRAL){
-    const sulfato=ZN_DOSIS_KG/ZN_SULFATO_PCT;
+  if(znDeficient){
     $('znBody').innerHTML=
-      `<div class="rrow-num"><span class="val flash">${fmtNum(sulfato)}</span><span class="ru">kg/ha · sulfato Zn</span></div>`
+      `<div class="rrow-num"><span class="val${flashZn?' flash':''}">${fmtNum(sulfato)}</span><span class="ru">kg/ha · sulfato Zn</span></div>`
       +`<div class="rrow-sub">⚠ deficiente · ${fmtNum(znAct)} < ${fmtNum(ZN_UMBRAL)} ppm</div>`;
     $('znDetail').innerHTML=
       `<div class="rnote">${fmtNum(ZN_DOSIS_KG)} kg Zn/ha como sulfato de zinc heptahidratado (22% Zn).<br>Umbral de suficiencia DTPA: ${fmtNum(ZN_UMBRAL)} ppm.</div>`;
@@ -526,7 +536,7 @@ function calcPlan(){
   $('planRinde').textContent=fmtNum(rinde);
   $('planPanel').hidden=false;
 
-  lastPlan={rinde,pAct,pObj,nReq,nDisp,nDef,urea,fert,pDef,pKg,znAct};
+  lastPlan={rinde,pAct,pObj,nReq,nDisp,nDef,urea,fert,pDef,pKg,znAct,_nVal:nVal,_pVal:pVal,_znDef:znDeficient};
   if(typeof gtag==='function')gtag('event','plan_calc_used',{crop:'maiz',fertilizante:$('pFert').value});
 }
 const debouncedCalc=debounce(calcPlan,400);
@@ -534,7 +544,7 @@ const debouncedCalc=debounce(calcPlan,400);
 function sharePlan(){
   if(!lastPlan)return;
   const{rinde,pAct,pObj,nReq,nDisp,nDef,urea,fert,pDef,pKg,znAct}=lastPlan;
-  let t=`*Plan nutricional maíz · ${fmtNum(rinde)} t/ha* (Pampa Arenosa)\n\n`;
+  let t=`*Plan nutricional maíz · ${fmtNum(rinde)} t/ha*\n\n`;
   t+=urea>0
     ?`🔹 *Nitrógeno:* ${Math.round(urea)} kg/ha de urea. Req ${Math.round(nReq)} · suelo ${Math.round(nDisp)} · déficit ${Math.round(nDef)} kg/ha.\n`
     :`🔹 *Nitrógeno:* sin déficit (suelo ${Math.round(nDisp)} ≥ req ${Math.round(nReq)} kg/ha).\n`;
