@@ -126,7 +126,7 @@ input[type=number]{-moz-appearance:textfield}
 .pfert-trigger:hover,.pfert-trigger.open{border-color:var(--accent);box-shadow:0 0 0 3px var(--focus-ring)}
 .pfert-arrow{font-size:10px;color:var(--ink-dim);transition:transform .2s;flex-shrink:0}
 .pfert-trigger.open .pfert-arrow{transform:rotate(180deg)}
-.pfert-panel{display:none;margin-top:6px;padding:8px;border:1.5px solid var(--border);border-radius:12px;background:var(--surface);box-shadow:var(--shadow-md);z-index:50;position:relative}
+.pfert-panel{display:none;position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);width:min(360px,calc(100vw - 32px));padding:8px;border:1.5px solid var(--border);border-radius:12px;background:var(--surface);box-shadow:var(--shadow-md);z-index:100}
 .pfert-panel.open{display:block}
 .pfert-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
 .pfert-card{border:1.5px solid var(--border);border-radius:10px;padding:7px 8px;cursor:pointer;transition:border-color .15s,background .15s;background:var(--bg)}
