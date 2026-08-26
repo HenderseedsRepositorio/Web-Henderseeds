@@ -121,6 +121,7 @@ input[type=number]{-moz-appearance:textfield}
 .antecesor-lbl{font-family:var(--title-font);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim);white-space:nowrap}
 .antecesor-sel{height:34px;border:1px solid var(--border);border-radius:9px;background:var(--panel);color:var(--ink);font-family:var(--body-font);font-weight:600;font-size:13px;padding:0 26px 0 10px;outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%238A8578' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;cursor:pointer;transition:border-color .15s}
 .antecesor-sel:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--focus-ring)}
+.pfert-desc{font-size:10px;color:var(--ink-dim);margin-top:3px;line-height:1.3;min-height:14px}
 
 /* ══════ FORM ══════ */
 .form-card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-lg);padding:13px 13px 3px;margin:10px 0 8px}
@@ -269,6 +270,7 @@ footer{border-top:1px solid var(--border);padding:22px 0 40px;margin-top:18px}
       <select id="antecesor" class="antecesor-sel" onchange="applyAntecesor()">
         <option value="soja">Soja</option>
         <option value="maiz">Maíz</option>
+        <option value="girasol">Girasol</option>
         <option value="trigo">Trigo</option>
         <option value="pradera">Pradera</option>
       </select>
@@ -288,13 +290,14 @@ footer{border-top:1px solid var(--border);padding:22px 0 40px;margin-top:18px}
       </div>
       <div class="field">
         <label for="pFert">Fertilizante P</label>
-        <select id="pFert" onchange="calcPlan()">
+        <select id="pFert" onchange="calcPlan();updatePFertDesc()">
           <option value="map">MAP · 11-52-0</option>
           <option value="dap">DAP · 18-46-0</option>
           <option value="nps">NPS · 23-23-0+7S</option>
           <option value="spt">Superfosfato Triple · 0-46-0</option>
           <option value="sps">Superfosfato Simple · 0-20-0</option>
         </select>
+        <div class="pfert-desc" id="pFertDesc"></div>
       </div>
     </div>
 
@@ -412,7 +415,15 @@ footer{border-top:1px solid var(--border);padding:22px 0 40px;margin-top:18px}
 
 <script>
 const N_PER_TON = 22;
-const ANTECESOR_N = {soja:90, maiz:60, trigo:70, pradera:110};
+const ANTECESOR_N = {soja:90, maiz:60, girasol:60, trigo:70, pradera:110};
+const PFERT_DESC = {
+  map:'Monoamonio Fosfato',
+  dap:'Diamonio Fosfato',
+  nps:'N-P-Azufre · aporta también 23 kg N/100 kg aplicados',
+  spt:'Superfosfato Triple',
+  sps:'Superfosfato Simple · contiene calcio y azufre'
+};
+function updatePFertDesc(){$('pFertDesc').textContent=PFERT_DESC[$('pFert').value]||'';}
 const UREA_N_PCT = 0.46;
 const P_FACTORS = {
   map:{label:'MAP · 11-52-0',factor:15},
@@ -752,6 +763,7 @@ adaptSelectMobile();
 window.addEventListener('resize',adaptSelectMobile);
 
 calcPlan();
+updatePFertDesc();
 </script>
 </body>
 </html>
