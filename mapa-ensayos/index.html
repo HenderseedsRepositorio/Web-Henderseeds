@@ -10,6 +10,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GGC7FRWF6G"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-GGC7FRWF6G');
+// Helper unico: nunca rompe si gtag no cargo (adblock, offline)
+function hsTrack(name, params){
+  try{ if(typeof gtag==='function') gtag('event', name, Object.assign({tool:'mapa_ensayos'}, params||{})); }catch(e){}
+}
+</script>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
@@ -1316,13 +1325,13 @@ table.cx-rank tr.nid td{background:var(--nidera-soft)}
   var KEY='redes_ensayos_auth_v1';
   var PASS='NIDERA26';   // ← CLAVE DE ACCESO ("Nidera26", case-insensitive: el input se compara en mayúsculas)
   var gate=document.getElementById('gate');
-  if(localStorage.getItem(KEY)==='ok'){ gate.classList.add('hidden'); return; }
+  if(localStorage.getItem(KEY)==='ok'){ gate.classList.add('hidden'); hsTrack('mapa_gate_recordado'); return; }
   var f=document.getElementById('gate-form'), inp=document.getElementById('gate-pass'), err=document.getElementById('gate-err');
   setTimeout(function(){ try{inp.focus();}catch(e){} }, 100);
   f.addEventListener('submit', function(e){
     e.preventDefault();
-    if(inp.value.trim().toUpperCase()===PASS){ localStorage.setItem(KEY,'ok'); gate.classList.add('hidden'); }
-    else { err.textContent='Clave incorrecta'; inp.value=''; inp.focus(); }
+    if(inp.value.trim().toUpperCase()===PASS){ localStorage.setItem(KEY,'ok'); gate.classList.add('hidden'); hsTrack('mapa_gate_unlock'); }
+    else { err.textContent='Clave incorrecta'; inp.value=''; inp.focus(); hsTrack('mapa_gate_fail'); }
   });
 })();
 </script>
@@ -1559,6 +1568,7 @@ async function init(){
   const gj = await resp.json();
   allFeatures = gj.features;
   visibleFeatures = allFeatures.slice();  // cache inicial para navegación
+  hsTrack('mapa_cargado', { n_ensayos: allFeatures.length });
 
   // Populate selects de filtros
   const empresas = new Set();
@@ -1968,6 +1978,15 @@ function applyFilter(){
   if(filters.campania.size === 0) crumb.textContent = 'TODAS LAS CAMPAÑAS';
   else if(filters.campania.size === 1) crumb.textContent = `CAMPAÑA ${[...filters.campania][0]}`;
   else crumb.textContent = `${filters.campania.size} CAMPAÑAS`;
+
+  // Debounce: al togglear varias casillas seguidas mandariamos un evento por clic
+  clearTimeout(applyFilter._t);
+  applyFilter._t = setTimeout(() => hsTrack('mapa_filtro', {
+    cultivo: filters.cultivo,
+    n_campanias: filters.campania.size, n_redes: filters.red.size,
+    n_empresas: filters.empresa.size, n_zonas: filters.zona.size,
+    n_resultados: filtered.length
+  }), 800);
 }
 
 function updateCounter(features){
@@ -2006,6 +2025,7 @@ function escapeHtml(s){
 
 function openAside(f){
   const p = f.properties;
+  hsTrack('ensayo_open', { localidad: p.localidad, cultivo: p.cultivo, red: p.red, campania: p.campania });
 
   // Site header
   document.getElementById('a-loc').textContent = p.localidad;
@@ -2761,14 +2781,15 @@ async function shareEnsayoPDF(f){
 function bindShare(){
   // COMPARTIR (simple, arriba del detalle) — share nativo / WhatsApp, sin PDF
   const stop = document.getElementById('a-share-top');
-  if(stop) stop.addEventListener('click', ()=>shareEnsayoPDF(curFeature));
+  if(stop) stop.addEventListener('click', ()=>{ hsTrack('ensayo_share', { via:'header' }); shareEnsayoPDF(curFeature); });
 
   // DESCARGAR PDF (abre modal con preview)
-  document.getElementById('a-share').addEventListener('click', openShareModal);
+  document.getElementById('a-share').addEventListener('click', ()=>{ hsTrack('ensayo_pdf_modal'); openShareModal(); });
 
   // ENVIAR POR WHATSAPP — genera PDF y lo comparte directo (sin modal)
   document.getElementById('a-wa').addEventListener('click', async () => {
     if(!shareState.ensayo) return;
+    hsTrack('ensayo_share', { via:'whatsapp' });
     showToast('Generando PDF...');
     try {
       const r = await generatePdfArtifacts();
@@ -2859,6 +2880,7 @@ init().catch(err=>{
   // ---- nav / view switching ----
   $$('#appnav .appnav-btn').forEach(b=>b.onclick=()=>setView(b.dataset.view));
   function setView(v){
+    if(v!==view) hsTrack('mapa_vista', { vista: v });
     view=v;
     $$('#appnav .appnav-btn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
     $('#view-map').style.display = v==='map'?'flex':'none';
@@ -3069,6 +3091,7 @@ init().catch(err=>{
     $$('#cx-ranktable th[data-k]').forEach(th=>th.onclick=()=>{const k=th.dataset.k;rs.dir=(rs.k===k)?-rs.dir:(k==='cultivar'||k==='empresa'?1:-1);rs.k=k;renderRank();});
   }
   $('#cx-expcsv').onclick=()=>{
+    hsTrack('mapa_export_csv', { cultivo: F.cultivo });
     const agg=aggAll().sort((a,b)=>b.prom_rr-a.prom_rr), q=s=>`"${(s||'').toString().replace(/"/g,'""')}"`;
     const head=['cultivar','empresa','es_nidera','prom_rinde_kgha','prom_rr_pct','prom_ia','fw_slope','n_ambientes','n_obs','cultivo'];
     const lines=[head.join(',')].concat(agg.map(a=>[q(a.cultivar),q(a.empresa),a.is_nidera,Math.round(a.prom_rinde),a.prom_rr.toFixed(1),Math.round(a.prom_ia),a.fw_slope==null?'':a.fw_slope.toFixed(3),a.n_amb,a.n,a.cultivo].join(',')));
