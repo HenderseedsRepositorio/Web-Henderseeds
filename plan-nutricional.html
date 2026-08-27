@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Plan Nutricional por Cultivo · Henderseeds</title>
 <meta name="description" content="Elegí tu cultivo, cargá el rinde objetivo y tu análisis de suelo. Te devolvemos el plan completo de nitrógeno, fósforo y zinc. Gratis, de Henderseeds.">
-<meta name="robots" content="noindex,follow">
 <meta name="theme-color" content="#F4F1E9">
 <meta property="og:title" content="Plan Nutricional por Cultivo">
 <meta property="og:description" content="Rinde objetivo + análisis de suelo → plan completo de N, P y Zn. Gratis, de Henderseeds.">
@@ -249,6 +248,14 @@ body.dark-mode .nico.n,body.dark-mode .nico.p{background:rgba(255,255,255,.09);c
 .btn-pdf:disabled{opacity:.55;cursor:wait}
 .btn-pdf svg{width:16px;height:16px;flex:0 0 auto}
 
+/* ══════ CTA COTIZACIÓN ══════ */
+.btn-quote{display:inline-flex;align-items:center;justify-content:center;gap:9px;width:100%;min-height:52px;margin-top:14px;padding:10px 16px;border-radius:12px;background:var(--primary);border:none;color:var(--primary-ink);font-family:var(--title-font);font-weight:700;font-size:15px;letter-spacing:.01em;line-height:1.25;cursor:pointer;transition:filter .15s,transform .15s}
+.btn-quote:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.btn-quote:active{transform:translateY(0)}
+.btn-quote svg{width:19px;height:19px;flex:0 0 auto}
+.quote-hint{font-size:12px;color:var(--ink-dim);text-align:center;margin-top:7px;line-height:1.45}
+@media(max-width:420px){.btn-quote{font-size:14px;gap:7px}}
+
 /* ══════ DISCLAIMER ══════ */
 .disclaimer{font-size:11px;color:var(--ink-dim);line-height:1.5;margin-top:14px}
 .disclaimer strong{color:var(--ink)}
@@ -435,6 +442,12 @@ footer{border-top:1px solid var(--border);padding:22px 0 40px;margin-top:18px}
       <div class="rrow-detail" id="znDetail"></div>
     </div>
 
+    <button id="btn-quote" class="btn-quote" onclick="quoteWhatsApp()">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01a8.23 8.23 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.19 8.19 0 0 1 5.83 2.42 8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.69 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.09-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.49-.4-.42-.55-.43-.14-.01-.31-.01-.47-.01-.17 0-.43.06-.66.31-.22.25-.87.85-.87 2.07s.89 2.4 1.02 2.56c.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
+      Cotizame este plan
+    </button>
+    <p class="quote-hint" id="quoteHint">Se abre WhatsApp con tus dosis ya escritas.</p>
+
     <button id="btn-pdf" class="btn-pdf" onclick="exportPDF()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
       Compartir
@@ -492,6 +505,7 @@ const ZN_UMBRAL = 1;
 const ZN_DOSIS_KG = 1.5;
 const ZN_SULFATO_PCT = 0.22;
 const SITE_URL = 'https://henderseeds.com/plan-nutricional.html';
+const WA_NUMBER = '5492314530691';
 
 const $ = id => document.getElementById(id);
 function fmtNum(n){const r=Math.round(n*10)/10;return Number.isInteger(r)?String(r):String(r).replace('.',',')}
@@ -604,6 +618,11 @@ function calcPlan(){
   $('planCrop').textContent='Maíz';
   $('planRinde').textContent=fmtNum(rinde);
   $('planPanel').hidden=false;
+
+  // El CTA solo aparece si hay algo para cotizar
+  const hayQueComprar = urea>0 || pKg>0 || znDeficient;
+  $('btn-quote').hidden = !hayQueComprar;
+  $('quoteHint').hidden = !hayQueComprar;
 
   lastPlan={rinde,pAct,pObj,nReq,nDisp,nDef,urea,fert,pDef,pKg,znAct,_nVal:nVal,_pVal:pVal,_znDef:znDeficient};
   if(typeof gtag==='function')gtag('event','plan_calc_used',{crop:'maiz',fertilizante:$('pFert').value});
@@ -748,6 +767,35 @@ function buildImgPanel(){
   </div>
 
 </div>`;
+}
+
+// Arma el mensaje de WhatsApp con el plan ya calculado y abre el chat.
+function quoteWhatsApp(){
+  if(!lastPlan) return;
+  const p = lastPlan;
+  const sel = $('antecesor');
+  const antecesor = sel.options[sel.selectedIndex].text.toLowerCase();
+  const L = [];
+  L.push('Hola, armé mi plan nutricional en la web de Henderseeds.');
+  L.push('');
+  L.push('Maíz · ' + fmtNum(p.rinde) + ' t/ha objetivo · antecesor ' + antecesor);
+  L.push('');
+  if(p.urea>0) L.push('N · ' + Math.round(p.urea) + ' kg/ha de urea (déficit ' + Math.round(p.nDef) + ' kg N)');
+  else L.push('N · sin déficit');
+  if(p.pKg>0){
+    const fp = p.fert.label.split(' · ');
+    L.push('P · ' + Math.round(p.pKg) + ' kg/ha de ' + fp[0] + (fp[1] ? ' (' + fp[1] + ')' : '') + ' · suelo ' + fmtNum(p.pAct) + ' → ' + fmtNum(p.pObj) + ' ppm');
+  }
+  else L.push('P · sin déficit');
+  if(p.znAct < ZN_UMBRAL) L.push('Zn · ' + fmtNum(ZN_DOSIS_KG/ZN_SULFATO_PCT) + ' kg/ha de sulfato de zinc');
+  else L.push('Zn · suficiente');
+  L.push('');
+  L.push('¿Me pasás precio y disponibilidad?');
+  if(typeof gtag==='function') gtag('event','whatsapp_click',{
+    event_category:'conversion', tool:'plan_nutricional',
+    rinde:p.rinde, fertilizante:$('pFert').value
+  });
+  window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(L.join('\n')), '_blank', 'noopener');
 }
 
 async function exportPDF(){
